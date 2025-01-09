@@ -1,10 +1,11 @@
 package com.xk.upms.service;
 
-import java.util.List;
-
-import com.xk.upms.model.bo.UpmsUserReq;
-import com.xk.upms.model.bo.UpmsUserSaveReq;
+import com.xk.upms.model.po.UpmsUser;
 import com.xk.upms.model.vo.UpmsUserResp;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 /**
  * Service interface for managing UPMS users.
@@ -31,45 +32,42 @@ public interface UpmsUserService {
 	 * Retrieves a list of all users or filters users based on the specified
 	 * criteria.
 	 *
-	 * @param resources a {@link UpmsUserReq} object containing filter criteria.
-	 * @return a list of {@link UpmsUserResp} representing matching users.
+	 * @param example a {@link UpmsUser} object containing filter criteria.
+	 * @return a list of {@link UpmsUser} representing matching users.
 	 */
-	List<UpmsUserResp> getList(UpmsUserReq resources);
+	List<UpmsUser> getList(Example<UpmsUser> example, Sort sort);
 
 	/**
 	 * Retrieves the details of a specific user by their unique ID.
 	 *
 	 * @param id the unique identifier of the user.
-	 * @return a {@link UpmsUserResp} object containing the user's details, or
+	 * @return a {@link UpmsUser} object containing the user's details, or
 	 *         {@code null} if no user is found with the specified ID.
 	 */
-	UpmsUserResp getOneById(Long id);
+	UpmsUser getOneById(Long id);
 
 	/**
 	 * Creates a new user in the system.
 	 *
-	 * @param resources a {@link UpmsUserReq} object containing the user's details.
+	 * @param upmsUser a {@link UpmsUser} object containing the user's details.
 	 * @return a {@link UpmsUserResp} object representing the newly created user.
 	 */
-	UpmsUserResp create(UpmsUserSaveReq resources);
+	UpmsUser create(UpmsUser upmsUser);
 
 	/**
 	 * Updates the details of an existing user.
 	 *
-	 * @param id        the unique identifier of the user to update.
-	 * @param resources a {@link UpmsUserReq} object containing the updated details.
+	 * @param upmsUser a {@link UpmsUser} object containing the updated details.
 	 * @return a {@link UpmsUserResp} object with the updated user details, or
 	 *         {@code null} if the user does not exist.
 	 */
-	UpmsUserResp update(Long id, UpmsUserSaveReq resources);
+	UpmsUser update(UpmsUser upmsUser);
 
 	/**
 	 * Deletes a user from the system by their ID.
 	 *
-	 * @param id the unique identifier of the user to delete.
-	 * @return {@code true} if the user was successfully deleted; {@code false} if
-	 *         the user does not exist or deletion failed.
+	 * @param upmsUser a {@link UpmsUser} object containing the delete details.
 	 */
-	boolean deleteUser(Long id);
+	void delete(UpmsUser upmsUser);
 
 }

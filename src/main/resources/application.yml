@@ -20,10 +20,14 @@ spring:
             dialect: org.hibernate.dialect.MySQLDialect
             jdbc:
                 time_zone: Asia/Taipei
+jwt:
+  secret: e9c63d1db6b6ad97ee7b1828c6291f38c06abed917b8626892e9113d4e33302a17a04fbcf2d8b63d3abecd733c6d98a360c91e50d2f1675b9583d31ddcb93e13
 
 logging:
   level:
     root: INFO
     org.springframework: INFO
     org.hibernate: WARN
+server:
+  port: 8081
 
