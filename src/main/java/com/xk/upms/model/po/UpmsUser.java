@@ -73,19 +73,5 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Comment("92_狀態(0:正常,1:锁定)")
 	@Column(columnDefinition = "boolean default false")
 	private Boolean locked;
-	
-	@Comment("創立者")
-	private String creater;
-	
-	
-	@Comment("創立時間")
-	private Date createdTime;
-	
-	@Comment("修改者")
-	private String updater;
-	
-	
-	@Comment("創立時間")
-	private Date updatedTime;
 
 }
