@@ -1,17 +1,27 @@
 package com.xk.upms.model.po;
 
-import com.xk.common.base.BaseEntity;
-import com.xk.upms.model.enums.PermissionAction;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
+import org.hibernate.annotations.*;
+import com.xk.common.base.BaseEntity;
+import com.xk.upms.model.enums.PermissionAction;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
- * Created by yuan on 2022/06/10
+ * Created by Hank on 2025/01/13
  *
  * 联合唯一约束: @UniqueConstraint(columnNames = {"roleId", "permissionId"}) 确保同一个角色对同一个权限不会有重复的记录。
  */

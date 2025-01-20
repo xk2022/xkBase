@@ -26,9 +26,7 @@ import lombok.Setter;
 /**
  * 用戶實體類，代表UPMS系統中的用戶。 提供用戶的基本信息，包括用戶名、郵箱、電話號碼、密碼以及帳戶狀態等。
  *
- * @author yuan Created on 2022/06/10.
- * @author yuan Updated on 2024/10/25 with code optimization based on GPT
- *         recommendations.
+ * @author Hank Created on 2022/01/13
  */
 @Entity
 @Getter
