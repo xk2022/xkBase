@@ -23,7 +23,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @param name the name of the user.
 	 * @return an {@link Optional} containing the user, if found.
 	 */
-	Optional<UpmsUser> findByName(String name);
+	Optional<UpmsUser> findByUserName(String username);
 
 	/**
 	 * Finds a user by email using a custom JPQL query.

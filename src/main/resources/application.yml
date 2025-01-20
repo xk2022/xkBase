@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/xkbase?useSSL=false&serverTimezone=UTC
     username: root
-    password: root
+    password: 1qaz@WSX
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari: #Hibernate 提示数据库版本和隔离级别未定义。虽然不影响功能，但建议明确配置：
       minimum-idle: 5         # 最小空闲连接数
