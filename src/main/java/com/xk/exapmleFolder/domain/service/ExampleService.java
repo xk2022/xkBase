@@ -7,6 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.xk.exapmleFolder.domain.model.example.ExampleBO;
 import com.xk.exapmleFolder.domain.model.example.ExamplePO;
 
 /**
@@ -28,7 +29,7 @@ public interface ExampleService {
      * @param user 使用者物件
      * @return 儲存後的使用者資訊
 	 */
-	ExamplePO save(ExamplePO user);
+	ExampleBO save(ExampleBO user);
 
     // ============= 🔵【R】Read（查詢）================
     /**
@@ -37,7 +38,7 @@ public interface ExampleService {
      * @param userId 使用者 ID
      * @return 使用者物件（若存在）
      */
-    Optional<ExamplePO> findById(Long userId);
+	Optional<ExampleBO> findById(Long userId);
 
     /**
      * 📌 依據 `username` 查詢使用者
@@ -45,7 +46,7 @@ public interface ExampleService {
      * @param username
      * @return
      */
-    Optional<ExamplePO> findByUsername(String username);
+    Optional<ExampleBO> findByUsername(String username);
 
     /**
      * 📌 查詢所有使用者（支援分頁）
@@ -53,14 +54,14 @@ public interface ExampleService {
      * @param pageable
      * @return
      */
-    Page<ExamplePO> findAll(Pageable pageable);
+    Page<ExampleBO> findAll(Pageable pageable);
 
     /**
      * 📌 查詢所有使用者（無分頁）
      * 
      * @return
      */
-    List<ExamplePO> findAll();
+    List<ExampleBO> findAll();
 
     // ============= 🟡【U】Update（更新）================
     /**
@@ -70,7 +71,7 @@ public interface ExampleService {
      * @param updateData
      * @return
      */
-    Optional<ExamplePO> update(Long userId, ExamplePO updateData);
+    ExampleBO update(Long userId, ExampleBO updateData);
 
     // ============= 🔴【D】Delete（刪除）================
     /**
@@ -89,7 +90,7 @@ public interface ExampleService {
      * @param pageable
      * @return
      */
-    Page<ExamplePO> findAll(Example<ExamplePO> example, Pageable pageable);
+    Page<ExampleBO> findAll(ExampleBO request, Pageable pageable);
 
     /**
      * 📌 支援條件查詢（無分頁）
@@ -97,6 +98,6 @@ public interface ExampleService {
      * @param example
      * @return
      */
-    List<ExamplePO> findAll(Example<ExamplePO> example);
+    List<ExampleBO> findAll(Example<ExamplePO> example);
     
 }

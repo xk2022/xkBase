@@ -51,12 +51,10 @@ public class ExamplePO extends BaseEntity implements Serializable {
 	@NotBlank(message = "郵箱不能為空")
 	@Size(max = 100, message = "郵箱不能超過100個字符")
 	@Pattern(regexp = ".+@.+\\..+", message = "請輸入有效的郵箱地址")
-    @Column(nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true, length = 100)
 	@Comment("02_郵箱")
     private String email; // **電子郵件**
 
-	@NotBlank(message = "密碼不能為空")
-    @Column(nullable = false)
 	@Comment("05_密碼MD5(密碼+鹽)")
     private String password; // **加密密碼**
 

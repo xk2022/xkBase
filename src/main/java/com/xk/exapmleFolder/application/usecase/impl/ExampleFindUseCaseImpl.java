@@ -1,7 +1,5 @@
 package com.xk.exapmleFolder.application.usecase.impl;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,9 +8,10 @@ import com.xk.common.util.XkBeanUtils;
 import com.xk.exapmleFolder.application.model.ExampleRequestDTO;
 import com.xk.exapmleFolder.application.model.ExampleResponseDTO;
 import com.xk.exapmleFolder.application.usecase.ExampleFindUseCase;
-import com.xk.exapmleFolder.domain.model.example.ExamplePO;
+import com.xk.exapmleFolder.domain.model.example.ExampleBO;
 import com.xk.exapmleFolder.domain.service.ExampleService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ExampleFindUseCaseImpl implements ExampleFindUseCase {
 
     private final ExampleService userService;
@@ -38,10 +37,16 @@ public class ExampleFindUseCaseImpl implements ExampleFindUseCase {
     @Override
     public ExampleResponseDTO getOneById(Long id) {
         log.info("📌 查詢使用者 ID: {}", id);
-        ExamplePO upmsUser = userService.findById(id)
-        		.orElseThrow(() -> new RuntimeException("使用者不存在: " + id));
+        // 🔥 查詢使用者，並進行身份驗證
+        ExampleBO userBO = userService.findById(id)
+        		.orElseThrow(() -> new EntityNotFoundException("使用者不存在: " + id));
         
-        return XkBeanUtils.copyProperties(upmsUser, ExampleResponseDTO::new);
+        if (userBO.isAdmin()) {
+            log.info("✅ 使用者 {} 是管理員", userBO.getUsername());
+        } else {
+            log.info("🔹 使用者 {} 是一般使用者", userBO.getUsername());
+        }
+        return XkBeanUtils.copyProperties(userBO, ExampleResponseDTO::new);
     }
 
     /**
@@ -50,7 +55,7 @@ public class ExampleFindUseCaseImpl implements ExampleFindUseCase {
     @Override
     public ExampleResponseDTO findByUsername(String username) {
         log.info("📌 查詢使用者 Username: {}", username);
-        ExamplePO user = userService.findByUsername(username)
+        ExampleBO user = userService.findByUsername(username)
         		.orElseThrow(() -> new RuntimeException("使用者不存在username: " + username));
         
         return XkBeanUtils.copyProperties(user, ExampleResponseDTO::new);
@@ -63,13 +68,8 @@ public class ExampleFindUseCaseImpl implements ExampleFindUseCase {
     public Page<ExampleResponseDTO> getList(ExampleRequestDTO request, Pageable pageable) {
         log.info("📌 查詢所有使用者（條件查詢 + 分頁）: {}", request);
 
-        Example<ExamplePO> example = Example.of(XkBeanUtils.copyProperties(request, ExamplePO::new),
-                ExampleMatcher.matching()
-                        .withIgnoreNullValues()
-                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                        .withIgnoreCase());
-
-        Page<ExamplePO> users = userService.findAll(example, pageable);
+        Page<ExampleBO> users = userService.findAll(
+        		XkBeanUtils.copyProperties(request, ExampleBO::new), pageable);
         return users.map(user -> XkBeanUtils.copyProperties(user, ExampleResponseDTO::new));
     }
 

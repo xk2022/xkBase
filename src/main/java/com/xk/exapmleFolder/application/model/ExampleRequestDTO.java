@@ -8,6 +8,7 @@ import lombok.Data;
 
 /**
  * 📌 `UserRequestDTO` - 用於接收使用者創建/更新請求
+ * 📌 DTO 不應該包含業務邏輯，只負責 API 請求的數據結構與驗證！
  * 
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.

@@ -7,7 +7,8 @@ import com.xk.common.util.XkBeanUtils;
 import com.xk.exapmleFolder.application.model.ExampleRequestDTO;
 import com.xk.exapmleFolder.application.model.ExampleResponseDTO;
 import com.xk.exapmleFolder.application.usecase.ExampleCreateUseCase;
-import com.xk.exapmleFolder.domain.model.example.ExamplePO;
+import com.xk.exapmleFolder.domain.model.example.EmailVO;
+import com.xk.exapmleFolder.domain.model.example.ExampleBO;
 import com.xk.exapmleFolder.domain.service.ExampleService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,11 +38,17 @@ public class ExampleCreateUseCaseImpl implements ExampleCreateUseCase {
     @Transactional
     public ExampleResponseDTO create(ExampleRequestDTO request) {
         log.info("📌 開始創建新使用者: {}", request.getUsername());
-        // ✅ 轉換 DTO -> Domain
-        ExamplePO user = XkBeanUtils.copyProperties(request, ExamplePO::new);
+        // ✅ 轉換 DTO -> BO
+        ExampleBO userBO = XkBeanUtils.copyProperties(request, ExampleBO::new);
+        // ✅ 手動處理 EmailVO 轉換
+//        userBO.setEmail(new EmailVO(request.getEmail())); // ❗手動轉換 EmailVO
+        // ✅ 執行業務邏輯（如 Email 檢查）
+        if (!new EmailVO(userBO.getEmail()).isValid()) {
+            throw new IllegalArgumentException("無效的 Email 格式");
+        }
         // ✅ 儲存到 DB
-        ExamplePO savedUser = userService.save(user);
-        // ✅ 轉換回 DTO
+        ExampleBO savedUser = userService.save(userBO);
+        // ✅ 轉換 PO -> DTO 回傳
         return XkBeanUtils.copyProperties(savedUser, ExampleResponseDTO::new);
     }
     

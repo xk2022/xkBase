@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class ExampleResponseDTO {
 
-	private Long userId;
+	private String userId;
 	private String username;
 	private String email;
 

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xk.common.util.XkBeanUtils;
 import com.xk.exapmleFolder.domain.dao.repository.ExampleRepository;
+import com.xk.exapmleFolder.domain.model.example.ExampleBO;
 import com.xk.exapmleFolder.domain.model.example.ExamplePO;
 import com.xk.exapmleFolder.domain.service.ExampleService;
 
@@ -43,70 +46,85 @@ public class ExampleServiceImpl implements ExampleService {
      * ✅ `save()` 應該直接回傳 `ExamplePO`
      * ✅ `findById()` 使用 `Optional`，確保呼叫端處理缺少的值
      */
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     @Transactional
-    public ExamplePO save(ExamplePO user) {
-        if (user == null) {
+    public ExampleBO save(ExampleBO userBO) {
+    	ExampleBO reslutBo = new ExampleBO();
+    	log.info("📌 儲存使用者: {}", userBO.getUsername());
+        if (userBO == null) {
             throw new IllegalArgumentException("使用者不能為 null");
         }
-        return userRepository.save(user);
+        ExamplePO userPO = XkBeanUtils.copyProperties(userBO, ExamplePO::new);
+        ExamplePO savedPO = userRepository.save(userPO);
+        XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
+        return reslutBo;
     }
-
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<ExamplePO> findById(Long userId) {
+    public Optional<ExampleBO> findById(Long userId) {
         log.info("📌 查詢使用者 ID: {}", userId);
-        return userRepository.findById(userId);
+        return userRepository.findById(userId)
+                .map(examplePO -> new ExampleBO(
+                		examplePO.getUsername(),
+                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        null
+                ));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<ExamplePO> findByUsername(String username) {
+    public Optional<ExampleBO> findByUsername(String username) {
         log.info("📌 查詢使用者，username: {}", username);
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username)
+                .map(examplePO -> new ExampleBO(
+                		examplePO.getUsername(),
+                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        null
+                ));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Page<ExamplePO> findAll(Pageable pageable) {
+    public Page<ExampleBO> findAll(Pageable pageable) {
         log.info("📌 查詢所有使用者 (分頁)");
-        return userRepository.findAll(pageable);
+        return userRepository.findAll(pageable)
+                .map(examplePO -> new ExampleBO(
+                		examplePO.getUsername(),
+                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        null
+                ));
     }
 
     /**
      * {@inheritDoc}
      */
 	@Override
-	public List<ExamplePO> findAll() {
-	    return userRepository.findAll();
+	public List<ExampleBO> findAll() {
+	    return XkBeanUtils.copyListProperties(userRepository.findAll(), ExampleBO::new);
 	}
 
     /**
      * {@inheritDoc}
      */
 	@Override
-	public Optional<ExamplePO> update(Long userId, ExamplePO updateData) {
-	    return userRepository.findById(userId)
-	            .map(existingUser -> {
-	                // ✅ 更新欄位（避免覆蓋 NULL）
-	                if (updateData.getUsername() != null) {
-	                    existingUser.setUsername(updateData.getUsername());
-	                }
-	                if (updateData.getEmail() != null) {
-	                    existingUser.setEmail(updateData.getEmail());
-	                }
-
-	                // ✅ 儲存變更
-	                return userRepository.save(existingUser);
-	            });
+	public ExampleBO update(Long userId, ExampleBO updateData) {
+    	ExampleBO reslutBo = new ExampleBO();
+    	log.info("📌 儲存使用者: {}", updateData.getUsername());
+        ExamplePO userPO = XkBeanUtils.copyProperties(updateData, ExamplePO::new);
+        userPO.setId(userId);
+        ExamplePO savedPO = userRepository.save(userPO);
+        XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
+        return reslutBo;
 	}
+	
 
     /**
      * {@inheritDoc}
@@ -127,18 +145,36 @@ public class ExampleServiceImpl implements ExampleService {
      * {@inheritDoc}
      */
     @Override
-    public Page<ExamplePO> findAll(Example<ExamplePO> example, Pageable pageable) {
+    public Page<ExampleBO> findAll(ExampleBO request, Pageable pageable) {
         log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
-        return userRepository.findAll(example, pageable);
+
+        Example<ExamplePO> example = buildExample(request);
+        
+        return userRepository.findAll(example, pageable)
+                .map(examplePO -> new ExampleBO(
+                        examplePO.getUsername(),
+                        examplePO.getEmail(), // ✅ EmailVO 直接傳遞
+                        null
+                ));
     }
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<ExamplePO> findAll(Example<ExamplePO> example) {
+	public List<ExampleBO> findAll(Example<ExamplePO> example) {
 	    log.info("📌 查詢所有使用者 (支援條件過濾)");
-	    return userRepository.findAll(example);
+	    return XkBeanUtils.copyListProperties(userRepository.findAll(example), ExampleBO::new);
 	}
-    
+	
+	private Example<ExamplePO> buildExample(ExampleBO request) {
+	    ExampleMatcher matcher = ExampleMatcher.matching()
+//	            .withIgnorePaths("email") // ✅ 忽略 `EmailVO`，避免 JPA 解析錯誤
+	            .withIgnoreNullValues()
+	            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+	            .withIgnoreCase();
+
+	    return Example.of(XkBeanUtils.copyProperties(request, ExamplePO::new), matcher);
+	}
+
 }
