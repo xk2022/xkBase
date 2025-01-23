@@ -9,10 +9,8 @@ import java.util.stream.Collectors;
 
 import com.xk.exapmleFolder.application.model.DemoItemDTO;
 import com.xk.exapmleFolder.domain.event.DemoPlacedEvent;
-import com.xk.exapmleFolder.domain.model.example.EmailVO;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

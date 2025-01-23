@@ -20,6 +20,7 @@ import com.xk.exapmleFolder.application.usecase.DemoFindUseCase;
 import com.xk.exapmleFolder.application.usecase.DemoUpdateUseCase;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,6 +75,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api/example/orders")
+@Tag(name = "Example Module Orders Management", description = "提供 ExampleOrder 的管理功能，包括新增、查詢、更新和刪除。")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
 public class DemoRestController {
 
