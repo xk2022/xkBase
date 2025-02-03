@@ -1,10 +1,11 @@
-package com.xk.upms.model.dto;
+package com.xk.common.util.dto;
 
-import lombok.Data;
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import lombok.Data;
 
 @Data
 public class JwtUserDTO implements UserDetails {

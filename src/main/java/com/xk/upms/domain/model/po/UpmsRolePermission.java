@@ -1,11 +1,11 @@
-package com.xk.upms.model.po;
+package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
 
+import org.hibernate.annotations.GenericGenerator;
 
-import org.hibernate.annotations.*;
 import com.xk.common.base.BaseEntity;
-import com.xk.upms.model.enums.PermissionAction;
+import com.xk.upms.domain.model.enums.PermissionAction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

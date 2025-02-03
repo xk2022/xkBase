@@ -1,73 +1,88 @@
-package com.xk.upms.service;
-
-import com.xk.upms.model.po.UpmsUser;
-import com.xk.upms.model.vo.UpmsUserResp;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
+package com.xk.upms.domain.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import com.xk.upms.domain.model.bo.UpmsUserBO;
 
 /**
- * Service interface for managing UPMS users.
- * <p>
- * This interface provides methods to perform CRUD operations and support search
- * and retrieval of user entities in the system.
- * </p>
- *
- * <p>
- * Key Features:
- * <ul>
- * <li>Encapsulation of business logic for user management</li>
- * <li>Support for filtering and querying users via request objects</li>
- * <li>Entity-to-DTO mapping for consistent external API responses</li>
- * </ul>
- * </p>
- *
- * @author yuan
- * @version 1.2, Updated on 2024/12/06
+ * 📌 `UpmsUserService` - 使用者領域服務
+ * 
+ * - **負責處理 User 領域內的商業邏輯**
+ * 
+ * @author yuan Created on 2025/02/03.
+ * @author yuan Updated on 2025/01/01 something note here.
  */
 public interface UpmsUserService {
 
+	// ============= 🟢【C】Create（創建）================
 	/**
-	 * Retrieves a list of all users or filters users based on the specified
-	 * criteria.
-	 *
-	 * @param example a {@link UpmsUser} object containing filter criteria.
-	 * @return a list of {@link UpmsUser} representing matching users.
+	 * 📌 創建或更新使用者（回傳 `Optional<T>` 以避免 `null`）
+	 * 
+	 * @param user 使用者物件
+	 * @return 儲存後的使用者資訊
 	 */
-	List<UpmsUser> getList(Example<UpmsUser> example, Sort sort);
+	UpmsUserBO save(UpmsUserBO user);
+
+	// ============= 🔵【R】Read（查詢）================
+	/**
+	 * 📌 依據 ID 查詢單筆使用者
+	 * 
+	 * @param userId 使用者 ID
+	 * @return 使用者物件（若存在）
+	 */
+	Optional<UpmsUserBO> findById(Long userId);
 
 	/**
-	 * Retrieves the details of a specific user by their unique ID.
-	 *
-	 * @param id the unique identifier of the user.
-	 * @return a {@link UpmsUser} object containing the user's details, or
-	 *         {@code null} if no user is found with the specified ID.
+	 * 📌 依據 `username` 查詢使用者
+	 * 
+	 * @param username
+	 * @return
 	 */
-	UpmsUser getOneById(Long id);
+	Optional<UpmsUserBO> findByUsername(String username);
+
+	// ============= ⚡【查詢 & 過濾】================
+	/**
+	 * 📌 查詢所有使用者（支援分頁） 📌 支援條件查詢（分頁）
+	 * 
+	 * @param example
+	 * @param pageable
+	 * @return
+	 */
+//    Page<UpmsUserBO> findAll(Pageable pageable);
+	Page<UpmsUserBO> findAll(UpmsUserBO request, Pageable pageable);
 
 	/**
-	 * Creates a new user in the system.
-	 *
-	 * @param upmsUser a {@link UpmsUser} object containing the user's details.
-	 * @return a {@link UpmsUserResp} object representing the newly created user.
+	 * 📌 查詢所有使用者（無分頁） 📌 支援條件查詢（無分頁）
+	 * 
+	 * @param example
+	 * @return
 	 */
-	UpmsUser create(UpmsUser upmsUser);
+//    List<UpmsUserBO> findAll();
+//    List<UpmsUserBO> findAll(UpmsUserBO request);
+	List<UpmsUserBO> findAll(UpmsUserBO request, Sort sort);
 
+	// ============= 🟡【U】Update（更新）================
 	/**
-	 * Updates the details of an existing user.
-	 *
-	 * @param upmsUser a {@link UpmsUser} object containing the updated details.
-	 * @return a {@link UpmsUserResp} object with the updated user details, or
-	 *         {@code null} if the user does not exist.
+	 * 📌 更新使用者資訊（直接呼叫 `save()`，但可額外擴充業務邏輯）
+	 * 
+	 * @param userId
+	 * @param updateData
+	 * @return
 	 */
-	UpmsUser update(UpmsUser upmsUser);
+	UpmsUserBO update(Long userId, UpmsUserBO updateData);
 
+	// ============= 🔴【D】Delete（刪除）================
 	/**
-	 * Deletes a user from the system by their ID.
-	 *
-	 * @param upmsUser a {@link UpmsUser} object containing the delete details.
+	 * 📌 刪除使用者（如果 ID 不存在則拋出 `ResourceNotFoundException`）
+	 * 
+	 * @param userId 使用者 ID
+	 * @return 是否成功刪除
 	 */
-	void delete(UpmsUser upmsUser);
+	boolean delete(Long userId);
 
 }

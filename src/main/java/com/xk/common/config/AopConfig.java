@@ -1,4 +1,4 @@
-package com.xk.upms.config;
+package com.xk.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

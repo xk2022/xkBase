@@ -1,4 +1,4 @@
-package com.xk.upms.model.bo;
+package com.xk.upms.domain.model.bo;
 
 import lombok.Data;
 

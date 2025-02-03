@@ -1,4 +1,4 @@
-package com.xk.upms.filter;
+package com.xk.common.filter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,8 +1,5 @@
-package com.xk.upms.config;
+package com.xk.common.config;
 
-import com.xk.common.base.Common;
-import com.xk.upms.filter.CustomAuthenticationEntryPointFilter;
-import com.xk.upms.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.xk.common.base.Common;
+import com.xk.common.filter.CustomAuthenticationEntryPointFilter;
+import com.xk.common.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

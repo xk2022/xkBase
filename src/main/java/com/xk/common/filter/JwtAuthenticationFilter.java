@@ -1,13 +1,8 @@
-package com.xk.upms.filter;
+package com.xk.common.filter;
 
-import com.xk.common.base.Common;
-import com.xk.common.util.XkJwtUtil;
-import com.xk.upms.model.dto.JwtUserDTO;
-import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -15,8 +10,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.Arrays;
+import com.xk.common.base.Common;
+import com.xk.common.util.XkJwtUtil;
+import com.xk.common.util.dto.JwtUserDTO;
+
+import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

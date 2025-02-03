@@ -1,4 +1,4 @@
-package com.xk.upms.model.enums;
+package com.xk.upms.domain.model.enums;
 
 /**
  * PermissionAction 枚舉

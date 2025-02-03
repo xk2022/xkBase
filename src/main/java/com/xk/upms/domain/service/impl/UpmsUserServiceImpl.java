@@ -1,79 +1,172 @@
-package com.xk.upms.service.impl;
+package com.xk.upms.domain.service.impl;
 
-import com.xk.upms.dao.repository.UpmsUserRepository;
-import com.xk.upms.model.po.UpmsUser;
-import com.xk.upms.service.UpmsUserService;
-import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.xk.common.util.XkBeanUtils;
+import com.xk.upms.domain.dao.repository.UpmsUserRepository;
+import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.model.po.UpmsUser;
+import com.xk.upms.domain.service.UpmsUserService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Implementation of the {@link UpmsUserService} interface.
- * <p>
- * This class provides concrete implementations for managing UPMS users,
- * including creating, retrieving, updating, and deleting user records.
- * </p>
- *
- * @author yuan
- * @version 1.1, Created on 2024/12/06.
+ * 📌 `UserServiceImpl` - 使用者領域服務的具體實作
+ * 
+ * - **提供基本的 CRUD 操作**
+ * - **支援條件查詢**
+ * - **確保與 `Repository` 交互的邏輯**
+ * 
+ * @author yuan Created on 2025/02/03.
+ * @author yuan Updated on 2025/01/01 something note here.
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UpmsUserServiceImpl implements UpmsUserService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UpmsUserServiceImpl.class);
-
-	@Autowired
 	private UpmsUserRepository upmsUserRepository;
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     * 
+     * ✅ `save()` 應該直接回傳 `ExamplePO`
+     * ✅ `findById()` 使用 `Optional`，確保呼叫端處理缺少的值
+     */
+	@SuppressWarnings("unused")
+	@Override
+    @Transactional
+    public UpmsUserBO save(UpmsUserBO userBO) {
+		UpmsUserBO reslutBo = new UpmsUserBO();
+    	log.info("📌 儲存使用者: {}", userBO.getUsername());
+        if (userBO == null) {
+            throw new IllegalArgumentException("使用者不能為 null");
+        }
+        UpmsUser userPO = XkBeanUtils.copyProperties(userBO, UpmsUser::new);
+        UpmsUser savedPO = upmsUserRepository.save(userPO);
+        XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
+        return reslutBo;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@Transactional(readOnly = true)
-	public List<UpmsUser> getList(Example<UpmsUser> example, Sort sort) {
-		return (example == null) ? upmsUserRepository.findAll(sort) : upmsUserRepository.findAll(example, sort);
-	}
+    public Optional<UpmsUserBO> findById(Long userId) {
+        log.info("📌 查詢使用者 ID: {}", userId);
+        return upmsUserRepository.findById(userId)
+                .map(upmsUser -> new UpmsUserBO(
+                		upmsUser.getUsername(),
+                		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
+                        null
+                ));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+    public Optional<UpmsUserBO> findByUsername(String username) {
+        log.info("📌 查詢使用者，username: {}", username);
+        return upmsUserRepository.findByUsername(username)
+                .map(upmsUser -> new UpmsUserBO(
+                		upmsUser.getUsername(),
+                		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
+                        null
+                ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@Transactional(readOnly = true)
-	public UpmsUser getOneById(Long id) {
-		return upmsUserRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UpmsUser with ID " + id + " not found"));
-	}
+    public Page<UpmsUserBO> findAll(UpmsUserBO request, Pageable pageable) {
+        if (request == null) {
+            log.info("📌 查詢所有使用者 (分頁)");
+            return upmsUserRepository.findAll(pageable)
+                    .map(upmsUser -> new UpmsUserBO(
+                    		upmsUser.getUsername(),
+                    		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
+                            null
+                    ));            
+		} else {
+			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
+			
+			Example<UpmsUser> example = buildExample(request);
+			
+			return upmsUserRepository.findAll(example, pageable)
+					.map(upmsUser -> new UpmsUserBO(
+							upmsUser.getUsername(),
+							upmsUser.getEmail(), // ✅ EmailVO 直接傳遞
+							null
+							));
+		}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	@Transactional
-	public UpmsUser create(UpmsUser upmsUser) {
-		return upmsUserRepository.save(upmsUser);
+	@Transactional(readOnly = true)
+	public List<UpmsUserBO> findAll(UpmsUserBO request, Sort sort) {
+		log.info("📌 查詢所有使用者 (支援條件過濾)");
+		
+		if (request == null) {
+		    return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(sort), UpmsUserBO::new);
+		} else {
+			Example<UpmsUser> example = buildExample(request);
+			return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(example, sort), UpmsUserBO::new);
+		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	@Transactional
-	public UpmsUser update(UpmsUser upmsUser) {
-		return upmsUserRepository.save(upmsUser);
+	public UpmsUserBO update(Long userId, UpmsUserBO updateData) {
+		UpmsUserBO reslutBo = new UpmsUserBO();
+    	log.info("📌 儲存使用者: {}", updateData.getUsername());
+        UpmsUser userPO = XkBeanUtils.copyProperties(updateData, UpmsUser::new);
+        userPO.setId(userId);
+        UpmsUser savedPO = upmsUserRepository.save(userPO);
+        XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
+        return reslutBo;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void delete(UpmsUser upmsUser) {
-		upmsUserRepository.delete(upmsUser);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public boolean delete(Long userId) {
+        log.info("📌 嘗試刪除使用者 ID: {}", userId);
+        return upmsUserRepository.findById(userId)
+                .map(user -> {
+                	upmsUserRepository.delete(user);
+                    log.info("✅ 使用者 ID: {} 已刪除", userId);
+                    return true;
+                }).orElse(false);
+    }
 
+	private Example<UpmsUser> buildExample(UpmsUserBO request) {
+	    ExampleMatcher matcher = ExampleMatcher.matching()
+//	            .withIgnorePaths("email") // ✅ 忽略 `EmailVO`，避免 JPA 解析錯誤
+	            .withIgnoreNullValues()
+	            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+	            .withIgnoreCase();
+
+	    return Example.of(XkBeanUtils.copyProperties(request, UpmsUser::new), matcher);
+	}
 }
