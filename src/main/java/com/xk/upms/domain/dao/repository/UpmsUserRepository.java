@@ -1,4 +1,4 @@
-package com.xk.upms.dao.repository;
+package com.xk.upms.domain.dao.repository;
 
 import java.util.Optional;
 
@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.xk.upms.model.po.UpmsUser;
+import com.xk.upms.domain.model.po.UpmsUser;
+
 
 /**
  * Repository interface for {@link UpmsUser} entities. Provides basic CRUD

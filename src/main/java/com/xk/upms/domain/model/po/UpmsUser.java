@@ -1,4 +1,4 @@
-package com.xk.upms.model.po;
+package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
 import java.util.Date;
