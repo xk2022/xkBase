@@ -1,8 +1,6 @@
 package com.xk.upms.application.model;
 
-import lombok.Data;
+public record UpmsUserRequestDTO(
 
-@Data
-public class UpmsUserRequestDTO {
-
+) {
 }

@@ -122,13 +122,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Transactional(readOnly = true)
 	public List<UpmsUserBO> findAll(UpmsUserBO request, Sort sort) {
 		log.info("📌 查詢所有使用者 (支援條件過濾)");
-		
 		if (request == null) {
 		    return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(sort), UpmsUserBO::new);
-		} else {
-			Example<UpmsUser> example = buildExample(request);
-			return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(example, sort), UpmsUserBO::new);
 		}
+		Example<UpmsUser> example = buildExample(request);
+		return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(example, sort), UpmsUserBO::new);
 	}
 
     /**

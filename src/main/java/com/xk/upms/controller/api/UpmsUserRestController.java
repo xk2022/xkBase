@@ -2,6 +2,7 @@ package com.xk.upms.controller.api;
 
 import java.util.List;
 
+import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,56 +64,39 @@ public class UpmsUserRestController {
 	@GetMapping("/{id}")
 	public BaseResult<UpmsUserResponseDTO> getUserById(
 			@Parameter(description = "用戶的唯一識別碼", required = true) @PathVariable Long id) {
-		try {
-			UpmsUserResponseDTO user = upmsUserFindUseCase.getOneById(id);
-			if (user != null) {
-				return BaseResult.success(user, "成功獲取用戶資料");
-			} else {
-				return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的用戶", null);
-			}
-		} catch (Exception e) {
-			return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR, "伺服器內部錯誤", e.getMessage());
+		UpmsUserResponseDTO user = upmsUserFindUseCase.getOneById(id);
+		if (user != null) {
+			return BaseResult.success(user, "成功獲取用戶資料");
 		}
+		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的用戶", null);
 	}
 
 	@Operation(summary = "新增用戶", description = "創建一個新的 UpmsUser。")
 	@PostMapping
-	public BaseResult<UpmsUserResponseDTO> createUser(@RequestBody UpmsUserCreateDTO request) {
-		try {
-			UpmsUserResponseDTO createdUser = upmsUserCreateUseCase.create(request);
-			return BaseResult.success(createdUser, "用戶創建成功");
-		} catch (Exception e) {
-			return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR, "伺服器內部錯誤", e.getMessage());
-		}
+	public BaseResult<UpmsUserResponseDTO> createUser(
+			@RequestBody UpmsUserCreateDTO request) {
+		UpmsUserResponseDTO createdUser = upmsUserCreateUseCase.create(request);
+		return BaseResult.success(createdUser, "用戶創建成功");
 	}
 
 	@Operation(summary = "更新用戶資料", description = "根據提供的ID更新用戶的詳細資料。")
 	@PutMapping("/{id}")
 	public BaseResult<UpmsUserResponseDTO> updateUser(
 			@Parameter(description = "需要更新的用戶ID", required = true) @PathVariable Long id,
-			@RequestBody UpmsUserCreateDTO request) {
-		try {
-			UpmsUserResponseDTO updatedUser = upmsUserUpdateUseCase.update(id, request);
-			if (updatedUser != null) {
-				return BaseResult.success(updatedUser, "用戶更新成功");
-			} else {
-				return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到需要更新的用戶", null);
-			}
-		} catch (Exception e) {
-			return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR, "伺服器內部錯誤", e.getMessage());
+			@RequestBody UpmsUserUpdateDTO request) {
+		UpmsUserResponseDTO updatedUser = upmsUserUpdateUseCase.update(id, request);
+		if (updatedUser != null) {
+			return BaseResult.success(updatedUser, "用戶更新成功");
 		}
+		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到需要更新的用戶", null);
 	}
 
 	@Operation(summary = "刪除用戶", description = "根據提供的用戶ID刪除對應的用戶。")
 	@DeleteMapping("/{id}")
 	public BaseResult<Void> deleteUser(
 			@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable Long id) {
-		try {
-			upmsUserDeleteUseCase.delete(id);
-			return BaseResult.success(null, "用戶刪除成功");
-		} catch (Exception e) {
-			return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR, "伺服器內部錯誤", e.getMessage());
-		}
+		upmsUserDeleteUseCase.delete(id);
+		return BaseResult.success(null, "用戶刪除成功");
 	}
 
 }

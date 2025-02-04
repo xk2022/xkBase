@@ -1,19 +1,17 @@
 package com.xk.upms.application.usecase.impl;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.xk.common.util.GenericUpdateService;
 import com.xk.common.util.XkBeanUtils;
-import com.xk.upms.application.model.UpmsUserCreateDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
+import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsUserUpdateUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.service.UpmsUserService;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 📌 `UserUpdateUseCaseImpl` - 使用者更新 Use Case 實作
@@ -36,7 +34,7 @@ public class UpmsUserUpdateUseCaseImpl implements UpmsUserUpdateUseCase {
 	 */
 	@Override
 	@Transactional
-	public UpmsUserResponseDTO update(Long userId, UpmsUserCreateDTO request) {
+	public UpmsUserResponseDTO update(Long userId, UpmsUserUpdateDTO request) {
 		log.info("📌 更新使用者 ID: {}", userId);
 
 		// ✅ 檢查使用者是否存在

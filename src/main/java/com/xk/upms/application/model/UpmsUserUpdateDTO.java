@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public record UpmsUserCreateDTO(
+import java.util.Date;
+
+public record UpmsUserUpdateDTO(
 
 		@Schema(description = "使用者名稱")
 		@NotBlank(message = "使用者名稱不得為空")
@@ -21,7 +23,10 @@ public record UpmsUserCreateDTO(
 
 		@Schema(description = "密碼")
 		@NotBlank(message = "密碼不得為空")
-		String password
+		String password,
+
+		@Schema(description = "是否被鎖定")
+		Boolean locked
 
 ) {
 }
