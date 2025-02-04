@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UpmsUserUpdateUseCaseImpl implements UpmsUserUpdateUseCase {
 
-	private UpmsUserService upmsUserService;
+	private final UpmsUserService upmsUserService;
 
 	/**
 	 * {@inheritDoc}

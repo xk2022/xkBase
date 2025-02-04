@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UpmsUserServiceImpl implements UpmsUserService {
 
-	private UpmsUserRepository upmsUserRepository;
+	private final UpmsUserRepository upmsUserRepository;
 
     /**
      * {@inheritDoc}

@@ -44,10 +44,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpmsUserRestController {
 
-	private UpmsUserFindUseCase upmsUserFindUseCase;
-	private UpmsUserCreateUseCase upmsUserCreateUseCase;
-	private UpmsUserUpdateUseCase upmsUserUpdateUseCase;
-	private UpmsUserDeleteUseCase upmsUserDeleteUseCase;
+	private final UpmsUserFindUseCase upmsUserFindUseCase;
+
+	private final UpmsUserCreateUseCase upmsUserCreateUseCase;
+
+	private final UpmsUserUpdateUseCase upmsUserUpdateUseCase;
+
+	private final UpmsUserDeleteUseCase upmsUserDeleteUseCase;
 
 	@Operation(summary = "取得所有用戶", description = "返回系統中所有 UpmsUser 的列表。")
 	@GetMapping

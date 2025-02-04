@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UpmsUserDeleteUseCaseImpl implements UpmsUserDeleteUseCase {
 
-	private UpmsUserService upmsUserService;
+	private final UpmsUserService upmsUserService;
 
 	/**
 	 * {@inheritDoc}
