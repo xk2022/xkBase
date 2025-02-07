@@ -1,8 +1,23 @@
 package com.xk.upms.controller.api;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xk.common.base.BaseResult;
+import com.xk.upms.application.model.UpmsRoleCreateDTO;
+import com.xk.upms.application.model.UpmsRoleResponseDTO;
+import com.xk.upms.application.usecase.UpmsRoleCreateUseCase;
+import com.xk.upms.application.usecase.UpmsRoleFindUseCase;
+
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,39 +39,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpmsRoleRestController {
 
-//	private final UpmsRoleFindUseCase upmsRoleFindUseCase;
+	private final UpmsRoleFindUseCase upmsRoleFindUseCase;
 
-//	private final UpmsRoleCreateUseCase upmsRoleCreateUseCase;
+	private final UpmsRoleCreateUseCase upmsRoleCreateUseCase;
 
 //	private final UpmsRoleUpdateUseCase upmsRoleUpdateUseCase;
 
 //	private final UpmsRoleDeleteUseCase upmsRoleDeleteUseCase;
 
-//	@Operation(summary = "取得所有角色", description = "返回系統中所有 UpmsRole 的列表。")
-//	@GetMapping
-//	public BaseResult<List<UpmsRoleResponseDTO>> getAllUsers(UpmsRoleRequestDTO request) {
-//		List<UpmsRoleResponseDTO> roles = upmsRoleFindUseCase.getList(request);
-//		return BaseResult.success(roles, "成功獲取角色列表");
-//	}
+	@Operation(summary = "取得所有角色", description = "返回系統中所有 UpmsRole 的列表。")
+	@GetMapping
+	public BaseResult<List<UpmsRoleResponseDTO>> getAllRoles( ) {
+		List<UpmsRoleResponseDTO> roles = upmsRoleFindUseCase.findAll();
+		return BaseResult.success(roles, "成功獲取角色列表");
+	}
 
-//	@Operation(summary = "根據ID取得角色", description = "根據提供的角色ID返回對應的角色資料。")
-//	@GetMapping("/{id}")
-//	public BaseResult<UpmsRoleResponseDTO> getRoleById(
-//			@Parameter(description = "角色的唯一識別碼", required = true) @PathVariable Long id) {
-//		UpmsRoleResponseDTO role = upmsRoleFindUseCase.getOneById(id);
-//		if (role != null) {
-//			return BaseResult.success(role, "成功獲取角色資料");
-//		}
-//		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的角色", null);
-//	}
+	@Operation(summary = "根據ID取得角色", description = "根據提供的角色ID返回對應的角色資料。")
+	@GetMapping("/{id}")
+	public BaseResult<UpmsRoleResponseDTO> getRoleById(@PathVariable Long id) {
+		Optional<UpmsRoleResponseDTO> role = upmsRoleFindUseCase.findById(id);
+		if (role.isPresent()) {
+			return BaseResult.success(role.get(), "成功獲取角色資料");
+		}
+		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的角色", null);
+	}
 
-//	@Operation(summary = "新增角色", description = "創建一個新的 UpmsRole。")
-//	@PostMapping
-//	public BaseResult<UpmsRoleResponseDTO> createRole(
-//			@RequestBody UpmsRoleCreateDTO request) {
-//		UpmsRoleResponseDTO createdRole = upmsRoleCreateUseCase.create(request);
-//		return BaseResult.success(createdRole, "用戶創建成功");
-//	}
+	@Operation(summary = "新增角色", description = "創建一個新的 UpmsRole。")
+	@PostMapping
+	public BaseResult<UpmsRoleResponseDTO> createRole(
+			@RequestBody UpmsRoleCreateDTO request) {
+		UpmsRoleResponseDTO createdRole = upmsRoleCreateUseCase.create(request);
+		return BaseResult.success(createdRole, "用戶創建成功");
+	}
 
 //	@Operation(summary = "更新角色資料", description = "根據提供的ID更新角色的詳細資料。")
 //	@PutMapping("/{id}")

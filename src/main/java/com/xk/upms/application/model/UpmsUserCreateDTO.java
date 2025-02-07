@@ -21,7 +21,10 @@ public record UpmsUserCreateDTO(
 
 		@Schema(description = "密碼")
 		@NotBlank(message = "密碼不得為空")
-		String password
+		String password,
+		
+		@Schema(description="狀態")
+		String locked
 
 ) {
 }
