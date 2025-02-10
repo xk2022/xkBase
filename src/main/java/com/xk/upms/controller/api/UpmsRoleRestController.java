@@ -1,12 +1,14 @@
 package com.xk.upms.controller.api;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.hibernate.annotations.Parameter;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsRoleCreateDTO;
 import com.xk.upms.application.model.UpmsRoleResponseDTO;
+import com.xk.upms.application.model.UpmsRoleUpdateDTO;
 import com.xk.upms.application.usecase.UpmsRoleCreateUseCase;
+import com.xk.upms.application.usecase.UpmsRoleDeleteUseCase;
 import com.xk.upms.application.usecase.UpmsRoleFindUseCase;
+import com.xk.upms.application.usecase.UpmsRoleUpdateUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,9 +46,9 @@ public class UpmsRoleRestController {
 
 	private final UpmsRoleCreateUseCase upmsRoleCreateUseCase;
 
-//	private final UpmsRoleUpdateUseCase upmsRoleUpdateUseCase;
+	private final UpmsRoleUpdateUseCase upmsRoleUpdateUseCase;
 
-//	private final UpmsRoleDeleteUseCase upmsRoleDeleteUseCase;
+	private final UpmsRoleDeleteUseCase upmsRoleDeleteUseCase;
 
 	@Operation(summary = "取得所有角色", description = "返回系統中所有 UpmsRole 的列表。")
 	@GetMapping
@@ -69,24 +74,24 @@ public class UpmsRoleRestController {
 		return BaseResult.success(createdRole, "用戶創建成功");
 	}
 
-//	@Operation(summary = "更新角色資料", description = "根據提供的ID更新角色的詳細資料。")
-//	@PutMapping("/{id}")
-//	public BaseResult<UpmsRoleResponseDTO> updateRole(
-//			@Parameter(description = "需要更新的角色ID", required = true) @PathVariable Long id,
-//			@RequestBody UpmsRoleUpdateDTO request) {
-//		UpmsRoleResponseDTO updatedRole = upmsRoleUpdateUseCase.update(id, request);
-//		if (updatedRole != null) {
-//			return BaseResult.success(updatedRole, "角色更新成功");
-//		}
-//		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到需要更新的角色", null);
-//	}
+	@Operation(summary = "更新角色資料", description = "根據提供的ID更新角色的詳細資料。")
+	@PutMapping("/{id}")
+	public BaseResult<UpmsRoleResponseDTO> updateRole(
+			@Parameter(description = "需要更新的角色ID", required = true) @PathVariable Long id,
+			@RequestBody UpmsRoleUpdateDTO request) {
+		UpmsRoleResponseDTO updatedRole = upmsRoleUpdateUseCase.update(id, request);
+		if (updatedRole != null) {
+			return BaseResult.success(updatedRole, "角色更新成功");
+		}
+		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到需要更新的角色", null);
+	}
 
-//	@Operation(summary = "刪除角色", description = "根據提供的角色ID刪除對應的角色。")
-//	@DeleteMapping("/{id}")
-//	public BaseResult<Void> deleteRole(
-//			@Parameter(description = "需要刪除的角色ID", required = true) @PathVariable Long id) {
-//		upmsRoleDeleteUseCase.delete(id);
-//		return BaseResult.success(null, "角色刪除成功");
-//	}
+	@Operation(summary = "刪除角色", description = "根據提供的角色ID刪除對應的角色。")
+	@DeleteMapping("/{id}")
+	public BaseResult<Void> deleteRole(
+			@Parameter(description = "需要刪除的角色ID", required = true) @PathVariable Long id) {
+		upmsRoleDeleteUseCase.delete(id);
+		return BaseResult.success(null, "角色刪除成功");
+	}
 
 }
