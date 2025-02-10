@@ -16,7 +16,7 @@ import com.xk.upms.application.model.UpmsRoleResponseDTO;
 public interface UpmsRoleFindUseCase {
 	
 	
-	Optional<UpmsRoleResponseDTO> findById(Long Id);
+	UpmsRoleResponseDTO findById(Long Id);
 	
 	List<UpmsRoleResponseDTO> findAll();
 }

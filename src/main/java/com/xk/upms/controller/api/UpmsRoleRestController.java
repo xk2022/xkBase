@@ -25,9 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 📌 `UpmsUserRestController` - 負責管理 **角色 API**
  * 
- * - 提供 `CRUD` 操作
- * - 支援分頁查詢
- * - `DTO` 物件與 `UseCase` 互動
+ * - 提供 `CRUD` 操作 - 支援分頁查詢 - `DTO` 物件與 `UseCase` 互動
  * 
  * @author hank Created on 2025/02/04.
  * @author hank Updated on 2025/01/01 something note here.
@@ -49,7 +47,7 @@ public class UpmsRoleRestController {
 
 	@Operation(summary = "取得所有角色", description = "返回系統中所有 UpmsRole 的列表。")
 	@GetMapping
-	public BaseResult<List<UpmsRoleResponseDTO>> getAllRoles( ) {
+	public BaseResult<List<UpmsRoleResponseDTO>> getAllRoles() {
 		List<UpmsRoleResponseDTO> roles = upmsRoleFindUseCase.findAll();
 		return BaseResult.success(roles, "成功獲取角色列表");
 	}
@@ -57,17 +55,16 @@ public class UpmsRoleRestController {
 	@Operation(summary = "根據ID取得角色", description = "根據提供的角色ID返回對應的角色資料。")
 	@GetMapping("/{id}")
 	public BaseResult<UpmsRoleResponseDTO> getRoleById(@PathVariable Long id) {
-		Optional<UpmsRoleResponseDTO> role = upmsRoleFindUseCase.findById(id);
-		if (role.isPresent()) {
-			return BaseResult.success(role.get(), "成功獲取角色資料");
+		UpmsRoleResponseDTO role = upmsRoleFindUseCase.findById(id);
+		if (role !=null) {
+			return BaseResult.success(role, "成功獲取角色資料");
 		}
 		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的角色", null);
 	}
 
 	@Operation(summary = "新增角色", description = "創建一個新的 UpmsRole。")
 	@PostMapping
-	public BaseResult<UpmsRoleResponseDTO> createRole(
-			@RequestBody UpmsRoleCreateDTO request) {
+	public BaseResult<UpmsRoleResponseDTO> createRole(@RequestBody UpmsRoleCreateDTO request) {
 		UpmsRoleResponseDTO createdRole = upmsRoleCreateUseCase.create(request);
 		return BaseResult.success(createdRole, "用戶創建成功");
 	}

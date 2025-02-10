@@ -29,6 +29,6 @@ public class UpmsRoleBO {
 	private String description;
 	
 	@ToString.Include
-	private String orders;
+	private Long orders;
 
 }

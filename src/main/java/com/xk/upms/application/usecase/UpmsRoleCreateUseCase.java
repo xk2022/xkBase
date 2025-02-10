@@ -11,7 +11,7 @@ import com.xk.upms.application.model.UpmsRoleResponseDTO;
  * @author hank Created on 2025/02/07.
  */
 public interface UpmsRoleCreateUseCase {
-	
+
 	UpmsRoleResponseDTO create(UpmsRoleCreateDTO request);
 
 }

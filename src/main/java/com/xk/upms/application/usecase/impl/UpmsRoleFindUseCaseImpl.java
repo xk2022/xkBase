@@ -1,14 +1,16 @@
 package com.xk.upms.application.usecase.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.application.model.UpmsRoleResponseDTO;
 import com.xk.upms.application.usecase.UpmsRoleFindUseCase;
-import com.xk.upms.domain.dao.repository.UpmsUserRoleRepository;
+import com.xk.upms.domain.model.bo.UpmsRoleBO;
+import com.xk.upms.domain.service.UpmsRoleService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,19 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class UpmsRoleFindUseCaseImpl implements UpmsRoleFindUseCase {
-	
-	private final UpmsUserRoleRepository upmsUserRoleRepository;
-	
+
+	private final UpmsRoleService upmsRoleService;
+
 	@Override
-	public Optional<UpmsRoleResponseDTO> findById(Long Id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public UpmsRoleResponseDTO findById(Long Id) {
+		UpmsRoleBO roleBO = upmsRoleService.findById(Id).orElseThrow(() -> new EntityNotFoundException("角色不存在: " + Id));
+		return XkBeanUtils.copyProperties(roleBO,UpmsRoleResponseDTO::new);
 	}
 
 	@Override
 	public List<UpmsRoleResponseDTO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("📌 查詢所有角色 ");
+		List<UpmsRoleBO> roleBOList = upmsRoleService.findAll();
+		return XkBeanUtils.copyListProperties(roleBOList ,UpmsRoleResponseDTO::new);
 	}
 
 }
