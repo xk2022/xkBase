@@ -1,6 +1,7 @@
 package com.xk.upms.application.usecase.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xk.upms.application.usecase.UpmsRoleDeleteUseCase;
 import com.xk.upms.domain.service.UpmsRoleService;
@@ -24,6 +25,7 @@ public class UpmsRoleDeleteUseCaseImpl implements UpmsRoleDeleteUseCase {
 	private final UpmsRoleService upmsRoleService;
 
 	@Override
+	@Transactional
 	public boolean delete(Long roleId) {
 		log.info("📌 嘗試刪除角色 ID: {}", roleId);
 		boolean deleted = upmsRoleService.delete(roleId);
