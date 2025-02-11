@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 📌 `UserServiceImpl` - 角色領域服務的具體實作
  * 
- * - **提供基本的 CRUD 操作** - **支援條件查詢** - **確保與 `Repository` 交互的邏輯**
+ * - **提供基本的 CRUD 操作** 
+ * - **支援條件查詢** 
+ * - **確保與 `Repository` 交互的邏輯**
  * 
  * @author hank Created on 2025/02/07.
  * @author hank Updated on 2025/02/07 something note here.
@@ -44,7 +46,6 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		UpmsRole rolePO = XkBeanUtils.copyProperties(role, UpmsRole::new);
 		UpmsRole saveRolePO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, rolePO);
-
 		return resultBo;
 	}
 
@@ -52,7 +53,12 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	public Optional<UpmsRoleBO> findById(Long roleId) {
 		log.info("📌 查詢角色 ID: {}", roleId);
 		return upmsRoleRepository.findById(roleId)
-				.map(role -> new UpmsRoleBO(role.getCode(), role.getTitle(), role.getDescription(), role.getOrders()));
+				.map(role -> new UpmsRoleBO(
+						role.getCode(), 
+						role.getTitle(), 
+						role.getDescription(), 
+						role.getOrders()
+				));
 	}
 
 	@Override

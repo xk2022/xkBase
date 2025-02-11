@@ -12,8 +12,6 @@ import com.xk.upms.domain.service.UpmsRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
-
 /**
  * 📌 UpmsRoleCreateUseCaseImpl（應用層 Use Case 實作）
  * 
@@ -26,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
-	
+
 	private final UpmsRoleService upmsRoleService;
 
 	@Override

@@ -17,4 +17,5 @@ public interface UpmsRoleDeleteUseCase {
 	 * @return 是否成功刪除
 	 */
 	boolean delete(Long roleId);
+
 }

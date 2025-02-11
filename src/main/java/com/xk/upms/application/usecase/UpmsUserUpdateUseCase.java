@@ -1,6 +1,5 @@
 package com.xk.upms.application.usecase;
 
-import com.xk.upms.application.model.UpmsUserCreateDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.model.UpmsUserUpdateDTO;
 
@@ -17,7 +16,7 @@ public interface UpmsUserUpdateUseCase {
 	/**
 	 * 📌 更新使用者資訊
 	 * 
-	 * @param id  使用者 ID
+	 * @param id      使用者 ID
 	 * @param request 更新請求 DTO
 	 * @return 更新後的 `UpmsUserResponseDTO`
 	 */

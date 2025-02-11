@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class UpmsPermissionServiceImpl implements UpmsPermissionService {
-	
+
 	@Override
 	public UpmsPermissionBO save(UpmsPermissionBO permission) {
 		// TODO Auto-generated method stub

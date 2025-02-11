@@ -1,5 +1,8 @@
 package com.xk.upms.application.usecase.impl;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.xk.common.util.GenericUpdateService;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
@@ -7,17 +10,17 @@ import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsUserUpdateUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.service.UpmsUserService;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 📌 `UserUpdateUseCaseImpl` - 使用者更新 Use Case 實作
  * 
- * - **提供更新使用者資訊的業務邏輯** - **確保 `Application Layer` 與 `Domain Layer` 分離** - **透過
- * `Domain Service` 進行數據存取**
+ * - **提供更新使用者資訊的業務邏輯** 
+ * - **確保 `Application Layer` 與 `Domain Layer` 分離**
+ * - **透過`Domain Service` 進行數據存取**
  * 
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.

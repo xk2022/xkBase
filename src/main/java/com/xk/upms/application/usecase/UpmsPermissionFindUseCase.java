@@ -5,16 +5,15 @@ import java.util.List;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 
 public interface UpmsPermissionFindUseCase {
-	
-	
+
 	/**
 	 * 📌 查詢所有權限
 	 * 
-	 * @param 
+	 * @param
 	 * @return List<UpmsPermissionResponseDTO>
 	 */
 	List<UpmsPermissionResponseDTO> getAllPermission();
-	
+
 	/**
 	 * 📌 查詢權限
 	 * 

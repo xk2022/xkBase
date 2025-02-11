@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 import com.xk.upms.application.model.UpmsUserCreateDTO;
-import com.xk.upms.application.model.UpmsUserRequestDTO;
-import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionCreateUseCase;
 import com.xk.upms.application.usecase.UpmsPermissionDeleteUseCase;
@@ -32,10 +30,12 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 📌 `UpmsPermissionRestController` - 負責管理 權限 API**
  * 
- * - 提供 `CRUD` 操作 - 支援分頁查詢 - `DTO` 物件與 `UseCase` 互動
+ * - 提供 `CRUD` 操作 
+ * - 支援分頁查詢 
+ * - `DTO` 物件與 `UseCase` 互動
  * 
- * @author yuan Created on 2025/02/03.
- * @author yuan Updated on 2025/01/01 something note here.
+ * @author hank Created on 2025/02/11.
+ * @author hank Updated on 2025/01/01 something note here.
  */
 @RestController
 @RequestMapping("/api/upms/permission")
@@ -58,7 +58,7 @@ public class UpmsPermissionRestController {
 		List<UpmsPermissionResponseDTO> users = upmsPermissionFindUseCase.getAllPermission();
 		return BaseResult.success(users, "成功獲取權限列表");
 	}
-	
+
 	@Operation(summary = "根據ID取得權限", description = "根據提供的權限ID返回對應的權限資料。")
 	@GetMapping("/{id}")
 	public BaseResult<UpmsPermissionResponseDTO> getUserById(
@@ -69,11 +69,10 @@ public class UpmsPermissionRestController {
 		}
 		return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的權限", null);
 	}
-	
+
 	@Operation(summary = "新增權限", description = "創建一個新的 UpmsPermission。")
 	@PostMapping
-	public BaseResult<UpmsPermissionResponseDTO> createUser(
-			@RequestBody UpmsUserCreateDTO request) {
+	public BaseResult<UpmsPermissionResponseDTO> createUser(@RequestBody UpmsUserCreateDTO request) {
 		UpmsPermissionResponseDTO createdPermission = upmsPermissionCreateUseCase.create(request);
 		return BaseResult.success(createdPermission, "用戶創建成功");
 	}
@@ -92,8 +91,7 @@ public class UpmsPermissionRestController {
 
 	@Operation(summary = "刪除權限", description = "根據提供的用戶ID刪除對應的權限。")
 	@DeleteMapping("/{id}")
-	public BaseResult<Void> deleteUser(
-			@Parameter(description = "需要刪除的權限ID", required = true) @PathVariable Long id) {
+	public BaseResult<Void> deleteUser(@Parameter(description = "需要刪除的權限ID", required = true) @PathVariable Long id) {
 		upmsPermissionDeleteUseCase.delete(id);
 		return BaseResult.success(null, "權限刪除成功");
 	}

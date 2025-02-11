@@ -32,14 +32,15 @@ public class UpmsRoleFindUseCaseImpl implements UpmsRoleFindUseCase {
 	@Override
 	public UpmsRoleResponseDTO findById(Long Id) {
 		UpmsRoleBO roleBO = upmsRoleService.findById(Id).orElseThrow(() -> new EntityNotFoundException("角色不存在: " + Id));
-		return XkBeanUtils.copyProperties(roleBO,UpmsRoleResponseDTO::new);
+		return XkBeanUtils.copyProperties(roleBO, UpmsRoleResponseDTO::new);
 	}
 
 	@Override
 	public List<UpmsRoleResponseDTO> findAll() {
 		log.info("📌 查詢所有角色 ");
+
 		List<UpmsRoleBO> roleBOList = upmsRoleService.findAll();
-		return XkBeanUtils.copyListProperties(roleBOList ,UpmsRoleResponseDTO::new);
+		return XkBeanUtils.copyListProperties(roleBOList, UpmsRoleResponseDTO::new);
 	}
 
 }

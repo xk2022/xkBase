@@ -1,7 +1,6 @@
 package com.xk.upms.application.usecase;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.xk.upms.application.model.UpmsRoleResponseDTO;
 
@@ -14,9 +13,9 @@ import com.xk.upms.application.model.UpmsRoleResponseDTO;
  * @author hank Updated on 2025/02/06 something note here.
  */
 public interface UpmsRoleFindUseCase {
-	
-	
+
 	UpmsRoleResponseDTO findById(Long Id);
-	
+
 	List<UpmsRoleResponseDTO> findAll();
+	
 }

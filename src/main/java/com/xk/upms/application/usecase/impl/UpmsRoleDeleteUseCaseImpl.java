@@ -28,13 +28,14 @@ public class UpmsRoleDeleteUseCaseImpl implements UpmsRoleDeleteUseCase {
 	@Transactional
 	public boolean delete(Long roleId) {
 		log.info("📌 嘗試刪除角色 ID: {}", roleId);
+		
 		boolean deleted = upmsRoleService.delete(roleId);
+		
 		if (deleted) {
 			log.info("✅ 使用者刪除成功，ID: {}", roleId);
 		} else {
 			log.warn("⚠️ 使用者 ID: {} 不存在，刪除失敗", roleId);
 		}
-
 		return deleted;
 	}
 

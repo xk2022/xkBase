@@ -2,7 +2,6 @@ package com.xk.upms.controller.api;
 
 import java.util.List;
 
-import org.hibernate.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +22,7 @@ import com.xk.upms.application.usecase.UpmsRoleFindUseCase;
 import com.xk.upms.application.usecase.UpmsRoleUpdateUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 📌 `UpmsUserRestController` - 負責管理 **角色 API**
  * 
- * - 提供 `CRUD` 操作 - 支援分頁查詢 - `DTO` 物件與 `UseCase` 互動
+ * - 提供 `CRUD` 操作 
+ * - 支援分頁查詢 
+ * - `DTO` 物件與 `UseCase` 互動
  * 
  * @author hank Created on 2025/02/04.
  * @author hank Updated on 2025/01/01 something note here.

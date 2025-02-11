@@ -2,7 +2,6 @@ package com.xk.upms.controller.api;
 
 import java.util.List;
 
-import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsUserCreateDTO;
 import com.xk.upms.application.model.UpmsUserRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
+import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsUserCreateUseCase;
 import com.xk.upms.application.usecase.UpmsUserDeleteUseCase;
 import com.xk.upms.application.usecase.UpmsUserFindUseCase;
@@ -31,8 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 📌 `UpmsUserRestController` - 負責管理 **使用者 API**
  * 
- * - 提供 `CRUD` 操作
- * - 支援分頁查詢
+ * - 提供 `CRUD` 操作 
+ * - 支援分頁查詢 
  * - `DTO` 物件與 `UseCase` 互動
  * 
  * @author yuan Created on 2025/02/03.
@@ -73,8 +73,7 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "新增用戶", description = "創建一個新的 UpmsUser。")
 	@PostMapping
-	public BaseResult<UpmsUserResponseDTO> createUser(
-			@RequestBody UpmsUserCreateDTO request) {
+	public BaseResult<UpmsUserResponseDTO> createUser(@RequestBody UpmsUserCreateDTO request) {
 		UpmsUserResponseDTO createdUser = upmsUserCreateUseCase.create(request);
 		return BaseResult.success(createdUser, "用戶創建成功");
 	}
@@ -93,8 +92,7 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "刪除用戶", description = "根據提供的用戶ID刪除對應的用戶。")
 	@DeleteMapping("/{id}")
-	public BaseResult<Void> deleteUser(
-			@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable Long id) {
+	public BaseResult<Void> deleteUser(@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable Long id) {
 		upmsUserDeleteUseCase.delete(id);
 		return BaseResult.success(null, "用戶刪除成功");
 	}

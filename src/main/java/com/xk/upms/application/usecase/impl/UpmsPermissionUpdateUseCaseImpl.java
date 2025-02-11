@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UpmsPermissionUpdateUseCaseImpl  implements UpmsPermissionUpdateUseCase {
-	
+public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseCase {
+
 	@Override
 	public UpmsPermissionResponseDTO update(Long id, UpmsUserUpdateDTO request) {
 		// TODO Auto-generated method stub
