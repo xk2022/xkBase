@@ -1,7 +1,10 @@
 package com.xk.upms.application.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record UpmsRoleCreateDTO (
 		
@@ -17,7 +20,10 @@ public record UpmsRoleCreateDTO (
 	 String description,
 	 
 	 @Schema(description = "排序")
-	 String orders
+	 @Min(value = 0, message = "排序不得小於0")
+	 @Max(value = 10, message = "排序不得大於100")
+	 @NotNull(message = "排序不得為空")
+	 Long orders
 	 
 ){
 }

@@ -21,7 +21,9 @@ import lombok.Getter;
 public enum RoleEnum {
 
     ADMIN("管理員"),
+
     USER("普通用戶"),
+
     GUEST("訪客");
 
     private final String description;

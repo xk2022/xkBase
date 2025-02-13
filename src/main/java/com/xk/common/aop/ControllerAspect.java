@@ -7,13 +7,12 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.AbstractCollection;
 
 @Aspect
@@ -26,10 +25,10 @@ public class ControllerAspect {
 
     @Before("pointcut()")
     public void logRequest(JoinPoint joinPoint) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String clazzName = signature.getDeclaringTypeName();
         String methodName = signature.getName();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         log.info(
                 "[{}] - [{}] Request URI -> {}",
                 clazzName,
@@ -43,16 +42,10 @@ public class ControllerAspect {
                 request.getMethod()
         );
         log.info(
-                "[{}] - [{}] Request Parameters -> {}",
+                "[{}] - [{}] Request -> {}",
                 clazzName,
                 methodName,
-                request.getQueryString()
-        );
-        log.info(
-                "[{}] - [{}] Request 0-> {}",
-                clazzName,
-                methodName,
-                getRequestBody(request)
+                requestToString(joinPoint)
         );
     }
 
@@ -78,18 +71,24 @@ public class ControllerAspect {
         );
     }
 
-    private String getRequestBody(HttpServletRequest request) {
-        StringBuilder requestBody = new StringBuilder();
-        try {
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
+    protected String requestToString(JoinPoint joinPoint) {
+        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+        if(codeSignature.getParameterNames().length == 0){
+            return "";
+        }else{
+            StringBuffer sb = new StringBuffer("[");
+            String[] names = codeSignature.getParameterNames();
+            Object[] args = joinPoint.getArgs();
+            for(int i = 0; i < names.length; i++ ){
+                sb.append("" +  names[i] + "->" + args[i]);
+                if(i != names.length -1 ){
+                    sb.append(", ");
+                }else{
+                    sb.append("]");
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            return sb.toString();
         }
-        return requestBody.toString();
     }
 
 }

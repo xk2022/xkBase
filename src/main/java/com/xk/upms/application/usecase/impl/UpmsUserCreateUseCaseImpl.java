@@ -37,8 +37,6 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 		log.info("📌 開始創建新使用者: {}", request.username());
 		// ✅ 轉換 DTO -> BO
 		UpmsUserBO userBO = XkBeanUtils.copyProperties(request, UpmsUserBO::new);
-		// ✅ 手動處理 EmailVO 轉換
-//        userBO.setEmail(new EmailVO(request.getEmail())); // ❗手動轉換 EmailVO
 		// ✅ 儲存到 DB
 		UpmsUserBO savedUser = upmsUserService.save(userBO);
 		// ✅ 轉換 PO -> DTO 回傳
