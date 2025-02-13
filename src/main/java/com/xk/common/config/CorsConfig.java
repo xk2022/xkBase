@@ -18,7 +18,8 @@ public class CorsConfig {
                         "/**"
                         )
                         .allowedOrigins(
-                                "http://localhost:8080"
+                                "http://localhost:8080",
+                                "http://localhost:5173"
                         )
                         .allowedHeaders(
                                 "Authorization",

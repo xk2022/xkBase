@@ -25,13 +25,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    private static String[] PERMIT_ALL = {
+            "/v3/**",
+            "/swagger-ui/**",
+            "/login/**",
+            "/api/**"
+    };
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        if (Arrays.stream(Common.PERMIT_ALL).anyMatch(pattern -> pathMatcher.match(pattern, uri))) {
+        if (Arrays.stream(PERMIT_ALL).anyMatch(pattern -> pathMatcher.match(pattern, uri))) {
             filterChain.doFilter(request, response);
             return;
         }
