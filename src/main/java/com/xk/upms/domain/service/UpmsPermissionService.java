@@ -20,5 +20,13 @@ public interface UpmsPermissionService {
 	 * @return 儲存後的權限資訊
 	 */
 	UpmsPermissionBO save(UpmsPermissionBO permission);
+	
+	/**
+	 * 📌 刪除權限
+	 * 
+	 * @param permissionId 權限 ID
+	 * @return 是否成功刪除
+	 */
+	boolean delete(Long permissionId);
 
 }

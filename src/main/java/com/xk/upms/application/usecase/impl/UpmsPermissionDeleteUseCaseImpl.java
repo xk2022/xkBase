@@ -27,8 +27,16 @@ public class UpmsPermissionDeleteUseCaseImpl implements UpmsPermissionDeleteUseC
 	
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public boolean delete(Long permissionId) {
+		log.info("📌 嘗試權限 ID: {}", permissionId);
 		
+		boolean deleted =upmsPermissionService.delete(permissionId);
+		if(deleted) {
+			log.info("✅ 權限刪除成功，ID: {}", permissionId);
+		}else {
+			log.warn("⚠️ 權限 ID: {} 不存在，刪除失敗", permissionId);
+		}
+		return deleted;
 	}
 
 }
