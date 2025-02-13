@@ -31,3 +31,8 @@ logging:
 server:
   port: 8081
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html

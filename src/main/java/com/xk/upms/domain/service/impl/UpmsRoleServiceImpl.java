@@ -39,13 +39,13 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		UpmsRoleBO resultBo = new UpmsRoleBO();
 		log.info("📌 儲存使用者角色: {}", role.getCode());
 
-		if (resultBo == null) {
+		if (role == null) {
 			throw new IllegalArgumentException("角色不能為 null");
 		}
 
 		UpmsRole rolePO = XkBeanUtils.copyProperties(role, UpmsRole::new);
 		UpmsRole saveRolePO = upmsRoleRepository.save(rolePO);
-		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, rolePO);
+		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, resultBo);
 		return resultBo;
 	}
 
