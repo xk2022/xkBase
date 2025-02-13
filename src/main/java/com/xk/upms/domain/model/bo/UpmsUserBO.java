@@ -28,7 +28,6 @@ public class UpmsUserBO {
     @ToString.Include
     private String username;
 
-//    private EmailVO email;
     private String email;
     
     @ToString.Include
