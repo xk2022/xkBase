@@ -91,8 +91,8 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	}
 
 	@Override
-	public List<UpmsRoleBO> findAll() {
-		List<UpmsRole> rolePOList = upmsRoleRepository.findAll();
+	public List<UpmsRoleBO> findAll(String keyword) {
+		List<UpmsRole> rolePOList = upmsRoleRepository.findAllLike(keyword);
 		return XkBeanUtils.copyListProperties(rolePOList, UpmsRoleBO::new);
 	}
 

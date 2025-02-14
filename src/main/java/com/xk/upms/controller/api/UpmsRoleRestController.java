@@ -2,6 +2,7 @@ package com.xk.upms.controller.api;
 
 import java.util.List;
 
+import com.xk.upms.application.model.UpmsRoleFindDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,8 +55,8 @@ public class UpmsRoleRestController {
 
 	@Operation(summary = "取得所有角色", description = "返回系統中所有 UpmsRole 的列表。")
 	@GetMapping
-	public BaseResult<List<UpmsRoleResponseDTO>> getAllRoles() {
-		List<UpmsRoleResponseDTO> roles = upmsRoleFindUseCase.findAll();
+	public BaseResult<List<UpmsRoleResponseDTO>> getAllRoles(UpmsRoleFindDTO request) {
+		List<UpmsRoleResponseDTO> roles = upmsRoleFindUseCase.findAll(request);
 		return BaseResult.success(roles, "成功獲取角色列表");
 	}
 

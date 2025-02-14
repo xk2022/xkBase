@@ -2,6 +2,7 @@ package com.xk.upms.application.usecase.impl;
 
 import java.util.List;
 
+import com.xk.upms.application.model.UpmsRoleFindDTO;
 import org.springframework.stereotype.Service;
 
 import com.xk.common.util.XkBeanUtils;
@@ -36,10 +37,10 @@ public class UpmsRoleFindUseCaseImpl implements UpmsRoleFindUseCase {
 	}
 
 	@Override
-	public List<UpmsRoleResponseDTO> findAll() {
+	public List<UpmsRoleResponseDTO> findAll(UpmsRoleFindDTO request) {
 		log.info("📌 查詢所有角色 ");
 
-		List<UpmsRoleBO> roleBOList = upmsRoleService.findAll();
+		List<UpmsRoleBO> roleBOList = upmsRoleService.findAll(request.keyword());
 		return XkBeanUtils.copyListProperties(roleBOList, UpmsRoleResponseDTO::new);
 	}
 

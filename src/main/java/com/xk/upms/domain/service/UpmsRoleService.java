@@ -46,10 +46,10 @@ public interface UpmsRoleService {
 	/**
 	 * 📌 查詢所有角色（無分頁） 📌 支援條件查詢（無分頁）
 	 * 
-	 * @param example
+	 * @param keyword
 	 * @return
 	 */
-	List<UpmsRoleBO> findAll();
+	List<UpmsRoleBO> findAll(String keyword);
 
 	// ============= 🟡【U】Update（更新）================
 	/**
