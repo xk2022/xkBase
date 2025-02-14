@@ -21,6 +21,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsRoleBO {
+
+	private Long id;
 	
 	private String code;
 	

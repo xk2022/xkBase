@@ -72,6 +72,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		log.info("📌 查詢角色 ID: {}", roleId);
 		return upmsRoleRepository.findById(roleId)
 				.map(role -> new UpmsRoleBO(
+						role.getId(),
 						role.getCode(), 
 						role.getTitle(), 
 						role.getDescription(), 
