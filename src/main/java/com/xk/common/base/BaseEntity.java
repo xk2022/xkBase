@@ -19,60 +19,81 @@ import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 /**
- * 通用字段基类，为实体类提供常见的审计字段和分组校验功能。
- * <p>
- * 可根据需要扩展字段，如状态(status)、排序(orders)、是否锁定(locked)等。
- * </p>
- *
- * @author Zheng Jie
- * @date 2019年10月24日
- * @version 优化版 yuan 2024
+ * 📌 通用基類 - 提供審計字段（創建者、編輯者、時間戳）與分組校驗
+ * 
+ * 📌 可根據需求擴展，例如：狀態(status)、排序(order)、是否鎖定(locked)。
+ * 
+ * @author Zheng Jie 2019年10月24日
+ * @version 優化版 yuan 2024
  */
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-//    @Column(name = "orders")
-//    @Comment("90_資料排序")
-//    private Long orders;
+	/**
+	 * TODO 以下列出常見的欄位，但並非每處都需要，故請複製到該Entity
+	 */
+//	@Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
+//	@ColumnDefault("0")
+//	@Comment("89_資料排序")
+//	private Long orders = 0L;
 
-//    @Column(name = "status", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-//    @ColumnDefault("true")
-//    @Comment("91_狀態（啟用/禁用）")
-//    private Boolean status = true;
+//	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+//	@ColumnDefault("1")
+//	@Comment("90_狀態（1:啟用, 0:禁用）")
+//	private Boolean status = true;
 
-//    @Column(name = "locked", columnDefinition = "boolean default false")
-//    @Comment("92_狀態(0:正常,1:锁定)")
-//    private Boolean locked;
+//	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+//	@ColumnDefault("1")
+//	@Comment("91_啟用狀態（0:未啟用, 1:啟用）")
+//	private Boolean enabled = true;
+
+//	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+//	@ColumnDefault("0")
+//	@Comment("92_鎖定狀態（0:正常, 1:鎖定）")
+//	private Boolean locked = false;
+
+//	@Column(name = "deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+//	@ColumnDefault("0")
+//	@Comment("93_刪除標記（0:正常, 1:已刪除）")
+//	private Boolean deleted = false;
+
+//	@Column(name = "type", nullable = true)
+//	@Comment("94_類型（可根據具體需求定義）")
+//	private String type;
+
+//	@Column(name = "remark", length = 500)
+//	@Comment("95_備註")
+//	private String remark;
 
 	@ApiModelProperty(value = "創建者", required = true, example = "admin")
 	@CreatedBy
-	@Column(name = "create_by", updatable = false)
+	@Column(name = "created_by", updatable = false, length = 50)
 	@Comment("96_創建者")
-	private String createBy;
+	private String createdBy;
 
 	@ApiModelProperty(value = "創建時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
 	@CreationTimestamp
 	@Column(name = "create_time", updatable = false)
-//	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("97_創建時間")
-	private ZonedDateTime createTime;
+	private ZonedDateTime createdTime;
 
 	@ApiModelProperty(value = "編輯者", required = true, example = "admin")
 	@LastModifiedBy
 	@Column(name = "update_by")
 	@Comment("98_編輯者")
-	private String updateBy;
+	private String updatedBy;
 
 	@ApiModelProperty(value = "編輯時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
 	@UpdateTimestamp
 	@Column(name = "update_time", nullable = true) // Make the column nullable
 	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("99_編輯時間")
-	private ZonedDateTime updateTime;
+	private ZonedDateTime updatedTime;
 
 	/* 分组校验 */
 	public @interface Create {

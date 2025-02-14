@@ -2,6 +2,7 @@ package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 
 import com.xk.common.base.BaseEntity;
@@ -19,7 +20,7 @@ import lombok.Setter;
 /**
  * UpmsRole 實體類 - 角色管理
  *
- * @author Hank Created on 2025/01/13
+ * @author Hank Created on 2025/01/13.
  */
 @Entity
 @Getter
@@ -28,26 +29,29 @@ import lombok.Setter;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"code"})}) // 確保代碼唯一
 public class UpmsRole extends BaseEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id", updatable = false, nullable = false)
-    @Comment("00_流水號") // 描述
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "code", unique = true, nullable = false, length = 100)
-    @Comment("01_角色名稱")
-    private String code;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "role_id", updatable = false, nullable = false)
+	@Comment("00_流水號") // 描述
+	private Long id;
 
-    @Column(name = "title", nullable = false, length = 100)
-    @Comment("02_角色標題")
-    private String title;
+	@Column(name = "code", unique = true, nullable = false, length = 100)
+	@Comment("01_角色名稱")
+	private String code;
 
-    @Column(name = "description", length = 500)
-    @Comment("03_角色描述")
-    private String description;
+	@Column(name = "title", nullable = false, length = 100)
+	@Comment("02_角色標題")
+	private String title;
 
-    @Column(name = "orders", nullable = false)
-    @Comment("04_排序")
-    private Long orders = 0L; // 預設值
+	@Column(name = "description", length = 500)
+	@Comment("03_角色描述")
+	private String description;
+
+	@Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
+	@ColumnDefault("0")
+	@Comment("89_資料排序")
+	private Long orders = 0L;
 
 }

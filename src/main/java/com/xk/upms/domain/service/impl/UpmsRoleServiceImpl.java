@@ -1,5 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsUserRoleRepository;
 import com.xk.upms.domain.model.bo.UpmsRoleBO;
+import com.xk.upms.domain.model.bo.UpmsRoleInitBO;
 import com.xk.upms.domain.model.po.UpmsRole;
 import com.xk.upms.domain.service.UpmsRoleService;
 
@@ -23,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * - **確保與 `Repository` 交互的邏輯**
  * 
  * @author hank Created on 2025/02/07.
- * @author hank Updated on 2025/02/07 something note here.
+ * @author yuan Updated on 2025/02/14 saveAllRoles().
  */
 @Slf4j
 @Service
@@ -47,6 +49,22 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		UpmsRole saveRolePO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, resultBo);
 		return resultBo;
+	}
+
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+    @Transactional
+	public List<UpmsRoleBO> saveAllRoles(List<UpmsRoleInitBO> boList) {
+		if (boList == null || boList.isEmpty()) {
+            log.warn("⚠️ 空的角色列表，不進行任何儲存操作");
+            return Collections.emptyList();
+        }
+        
+        List<UpmsRole> roles = XkBeanUtils.copyListProperties(boList, UpmsRole::new);
+        List<UpmsRole> saveRoles = upmsRoleRepository.saveAll(roles);
+        return XkBeanUtils.copyListProperties(saveRoles, UpmsRoleBO::new);		
 	}
 
 	@Override

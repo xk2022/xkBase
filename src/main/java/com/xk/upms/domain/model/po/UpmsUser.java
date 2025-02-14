@@ -1,8 +1,9 @@
 package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,15 +25,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 用戶實體類，代表UPMS系統中的用戶。 提供用戶的基本信息，包括用戶名、郵箱、電話號碼、密碼以及帳戶狀態等。
- *
- * @author Hank Created on 2022/01/13
+ * 📌 用戶實體類（UPMS 系統）
+ * 
+ * - 代表系統中的用戶，包含基本信息，如用戶名、郵箱、電話號碼、密碼、登入狀態等。  
+ * - 可根據需求擴展，例如：角色、權限關聯、雙因素驗證等。
+ * 
+ * @author Hank Created on 2022/01/13.
+ * @author yuan Updated on 2025/02/14 something note here.
  */
 @Entity
 @Getter
 @Setter
 @Table(name = "upms_user")
 public class UpmsUser extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +49,7 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	private Long id;
 
 	@NotBlank(message = "用戶名稱不能為空")
-	@Size(max = 50, message = "用戶名稱不能超過50個字符")
+	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
 	@Column(unique = true, nullable = false)
 	@Comment("01_用戶名稱")
 	private String username;
@@ -54,25 +61,39 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Comment("02_郵箱")
 	private String email;
 
-	
 	@Comment("03_電話")
 	@Pattern(regexp = "^[0-9]{10,15}$", message = "請輸入有效的電話號碼")
 	private String cellPhone;
-	
+
+//  @Comment("04_鹽")
+//  private String salt;
 
 	@NotBlank(message = "密碼不能為空")
 	@Comment("05_密碼MD5(密碼+鹽)")
 	private String password;
 
-	    // 記錄用戶的最後登入時間
+    /** 📌 記錄用戶最後登入時間（記錄登入歷史） */
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("06_最後登入時間")
-	private Date lastLogin;
-	
-	
-	@Comment("92_狀態(0:正常,1:锁定)")
-    @Column(columnDefinition = "boolean default false")
-    private Boolean locked;
+	private ZonedDateTime lastLogin;
+
+    /** 📌 登入失敗次數（防止暴力破解） */
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+    @ColumnDefault("0")
+    @Comment("07_登入失敗次數")
+    private Integer failedAttempts = 0;
+
+    /** 📌 啟用狀態（0:未啟用, 1:啟用，用於帳號啟用控制） */
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+	@ColumnDefault("1")
+	@Comment("91_啟用狀態（0:未啟用, 1:啟用）")
+	private Boolean enabled = true;
+
+	/** 📌 鎖定狀態（0:正常, 1:鎖定，用於安全鎖定） */
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+	@ColumnDefault("0")
+	@Comment("92_鎖定狀態（0:正常, 1:鎖定）")
+	private Boolean locked = false;
 
 }

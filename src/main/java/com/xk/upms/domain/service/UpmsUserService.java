@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.model.bo.UpmsUserInitBO;
 
 /**
  * 📌 `UpmsUserService` - 使用者領域服務
@@ -15,18 +16,36 @@ import com.xk.upms.domain.model.bo.UpmsUserBO;
  * - **負責處理 User 領域內的商業邏輯**
  * 
  * @author yuan Created on 2025/02/03.
- * @author yuan Updated on 2025/01/01 something note here.
+ * @author yuan Updated on 2025/02/14 saveAllUsers().
  */
 public interface UpmsUserService {
-
+	
 	// ============= 🟢【C】Create（創建）================
 	/**
-	 * 📌 創建或更新使用者（回傳 `Optional<T>` 以避免 `null`）
+	 * 📌 創建或更新單一使用者
 	 * 
-	 * @param user 使用者物件
-	 * @return 儲存後的使用者資訊
+	 *  此方法用於**創建或更新**使用者資訊，會根據 `user` 物件的 ID 判斷：
+	 *  - **若 ID 存在**：更新現有使用者資訊
+	 *  - **若 ID 不存在**：創建新使用者
+	 * 
+	 * @param user 使用者物件（`UpmsUserBO`），包含使用者名稱、信箱、密碼等資訊
+	 * @return 已儲存的使用者資訊
 	 */
 	UpmsUserBO save(UpmsUserBO user);
+
+	/**
+	 * 📌 批次創建或更新使用者
+	 * 
+	 *  此方法接收一組 `UpmsUserBO` 物件列表，並對每個使用者執行**創建或更新**：
+	 *  - **若 ID 存在**：更新現有使用者資訊
+	 *  - **若 ID 不存在**：創建新使用者
+	 *  
+	 * ⚠️ **請確保列表中的物件不為 `null`，避免發生異常**
+	 * 
+	 * @param boList 需要儲存或更新的使用者物件列表
+	 * @return 已儲存的使用者物件列表
+	 */
+	List<UpmsUserBO> saveAllUsers(List<UpmsUserInitBO> boList);
 
 	// ============= 🔵【R】Read（查詢）================
 	/**

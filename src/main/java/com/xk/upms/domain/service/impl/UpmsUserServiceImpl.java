@@ -1,5 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsUserRepository;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.model.bo.UpmsUserInitBO;
 import com.xk.upms.domain.model.po.UpmsUser;
 import com.xk.upms.domain.service.UpmsUserService;
 
@@ -28,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * - **確保與 `Repository` 交互的邏輯**
  * 
  * @author yuan Created on 2025/02/03.
- * @author yuan Updated on 2025/01/01 something note here.
+ * @author yuan Updated on 2025/02/14 saveAllUsers().
  */
 @Slf4j
 @Service
@@ -43,19 +45,35 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      * ✅ `save()` 應該直接回傳 `ExamplePO`
      * ✅ `findById()` 使用 `Optional`，確保呼叫端處理缺少的值
      */
-	@SuppressWarnings("unused")
 	@Override
     @Transactional
     public UpmsUserBO save(UpmsUserBO userBO) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
+		if (userBO == null) {
+			throw new IllegalArgumentException("使用者不能為 null");
+		}
     	log.info("📌 儲存使用者: {}", userBO.getUsername());
-        if (userBO == null) {
-            throw new IllegalArgumentException("使用者不能為 null");
-        }
+    	
         UpmsUser userPO = XkBeanUtils.copyProperties(userBO, UpmsUser::new);
         UpmsUser savedPO = upmsUserRepository.save(userPO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
         return reslutBo;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+    @Transactional
+    public List<UpmsUserBO> saveAllUsers(List<UpmsUserInitBO> boList) {
+        if (boList == null || boList.isEmpty()) {
+            log.warn("⚠️ 空的使用者列表，不進行任何儲存操作");
+            return Collections.emptyList();
+        }
+        
+        List<UpmsUser> users = XkBeanUtils.copyListProperties(boList, UpmsUser::new);
+        List<UpmsUser> savedUsers = upmsUserRepository.saveAll(users);
+        return XkBeanUtils.copyListProperties(savedUsers, UpmsUserBO::new);
     }
 
     /**
@@ -167,4 +185,5 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 
 	    return Example.of(XkBeanUtils.copyProperties(request, UpmsUser::new), matcher);
 	}
+
 }
