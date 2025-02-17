@@ -1,5 +1,9 @@
 package com.xk.upms.domain.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +55,39 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
                     log.info("✅ 權限 ID: {} 已刪除", permissionId);
                     return true;
                 }).orElse(false);
+	}
+
+	@Override
+	public Optional<UpmsPermissionBO> findById(Long permissionId) {
+		 log.info("📌 查詢權限 ID: {}", permissionId);
+	        return upmsPermissionRepository.findById(permissionId)
+	                .map(permission -> new UpmsPermissionBO(
+	                		permission.getSystemId(),
+	                		permission.getPid(), 
+	                        permission.getName(),
+	                        permission.getType(),
+	                        permission.getPermissionValue(),
+	                        permission.getUri(),
+	                        permission.getStatus(),
+	                        permission.getOrders()
+	                ));
+	}
+
+	@Override
+	public UpmsPermissionBO update(Long permissionId, UpmsPermissionBO updatePermissionEntity) {
+		UpmsPermissionBO permissionBO = new UpmsPermissionBO();
+		log.info("📌 儲存權限: {}", updatePermissionEntity.getName());
+		UpmsPermission permissionPO = XkBeanUtils.copyProperties(updatePermissionEntity, UpmsPermission::new);
+		permissionPO.setId(permissionId);
+		UpmsPermission savedPO = upmsPermissionRepository.save(permissionPO);
+		XkBeanUtils.copyPropertiesAutoConvert(savedPO,permissionBO);
+		return permissionBO;
+	}
+
+	@Override
+	public List<UpmsPermissionBO> findAll(Sort sort) {
+		log.info("📌 查詢所有權限 (支援條件過濾)");
+		return XkBeanUtils.copyListProperties(upmsPermissionRepository.findAll(sort), UpmsPermissionBO::new);
 	}
 
 }
