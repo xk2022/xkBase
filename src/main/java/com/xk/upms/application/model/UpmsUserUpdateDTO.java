@@ -2,6 +2,7 @@ package com.xk.upms.application.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
@@ -26,6 +27,13 @@ public record UpmsUserUpdateDTO(
 		@Schema(description = "密碼")
 		@NotBlank(message = "密碼不得為空")
 		String password,
+
+		@Schema(description = "角色id")
+		@NotNull(message = "請選擇角色")
+		Long roleId,
+
+		@Schema(description = "是否啟用")
+		Boolean enabled,
 
 		@Schema(description = "是否被鎖定")
 		Boolean locked

@@ -2,6 +2,7 @@ package com.xk.upms.application.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record UpmsUserCreateDTO(
@@ -23,7 +24,11 @@ public record UpmsUserCreateDTO(
 
 		@Schema(description = "密碼")
 		@NotBlank(message = "請輸入密碼")
-		String password
+		String password,
+
+		@Schema(description = "角色id")
+		@NotNull(message = "請選擇角色")
+		Long roleId
 
 ) {
 }

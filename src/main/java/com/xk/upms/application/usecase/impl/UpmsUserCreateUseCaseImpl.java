@@ -5,6 +5,8 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xk.upms.domain.model.bo.UpmsUserRoleBO;
+import com.xk.upms.domain.service.UpmsUserRoleService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,8 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 
 	private final UpmsUserService upmsUserService;
 
+	private final UpmsUserRoleService upmsUserRoleService;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -44,6 +48,11 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 		UpmsUserBO userBO = XkBeanUtils.copyProperties(request, UpmsUserBO::new);
 		// ✅ 儲存到 DB
 		UpmsUserBO savedUser = upmsUserService.save(userBO);
+		// ✅ 轉換 DTO -> BO
+		UpmsUserRoleBO upmsUserRoleBO = XkBeanUtils.copyProperties(request, UpmsUserRoleBO::new);
+		upmsUserRoleBO.setUserId(savedUser.getId());
+		// ✅ 儲存到 DB
+		UpmsUserRoleBO saveUserRole = upmsUserRoleService.save(upmsUserRoleBO);
 		// ✅ 轉換 PO -> DTO 回傳
 		return XkBeanUtils.copyProperties(savedUser, UpmsUserResponseDTO::new);
 	}

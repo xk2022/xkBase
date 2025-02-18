@@ -19,19 +19,8 @@ public class UpmsUserResponseDTO {
 
 	private Date lastLogin;
 
+	private Boolean enabled;
+
 	private Boolean locked;
-
-	public UpmsUserResponseDTO(String id, String username, String email, String cellPhone, Date lastLogin, Boolean locked) {
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.cellPhone = cellPhone;
-		this.lastLogin = lastLogin;
-		this.locked = locked;
-	}
-
-	public UpmsUserResponseDTO() {
-
-	}
 
 }
