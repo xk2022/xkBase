@@ -2,7 +2,9 @@ package com.xk.upms.controller.api;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/upms/users")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
+@Validated
 @Tag(name = "UpmsUser Management", description = "提供 UpmsUser 的管理功能，包括新增、查詢、更新和刪除。")
 @Slf4j
 public class UpmsUserRestController {
@@ -73,7 +76,7 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "新增用戶", description = "創建一個新的 UpmsUser。")
 	@PostMapping
-	public BaseResult<UpmsUserResponseDTO> createUser(@RequestBody UpmsUserCreateDTO request) {
+	public BaseResult<UpmsUserResponseDTO> createUser(@RequestBody @Validated @NotNull UpmsUserCreateDTO request) {
 		UpmsUserResponseDTO createdUser = upmsUserCreateUseCase.create(request);
 		return BaseResult.success(createdUser, "用戶創建成功");
 	}
@@ -81,8 +84,8 @@ public class UpmsUserRestController {
 	@Operation(summary = "更新用戶資料", description = "根據提供的ID更新用戶的詳細資料。")
 	@PutMapping("/{id}")
 	public BaseResult<UpmsUserResponseDTO> updateUser(
-			@Parameter(description = "需要更新的用戶ID", required = true) @PathVariable Long id,
-			@RequestBody UpmsUserUpdateDTO request) {
+			@Parameter(description = "需要更新的用戶ID", required = true) @PathVariable @NotNull Long id,
+			@RequestBody @Validated @NotNull UpmsUserUpdateDTO request) {
 		UpmsUserResponseDTO updatedUser = upmsUserUpdateUseCase.update(id, request);
 		if (updatedUser != null) {
 			return BaseResult.success(updatedUser, "用戶更新成功");
@@ -92,7 +95,7 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "刪除用戶", description = "根據提供的用戶ID刪除對應的用戶。")
 	@DeleteMapping("/{id}")
-	public BaseResult<Void> deleteUser(@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable Long id) {
+	public BaseResult<Void> deleteUser(@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable @NotNull Long id) {
 		upmsUserDeleteUseCase.delete(id);
 		return BaseResult.success(null, "用戶刪除成功");
 	}

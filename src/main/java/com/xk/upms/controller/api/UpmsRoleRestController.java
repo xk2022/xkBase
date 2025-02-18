@@ -3,7 +3,9 @@ package com.xk.upms.controller.api;
 import java.util.List;
 
 import com.xk.upms.application.model.UpmsRoleFindDTO;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/upms/roles")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
+@Validated
 @Tag(name = "UpmsRole Management", description = "提供 UpmsRole 的管理功能，包括新增、查詢、更新和刪除。")
 @Slf4j
 public class UpmsRoleRestController {
@@ -62,7 +65,7 @@ public class UpmsRoleRestController {
 
 	@Operation(summary = "根據ID取得角色", description = "根據提供的角色ID返回對應的角色資料。")
 	@GetMapping("/{id}")
-	public BaseResult<UpmsRoleResponseDTO> getRoleById(@PathVariable Long id) {
+	public BaseResult<UpmsRoleResponseDTO> getRoleById(@PathVariable @NotNull Long id) {
 		UpmsRoleResponseDTO role = upmsRoleFindUseCase.findById(id);
 		if (role !=null) {
 			return BaseResult.success(role, "成功獲取角色資料");
@@ -72,7 +75,7 @@ public class UpmsRoleRestController {
 
 	@Operation(summary = "新增角色", description = "創建一個新的 UpmsRole。")
 	@PostMapping
-	public BaseResult<UpmsRoleResponseDTO> createRole(@RequestBody UpmsRoleCreateDTO request) {
+	public BaseResult<UpmsRoleResponseDTO> createRole(@RequestBody @Validated @NotNull UpmsRoleCreateDTO request) {
 		UpmsRoleResponseDTO createdRole = upmsRoleCreateUseCase.create(request);
 		return BaseResult.success(createdRole, "用戶創建成功");
 	}
@@ -80,8 +83,8 @@ public class UpmsRoleRestController {
 	@Operation(summary = "更新角色資料", description = "根據提供的ID更新角色的詳細資料。")
 	@PutMapping("/{id}")
 	public BaseResult<UpmsRoleResponseDTO> updateRole(
-			@Parameter(description = "需要更新的角色ID", required = true) @PathVariable Long id,
-			@RequestBody UpmsRoleUpdateDTO request) {
+			@Parameter(description = "需要更新的角色ID", required = true) @PathVariable @NotNull Long id,
+			@RequestBody @Validated @NotNull UpmsRoleUpdateDTO request) {
 		UpmsRoleResponseDTO updatedRole = upmsRoleUpdateUseCase.update(id, request);
 		if (updatedRole != null) {
 			return BaseResult.success(updatedRole, "角色更新成功");
@@ -92,7 +95,7 @@ public class UpmsRoleRestController {
 	@Operation(summary = "刪除角色", description = "根據提供的角色ID刪除對應的角色。")
 	@DeleteMapping("/{id}")
 	public BaseResult<Void> deleteRole(
-			@Parameter(description = "需要刪除的角色ID", required = true) @PathVariable Long id) {
+			@Parameter(description = "需要刪除的角色ID", required = true) @PathVariable @NotNull Long id) {
 		upmsRoleDeleteUseCase.delete(id);
 		return BaseResult.success(null, "角色刪除成功");
 	}

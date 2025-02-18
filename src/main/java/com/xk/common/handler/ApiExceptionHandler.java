@@ -1,6 +1,7 @@
 package com.xk.common.handler;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,8 +20,9 @@ import com.xk.common.base.BaseResult;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//@RestControllerAdvice
+@RestControllerAdvice
 @RequiredArgsConstructor
 @Slf4j
 public class ApiExceptionHandler {
@@ -96,6 +99,26 @@ public class ApiExceptionHandler {
 		log.error("error", ex);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, String.join("; ", messages), ex.getMessage()));
+	}
+
+	/**
+	 * 參數驗證失敗
+	 *
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+		log.error("Validation error", ex);
+
+		// 取得所有錯誤訊息，並格式化
+		List<String> messages = ex.getBindingResult().getFieldErrors().stream()
+				.map(error -> error.getDefaultMessage()) // 取出 DTO 設定的 message
+				.collect(Collectors.toList());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "請求參數錯誤", messages));
 	}
 
 	/**

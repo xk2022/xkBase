@@ -13,12 +13,14 @@ public record UpmsUserUpdateDTO(
 		String username,
 
 		@Schema(description = "信箱")
-		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
-		@NotBlank(message = "信箱不得為空")
+		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+				message = "請輸入有效的 Email，例如：example@email.com")
+		@NotBlank(message = "請輸入Email")
 		String email,
 
 		@Schema(description = "手機")
-		@NotBlank(message = "手機不得為空")
+		@Pattern(regexp = "^09\\d{8}$", message = "請輸入有效的手機號碼，例如：0912345678")
+		@NotBlank(message = "請輸入手機")
 		String cellPhone,
 
 		@Schema(description = "密碼")
