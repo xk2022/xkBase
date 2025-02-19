@@ -1,26 +1,20 @@
 package com.xk.upms.domain.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsUserRepository;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.model.bo.UpmsUserInitBO;
 import com.xk.upms.domain.model.po.UpmsUser;
 import com.xk.upms.domain.service.UpmsUserService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 📌 `UserServiceImpl` - 使用者領域服務的具體實作
@@ -53,8 +47,9 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			throw new IllegalArgumentException("使用者不能為 null");
 		}
     	log.info("📌 儲存使用者: {}", userBO.getUsername());
-    	
         UpmsUser userPO = XkBeanUtils.copyProperties(userBO, UpmsUser::new);
+        userPO.setEnabled(true);
+        userPO.setLocked(false);
         UpmsUser savedPO = upmsUserRepository.save(userPO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
         return reslutBo;
@@ -85,9 +80,14 @@ public class UpmsUserServiceImpl implements UpmsUserService {
         log.info("📌 查詢使用者 ID: {}", userId);
         return upmsUserRepository.findById(userId)
                 .map(upmsUser -> new UpmsUserBO(
+                        upmsUser.getId(),
                 		upmsUser.getUsername(),
-                		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
-                        null
+                		upmsUser.getEmail(),
+                        upmsUser.getCellPhone(),
+                        upmsUser.getPassword(),
+                        upmsUser.getEnabled(),
+                        upmsUser.getLocked(),
+                        upmsUser.getLastLogin()
                 ));
     }
 
@@ -99,9 +99,14 @@ public class UpmsUserServiceImpl implements UpmsUserService {
         log.info("📌 查詢使用者，username: {}", username);
         return upmsUserRepository.findByUsername(username)
                 .map(upmsUser -> new UpmsUserBO(
+                        upmsUser.getId(),
                 		upmsUser.getUsername(),
-                		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
-                        null
+                		upmsUser.getEmail(),
+                        upmsUser.getCellPhone(),
+                        upmsUser.getPassword(),
+                        upmsUser.getEnabled(),
+                        upmsUser.getLocked(),
+                        upmsUser.getLastLogin()
                 ));
     }
 
@@ -115,9 +120,14 @@ public class UpmsUserServiceImpl implements UpmsUserService {
             log.info("📌 查詢所有使用者 (分頁)");
             return upmsUserRepository.findAll(pageable)
                     .map(upmsUser -> new UpmsUserBO(
+                            upmsUser.getId(),
                     		upmsUser.getUsername(),
-                    		upmsUser.getEmail(), // ✅ 直接使用 EmailVO
-                            null
+                    		upmsUser.getEmail(),
+                            upmsUser.getCellPhone(),
+                            upmsUser.getPassword(),
+                            upmsUser.getEnabled(),
+                            upmsUser.getLocked(),
+                            upmsUser.getLastLogin()
                     ));            
 		} else {
 			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
@@ -126,10 +136,15 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			
 			return upmsUserRepository.findAll(example, pageable)
 					.map(upmsUser -> new UpmsUserBO(
-							upmsUser.getUsername(),
-							upmsUser.getEmail(), // ✅ EmailVO 直接傳遞
-							null
-							));
+                            upmsUser.getId(),
+                            upmsUser.getUsername(),
+                            upmsUser.getEmail(),
+                            upmsUser.getCellPhone(),
+                            upmsUser.getPassword(),
+                            upmsUser.getEnabled(),
+                            upmsUser.getLocked(),
+                            upmsUser.getLastLogin()
+                    ));
 		}
     }
 

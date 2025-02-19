@@ -1,20 +1,19 @@
 package com.xk.upms.application.usecase.impl;
 
-import java.util.List;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.application.model.UpmsUserRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsUserFindUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.service.UpmsUserRoleService;
 import com.xk.upms.domain.service.UpmsUserService;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 📌 UpmsUserFindUseCaseImpl（應用層 Use Case 實作）
@@ -30,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 
 	private final UpmsUserService upmsUserService;
+
+	private final UpmsUserRoleService upmsUserRoleService;
 
 	/**
 	 * {@inheritDoc}
@@ -53,12 +54,6 @@ public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 		// 🔥 查詢使用者，並進行身份驗證
 		UpmsUserBO userBO = upmsUserService.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("使用者不存在: " + id));
-
-		if (userBO.isAdmin()) {
-			log.info("✅ 使用者 {} 是管理員", userBO.getUsername());
-		} else {
-			log.info("🔹 使用者 {} 是一般使用者", userBO.getUsername());
-		}
 		return XkBeanUtils.copyProperties(userBO, UpmsUserResponseDTO::new);
 	}
 

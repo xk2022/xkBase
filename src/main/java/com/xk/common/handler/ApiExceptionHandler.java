@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -102,6 +103,20 @@ public class ApiExceptionHandler {
 	}
 
 	/**
+	 * 參數錯誤
+	 *
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(UnexpectedTypeException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<?> handleUnexpectedTypeException(UnexpectedTypeException ex) {
+		log.error("error", ex);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "參數錯誤", ex.getMessage()));
+	}
+
+	/**
 	 * 參數驗證失敗
 	 *
 	 * @param ex
@@ -111,7 +126,6 @@ public class ApiExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		log.error("Validation error", ex);
-
 		// 取得所有錯誤訊息，並格式化
 		List<String> messages = ex.getBindingResult().getFieldErrors().stream()
 				.map(error -> error.getDefaultMessage()) // 取出 DTO 設定的 message

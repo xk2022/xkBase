@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xk.common.util.XkBeanUtils;
-import com.xk.upms.domain.dao.repository.UpmsUserRoleRepository;
+import com.xk.upms.domain.dao.repository.UpmsRoleRepository;
 import com.xk.upms.domain.model.bo.UpmsRoleBO;
 import com.xk.upms.domain.model.bo.UpmsRoleInitBO;
 import com.xk.upms.domain.model.po.UpmsRole;
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UpmsRoleServiceImpl implements UpmsRoleService {
 
-	private final UpmsUserRoleRepository upmsRoleRepository;
+	private final UpmsRoleRepository upmsRoleRepository;
 
 	@SuppressWarnings("unused")
 	@Override
