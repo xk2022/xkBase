@@ -5,6 +5,7 @@ import com.xk.upms.application.model.UpmsUserRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsUserFindUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.service.UpmsUserRoleService;
 import com.xk.upms.domain.service.UpmsUserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ import java.util.List;
 public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 
 	private final UpmsUserService upmsUserService;
+
+	private final UpmsUserRoleService upmsUserRoleService;
 
 	/**
 	 * {@inheritDoc}

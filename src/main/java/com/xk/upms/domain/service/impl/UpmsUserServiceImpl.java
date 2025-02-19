@@ -86,7 +86,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getCellPhone(),
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
-                        upmsUser.getLocked()
+                        upmsUser.getLocked(),
+                        upmsUser.getLastLogin()
                 ));
     }
 
@@ -104,7 +105,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getCellPhone(),
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
-                        upmsUser.getLocked()
+                        upmsUser.getLocked(),
+                        upmsUser.getLastLogin()
                 ));
     }
 
@@ -124,7 +126,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getCellPhone(),
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
-                            upmsUser.getLocked()
+                            upmsUser.getLocked(),
+                            upmsUser.getLastLogin()
                     ));            
 		} else {
 			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
@@ -139,7 +142,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getCellPhone(),
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
-                            upmsUser.getLocked()
+                            upmsUser.getLocked(),
+                            upmsUser.getLastLogin()
                     ));
 		}
     }

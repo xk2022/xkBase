@@ -2,6 +2,8 @@ package com.xk.upms.domain.model.bo;
 
 import lombok.*;
 
+import java.time.ZonedDateTime;
+
 /**
  * 📌 `ExampleBO`（業務物件 - Business Object）
  * 
@@ -33,5 +35,7 @@ public class UpmsUserBO {
     private Boolean enabled;
 
     private Boolean locked;
+
+    private ZonedDateTime lastLogin;
 
 }
