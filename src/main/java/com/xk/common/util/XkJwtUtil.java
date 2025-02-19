@@ -65,6 +65,10 @@ public class XkJwtUtil implements InitializingBean {
     public static String generateToken(UUID UserUuid){
         return generateToken(new HashMap<>(), UserUuid);
     }
+ // 產生Token
+    public static String generateToken(Long Userid){
+        return generateToken(new HashMap<>(), Userid);
+    }
 
     // 驗證Token
     public static boolean isTokenValid(String token, JwtUserDTO jwtUserDTO) {
@@ -87,6 +91,17 @@ public class XkJwtUtil implements InitializingBean {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(UserUuid.toString())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_EXPIRATION))
+                .signWith(key)
+                .compact();
+    }
+    
+    // 產生Token Long id 
+    private static String generateToken(Map<String, Object> extraClaims, Long Userid) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(Userid.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_EXPIRATION))
                 .signWith(key)

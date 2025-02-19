@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 
 import com.xk.upms.domain.model.bo.UpmsPermissionBO;
+import com.xk.upms.domain.model.po.UpmsPermission;
 
 /**
  * 📌 `UpmsPermissionService` - 使用者領域服務
@@ -61,5 +62,10 @@ public interface UpmsPermissionService {
 	 * @return
 	 */
 	List<UpmsPermissionBO> findAll(Sort sort);
-
+	
+	/**
+	 * 📌 查詢所有權限（無分頁） 📌 依照層級查詢
+	 * 
+	 */
+	List<UpmsPermission> buildTree(List<UpmsPermission> permissions,Long pid);
 }

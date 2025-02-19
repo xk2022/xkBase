@@ -27,8 +27,7 @@ import lombok.Setter;
 /**
  * 📌 用戶實體類（UPMS 系統）
  * 
- * - 代表系統中的用戶，包含基本信息，如用戶名、郵箱、電話號碼、密碼、登入狀態等。  
- * - 可根據需求擴展，例如：角色、權限關聯、雙因素驗證等。
+ * - 代表系統中的用戶，包含基本信息，如用戶名、郵箱、電話號碼、密碼、登入狀態等。 - 可根據需求擴展，例如：角色、權限關聯、雙因素驗證等。
  * 
  * @author Hank Created on 2022/01/13.
  * @author yuan Updated on 2025/02/14 something note here.
@@ -72,19 +71,19 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Comment("05_密碼MD5(密碼+鹽)")
 	private String password;
 
-    /** 📌 記錄用戶最後登入時間（記錄登入歷史） */
+	/** 📌 記錄用戶最後登入時間（記錄登入歷史） */
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("06_最後登入時間")
 	private ZonedDateTime lastLogin;
 
-    /** 📌 登入失敗次數（防止暴力破解） */
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    @ColumnDefault("0")
-    @Comment("07_登入失敗次數")
-    private Integer failedAttempts = 0;
+	/** 📌 登入失敗次數（防止暴力破解） */
+	@Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+	@ColumnDefault("0")
+	@Comment("07_登入失敗次數")
+	private Integer failedAttempts = 0;
 
-    /** 📌 啟用狀態（0:未啟用, 1:啟用，用於帳號啟用控制） */
+	/** 📌 啟用狀態（0:未啟用, 1:啟用，用於帳號啟用控制） */
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
 	@Comment("91_啟用狀態（0:未啟用, 1:啟用）")
@@ -95,5 +94,23 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@ColumnDefault("0")
 	@Comment("92_鎖定狀態（0:正常, 1:鎖定）")
 	private Boolean locked = false;
+
+	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+	@ColumnDefault("1")
+	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+	private Boolean isdeleted = false;
+
+	/** 📌 刪除的使用者 */
+	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Column(unique = true, nullable = false)
+	@Comment("08_刪除的使用者名稱")
+	private String deleteuser;
+
+	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Comment("09_用戶被刪除的時間")
+	private ZonedDateTime deletetime;
 
 }

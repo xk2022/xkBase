@@ -1,9 +1,11 @@
 package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.xk.common.base.BaseEntity;
 
@@ -13,7 +15,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +30,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "upms_role",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"code"})}) // 確保代碼唯一
+@Table(name = "upms_role", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) }) // 確保代碼唯一
 public class UpmsRole extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -53,5 +57,23 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	@ColumnDefault("0")
 	@Comment("89_資料排序")
 	private Long orders = 0L;
+
+	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+	@ColumnDefault("1")
+	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+	private Boolean isdeleted = false;
+
+	/** 📌 刪除的使用者 */
+	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Column(unique = true, nullable = false)
+	@Comment("04_刪除的使用者名稱")
+	private String deleteuser;
+
+	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Comment("05_用戶被刪除的時間")
+	private ZonedDateTime deletetime;
 
 }

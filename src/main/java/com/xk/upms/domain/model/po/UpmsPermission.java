@@ -1,18 +1,33 @@
 package com.xk.upms.domain.model.po;
 
 import java.io.Serializable;
+import java.security.Permission;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.xk.common.base.BaseEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -69,5 +84,36 @@ public class UpmsPermission extends BaseEntity implements Serializable {
      * 排序
      */
     private Long orders;
+    
+	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+	@ColumnDefault("1")
+	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+	private Boolean isdeleted = false;
+
+	/** 📌 刪除的使用者 */
+	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Column(unique = true, nullable = false)
+	@Comment("04_刪除的使用者名稱")
+	private String deleteuser;
+
+	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Comment("05_用戶被刪除的時間")
+	private ZonedDateTime deletetime;
+	
+	/**
+     * 子權限列表
+     */
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UpmsPermission> children = new ArrayList<>();
+    
+    /**
+     * 父權限
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pid", insertable = false, updatable = false)
+    private UpmsPermission parent;
 
 }
