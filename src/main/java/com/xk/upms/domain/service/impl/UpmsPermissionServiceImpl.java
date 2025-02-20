@@ -1,5 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +88,21 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	@Override
 	public List<UpmsPermissionBO> findAll(Sort sort) {
 		log.info("📌 查詢所有權限 (支援條件過濾)");
-		return XkBeanUtils.copyListProperties(upmsPermissionRepository.findAll(sort), UpmsPermissionBO::new);
+		return XkBeanUtils.copyListProperties(buildTree(upmsPermissionRepository.findAll(sort),null), UpmsPermissionBO::new) ;
 	}
+
+	@Override
+	public List<UpmsPermission> buildTree(List<UpmsPermission> permissions, Long pid) {
+		List<UpmsPermission> tree = new ArrayList<>();
+	    for (UpmsPermission permission : permissions) {
+	        if ((pid == null && permission.getPid() == null) || 
+	            (pid != null && pid.equals(permission.getPid()))) {
+	            permission.setChildren(buildTree(permissions, permission.getId()));
+	            tree.add(permission);
+	        }
+	    }
+	    return tree ;
+	}
+
 
 }
