@@ -23,10 +23,10 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	/**
 	 * Finds a user by name.
 	 *
-	 * @param name the name of the user.
+	 * @param username the name of the user.
 	 * @return an {@link Optional} containing the user, if found.
 	 */
-	Optional<UpmsUser> findByUsername(String username);
+	Optional<UpmsUser> findByIsdeletedFalseAndUsername(String username);
 
 	/**
 	 * Finds a user by email using a custom JPQL query.
@@ -35,7 +35,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @return an {@link Optional} containing the user, if found.
 	 */
 	@Query("SELECT u FROM UpmsUser u WHERE u.email = :email")
-	Optional<UpmsUser> findByEmail(@Param("email") String email);
+	Optional<UpmsUser> findByIsdeletedFalseAndEmail(@Param("email") String email);
 
 	@Query(value =
 			"""

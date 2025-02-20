@@ -9,7 +9,10 @@ import com.xk.upms.domain.model.po.UpmsUser;
 import com.xk.upms.domain.service.UpmsUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,13 +46,19 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      */
 	@Override
     @Transactional
-    public UpmsUserBO save(UpmsUserBO userBO) {
+    public UpmsUserBO save(UpmsUserBO upmsUserBO) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
-		if (userBO == null) {
+		if (upmsUserBO == null) {
 			throw new IllegalArgumentException("使用者不能為 null");
 		}
-    	log.info("📌 儲存使用者: {}", userBO.getUsername());
-        UpmsUser userPO = XkBeanUtils.copyProperties(userBO, UpmsUser::new);
+    	log.info("📌 儲存使用者: {}", upmsUserBO.getUsername());
+        upmsUserRepository.findByIsdeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
+            throw new IllegalArgumentException("使用者名稱重複");
+        });
+        upmsUserRepository.findByIsdeletedFalseAndEmail(upmsUserBO.getEmail()).ifPresent(user -> {
+            throw new IllegalArgumentException("信箱名稱重複");
+        });
+        UpmsUser userPO = XkBeanUtils.copyProperties(upmsUserBO, UpmsUser::new);
         userPO.setEnabled(true);
         userPO.setLocked(false);
         UpmsUser savedPO = upmsUserRepository.save(userPO);
@@ -100,7 +109,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Override
     public Optional<UpmsUserBO> findByUsername(String username) {
         log.info("📌 查詢使用者，username: {}", username);
-        return upmsUserRepository.findByUsername(username)
+        return upmsUserRepository.findByIsdeletedFalseAndUsername(username)
                 .map(upmsUser -> new UpmsUserBO(
                         upmsUser.getId(),
                 		upmsUser.getUsername(),
@@ -172,6 +181,16 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	public UpmsUserBO update(Long userId, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());
+        upmsUserRepository.findByIsdeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
+            if(!user.getId().equals(updateData.getId())){
+                throw new IllegalArgumentException("使用者名稱重複");
+            }
+        });
+        upmsUserRepository.findByIsdeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
+            if(!user.getId().equals(updateData.getId())){
+                throw new IllegalArgumentException("信箱名稱重複");
+            }
+        });
         UpmsUser userPO = XkBeanUtils.copyProperties(updateData, UpmsUser::new);
         userPO.setId(userId);
         UpmsUser savedPO = upmsUserRepository.save(userPO);

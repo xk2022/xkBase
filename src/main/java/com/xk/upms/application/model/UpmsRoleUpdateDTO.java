@@ -21,7 +21,7 @@ public record UpmsRoleUpdateDTO(
 
 		@Schema(description = "排序")
 		@Min(value = 0, message = "排序不得小於0")
-		@Max(value = 10, message = "排序不得大於100")
+		@Max(value = 100, message = "排序不得大於100")
 		@NotNull(message = "請輸入排序")
 		Long orders
 		
