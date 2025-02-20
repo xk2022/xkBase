@@ -1,5 +1,7 @@
 package com.xk.upms.domain.dao.repository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,5 +36,41 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 */
 	@Query("SELECT u FROM UpmsUser u WHERE u.email = :email")
 	Optional<UpmsUser> findByEmail(@Param("email") String email);
+
+	@Query(value =
+			"""
+            SELECT
+                u.id AS id,
+                u.username AS username,
+                u.email AS email,
+                u.cellPhone AS cellPhone,
+                ur.id AS roleId,
+                u.enabled AS enabled,
+                u.locked AS locked
+            FROM
+                UpmsUser u
+            LEFT JOIN
+                UpmsUserRole ur
+            ON
+                ur.userId = u.id
+            WHERE
+            	1 = 1
+            	AND
+                (
+                    (:keyword IS NULL OR u.username LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR u.email LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR u.cellPhone LIKE CONCAT('%', :keyword, '%'))
+                )
+                AND (:enabled IS NULL OR u.enabled = :enabled)
+                AND (:locked IS NULL OR u.enabled = :enabled)
+           	ORDER BY
+           		u.id ASC,
+           		u.username ASC
+            """)
+	List<Map<String, Object>> findAllLike(
+			@Param("keyword") String keyword,
+			@Param("enabled") Boolean enabled,
+			@Param("locked") Boolean locked
+	);
 
 }

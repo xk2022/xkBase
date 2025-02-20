@@ -30,6 +30,8 @@ public class UpmsUserBO {
 
     private String cellPhone;
 
+    private Long roleId;
+
     private String password;
 
     private Boolean enabled;

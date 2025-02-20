@@ -41,7 +41,7 @@ public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 
 		UpmsUserBO userBO = XkBeanUtils.copyProperties(request, UpmsUserBO::new);
 		Sort sort = Sort.by(Sort.Order.asc("id"), Sort.Order.asc("username"));
-		List<UpmsUserBO> upmsUsers = upmsUserService.findAll(userBO, sort);
+		List<UpmsUserBO> upmsUsers = upmsUserService.findAllLike(request.keyword(), request.enabled(), request.locked());
 		return XkBeanUtils.copyListProperties(upmsUsers, UpmsUserResponseDTO::new);
 	}
 

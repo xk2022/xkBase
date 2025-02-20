@@ -1,6 +1,7 @@
 package com.xk.upms.domain.service.impl;
 
 import com.xk.common.util.XkBeanUtils;
+import com.xk.common.util.XkNativeUtil;
 import com.xk.upms.domain.dao.repository.UpmsUserRepository;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.model.bo.UpmsUserInitBO;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -84,6 +86,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
+                        null,
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
                         upmsUser.getLocked(),
@@ -103,6 +106,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
+                        null,
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
                         upmsUser.getLocked(),
@@ -124,6 +128,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                     		upmsUser.getUsername(),
                     		upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
+                            null,
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
                             upmsUser.getLocked(),
@@ -140,6 +145,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getUsername(),
                             upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
+                            null,
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
                             upmsUser.getLocked(),
@@ -153,13 +159,10 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      */
 	@Override
 	@Transactional(readOnly = true)
-	public List<UpmsUserBO> findAll(UpmsUserBO request, Sort sort) {
+	public List<UpmsUserBO> findAllLike(String keyword, Boolean enabled, Boolean locked) {
 		log.info("📌 查詢所有使用者 (支援條件過濾)");
-		if (request == null) {
-		    return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(sort), UpmsUserBO::new);
-		}
-		Example<UpmsUser> example = buildExample(request);
-		return XkBeanUtils.copyListProperties(upmsUserRepository.findAll(example, sort), UpmsUserBO::new);
+        List<Map<String, Object>> temp = upmsUserRepository.findAllLike(keyword, enabled, locked);
+        return XkNativeUtil.Convert(temp, UpmsUserBO.class);
 	}
 
     /**

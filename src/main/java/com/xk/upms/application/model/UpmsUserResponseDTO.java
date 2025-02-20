@@ -15,6 +15,8 @@ public class UpmsUserResponseDTO {
 
 	private String cellPhone;
 
+	private Long roleId;
+
 	private String password;
 
 	private Date lastLogin;
