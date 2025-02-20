@@ -161,8 +161,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Transactional(readOnly = true)
 	public List<UpmsUserBO> findAllLike(String keyword, Boolean enabled, Boolean locked) {
 		log.info("📌 查詢所有使用者 (支援條件過濾)");
-        List<Map<String, Object>> temp = upmsUserRepository.findAllLike(keyword, enabled, locked);
-        return XkNativeUtil.Convert(temp, UpmsUserBO.class);
+        List<Map<String, Object>> resultBo = upmsUserRepository.findAllLike(keyword, enabled, locked);
+        return XkNativeUtil.Convert(resultBo, UpmsUserBO.class);
 	}
 
     /**

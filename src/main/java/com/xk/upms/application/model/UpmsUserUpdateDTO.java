@@ -10,7 +10,7 @@ import java.util.Date;
 public record UpmsUserUpdateDTO(
 
 		@Schema(description = "使用者名稱")
-		@NotBlank(message = "使用者名稱不得為空")
+		@NotBlank(message = "請輸入使用者名稱")
 		String username,
 
 		@Schema(description = "信箱")
@@ -23,10 +23,6 @@ public record UpmsUserUpdateDTO(
 		@Pattern(regexp = "^09\\d{8}$", message = "請輸入有效的手機號碼，例如：0912345678")
 		@NotBlank(message = "請輸入手機")
 		String cellPhone,
-
-		@Schema(description = "密碼")
-		@NotBlank(message = "密碼不得為空")
-		String password,
 
 		@Schema(description = "角色id")
 		@NotNull(message = "請選擇角色")
