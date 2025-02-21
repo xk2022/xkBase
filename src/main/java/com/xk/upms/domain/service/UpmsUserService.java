@@ -1,14 +1,12 @@
 package com.xk.upms.domain.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.model.bo.UpmsUserInitBO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 📌 `UpmsUserService` - 使用者領域服務
@@ -81,9 +79,7 @@ public interface UpmsUserService {
 	 * @param example
 	 * @return
 	 */
-//    List<UpmsUserBO> findAll();
-//    List<UpmsUserBO> findAll(UpmsUserBO request);
-	List<UpmsUserBO> findAll(UpmsUserBO request, Sort sort);
+	List<UpmsUserBO> findAllLike(String keyword, Boolean enabled, Boolean locked);
 
 	// ============= 🟡【U】Update（更新）================
 	/**

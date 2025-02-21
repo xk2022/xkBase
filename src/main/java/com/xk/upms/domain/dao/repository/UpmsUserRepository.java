@@ -1,5 +1,7 @@
 package com.xk.upms.domain.dao.repository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,10 +23,10 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	/**
 	 * Finds a user by name.
 	 *
-	 * @param name the name of the user.
+	 * @param username the name of the user.
 	 * @return an {@link Optional} containing the user, if found.
 	 */
-	Optional<UpmsUser> findByUsername(String username);
+	Optional<UpmsUser> findByIsdeletedFalseAndUsername(String username);
 
 	/**
 	 * Finds a user by email using a custom JPQL query.
@@ -33,6 +35,42 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @return an {@link Optional} containing the user, if found.
 	 */
 	@Query("SELECT u FROM UpmsUser u WHERE u.email = :email")
-	Optional<UpmsUser> findByEmail(@Param("email") String email);
+	Optional<UpmsUser> findByIsdeletedFalseAndEmail(@Param("email") String email);
+
+	@Query(value =
+			"""
+            SELECT
+                u.id AS id,
+                u.username AS username,
+                u.email AS email,
+                u.cellPhone AS cellPhone,
+                ur.roleId AS roleId,
+                u.enabled AS enabled,
+                u.locked AS locked
+            FROM
+                UpmsUser u
+            LEFT JOIN
+                UpmsUserRole ur
+            ON
+                ur.userId = u.id
+            WHERE
+            	1 = 1
+            	AND
+                (
+                    (:keyword IS NULL OR u.username LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR u.email LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR u.cellPhone LIKE CONCAT('%', :keyword, '%'))
+                )
+                AND (:enabled IS NULL OR u.enabled = :enabled)
+                AND (:locked IS NULL OR u.enabled = :locked)
+           	ORDER BY
+           		u.id ASC,
+           		u.username ASC
+            """)
+	List<Map<String, Object>> findAllLike(
+			@Param("keyword") String keyword,
+			@Param("enabled") Boolean enabled,
+			@Param("locked") Boolean locked
+	);
 
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 public class UpmsRoleResponseDTO {
 	
 	
-	private String id;
+	private Long id;
 	
 	private String code;
 	

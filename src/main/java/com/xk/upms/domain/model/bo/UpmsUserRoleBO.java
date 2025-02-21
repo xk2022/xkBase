@@ -1,9 +1,15 @@
 package com.xk.upms.domain.model.bo;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class UpmsUserRoleBO {
+
+    private Long id;
 
     private Long userId;
 

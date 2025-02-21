@@ -1,9 +1,12 @@
 package com.xk.upms.domain.service.impl;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.xk.upms.domain.model.po.UpmsUserRole;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +40,17 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	@SuppressWarnings("unused")
 	@Override
 	@Transactional
-	public UpmsRoleBO save(UpmsRoleBO role) {
+	public UpmsRoleBO save(UpmsRoleBO upmsRoleBO) {
 		UpmsRoleBO resultBo = new UpmsRoleBO();
-		log.info("📌 儲存使用者角色: {}", role.getCode());
-
-		if (role == null) {
+		log.info("📌 儲存使用者角色: {}", upmsRoleBO.getCode());
+		if (upmsRoleBO == null) {
 			throw new IllegalArgumentException("角色不能為 null");
 		}
-
-		UpmsRole rolePO = XkBeanUtils.copyProperties(role, UpmsRole::new);
+		// 檢核名稱是否重複
+		upmsRoleRepository.findByIsdeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
+			throw new IllegalArgumentException("角色名稱重複");
+		});
+		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
 		UpmsRole saveRolePO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, resultBo);
 		return resultBo;
@@ -84,10 +89,16 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	}
 
 	@Override
-	public UpmsRoleBO update(Long id, UpmsRoleBO updatedEntity) {
+	public UpmsRoleBO update(Long id, UpmsRoleBO upmsRoleBO) {
 		UpmsRoleBO roleBO = new UpmsRoleBO();
 		log.info("📌 儲存角色: {}", roleBO.getCode());
-		UpmsRole rolePO = XkBeanUtils.copyProperties(updatedEntity, UpmsRole::new);
+		// 檢核名稱是否重複
+		upmsRoleRepository.findByIsdeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
+			if(!role.getId().equals(upmsRoleBO.getId())){
+				throw new IllegalArgumentException("角色名稱重複");
+			}
+		});
+		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
 		rolePO.setId(id);
 		UpmsRole savedPO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(savedPO, roleBO);
@@ -103,10 +114,10 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	@Override
 	public boolean delete(Long roleId) {
 		log.info("📌 嘗試刪除角色 ID: {}", roleId);
-
-		return upmsRoleRepository.findById(roleId).map(role -> {
-			upmsRoleRepository.delete(role);
-			log.info("✅ 角色 ID: {} 已刪除", roleId);
+		return upmsRoleRepository.findById(roleId).map(userRole -> {
+			userRole.setIsDeleted(true);
+			userRole.setDeleteTime(ZonedDateTime.now());
+			upmsRoleRepository.save(userRole);
 			return true;
 		}).orElse(false);
 	}

@@ -8,9 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSpecificationExecutor<UpmsRole> {
+    Optional<UpmsRole> findByIsdeletedFalseAndCode(String code);
 
     @Query(value =
             """
@@ -20,12 +22,14 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
                 UpmsRole ur
             WHERE
                 1 = 1
+                AND ur.isdeleted = false
                 AND
                 (
                     (:keyword IS NULL OR ur.code LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR ur.title LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
+                ur.orders ASC,
                 ur.id ASC
             """)
     List<UpmsRole> findAllLike(@Param("keyword") String keyword);

@@ -1,5 +1,7 @@
 package com.xk.upms.application.usecase.impl;
 
+import com.xk.upms.domain.model.bo.UpmsUserRoleBO;
+import com.xk.upms.domain.service.UpmsUserRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,8 @@ public class UpmsUserUpdateUseCaseImpl implements UpmsUserUpdateUseCase {
 
 	private final UpmsUserService upmsUserService;
 
+	private final UpmsUserRoleService upmsUserRoleService;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -44,12 +48,18 @@ public class UpmsUserUpdateUseCaseImpl implements UpmsUserUpdateUseCase {
 		UpmsUserBO existingUserBO = upmsUserService.findById(userId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者 ID %d 不存在，更新失敗", userId)));
 		// ✅ 更新必要欄位（但不影響 ID）
-		GenericUpdateService<UpmsUserBO> updateService = new GenericUpdateService<>();
-		UpmsUserBO updatedEntity = updateService.updateEntity(existingUserBO, request);
+		GenericUpdateService<UpmsUserBO> updateUserService = new GenericUpdateService<>();
+		UpmsUserBO updatedUserEntity = updateUserService.updateEntity(existingUserBO, request);
 		// ✅ 儲存變更
-		UpmsUserBO savedEntity = upmsUserService.update(userId, updatedEntity);
+		UpmsUserBO savedUserEntity = upmsUserService.update(userId, updatedUserEntity);
+		// 取得使用者角色
+		UpmsUserRoleBO existingUserRoleBO = upmsUserRoleService.findByUserId(userId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者角色 ID %d 不存在，更新失敗", userId)));
+		existingUserRoleBO.setRoleId(request.roleId());
+		// 變更使用者角色
+		UpmsUserRoleBO savedUserRoleEntity = upmsUserRoleService.update(existingUserRoleBO);
 		// ✅ 回傳 DTO
-		return XkBeanUtils.copyProperties(savedEntity, UpmsUserResponseDTO::new);
+		return XkBeanUtils.copyProperties(savedUserEntity, UpmsUserResponseDTO::new);
 	}
 
 }

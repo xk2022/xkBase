@@ -49,14 +49,14 @@ public class UpmsUser extends BaseEntity implements Serializable {
 
 	@NotBlank(message = "用戶名稱不能為空")
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	@Comment("01_用戶名稱")
 	private String username;
 
 	@NotBlank(message = "郵箱不能為空")
 	@Size(max = 100, message = "郵箱不能超過100個字符")
 	@Pattern(regexp = ".+@.+\\..+", message = "請輸入有效的郵箱地址")
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	@Comment("02_郵箱")
 	private String email;
 
@@ -103,6 +103,7 @@ public class UpmsUser extends BaseEntity implements Serializable {
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Column(unique = true)
 	@Comment("08_刪除的使用者名稱")
 	private String deleteUser;
 

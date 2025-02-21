@@ -30,7 +30,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "upms_role", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) }) // 確保代碼唯一
+@Table(name = "upms_role")
 public class UpmsRole extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	@Comment("00_流水號") // 描述
 	private Long id;
 
-	@Column(name = "code", unique = true, nullable = false, length = 100)
+	@Column(name = "code", nullable = false, length = 100)
 	@Comment("01_角色名稱")
 	private String code;
 
@@ -66,6 +66,10 @@ public class UpmsRole extends BaseEntity implements Serializable {
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+<<<<<<< HEAD
+=======
+	@Column(unique = true)
+>>>>>>> dc50b935cc2279a808ca7864bb4131f544670d53
 	@Comment("04_刪除的使用者名稱")
 	private String deleteUser;
 
