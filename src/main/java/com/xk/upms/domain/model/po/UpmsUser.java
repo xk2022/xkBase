@@ -99,18 +99,16 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
 	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
-	private Boolean isdeleted = false;
+	private Boolean isDeleted = false;
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
-	@Column(unique = true, nullable = false)
 	@Comment("08_刪除的使用者名稱")
-	private String deleteuser;
+	private String deleteUser;
 
 	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
-	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("09_用戶被刪除的時間")
-	private ZonedDateTime deletetime;
+	private ZonedDateTime deleteTime;
 
 }

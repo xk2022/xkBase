@@ -1,5 +1,9 @@
 package com.xk.upms.domain.model.bo;
 
+import java.util.List;
+
+import com.xk.upms.domain.model.po.UpmsPermission;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,14 +37,7 @@ public class UpmsPermissionBO {
      * 名稱
      */
     private String name;
-    /**
-     * 類型(1:目錄,2:菜單,3:按鈕)
-     */
-    private Byte type;
-    /**
-     * 權限值
-     */
-    private String permissionValue;
+  
     /**
      * 路徑
      */
@@ -57,4 +54,14 @@ public class UpmsPermissionBO {
      * 排序
      */
     private Long orders;
+    
+    /**
+     * 子權限
+     */
+    private List<UpmsPermission> children;
+    
+    /**
+     * 父權限
+     */
+    private UpmsPermission parent;
 }

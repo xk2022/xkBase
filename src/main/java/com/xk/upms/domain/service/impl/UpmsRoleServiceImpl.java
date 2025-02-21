@@ -76,7 +76,10 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 						role.getCode(), 
 						role.getTitle(), 
 						role.getDescription(), 
-						role.getOrders()
+						role.getOrders(),
+						role.getIsDeleted(),
+						role.getDeleteUser(),
+						role.getDeleteTime()
 				));
 	}
 

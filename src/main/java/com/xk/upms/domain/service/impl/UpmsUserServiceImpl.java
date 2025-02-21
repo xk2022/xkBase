@@ -87,7 +87,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
                         upmsUser.getLocked(),
-                        upmsUser.getLastLogin()
+                        upmsUser.getLastLogin(), 
+                        upmsUser.getFailedAttempts(),
+                        upmsUser.getIsDeleted(),
+                        upmsUser.getDeleteUser(),
+                        upmsUser.getDeleteTime()
                 ));
     }
 
@@ -106,7 +110,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getPassword(),
                         upmsUser.getEnabled(),
                         upmsUser.getLocked(),
-                        upmsUser.getLastLogin()
+                        upmsUser.getLastLogin(),
+                        upmsUser.getFailedAttempts(),
+                        upmsUser.getIsDeleted(),
+                        upmsUser.getDeleteUser(),
+                        upmsUser.getDeleteTime()
                 ));
     }
 
@@ -127,7 +135,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
                             upmsUser.getLocked(),
-                            upmsUser.getLastLogin()
+                            upmsUser.getLastLogin(),
+                            upmsUser.getFailedAttempts(),
+                            upmsUser.getIsDeleted(),
+                            upmsUser.getDeleteUser(),
+                            upmsUser.getDeleteTime()
                     ));            
 		} else {
 			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
@@ -143,7 +155,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getPassword(),
                             upmsUser.getEnabled(),
                             upmsUser.getLocked(),
-                            upmsUser.getLastLogin()
+                            upmsUser.getLastLogin(),
+                            upmsUser.getFailedAttempts(),
+                            upmsUser.getIsDeleted(),
+                            upmsUser.getDeleteUser(),
+                            upmsUser.getDeleteTime()
                     ));
 		}
     }

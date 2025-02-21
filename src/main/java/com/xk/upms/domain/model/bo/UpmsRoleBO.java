@@ -1,5 +1,7 @@
 package com.xk.upms.domain.model.bo;
 
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +34,12 @@ public class UpmsRoleBO {
 	
 	@ToString.Include
 	private Long orders;
+	
+
+    private Boolean isDeleted;
+    
+    private String deleteUser;
+    
+    private ZonedDateTime deleteTime;
 
 }

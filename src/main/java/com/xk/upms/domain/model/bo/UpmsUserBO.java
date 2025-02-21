@@ -37,5 +37,13 @@ public class UpmsUserBO {
     private Boolean locked;
 
     private ZonedDateTime lastLogin;
+    
+    private Integer failedAttempts = 0;
+    
+    private Boolean isDeleted;
+    
+    private String deleteUser;
+    
+    private ZonedDateTime deleteTime;
 
 }

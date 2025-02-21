@@ -1,5 +1,6 @@
 package com.xk.upms.application.model;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import lombok.Data;
@@ -22,5 +23,11 @@ public class UpmsUserResponseDTO {
 	private Boolean enabled;
 
 	private Boolean locked;
+	
+	private Boolean isDeleted;
+	
+	private String deletedUser;
+	
+	private ZonedDateTime deleteTime;
 
 }

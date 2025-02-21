@@ -66,11 +66,11 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	                		permission.getSystemId(),
 	                		permission.getPid(), 
 	                        permission.getName(),
-	                        permission.getType(),
-	                        permission.getPermissionValue(),
 	                        permission.getUri(),
 	                        permission.getStatus(),
-	                        permission.getOrders()
+	                        permission.getOrders(),
+	                        permission.getChildren(),
+	                        permission.getParent()
 	                ));
 	}
 

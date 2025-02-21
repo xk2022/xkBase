@@ -17,47 +17,54 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * UpmsRole 實體類 - 角色管理
- *
- * @author Hank Created on 2025/01/13.
+ * Created by Hank on 2025/02/21
  */
 @Entity
 @Getter
 @Setter
-@Table(name = "upms_role", uniqueConstraints = { @UniqueConstraint(columnNames = { "code" }) }) // 確保代碼唯一
-public class UpmsRole extends BaseEntity implements Serializable {
+@Table(name = "upms_action")
+public class UpmsAction extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "role_id", updatable = false, nullable = false)
+	@Column(name = "action_id", updatable = false, nullable = false)
 	@Comment("00_流水號") // 描述
 	private Long id;
 
-	@Column(name = "code", unique = true, nullable = false, length = 100)
-	@Comment("01_角色名稱")
-	private String code;
+	@Column(name = "actionName", length = 100)
+	@Comment("01_動作名稱") // create,update,delete,read,write
+	private String actionName;
 
-	@Column(name = "title", nullable = false, length = 100)
-	@Comment("02_角色標題")
-	private String title;
+	@Column(name = "permissionId", length = 100)
+	@Comment("02_permissionId")
+	private Long permissionId;
 
-	@Column(name = "description", length = 500)
-	@Comment("03_角色描述")
-	private String description;
+	@Column(name = "url", length = 100)
+	@Comment("03_路徑")
+	private String url;
 
-	@Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
+	@Column(name ="orders" ,nullable = false, columnDefinition = "BIGINT DEFAULT 0")
 	@ColumnDefault("0")
-	@Comment("89_資料排序")
+	@Comment("04_資料排序")
 	private Long orders = 0L;
-
+	
+	@Column(name = "method", length = 100)
+	@Comment("03_RestfulMethod")
+	private String method;
+	
+	
+	@Column(name="active",nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+	@ColumnDefault("0")
+	@Comment("93_鎖定狀態（0:關閉, 1:開啟）")
+	private Boolean active = false;
+	
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
