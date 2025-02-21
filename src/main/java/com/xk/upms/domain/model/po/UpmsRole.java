@@ -66,10 +66,7 @@ public class UpmsRole extends BaseEntity implements Serializable {
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
-<<<<<<< HEAD
-=======
 	@Column(unique = true)
->>>>>>> dc50b935cc2279a808ca7864bb4131f544670d53
 	@Comment("04_刪除的使用者名稱")
 	private String deleteUser;
 
