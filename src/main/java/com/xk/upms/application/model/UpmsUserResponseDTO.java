@@ -31,5 +31,7 @@ public class UpmsUserResponseDTO {
 	private String deletedUser;
 	
 	private ZonedDateTime deleteTime;
+	
+	private String token;
 
 }
