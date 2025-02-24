@@ -69,6 +69,9 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	                        permission.getUri(),
 	                        permission.getStatus(),
 	                        permission.getOrders(),
+	                        permission.getIsdeleted(),
+	                        permission.getDeleteUser(),
+	                        permission.getDeleteTime(),
 	                        permission.getChildren(),
 	                        permission.getParent()
 	                ));

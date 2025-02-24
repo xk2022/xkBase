@@ -61,8 +61,8 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
-	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
-	private Boolean isDeleted = false;
+	@Comment("93_是否刪除狀態（0:刪除, 1:未刪除）")
+	private Boolean isdeleted = false;
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //

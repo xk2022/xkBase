@@ -2,9 +2,12 @@ package com.xk.upms.application.usecase.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.xk.common.util.XkBeanUtils;
+import com.xk.upms.application.model.UpmsPermissionCreateDTO;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
-import com.xk.upms.application.model.UpmsUserCreateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionCreateUseCase;
+import com.xk.upms.domain.model.bo.UpmsPermissionBO;
+import com.xk.upms.domain.service.UpmsPermissionService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class UpmsPermissionCreateUseCaseImpl implements UpmsPermissionCreateUseCase {
-
+		
+	private final UpmsPermissionService upmsPermissionService;
+	
 	@Override
-	public UpmsPermissionResponseDTO create(UpmsUserCreateDTO request) {
-		// TODO Auto-generated method stub
-		return null;
+	public UpmsPermissionResponseDTO create(UpmsPermissionCreateDTO request) {
+		log.info("📌 開始創建新權限: {}", request.name());
+		// ✅ 轉換 DTO -> BO
+		UpmsPermissionBO permissionBO = XkBeanUtils.copyProperties(request, UpmsPermissionBO::new);
+		// ✅ 儲存到 DB
+		UpmsPermissionBO savedPermission = upmsPermissionService.save(permissionBO);
+		// ✅ 轉換 PO -> DTO 回傳
+		
+		return XkBeanUtils.copyProperties(savedPermission, UpmsPermissionResponseDTO::new);
 	}
+
 
 }

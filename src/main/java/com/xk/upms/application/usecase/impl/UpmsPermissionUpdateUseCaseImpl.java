@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.xk.common.util.GenericUpdateService;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
+import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
 import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionUpdateUseCase;
 import com.xk.upms.domain.model.bo.UpmsPermissionBO;
@@ -30,7 +31,7 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 	private final UpmsPermissionService upmsPermissionService;
 
 	@Override
-	public UpmsPermissionResponseDTO update(Long permissionId, UpmsUserUpdateDTO request) {
+	public UpmsPermissionResponseDTO update(Long permissionId, UpmsPermissionUpdateDTO request) {
 		log.info("📌 更新權限 ID: {}", permissionId);
 		UpmsPermissionBO upmsPermissionBo = upmsPermissionService.findById(permissionId)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("權限 ID %d 不存在，更新失敗 ", permissionId)));

@@ -1,10 +1,10 @@
 package com.xk.upms.application.usecase;
 
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
-import com.xk.upms.application.model.UpmsUserUpdateDTO;
+import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
 
 public interface UpmsPermissionUpdateUseCase {
 
-	UpmsPermissionResponseDTO update(Long id, UpmsUserUpdateDTO request);
+	UpmsPermissionResponseDTO update(Long id, UpmsPermissionUpdateDTO request);
 
 }

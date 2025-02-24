@@ -82,7 +82,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 						role.getTitle(), 
 						role.getDescription(), 
 						role.getOrders(),
-						role.getIsDeleted(),
+						role.getIsdeleted(),
 						role.getDeleteUser(),
 						role.getDeleteTime()
 				));
@@ -115,7 +115,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	public boolean delete(Long roleId) {
 		log.info("📌 嘗試刪除角色 ID: {}", roleId);
 		return upmsRoleRepository.findById(roleId).map(userRole -> {
-			userRole.setIsDeleted(true);
+			userRole.setIsdeleted(true);
 			userRole.setDeleteTime(ZonedDateTime.now());
 			upmsRoleRepository.save(userRole);
 			return true;

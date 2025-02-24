@@ -101,7 +101,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getLocked(),
                         upmsUser.getLastLogin(), 
                         upmsUser.getFailedAttempts(),
-                        upmsUser.getIsDeleted(),
+                        upmsUser.getIsdeleted(),
                         upmsUser.getDeleteUser(),
                         upmsUser.getDeleteTime()
                 ));
@@ -125,7 +125,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getLocked(),
                         upmsUser.getLastLogin(),
                         upmsUser.getFailedAttempts(),
-                        upmsUser.getIsDeleted(),
+                        upmsUser.getIsdeleted(),
                         upmsUser.getDeleteUser(),
                         upmsUser.getDeleteTime()
                 ));
@@ -151,7 +151,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getLocked(),
                             upmsUser.getLastLogin(),
                             upmsUser.getFailedAttempts(),
-                            upmsUser.getIsDeleted(),
+                            upmsUser.getIsdeleted(),
                             upmsUser.getDeleteUser(),
                             upmsUser.getDeleteTime()
                     ));            
@@ -172,7 +172,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getLocked(),
                             upmsUser.getLastLogin(),
                             upmsUser.getFailedAttempts(),
-                            upmsUser.getIsDeleted(),
+                            upmsUser.getIsdeleted(),
                             upmsUser.getDeleteUser(),
                             upmsUser.getDeleteTime()
                     ));
