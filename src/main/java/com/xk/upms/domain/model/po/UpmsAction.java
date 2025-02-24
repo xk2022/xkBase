@@ -68,11 +68,11 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
-	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+	@Comment("是否刪除狀態（0:刪除, 1:未刪除）")
 	private Boolean isDeleted = false;
 
 	/** 📌 刪除的使用者 */
-	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Size(max = 50, message = "用戶名稱不能超過50個字符")
 	@Column(name = "deleted_user", unique = true)
 	@Comment("04_刪除的使用者名稱")
 	private String deleteUser;

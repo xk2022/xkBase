@@ -99,7 +99,7 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
-	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+	@Comment("93_是否刪除狀態（0:刪除, 1:未刪除）")
 	private Boolean isDeleted = false;
 
 	/** 📌 刪除的使用者 */

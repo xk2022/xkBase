@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xk.common.base.BaseResult;
+import com.xk.upms.application.model.UpmsPermissionCreateDTO;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
-import com.xk.upms.application.model.UpmsUserCreateDTO;
+import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
 import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionCreateUseCase;
 import com.xk.upms.application.usecase.UpmsPermissionDeleteUseCase;
@@ -72,7 +73,7 @@ public class UpmsPermissionRestController {
 
 	@Operation(summary = "新增權限", description = "創建一個新的 UpmsPermission。")
 	@PostMapping
-	public BaseResult<UpmsPermissionResponseDTO> createUser(@RequestBody UpmsUserCreateDTO request) {
+	public BaseResult<UpmsPermissionResponseDTO> createUser(@RequestBody UpmsPermissionCreateDTO request) {
 		UpmsPermissionResponseDTO createdPermission = upmsPermissionCreateUseCase.create(request);
 		return BaseResult.success(createdPermission, "用戶創建成功");
 	}
@@ -81,7 +82,7 @@ public class UpmsPermissionRestController {
 	@PutMapping("/{id}")
 	public BaseResult<UpmsPermissionResponseDTO> updateUser(
 			@Parameter(description = "需要更新的權限ID", required = true) @PathVariable Long id,
-			@RequestBody UpmsUserUpdateDTO request) {
+			@RequestBody UpmsPermissionUpdateDTO request) {
 		UpmsPermissionResponseDTO updatedPermission = upmsPermissionUpdateUseCase.update(id, request);
 		if (updatedPermission != null) {
 			return BaseResult.success(updatedPermission, "權限更新成功");
