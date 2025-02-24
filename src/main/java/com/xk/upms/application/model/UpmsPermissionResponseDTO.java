@@ -17,18 +17,10 @@ public class UpmsPermissionResponseDTO {
 
 	private String type;
 
-	private String permissionValue;
-
 	private String uri;
 
 	private String status;
 
 	private String orders;
-
-	private Boolean isDeleted;
-
-	private String deleteUser;
-
-	private ZonedDateTime deleteTime;
 
 }
