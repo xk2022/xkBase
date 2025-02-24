@@ -12,7 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSpecificationExecutor<UpmsRole> {
-    Optional<UpmsRole> findByIsdeletedFalseAndCode(String code);
+
+    Optional<UpmsRole> findByIsDeletedFalseAndCode(String code);
 
     @Query(value =
             """
@@ -22,7 +23,7 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
                 UpmsRole ur
             WHERE
                 1 = 1
-                AND ur.isdeleted = false
+                AND ur.isDeleted = false
                 AND
                 (
                     (:keyword IS NULL OR ur.code LIKE CONCAT('%', :keyword, '%')) OR

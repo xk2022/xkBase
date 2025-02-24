@@ -1,24 +1,20 @@
 package com.xk.upms.domain.service.impl;
 
-import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import com.xk.upms.domain.model.po.UpmsUserRole;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsRoleRepository;
 import com.xk.upms.domain.model.bo.UpmsRoleBO;
 import com.xk.upms.domain.model.bo.UpmsRoleInitBO;
 import com.xk.upms.domain.model.po.UpmsRole;
 import com.xk.upms.domain.service.UpmsRoleService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 📌 `UserServiceImpl` - 角色領域服務的具體實作
@@ -47,7 +43,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 			throw new IllegalArgumentException("角色不能為 null");
 		}
 		// 檢核名稱是否重複
-		upmsRoleRepository.findByIsdeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
+		upmsRoleRepository.findByIsDeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
 			throw new IllegalArgumentException("角色名稱重複");
 		});
 		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
@@ -93,7 +89,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		UpmsRoleBO roleBO = new UpmsRoleBO();
 		log.info("📌 儲存角色: {}", roleBO.getCode());
 		// 檢核名稱是否重複
-		upmsRoleRepository.findByIsdeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
+		upmsRoleRepository.findByIsDeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
 			if(!role.getId().equals(upmsRoleBO.getId())){
 				throw new IllegalArgumentException("角色名稱重複");
 			}

@@ -87,22 +87,24 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     @Comment("排序")
     @Column(name = "orders")
     private Long orders;
-    
-	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
-	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
-	@ColumnDefault("1")
-	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
-	private Boolean isDeleted = false;
 
-	/** 📌 刪除的使用者 */
-	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
-	@Comment("04_刪除的使用者名稱")
-	private String deleteUser;
+    /** 📌 刪除狀態（0:刪除, 1:未刪除） */
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+    @ColumnDefault("1")
+    @Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
+    private Boolean isDeleted = false;
 
-	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Comment("05_用戶被刪除的時間")
-	private ZonedDateTime deleteTime;
+    /** 📌 刪除的使用者 */
+    @Size(max = 50, message = "用戶名稱不能超過50個字符") //
+    @Column(name = "deleted_user", unique = true)
+    @Comment("04_刪除的使用者名稱")
+    private String deleteUser;
+
+    /** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deleted_time")
+    @Comment("05_用戶被刪除的時間")
+    private ZonedDateTime deleteTime;
 	
 	/**
      * 子權限列表

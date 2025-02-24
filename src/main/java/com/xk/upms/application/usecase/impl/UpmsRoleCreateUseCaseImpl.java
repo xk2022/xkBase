@@ -38,6 +38,7 @@ public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 		log.info("📌 開始創建新角色: {}", request.code());
 		// ✅ 轉換 DTO -> BO
 		UpmsRoleBO roleBO = XkBeanUtils.copyProperties(request, UpmsRoleBO::new);
+		roleBO.setIsDeleted(false);
 		// ✅ 儲存到 DB
 		UpmsRoleBO savedRole = upmsRoleService.save(roleBO);
 		// ✅ 轉換 PO -> DTO 回傳

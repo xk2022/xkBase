@@ -52,15 +52,13 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			throw new IllegalArgumentException("使用者不能為 null");
 		}
     	log.info("📌 儲存使用者: {}", upmsUserBO.getUsername());
-        upmsUserRepository.findByIsdeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
+        upmsUserRepository.findByIsDeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
             throw new IllegalArgumentException("使用者名稱重複");
         });
-        upmsUserRepository.findByIsdeletedFalseAndEmail(upmsUserBO.getEmail()).ifPresent(user -> {
+        upmsUserRepository.findByIsDeletedFalseAndEmail(upmsUserBO.getEmail()).ifPresent(user -> {
             throw new IllegalArgumentException("信箱名稱重複");
         });
         UpmsUser userPO = XkBeanUtils.copyProperties(upmsUserBO, UpmsUser::new);
-        userPO.setEnabled(true);
-        userPO.setLocked(false);
         UpmsUser savedPO = upmsUserRepository.save(userPO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
         return reslutBo;
@@ -113,7 +111,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Override
     public Optional<UpmsUserBO> findByUsername(String username) {
         log.info("📌 查詢使用者，username: {}", username);
-        return upmsUserRepository.findByIsdeletedFalseAndUsername(username)
+        return upmsUserRepository.findByIsDeletedFalseAndUsername(username)
                 .map(upmsUser -> new UpmsUserBO(
                         upmsUser.getId(),
                 		upmsUser.getUsername(),
@@ -197,12 +195,12 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	public UpmsUserBO update(Long userId, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());
-        upmsUserRepository.findByIsdeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
+        upmsUserRepository.findByIsDeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
             if(!user.getId().equals(updateData.getId())){
                 throw new IllegalArgumentException("使用者名稱重複");
             }
         });
-        upmsUserRepository.findByIsdeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
+        upmsUserRepository.findByIsDeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
             if(!user.getId().equals(updateData.getId())){
                 throw new IllegalArgumentException("信箱名稱重複");
             }

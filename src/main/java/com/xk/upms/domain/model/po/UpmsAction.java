@@ -38,12 +38,12 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@Comment("00_流水號") // 描述
 	private Long id;
 
-	@Column(name = "actionName", length = 100)
+	@Column(name = "action_name", length = 100)
 	@Comment("01_動作名稱") // create,update,delete,read,write
 	private String actionName;
 
-	@Column(name = "permissionId", length = 100)
-	@Comment("02_permissionId")
+	@Column(name = "permission_id", length = 100)
+	@Comment("02_permission_id")
 	private Long permissionId;
 
 	@Column(name = "url", length = 100)
@@ -64,20 +64,22 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@ColumnDefault("0")
 	@Comment("93_鎖定狀態（0:關閉, 1:開啟）")
 	private Boolean active = false;
-	
+
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
-	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+	@Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")
 	@Comment("93_鎖定狀態（0:刪除, 1:未刪除）")
 	private Boolean isDeleted = false;
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Column(name = "deleted_user", unique = true)
 	@Comment("04_刪除的使用者名稱")
 	private String deleteUser;
 
 	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "deleted_time")
 	@Comment("05_用戶被刪除的時間")
 	private ZonedDateTime deleteTime;
 

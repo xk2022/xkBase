@@ -6,9 +6,16 @@ package com.xk.upms.domain.model.enums;
  * @author yuan
  */
 public enum PermissionAction {
-    READ("READ"),
-    WRITE("WRITE"),
-    CREATE("CREATE");
+
+    CREATE("CREATE"),
+
+    EDIT("EDIT"),
+
+    DELETE("DELETE"),
+
+    QUERY("QUERY"),
+
+    ;
 
     private final String displayName;
 
