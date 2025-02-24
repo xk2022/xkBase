@@ -1,10 +1,8 @@
 package com.xk.common.handler;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,13 +13,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.xk.common.base.BaseResult;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.UnexpectedTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -127,8 +126,10 @@ public class ApiExceptionHandler {
 	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		log.error("Validation error", ex);
 		// 取得所有錯誤訊息，並格式化
-		List<String> messages = ex.getBindingResult().getFieldErrors().stream()
-				.map(error -> error.getDefaultMessage()) // 取出 DTO 設定的 message
+		List<String> messages = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getDefaultMessage()) // 取出
+																														// DTO
+																														// 設定的
+																														// message
 				.collect(Collectors.toList());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)

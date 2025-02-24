@@ -10,7 +10,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -69,26 +69,26 @@ public abstract class BaseEntity implements Serializable {
 //	@Comment("95_備註")
 //	private String remark;
 
-	@ApiModelProperty(value = "創建者", required = true, example = "admin")
+	@Schema(description = "創建者", required = true, example = "admin")
 	@CreatedBy
 	@Column(name = "created_by", updatable = false, length = 50)
 	@Comment("96_創建者")
 	private String createdBy;
 
-	@ApiModelProperty(value = "創建時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
+	@Schema(description = "創建時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
 	@CreationTimestamp
 	@Column(name = "create_time", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Comment("97_創建時間")
 	private ZonedDateTime createdTime;
 
-	@ApiModelProperty(value = "編輯者", required = true, example = "admin")
+	@Schema(description = "編輯者", required = true, example = "admin")
 	@LastModifiedBy
 	@Column(name = "update_by")
 	@Comment("98_編輯者")
 	private String updatedBy;
 
-	@ApiModelProperty(value = "編輯時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
+	@Schema(description = "編輯時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
 	@UpdateTimestamp
 	@Column(name = "update_time", nullable = true) // Make the column nullable
 	@Temporal(TemporalType.TIMESTAMP)

@@ -85,22 +85,15 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+			<version>8.0.33</version>
         </dependency>
         
-        <!-- Springdoc OpenAPI (Swagger) -->
+		<!-- Springdoc OpenAPI（Swagger 3） -->
 	    <dependency>
 	        <groupId>org.springdoc</groupId>
 	        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 	        <version>2.2.0</version>
 	    </dependency>
-
-        <!-- 引入Swagger3依赖 -->
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
 	    
         <!-- Lombok：簡化代碼 -->
         <dependency>
@@ -138,8 +131,10 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <!-- 版本需自行輸入，否則無效 -->
-            <version>2.0.0</version>
+			<version>3.0.3</version>
         </dependency>
+        
+		<!-- Druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
