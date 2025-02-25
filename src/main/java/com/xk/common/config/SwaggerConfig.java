@@ -29,8 +29,17 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi upmsApi() {
         return GroupedOpenApi.builder()
-                .group("upms") // 另一个 Swagger UI 分组
+                .group("User Permission Management System") // 另一个 Swagger UI 分组
                 .pathsToMatch("/api/upms/**") // 匹配 /upms/ 开头的 API
+                .build();
+    }
+
+    // com.xk.adm API 分组
+    @Bean
+    public GroupedOpenApi admApi() {
+        return GroupedOpenApi.builder()
+                .group("Administrator System") // 另一个 Swagger UI 分组
+                .pathsToMatch("/api/adm/**") // 匹配 /upms/ 开头的 API
                 .build();
     }
     
