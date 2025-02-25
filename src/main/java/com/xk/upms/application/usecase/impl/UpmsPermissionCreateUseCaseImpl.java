@@ -24,20 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class UpmsPermissionCreateUseCaseImpl implements UpmsPermissionCreateUseCase {
-		
+
 	private final UpmsPermissionService upmsPermissionService;
-	
+
 	@Override
 	public UpmsPermissionResponseDTO create(UpmsPermissionCreateDTO request) {
-		log.info("📌 開始創建新權限: {}", request.name());
+		log.info("📌 開始創建新權限: {}", request.permissions());
 		// ✅ 轉換 DTO -> BO
 		UpmsPermissionBO permissionBO = XkBeanUtils.copyProperties(request, UpmsPermissionBO::new);
 		// ✅ 儲存到 DB
 		UpmsPermissionBO savedPermission = upmsPermissionService.save(permissionBO);
 		// ✅ 轉換 PO -> DTO 回傳
-		
+
 		return XkBeanUtils.copyProperties(savedPermission, UpmsPermissionResponseDTO::new);
 	}
-
 
 }
