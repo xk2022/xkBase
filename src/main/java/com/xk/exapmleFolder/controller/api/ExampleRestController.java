@@ -37,10 +37,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.
  */
+@Tag(name = "Example Module Users Management第二版，現在適用", description = "提供 ExampleUser 的管理功能，包括新增、查詢、更新和刪除。")
 @RestController
 @RequestMapping("/api/example/users")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
-@Tag(name = "Example Module Users Management第二版，現在適用", description = "提供 ExampleUser 的管理功能，包括新增、查詢、更新和刪除。")
 @Slf4j
 public class ExampleRestController {
 

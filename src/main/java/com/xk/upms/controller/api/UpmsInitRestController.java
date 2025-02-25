@@ -21,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author yuan Created on 2025/02/14.
  */
 @Tag(name = "Upms data init Management", description = "提供 Upms 的相關功能 data init")
-@Slf4j
 @RestController
 @RequestMapping("/api/upms/init")
 @RequiredArgsConstructor
+@Slf4j
 public class UpmsInitRestController {
 
 	private final UpmsUserCreateUseCase upmsUserCreateUseCase;

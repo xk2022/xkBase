@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ExampleCreateUseCaseImpl implements ExampleCreateUseCase {
 
     private final ExampleService userService;
