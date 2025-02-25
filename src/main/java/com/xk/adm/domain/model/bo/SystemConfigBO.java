@@ -1,4 +1,4 @@
-package com.xk.adm.domain.model.systemConfig;
+package com.xk.adm.domain.model.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

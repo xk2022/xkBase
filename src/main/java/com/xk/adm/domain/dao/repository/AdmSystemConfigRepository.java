@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.xk.adm.domain.model.systemConfig.SystemConfigPO;
+import com.xk.adm.domain.model.po.SystemConfigPO;
 
 /**
  * 📌 `AdmSystemConfigRepository` - 提供 SystemConfigPO 的 JPA 操作

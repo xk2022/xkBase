@@ -1,4 +1,4 @@
-package com.xk.adm.domain.model.systemConfig;
+package com.xk.adm.domain.model.po;
 
 import java.io.Serializable;
 import java.util.UUID;

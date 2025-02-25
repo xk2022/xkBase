@@ -76,7 +76,8 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "新增用戶", description = "創建一個新的 UpmsUser。")
 	@PostMapping
-	public BaseResult<UpmsUserResponseDTO> createUser(@RequestBody @Validated @NotNull UpmsUserCreateDTO request) {
+	public BaseResult<UpmsUserResponseDTO> createUser(
+			@RequestBody @Validated @NotNull UpmsUserCreateDTO request) {
 		UpmsUserResponseDTO createdUser = upmsUserCreateUseCase.create(request);
 		return BaseResult.success(createdUser, "用戶創建成功");
 	}
@@ -95,7 +96,8 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "刪除用戶", description = "根據提供的用戶ID刪除對應的用戶。")
 	@DeleteMapping("/{id}")
-	public BaseResult<Void> deleteUser(@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable @NotNull Long id) {
+	public BaseResult<Void> deleteUser(
+			@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable @NotNull Long id) {
 		upmsUserDeleteUseCase.delete(id);
 		return BaseResult.success(null, "用戶刪除成功");
 	}
