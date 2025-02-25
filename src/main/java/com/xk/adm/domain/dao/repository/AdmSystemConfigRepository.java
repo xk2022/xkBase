@@ -1,4 +1,4 @@
-package com.xk.adm.domain.dao;
+package com.xk.adm.domain.dao.repository;
 
 import java.util.Optional;
 import java.util.UUID;
