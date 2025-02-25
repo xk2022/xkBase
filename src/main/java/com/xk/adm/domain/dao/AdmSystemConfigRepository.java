@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.xk.adm.domain.model.systemConfig.SystemConfigPO;
 
 /**
- * 📌 `SystemConfigRepository` - 提供 SystemConfigPO 的 JPA 操作
+ * 📌 `AdmSystemConfigRepository` - 提供 SystemConfigPO 的 JPA 操作
  * 
  * @author yuan Created on 2025/02/24.
  */
 @Repository
-public interface SystemConfigRepository extends JpaRepository<SystemConfigPO, UUID> {
+public interface AdmSystemConfigRepository extends JpaRepository<SystemConfigPO, UUID> {
 
 //    Optional<SystemConfig> findLatest(); // 取得最新的設定
 	Optional<SystemConfigPO> findTopByOrderByCreatedTimeDesc(); // 取得最新的設定

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.xk.adm.domain.dao.SystemConfigRepository;
+import com.xk.adm.domain.dao.AdmSystemConfigRepository;
 import com.xk.adm.domain.model.systemConfig.SystemConfigBO;
 import com.xk.adm.domain.model.systemConfig.SystemConfigPO;
 import com.xk.adm.domain.service.AdmSystemConfigService;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdmSystemConfigServiceImpl implements AdmSystemConfigService {
 
-	private final SystemConfigRepository systemConfigRepository;
+	private final AdmSystemConfigRepository admSystemConfigRepository;
 
 	/**
 	 * {@inheritDoc}
@@ -35,7 +35,7 @@ public class AdmSystemConfigServiceImpl implements AdmSystemConfigService {
 	@Override
 	public Optional<SystemConfigBO> findLatest() {
 		log.info("📌 查詢最新的系統設定");
-		return systemConfigRepository.findTopByOrderByIdDesc()
+		return admSystemConfigRepository.findTopByOrderByIdDesc()
 				.map(entity -> new SystemConfigBO(
 						entity.getId().toString(), 
 						entity.getSystemName(), 
@@ -51,7 +51,7 @@ public class AdmSystemConfigServiceImpl implements AdmSystemConfigService {
 	@Override
 	public Optional<SystemConfigBO> findById(UUID id) {
 		log.info("📌 查找系統設定，UUID: {}", id);
-		return systemConfigRepository.findById(id)
+		return admSystemConfigRepository.findById(id)
 				.map(entity -> new SystemConfigBO(
 						entity.getId().toString(), 
 						entity.getSystemName(), 
@@ -73,7 +73,7 @@ public class AdmSystemConfigServiceImpl implements AdmSystemConfigService {
 		// **將 BO 轉換為 PO**
 		SystemConfigPO requestPO = XkBeanUtils.copyProperties(systemConfigBO, SystemConfigPO::new);
 		// **存入 DB**
-		SystemConfigPO savedPO = systemConfigRepository.save(requestPO);
+		SystemConfigPO savedPO = admSystemConfigRepository.save(requestPO);
 
 		XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
 		// **轉回 BO 回傳**
