@@ -1,5 +1,7 @@
 package com.xk.adm.application.usecase;
 
+import java.util.List;
+
 import com.xk.adm.application.model.AdmSystemDTO;
 
 /**
@@ -35,5 +37,12 @@ public interface AdmSystemManageUseCase {
 	 * @return 是否成功刪除
 	 */
 	Boolean delete(String uuid);
+
+	/**
+	 * 📌 創建一組範例系統資料
+	 * 
+	 * @return 範例系統列表（包含使用者 ID、名稱、Email）
+	 */
+	List<AdmSystemDTO> createSampleSystems();
 	
 }

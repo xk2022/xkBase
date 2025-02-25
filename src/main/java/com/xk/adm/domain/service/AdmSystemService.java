@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.xk.adm.domain.model.bo.AdmSystemBO;
+import com.xk.adm.domain.model.bo.AdmSystemInitBO;
 
 /**
  * 📌 `AdmSystemService`
@@ -15,6 +16,14 @@ import com.xk.adm.domain.model.bo.AdmSystemBO;
  * @author yuan Created on 2025/02/25.
  */
 public interface AdmSystemService {
+	
+	/**
+	 * 📌 批次創建或更新系統
+	 * 
+	 * @param boList 需要儲存或更新的使用者物件列表
+	 * @return 已儲存的使用者物件列表
+	 */
+	List<AdmSystemBO> saveAllSystems(List<AdmSystemInitBO> boList);
 
     /**
      * 獲取所有系統列表（僅限未刪除的系統）

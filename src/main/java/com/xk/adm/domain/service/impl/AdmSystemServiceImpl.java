@@ -1,6 +1,7 @@
 package com.xk.adm.domain.service.impl;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xk.adm.domain.dao.repository.AdmSystemRepository;
 import com.xk.adm.domain.model.bo.AdmSystemBO;
+import com.xk.adm.domain.model.bo.AdmSystemInitBO;
 import com.xk.adm.domain.model.po.AdmSystem;
 import com.xk.adm.domain.service.AdmSystemService;
 import com.xk.common.util.XkBeanUtils;
@@ -35,6 +37,22 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 
 	private final AdmSystemRepository admSystemRepository;
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public List<AdmSystemBO> saveAllSystems(List<AdmSystemInitBO> boList) {
+        if (boList == null || boList.isEmpty()) {
+            log.warn("⚠️ 列表為空，不進行任何儲存操作");
+            return Collections.emptyList();
+        }
+        
+        List<AdmSystem> systems = XkBeanUtils.copyListProperties(boList, AdmSystem::new);
+        List<AdmSystem> savedSystems = admSystemRepository.saveAll(systems);
+        return XkBeanUtils.copyListProperties(savedSystems, AdmSystemBO::new);
+    }
+	
 	/**
 	 * {@inheritDoc}
 	 */

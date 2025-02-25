@@ -8,16 +8,17 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import com.xk.common.base.BaseEntity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
@@ -45,10 +46,12 @@ public class AdmSystem extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "uuid", nullable = false, updatable = false, unique = true)
+	@UuidGenerator
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", nullable = false, updatable = false, length = 36)
 	@Comment("00_流水號") /** 系統唯一識別碼 (UUID) */
 	private UUID uuid;
+
 
 	@Column(nullable = false, unique = true)
 	@Comment("01_系統代碼") /** 系統代碼 (唯一標識) */

@@ -1,10 +1,16 @@
 package com.xk.adm.application.usecase.impl;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.xk.adm.application.model.AdmSystemDTO;
 import com.xk.adm.application.usecase.AdmSystemManageUseCase;
 import com.xk.adm.domain.model.bo.AdmSystemBO;
+import com.xk.adm.domain.model.bo.AdmSystemInitBO;
 import com.xk.adm.domain.service.AdmSystemService;
 import com.xk.common.util.GenericUpdateService;
 import com.xk.common.util.XkBeanUtils;
@@ -76,6 +82,22 @@ public class AdmSystemManageUseCaseImpl implements AdmSystemManageUseCase {
         }
         return deleted;
     }
-    
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<AdmSystemDTO> createSampleSystems() {
+		
+        List<AdmSystemInitBO> systems = new ArrayList<>();
+        systems.add(new AdmSystemInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "ADM", "管理維護系統", "Administrator System", true));
+        systems.add(new AdmSystemInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "UPMS", "用戶權限管理系統", "User Permission Management System", true));
+        systems.add(new AdmSystemInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "CMS", "內容管理系統", "Content Management System", true));
+        systems.add(new AdmSystemInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "HRMS", "人力資源管理系統", "Human Resource Management System", true));
+        systems.add(new AdmSystemInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "ERP", "企業資源管理系統", "Enterprise Resource Planning", true));
+
+	    List<AdmSystemBO> boList = admSystemService.saveAllSystems(systems);
+	    return XkBeanUtils.copyListProperties(boList, AdmSystemDTO::new);
+    }
 }
 

@@ -63,18 +63,22 @@ public class AdmSystemController {
 	}
 
 	@Operation(summary = "新增系統資訊", description = "新增一條系統記錄")
-	@PostMapping("/create")
+	@PostMapping
 	public BaseResult<AdmSystemDTO> createSystem(
 			@RequestBody @Validated @NotNull AdmSystemDTO request) {
-		AdmSystemDTO createdUser = admSystemManageUseCase.create(request);
-		return BaseResult.success(createdUser, "系統創建成功");
+	    log.info("📌 創建系統: {}", request.getName());
+	    AdmSystemDTO createdSystem = admSystemManageUseCase.create(request);
+	    return BaseResult.success(createdSystem, "系統創建成功");
 	}
 
 	@Operation(summary = "更新系統資訊", description = "更新現有的系統記錄")
-	@PutMapping("/update")
+	@PutMapping("/{id}")
 	public BaseResult<AdmSystemDTO> updateSystem(
-			@RequestBody @Validated @NotNull AdmSystemDTO request) {
-		AdmSystemDTO updatedSystem = admSystemManageUseCase.update(request);
+			@PathVariable String id, @RequestBody @Validated @NotNull AdmSystemDTO request) {
+	    log.info("📌 更新系統: uuid={}", id);
+	    request.setUuid(id);
+	    
+	    AdmSystemDTO updatedSystem = admSystemManageUseCase.update(request);
 		if (updatedSystem != null) {
 			return BaseResult.success(updatedSystem, "系統更新成功");
 		}
