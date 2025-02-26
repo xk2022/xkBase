@@ -110,6 +110,8 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 		log.info("📌 創建新系統: {}", systemBO.getName());
 		AdmSystem entity = XkBeanUtils.copyProperties(systemBO, AdmSystem::new);
 		entity.setUuid(null); // 確保 UUID 由 DB 生成
+		entity.setEnabled(true);
+		entity.setDeleted(false);
 		AdmSystem savedEntity = admSystemRepository.save(entity);
 		return XkBeanUtils.copyProperties(savedEntity, AdmSystemBO::new);
 	}
