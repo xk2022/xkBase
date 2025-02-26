@@ -42,20 +42,21 @@ import lombok.extern.slf4j.Slf4j;
 public class AdmSystemController {
 
 	private final AdmSystemFindUseCase admSystemFindUseCase;
+
 	private final AdmSystemManageUseCase admSystemManageUseCase;
 
 	@Operation(summary = "獲取所有系統資訊", description = "查詢所有系統類型")
-	@GetMapping("/all")
+	@GetMapping
 	public BaseResult<List<AdmSystemDTO>> getAllSystems() {
 		List<AdmSystemDTO> systems = admSystemFindUseCase.getList();
 		return BaseResult.success(systems, "成功獲取系統列表");
 	}
 
 	@Operation(summary = "根據類型獲取系統資訊", description = "查詢特定類型的系統")
-	@GetMapping("/{code}")
+	@GetMapping("/{id}")
 	public BaseResult<AdmSystemDTO> getSystemByCode(
-			@Parameter(description = "系統的唯一代號", required = true) @PathVariable String code) {
-		AdmSystemDTO system = admSystemFindUseCase.getSystemByCode(code);
+			@Parameter(description = "系統的唯一代號", required = true) @PathVariable String id) {
+		AdmSystemDTO system = admSystemFindUseCase.getSystemById(id);
 		if (system != null) {
 			return BaseResult.success(system, "成功獲取系統資料");
 		}
@@ -86,7 +87,7 @@ public class AdmSystemController {
 	}
 
 	@Operation(summary = "刪除系統資訊", description = "根據 ID 刪除系統")
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public BaseResult<Boolean> deleteSystem(
 			@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable @NotNull String id) {
 		return BaseResult.success(admSystemManageUseCase.delete(id), "成功");
