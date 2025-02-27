@@ -1,6 +1,6 @@
 package com.xk.adm.application.usecase;
 
-import com.xk.adm.application.model.SystemConfigDTO;
+import com.xk.adm.application.dto.SystemConfigDTO;
 
 /**
  * 📌 `SystemConfigUseCase` - 負責處理系統設定的業務邏輯

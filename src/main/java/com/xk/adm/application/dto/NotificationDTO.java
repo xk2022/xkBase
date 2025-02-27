@@ -1,4 +1,4 @@
-package com.xk.adm.application.model;
+package com.xk.adm.application.dto;
 
 import lombok.Data;
 

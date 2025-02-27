@@ -14,14 +14,19 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
+import com.xk.adm.domain.model.bo.AdmSystemBO;
+import com.xk.adm.domain.model.entity.AdmSystem;
 import com.xk.common.base.BaseEntity;
+import com.xk.common.util.XkBeanUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,23 +40,25 @@ import lombok.Setter;
  * @author yuan Created on 2025/02/25.
  */
 @Entity
+@Table(name = "adm_system", uniqueConstraints = {
+    @UniqueConstraint(name = "uq_adm_system_code", columnNames = "code")
+})
 @Getter
 @Setter
-@Table(name = "adm_system")
 @SQLDelete(sql = "UPDATE adm_system SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
 @FilterDef(name = "deletedFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
 @Filter(name = "deletedFilter", condition = "deleted = :isDeleted") // ✅ 替代 @Where
-public class AdmSystem extends BaseEntity implements Serializable {
+public class AdmSystemPO extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.UUID)
 	@UuidGenerator
 	@JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "uuid", nullable = false, updatable = false, length = 36)
 	@Comment("00_流水號") /** 系統唯一識別碼 (UUID) */
 	private UUID uuid;
-
 
 	@Column(nullable = false, unique = true)
 	@Comment("01_系統代碼") /** 系統代碼 (唯一標識) */
@@ -79,11 +86,15 @@ public class AdmSystem extends BaseEntity implements Serializable {
 	@Comment("94_刪除時間(軟刪除)")
 	private ZonedDateTime deletedTime;
 
-	/** 軟刪除處理 */
-	@PreRemove
-	public void markAsDeleted() {
-		this.deleted = true;
-		this.deletedTime = ZonedDateTime.now();
+	public AdmSystemBO toBO() {
+	    AdmSystemBO bo = XkBeanUtils.copyProperties(this, AdmSystemBO::new);
+	    bo.setDeleted(this.deleted); // 确保业务对象能感知删除状态
+	    return bo;
+	}
+
+	public AdmSystem toDomain() {
+	    AdmSystem domain = XkBeanUtils.copyProperties(this, AdmSystem::new);
+	    return domain;
 	}
 
 }

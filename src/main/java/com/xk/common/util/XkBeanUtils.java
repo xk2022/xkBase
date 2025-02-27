@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -149,6 +150,10 @@ public class XkBeanUtils {
 			targetField.set(target, sourceValue.toString());
 		} else if (targetField.getType().equals(Boolean.class) && sourceField.getType().equals(String.class)) {
 			targetField.set(target, Boolean.parseBoolean((String) sourceValue));
+		} else if (targetField.getType().equals(String.class) && sourceField.getType().equals(UUID.class)) {
+			targetField.set(target, sourceValue.toString());
+		} else if (targetField.getType().equals(UUID.class) && sourceField.getType().equals(String.class)) {
+			targetField.set(target, UUID.fromString((String) sourceValue));
 		}
 	}
 
