@@ -15,5 +15,5 @@ public class AdmSystemUpdateBO {
 	private String code; // 系統代號
 	private String name; // 系統名稱
 	private String description; // 系統描述
-	private Boolean isActive; // 系統是否啟用
+	private Boolean enabled; // 系統是否啟用
 }

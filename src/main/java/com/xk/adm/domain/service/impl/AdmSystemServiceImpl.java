@@ -121,8 +121,8 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 	@Override
 	public List<AdmSystemBO> findAll() {
 		log.info(" [Service] 獲取所有有效的系統列表");
-//        List<AdmSystem> systems = admSystemRepository.findByDeletedFalse();
-		List<AdmSystemPO> systems = admSystemRepository.findAll();
+        List<AdmSystemPO> systems = admSystemRepository.findByDeletedFalse();
+//		List<AdmSystemPO> systems = admSystemRepository.findAll();
 		return XkBeanUtils.copyListProperties(systems, AdmSystemBO::new);
 	}
 

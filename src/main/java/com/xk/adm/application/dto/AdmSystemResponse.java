@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class AdmSystemResponse {
 	private String uuid;
+	private String code;
 	private String name;
 	private String description;
 	private Boolean enabled;
