@@ -36,6 +36,10 @@ public abstract class BaseEntity implements Serializable {
 	/**
 	 * TODO 以下列出常見的欄位，但並非每處都需要，故請複製到該Entity
 	 */
+//	@Column(name = "type", nullable = true)
+//	@Comment("88_類型（可根據具體需求定義）")
+//	private String type;
+	
 //	@Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
 //	@ColumnDefault("0")
 //	@Comment("89_資料排序")
@@ -61,9 +65,12 @@ public abstract class BaseEntity implements Serializable {
 //	@Comment("93_刪除標記（0:正常, 1:已刪除）")
 //	private Boolean deleted = false;
 
-//	@Column(name = "type", nullable = true)
-//	@Comment("94_類型（可根據具體需求定義）")
-//	private String type;
+//	@Schema(description = "刪除時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
+//	@UpdateTimestamp
+//	@Column(name = "delete_time", nullable = true) // Make the column nullable
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@Comment("94_刪除時間(軟刪除)")
+//	private ZonedDateTime deletedTime;
 
 //	@Column(name = "remark", length = 500)
 //	@Comment("95_備註")

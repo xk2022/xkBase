@@ -23,9 +23,9 @@ import java.util.List;
  * @author yuan Created on 2025/02/03.
  * @author yuan Updated on 2025/01/01 something note here.
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 
 	private final UpmsUserService upmsUserService;

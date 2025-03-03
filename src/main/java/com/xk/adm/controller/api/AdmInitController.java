@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xk.adm.application.usecase.AdmSystemConfigUseCase;
+import com.xk.adm.application.usecase.AdmSystemCreateUseCase;
 import com.xk.common.base.BaseResult;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,12 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 public class AdmInitController {
 
 	private final AdmSystemConfigUseCase admSystemConfigUseCase;
+	private final AdmSystemCreateUseCase admSystemCreateUseCase;
 
 	@Operation(summary = "初始化所有 UPMS 相關資料", description = "執行所有 UPMS 相關資料的初始化作業。")
 	@GetMapping("/all")
 	public BaseResult<Object> initUpms() {
 		log.info("📌 開始初始化所有 UPMS 相關資料...");
 		admSystemConfigUseCase.create();
+		admSystemCreateUseCase.createSampleSystems();
 		return BaseResult.success(true, "UPMS 資料初始化成功");
 	}
 
@@ -43,5 +46,13 @@ public class AdmInitController {
 		admSystemConfigUseCase.create();
 		return BaseResult.success(true, "系統設定初始化成功");
 	}
-	
+
+	@Operation(summary = "初始化 AdmSystem 資料", description = "建立預設的 AdmSystem 設定資料。")
+	@GetMapping("/admSystem")
+	public BaseResult<Object> initAdmSystem() {
+		log.info("📌 開始初始化 AdmSystem 資料...");
+		admSystemCreateUseCase.createSampleSystems();
+		return BaseResult.success(true, "AdmSystem 資料初始化成功");
+	}
+
 }

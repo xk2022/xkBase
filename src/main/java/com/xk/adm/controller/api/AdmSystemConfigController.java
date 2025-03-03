@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xk.adm.application.model.SystemConfigDTO;
+import com.xk.adm.application.dto.SystemConfigDTO;
 import com.xk.adm.application.usecase.AdmSystemConfigUseCase;
 import com.xk.common.base.BaseResult;
 

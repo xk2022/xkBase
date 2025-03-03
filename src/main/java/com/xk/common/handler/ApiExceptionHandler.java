@@ -39,12 +39,13 @@ public class ApiExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
 		log.error("error", ex);
+		log.warn("❌ [Header Missing] {}", ex.getHeaderName());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "Header Missing", ex.getMessage()));
+				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "Header Missing：" + ex.getHeaderName(), null));
 	}
 
 	/**
-	 * 請求錯誤
+	 * 請求錯誤：HTTP Method 不支援
 	 *
 	 * @param ex
 	 * @return
@@ -72,7 +73,7 @@ public class ApiExceptionHandler {
 	}
 
 	/**
-	 * 請求錯誤
+	 * 請求錯誤：傳入參數格式錯誤（JSON 格式錯誤等）
 	 *
 	 * @param ex
 	 * @return
@@ -81,8 +82,9 @@ public class ApiExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
 		log.error("error", ex);
+		log.warn("❌ [JSON 格式錯誤] {}", ex.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "Http Message Not Readable", ex.getMessage()));
+				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "無法解析請求內容，請確認 JSON 格式", ex.getMessage()));
 	}
 
 	/**
@@ -116,7 +118,7 @@ public class ApiExceptionHandler {
 	}
 
 	/**
-	 * 參數驗證失敗
+	 * 傳入參數不合法（@Valid 參數驗證）
 	 *
 	 * @param ex
 	 * @return
@@ -131,7 +133,7 @@ public class ApiExceptionHandler {
 																														// 設定的
 																														// message
 				.collect(Collectors.toList());
-
+		log.warn("❌ [參數驗證失敗] {}", messages);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(BaseResult.failure(HttpStatus.BAD_REQUEST, "請求參數錯誤", messages));
 	}

@@ -6,9 +6,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.xk.adm.domain.dao.AdmSystemConfigRepository;
-import com.xk.adm.domain.model.systemConfig.SystemConfigBO;
-import com.xk.adm.domain.model.systemConfig.SystemConfigPO;
+import com.xk.adm.domain.dao.repository.AdmSystemConfigRepository;
+import com.xk.adm.domain.model.bo.SystemConfigBO;
+import com.xk.adm.domain.model.po.SystemConfigPO;
 import com.xk.adm.domain.service.AdmSystemConfigService;
 import com.xk.common.util.XkBeanUtils;
 

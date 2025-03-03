@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xk.adm.application.model.LogEntryDTO;
+import com.xk.adm.application.dto.LogEntryDTO;
 import com.xk.common.base.BaseResult;
 
 import io.swagger.v3.oas.annotations.Operation;

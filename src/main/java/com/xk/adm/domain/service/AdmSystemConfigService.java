@@ -3,7 +3,7 @@ package com.xk.adm.domain.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.xk.adm.domain.model.systemConfig.SystemConfigBO;
+import com.xk.adm.domain.model.bo.SystemConfigBO;
 
 /**
  * 📌 `SystemConfigService` - 系統設定領域服務

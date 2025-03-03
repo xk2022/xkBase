@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.xk.adm.application.model.SystemConfigDTO;
+import com.xk.adm.application.dto.SystemConfigDTO;
 import com.xk.adm.application.usecase.AdmSystemConfigUseCase;
-import com.xk.adm.domain.model.systemConfig.SystemConfigBO;
+import com.xk.adm.domain.model.bo.SystemConfigBO;
 import com.xk.adm.domain.service.AdmSystemConfigService;
 import com.xk.common.handler.BusinessException;
 import com.xk.common.util.XkBeanUtils;

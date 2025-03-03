@@ -3,7 +3,7 @@ package com.xk.upms.domain.model.bo;
 import lombok.Data;
 
 @Data
-public class UpmsUserUpdateReq {
+public class UpmsUserUpdateBO {
 
 	private String id;
 
