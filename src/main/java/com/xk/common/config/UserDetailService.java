@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.xk.common.util.XkBeanUtils;
+import com.xk.upms.domain.dao.repository.UpmsRoleRepository;
+import com.xk.upms.domain.model.po.UpmsRole;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +22,15 @@ import com.xk.upms.domain.dao.repository.UpmsUserRepository;
 import com.xk.upms.domain.model.po.UpmsUser;
 
 @Component
+@RequiredArgsConstructor
 public class UserDetailService  implements UserDetailsService{
 	
-	@Autowired
-	private UpmsUserRepository upmsUserRepository;
+
+	private final UpmsUserRepository upmsUserRepository;
+
+	private final UpmsRoleRepository upmsRoleRepository;
+
+
 	
 
 	@Override
@@ -33,12 +42,12 @@ public class UserDetailService  implements UserDetailsService{
 			UpmsUser user = optionalUser.get();
 			String userna = user.getUsername();
 			String password = user.getPassword();
+
 			
-//			List<UpmsRoleResponseDTO> roles =  new ArrayList<>();
-			//upmsRoleMapper.getRoleByUserID(user.getId());
+			List<UpmsRoleResponseDTO> roles = XkBeanUtils.copyListProperties(upmsRoleRepository.findUserRoleByUserId(user.getId()),UpmsRoleResponseDTO::new);
+
 			
-			List<GrantedAuthority> authorities = new ArrayList<>();
-			//coverToAuthority(roles);
+			List<GrantedAuthority> authorities = coverToAuthority(roles);
 			
 			//回傳Spring Security 格式
 			return new User(userna ,password,authorities);

@@ -35,4 +35,11 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
             """)
     List<UpmsRole> findAllLike(@Param("keyword") String keyword);
 
+
+    @Query(value = """
+            Select ur from UpmsRole ur
+            join  UpmsUserRole uur on  uur.roleId = ur.id
+            where uur.userId = :userId
+            """)
+    List<UpmsRole> findUserRoleByUserId(@Param("keyword") Long userId);
 }
