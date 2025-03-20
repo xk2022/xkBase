@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xk.upms.dao.mapper.UpmsUserMapper">
+<mapper namespace="com.xk.upms.domain.dao.mapper.UpmsUserMapper">
 
-    <resultMap type="com.xk.upms.model.dto.UpmsUserRoleExample" id="urDto">
+    <!-- <resultMap type="com.xk.upms.model.dto.UpmsUserRoleExample" id="urDto">
         <id property="id" column="user_id"></id>
         <result property="username" column="username"/>
         <result property="realname" column="realname"/>
@@ -18,5 +18,5 @@
         FROM upms_user user
             LEFT JOIN upms_user_role ur ON user.user_id = ur.user_id
             LEFT JOIN upms_role role ON role.role_id = ur.role_id
-    </select>
+    </select> -->
  </mapper>
