@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.xk.upms.domain.dao.repository.UpmsRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +23,9 @@ public class UserDetailService  implements UserDetailsService{
 	
 	@Autowired
 	private UpmsUserRepository upmsUserRepository;
+
+	@Autowired
+	private UpmsRoleRepository upmsRoleRepository;
 	
 
 	@Override
@@ -34,11 +38,11 @@ public class UserDetailService  implements UserDetailsService{
 			String userna = user.getUsername();
 			String password = user.getPassword();
 			
-//			List<UpmsRoleResponseDTO> roles =  new ArrayList<>();
-			//upmsRoleMapper.getRoleByUserID(user.getId());
+			List<UpmsRoleResponseDTO> roles =  new ArrayList<>();
+			upmsRoleRepository.findRolesByUserId(user.getId());
 			
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			//coverToAuthority(roles);
+			coverToAuthority(roles);
 			
 			//回傳Spring Security 格式
 			return new User(userna ,password,authorities);

@@ -1,2 +1,0 @@
-# xkBase
-xkBase of XploreKaleido
