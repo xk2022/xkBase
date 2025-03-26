@@ -37,7 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-    	System.out.println("執行jwtfilter");
         String uri = request.getRequestURI();
         if (Arrays.stream(PERMIT_ALL).anyMatch(pattern -> pathMatcher.match(pattern, uri))) {
             filterChain.doFilter(request, response);
