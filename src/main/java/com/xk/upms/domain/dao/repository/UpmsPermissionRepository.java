@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import com.xk.upms.domain.model.po.UpmsPermission;
 
+import java.util.List;
 
 
 @Repository
 public interface UpmsPermissionRepository extends JpaRepository<UpmsPermission,Long> ,JpaSpecificationExecutor<UpmsPermission> {
 
+
+    List<UpmsPermission> findById(List<Long> id);
 }

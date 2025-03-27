@@ -1,8 +1,12 @@
 package com.xk.upms.application.usecase.impl.admin;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.xk.common.base.BaseResult;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +39,8 @@ public class AuthorizationUseCaseImpl implements AuthorizationUseCase {
 	private final UpmsUserService upmsUserService;
 	private final UpmsRoleService upmsRoleService;
 	
-	
 	@Override
-	public UpmsUserResponseDTO signin(UpmsUserRequestDTO userRequest) throws Exception {
+	public BaseResult<UpmsUserResponseDTO> signin(UpmsUserRequestDTO userRequest) throws Exception {
 		Optional<UpmsUserBO> userop  = upmsUserService.findByUsername(userRequest.username());
 		if(userop.isPresent()) {
 			UpmsUserBO user = userop.get();
@@ -50,7 +53,8 @@ public class AuthorizationUseCaseImpl implements AuthorizationUseCase {
 					String token  = XkJwtUtil.generateToken(user.getId());
 					UpmsUserResponseDTO response = XkBeanUtils.copyProperties(user, UpmsUserResponseDTO::new);
 					response.setToken(token);
-					return response;
+
+					return new BaseResult<>(HttpStatus.OK.value(), "登入成功", response, null, LocalDateTime.now());
 					
 				}else {
 					//錯誤記錄

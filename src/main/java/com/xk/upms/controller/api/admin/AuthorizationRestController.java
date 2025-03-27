@@ -1,7 +1,12 @@
 package com.xk.upms.controller.api.admin;
 
+import com.xk.upms.application.model.UpmsUserRequestDTO;
+import jakarta.validation.Valid;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,11 +32,14 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthorizationRestController {
 	
 	private final AuthorizationUseCase authorizationUseCase;
+
 	
 	
 	@PostMapping("/signin")
-	public BaseResult<UpmsUserResponseDTO> signIn(){
-		return null;
+	public BaseResult<UpmsUserResponseDTO> signIn(@RequestBody @Valid UpmsUserRequestDTO userRequest) throws Exception {
+		return authorizationUseCase.signin(userRequest);
 	}
+
+
 
 }

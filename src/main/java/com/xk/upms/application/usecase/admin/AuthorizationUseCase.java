@@ -1,5 +1,6 @@
 package com.xk.upms.application.usecase.admin;
 
+import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsUserRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 
@@ -12,8 +13,8 @@ import com.xk.upms.application.model.UpmsUserResponseDTO;
  * @author hank Updated on 2025/02/24 something note here.
  */
 public interface AuthorizationUseCase {
-	
-	UpmsUserResponseDTO signin(UpmsUserRequestDTO userRequest) throws Exception;
+
+	BaseResult<UpmsUserResponseDTO> signin(UpmsUserRequestDTO userRequest) throws Exception;
 	
 
 }
