@@ -44,7 +44,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
                 u.username AS username,
                 u.email AS email,
                 u.cellPhone AS cellPhone,
-                ur.roleId AS roleId,
+                ur.role.id AS roleId,
                 u.enabled AS enabled,
                 u.locked AS locked
             FROM
@@ -52,7 +52,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
             LEFT JOIN
                 UpmsUserRole ur
             ON
-                ur.userId = u.id
+                ur.upmsUser.id = u.id
             WHERE
             	1 = 1
             	AND u.isDeleted = false
@@ -63,7 +63,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
                     (:keyword IS NULL OR u.cellPhone LIKE CONCAT('%', :keyword, '%'))
                 )
                 AND (:enabled IS NULL OR u.enabled = :enabled)
-                AND (:locked IS NULL OR u.enabled = :locked)
+                AND (:locked IS NULL OR u.locked = :locked)
            	ORDER BY
            		u.id ASC,
            		u.username ASC

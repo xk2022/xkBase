@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author hank Updated on 2025/01/01 something note here.
  */
 @RestController
-@RequestMapping("/api/upms/roles")
+@RequestMapping("/api/upms/role")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
 @Validated
 @Tag(name = "UpmsRole Management", description = "提供 UpmsRole 的管理功能，包括新增、查詢、更新和刪除。")

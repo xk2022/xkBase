@@ -2,9 +2,7 @@ package com.xk.upms.domain.service.impl;
 
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsUserRoleRepository;
-import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.model.bo.UpmsUserRoleBO;
-import com.xk.upms.domain.model.po.UpmsUser;
 import com.xk.upms.domain.model.po.UpmsUserRole;
 import com.xk.upms.domain.service.UpmsUserRoleService;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +35,11 @@ public class UpmsUserRoleServiceImpl implements UpmsUserRoleService {
 
     @Override
     public Optional<UpmsUserRoleBO> findByUserId(Long userId) {
-        return upmsUserRoleRepository.findByUserId(userId)
+        return upmsUserRoleRepository.findByUpmsUser_Id(userId)
                 .map(upmsUserRole -> new UpmsUserRoleBO(
                         upmsUserRole.getId(),
-                        upmsUserRole.getUserId(),
-                        upmsUserRole.getRoleId()
+                        upmsUserRole.getUpmsUser().getId(),
+                        upmsUserRole.getRole().getId()
                 ));
     }
 

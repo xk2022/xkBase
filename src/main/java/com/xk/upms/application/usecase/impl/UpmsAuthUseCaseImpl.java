@@ -1,4 +1,4 @@
-package com.xk.upms.application.usecase.impl.admin;
+package com.xk.upms.application.usecase.impl;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -6,7 +6,6 @@ import java.util.Optional;
 import com.xk.common.base.BaseResult;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import com.xk.common.util.XkBeanUtils;
 import com.xk.common.util.XkJwtUtil;
 import com.xk.upms.application.model.UpmsUserRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
-import com.xk.upms.application.usecase.admin.AuthorizationUseCase;
+import com.xk.upms.application.usecase.UpmsAuthUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.service.UpmsRoleService;
 import com.xk.upms.domain.service.UpmsUserService;
@@ -34,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthorizationUseCaseImpl implements AuthorizationUseCase {
+public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 	
 	private final UpmsUserService upmsUserService;
 	private final UpmsRoleService upmsRoleService;

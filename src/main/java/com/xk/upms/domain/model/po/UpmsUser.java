@@ -1,28 +1,19 @@
 package com.xk.upms.domain.model.po;
 
-import java.io.Serializable;
-import java.time.ZonedDateTime;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.xk.common.base.BaseEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 /**
  * 📌 用戶實體類（UPMS 系統）
@@ -63,9 +54,6 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Comment("03_電話")
 	@Pattern(regexp = "^[0-9]{10,15}$", message = "請輸入有效的電話號碼")
 	private String cellPhone;
-
-//  @Comment("04_鹽")
-//  private String salt;
 
 	@NotBlank(message = "密碼不能為空")
 	@Comment("05_密碼MD5(密碼+鹽)")

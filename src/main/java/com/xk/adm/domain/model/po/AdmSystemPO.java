@@ -1,34 +1,20 @@
 package com.xk.adm.domain.model.po;
 
-import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.UUID;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
-
 import com.xk.adm.domain.model.bo.AdmSystemBO;
 import com.xk.adm.domain.model.entity.AdmSystem;
 import com.xk.common.base.BaseEntity;
 import com.xk.common.util.XkBeanUtils;
-
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.*;
+import org.hibernate.type.SqlTypes;
+
+import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * 📌 `AdmSystem`（管理系統）持久化對象（PO）

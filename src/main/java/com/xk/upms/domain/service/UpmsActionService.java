@@ -1,8 +1,8 @@
 package com.xk.upms.domain.service;
 
-import java.util.Optional;
+import com.xk.upms.domain.model.po.UpmsAction;
 
-import com.xk.upms.domain.model.bo.UpmsActionBO;
+import java.util.List;
 
 /**
  * 📌 `UpmsActionService` - 使用者領域服務
@@ -14,13 +14,6 @@ import com.xk.upms.domain.model.bo.UpmsActionBO;
  */
 public interface UpmsActionService {
 
-	// ============= 🔵【R】Read（查詢）================
-	/**
-	 * 📌 依據 ID 查詢單筆動作
-	 * 
-	 * @param actionId 使用者 ID
-	 * @return 使用者物件（若存在）
-	 */
-	Optional<UpmsActionBO> findById(Long actionId);
+    List<UpmsAction> findAllIn(List<Long> actionIds);
 
 }

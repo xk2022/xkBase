@@ -25,14 +25,17 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsPermissionBO {
+
 	/**
 	 * 所屬系統
 	 */
 	private Long systemId;
+
 	/**
 	 * 所屬上層
 	 */
 	private Long pid;
+
 	/**
 	 * 名稱
 	 */
@@ -42,18 +45,17 @@ public class UpmsPermissionBO {
 	 * 路徑
 	 */
 	private String uri;
-	/**
-	 * 圖標
-	 */
-//    private String icon;
+
 	/**
 	 * 狀態(0:禁止,1:正常)
 	 */
 	private Boolean status;
+
 	/**
 	 * 排序
 	 */
 	private Long orders;
+
 	/**
 	 * 是否刪除狀態（0:刪除, 1:未刪除）
 	 */

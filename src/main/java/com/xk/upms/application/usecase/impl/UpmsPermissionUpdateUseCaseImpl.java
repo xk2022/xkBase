@@ -1,19 +1,22 @@
 package com.xk.upms.application.usecase.impl;
 
-import org.springframework.stereotype.Service;
-
-import com.xk.common.util.GenericUpdateService;
-import com.xk.common.util.XkBeanUtils;
+import com.xk.adm.domain.model.bo.AdmSystemBO;
+import com.xk.adm.domain.service.AdmSystemService;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
-import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionUpdateUseCase;
 import com.xk.upms.domain.model.bo.UpmsPermissionBO;
+import com.xk.upms.domain.model.bo.UpmsRoleBO;
 import com.xk.upms.domain.service.UpmsPermissionService;
-
+import com.xk.upms.domain.service.UpmsRoleService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 📌 UpmsPermissionUpdateUseCaseImpl（應用層 Use Case 實作）
@@ -28,20 +31,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseCase {
 
+	private final AdmSystemService admSystemService;
+
+	private final UpmsRoleService upmsRoleService;
+
 	private final UpmsPermissionService upmsPermissionService;
 
 	@Override
-	public UpmsPermissionResponseDTO update(Long permissionId, UpmsPermissionUpdateDTO request) {
-		log.info("📌 更新權限 ID: {}", permissionId);
-		UpmsPermissionBO upmsPermissionBo = upmsPermissionService.findById(permissionId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("權限 ID %d 不存在，更新失敗 ", permissionId)));
-		// ✅ 更新必要欄位（但不影響 ID）
-		GenericUpdateService<UpmsPermissionBO> updateService = new GenericUpdateService<>();
-		UpmsPermissionBO updateEntity = updateService.updateEntity(upmsPermissionBo, request);
-		// ✅ 儲存變更
-		UpmsPermissionBO savedEntity = upmsPermissionService.update(permissionId, updateEntity);
-		// ✅ 回傳 DTO
-		return XkBeanUtils.copyProperties(savedEntity, UpmsPermissionResponseDTO::new);
+	public UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request) {
+		log.info("📌 更新系統ID: {}, 角色ID: {}", systemUuid, roleId);
+		AdmSystemBO admSystemBO = admSystemService.findById(systemUuid).orElseThrow(() -> new EntityNotFoundException("系統不存在: " + systemUuid));
+		UpmsRoleBO upmsRoleBO = upmsRoleService.findById(roleId).orElseThrow(() -> new EntityNotFoundException("角色不存在: " + roleId));
+		return null;
+	}
+
+	// 取得權限清單
+	private List<Long> getPermissionIds(List<UpmsPermissionUpdateDTO.Permission> permissions){
+		List<Long> permissionIds = new ArrayList<>();
+		for(UpmsPermissionUpdateDTO.Permission permission : permissions){
+			permissionIds.add(permission.permissionId());
+		}
+		return permissionIds;
 	}
 
 }

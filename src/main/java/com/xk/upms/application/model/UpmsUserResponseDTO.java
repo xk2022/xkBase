@@ -34,6 +34,4 @@ public class UpmsUserResponseDTO {
 	
 	private String token;
 
-	private
-
 }

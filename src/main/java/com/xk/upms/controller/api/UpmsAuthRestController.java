@@ -1,9 +1,7 @@
-package com.xk.upms.controller.api.admin;
+package com.xk.upms.controller.api;
 
 import com.xk.upms.application.model.UpmsUserRequestDTO;
 import jakarta.validation.Valid;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
-import com.xk.upms.application.usecase.admin.AuthorizationUseCase;
+import com.xk.upms.application.usecase.UpmsAuthUseCase;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,17 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @Tag(name = "Login Management", description = "登入相關檢核")
 @Slf4j
-public class AuthorizationRestController {
+public class UpmsAuthRestController {
 	
-	private final AuthorizationUseCase authorizationUseCase;
-
-	
+	private final UpmsAuthUseCase upmsAuthUseCase;
 	
 	@PostMapping("/signin")
 	public BaseResult<UpmsUserResponseDTO> signIn(@RequestBody @Valid UpmsUserRequestDTO userRequest) throws Exception {
-		return authorizationUseCase.signin(userRequest);
+		return upmsAuthUseCase.signin(userRequest);
 	}
-
-
 
 }

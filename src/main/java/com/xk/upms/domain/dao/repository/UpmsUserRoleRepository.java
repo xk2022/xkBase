@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface UpmsUserRoleRepository extends JpaRepository<UpmsUserRole, Long>, JpaSpecificationExecutor<UpmsUserRole> {
 
-    Optional<UpmsUserRole> findByUserId(Long userId);
+    Optional<UpmsUserRole> findByUpmsUser_Id(Long id);
 
 }

@@ -1,25 +1,15 @@
 package com.xk.upms.domain.model.po;
 
-import java.io.Serializable;
-import java.time.ZonedDateTime;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.xk.common.base.BaseEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
+
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 /**
  * Created by Hank on 2025/02/21
@@ -38,13 +28,9 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@Comment("00_流水號") // 描述
 	private Long id;
 
-	@Column(name = "action_name", length = 100)
-	@Comment("01_動作名稱") // create,update,delete,read,write
-	private String actionName;
-
-	@Column(name = "permission_id", length = 100)
-	@Comment("02_permission_id")
-	private Long permissionId;
+	@Column(name = "name", length = 100)
+	@Comment("01_動作名稱")
+	private String name;
 
 	@Column(name = "url", length = 100)
 	@Comment("03_路徑")
@@ -58,8 +44,7 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@Column(name = "method", length = 100)
 	@Comment("03_RestfulMethod")
 	private String method;
-	
-	
+
 	@Column(name="active",nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
 	@ColumnDefault("0")
 	@Comment("93_鎖定狀態（0:關閉, 1:開啟）")

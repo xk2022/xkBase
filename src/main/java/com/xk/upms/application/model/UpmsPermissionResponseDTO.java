@@ -1,26 +1,46 @@
 package com.xk.upms.application.model;
 
-import java.time.ZonedDateTime;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpmsPermissionResponseDTO {
 
-	private String id;
+	List<Permission> permissions;
 
-	private String systemId;
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Permission{
 
-	private String pid;
+		private Long id;
 
-	private String name;
+		private String name;
 
-	private String type;
+		private boolean status;
 
-	private String uri;
+		private List<Permission> permissions;
 
-	private String status;
+		private List<Action> actions;
 
-	private String orders;
+		@Data
+		@NoArgsConstructor
+		@AllArgsConstructor
+		public static class Action{
+
+			private Long id;
+
+			private String name;
+
+			private boolean active;
+
+		}
+
+	}
 
 }

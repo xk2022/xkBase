@@ -1,19 +1,17 @@
 package com.xk.upms.domain.model.po;
 
-import java.io.Serializable;
-import java.time.ZonedDateTime;
-
+import com.xk.common.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.xk.common.base.BaseEntity;
-
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 /**
  * Created by Hank on 2025/01/13
@@ -23,6 +21,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "upms_user_role")
 public class UpmsUserRole extends BaseEntity implements Serializable {
+
     /**
      * 流水號
      */
@@ -34,16 +33,11 @@ public class UpmsUserRole extends BaseEntity implements Serializable {
     private Long id;
 
     /**
-     * 用户编号
+     * 對應的角色
      */
-    @Column(name = "user_id")
-    private Long userId;
-
-    /**
-     * 角色编号
-     */
-    @Column(name = "role_id")
-    private Long roleId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private UpmsRole role;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */
     @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
