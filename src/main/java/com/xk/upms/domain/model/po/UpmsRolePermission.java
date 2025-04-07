@@ -32,6 +32,15 @@ public class UpmsRolePermission extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="role_id" , nullable = false)
+    private UpmsRole role;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="permission_id",nullable = false)
+    private UpmsPermission permission;
+
     /**
      * 权限開關
      */

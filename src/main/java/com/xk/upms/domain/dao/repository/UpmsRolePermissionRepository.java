@@ -4,8 +4,12 @@ import com.xk.upms.domain.model.po.UpmsRolePermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UpmsRolePermissionRepository  extends JpaRepository<UpmsRolePermission, Long> {
+
+    Optional<UpmsRolePermission> findByUpmsRole_Id(Long id);
 
 
 }
