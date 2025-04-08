@@ -32,16 +32,13 @@ public class UpmsUserRole extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
-    /**
-     * 對應的角色
-     */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
-    private UpmsRole role;
+    @Comment("使用者id")
+    @Column(name="user_id",nullable = false)
+    private Long userId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id",nullable = false)
-    private UpmsUser upmsUser;
+    @Comment("角色id")
+    @Column(name = "role_id", nullable = false)
+    private Long roleId;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */
     @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")

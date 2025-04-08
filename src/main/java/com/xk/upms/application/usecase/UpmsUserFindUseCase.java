@@ -2,7 +2,7 @@ package com.xk.upms.application.usecase;
 
 import java.util.List;
 
-import com.xk.upms.application.model.UpmsUserRequestDTO;
+import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 
 /**
@@ -22,7 +22,7 @@ public interface UpmsUserFindUseCase {
 	 * @return 分頁使用者列表
 	 */
 //	Page<ExampleResponseDTO> getList(ExampleRequestDTO request, Pageable pageable);
-	List<UpmsUserResponseDTO> getList(UpmsUserRequestDTO request);
+	List<UpmsUserResponseDTO> getList(UpmsUserFindRequestDTO request);
 
 	UpmsUserResponseDTO getOneById(Long id);
 

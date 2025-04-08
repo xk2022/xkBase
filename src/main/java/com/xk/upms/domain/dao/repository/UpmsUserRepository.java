@@ -44,7 +44,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
                 u.username AS username,
                 u.email AS email,
                 u.cellPhone AS cellPhone,
-                ur.role.id AS roleId,
+                ur.roleId AS roleId,
                 u.enabled AS enabled,
                 u.locked AS locked
             FROM
@@ -52,7 +52,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
             LEFT JOIN
                 UpmsUserRole ur
             ON
-                ur.upmsUser.id = u.id
+                ur.userId = u.id
             WHERE
             	1 = 1
             	AND u.isDeleted = false

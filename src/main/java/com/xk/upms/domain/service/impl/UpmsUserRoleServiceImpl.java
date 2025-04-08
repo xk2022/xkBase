@@ -35,11 +35,11 @@ public class UpmsUserRoleServiceImpl implements UpmsUserRoleService {
 
     @Override
     public Optional<UpmsUserRoleBO> findByUserId(Long userId) {
-        return upmsUserRoleRepository.findByUpmsUser_Id(userId)
+        return upmsUserRoleRepository.findByUserId(userId)
                 .map(upmsUserRole -> new UpmsUserRoleBO(
                         upmsUserRole.getId(),
-                        upmsUserRole.getUpmsUser().getId(),
-                        upmsUserRole.getRole().getId()
+                        upmsUserRole.getUserId(),
+                        upmsUserRole.getRoleId()
                 ));
     }
 

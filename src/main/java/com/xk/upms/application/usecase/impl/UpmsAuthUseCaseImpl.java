@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import com.xk.common.base.BaseResult;
 
+import com.xk.upms.application.model.UpmsAuthLoginRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xk.common.util.XkBeanUtils;
 import com.xk.common.util.XkJwtUtil;
-import com.xk.upms.application.model.UpmsUserRequestDTO;
+import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsAuthUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
@@ -39,14 +40,14 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 	private final UpmsRoleService upmsRoleService;
 	
 	@Override
-	public BaseResult<UpmsUserResponseDTO> signin(UpmsUserRequestDTO userRequest) throws Exception {
-		Optional<UpmsUserBO> userop  = upmsUserService.findByUsername(userRequest.username());
+	public BaseResult<UpmsUserResponseDTO> signin(UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) throws Exception {
+		Optional<UpmsUserBO> userop  = upmsUserService.findByUsername(upmsAuthLoginRequestDTO.username());
 		if(userop.isPresent()) {
 			UpmsUserBO user = userop.get();
 			if(user.getEnabled()==true) {
 				//檢核密碼
 				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-				boolean isMatch = passwordEncoder.matches(userRequest.password(), user.getPassword());
+				boolean isMatch = passwordEncoder.matches(upmsAuthLoginRequestDTO.password(), user.getPassword());
 				if(isMatch) {
 					//產token
 					String token  = XkJwtUtil.generateToken(user.getId());

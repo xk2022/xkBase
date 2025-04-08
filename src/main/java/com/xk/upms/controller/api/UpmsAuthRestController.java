@@ -1,6 +1,7 @@
 package com.xk.upms.controller.api;
 
-import com.xk.upms.application.model.UpmsUserRequestDTO;
+import com.xk.upms.application.model.UpmsAuthLoginRequestDTO;
+import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +33,8 @@ public class UpmsAuthRestController {
 	private final UpmsAuthUseCase upmsAuthUseCase;
 	
 	@PostMapping("/signin")
-	public BaseResult<UpmsUserResponseDTO> signIn(@RequestBody @Valid UpmsUserRequestDTO userRequest) throws Exception {
-		return upmsAuthUseCase.signin(userRequest);
+	public BaseResult<UpmsUserResponseDTO> signIn(@RequestBody @Valid UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) throws Exception {
+		return upmsAuthUseCase.signin(upmsAuthLoginRequestDTO);
 	}
 
 }

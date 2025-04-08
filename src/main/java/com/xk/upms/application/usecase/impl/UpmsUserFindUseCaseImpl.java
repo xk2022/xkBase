@@ -1,7 +1,7 @@
 package com.xk.upms.application.usecase.impl;
 
 import com.xk.common.util.XkBeanUtils;
-import com.xk.upms.application.model.UpmsUserRequestDTO;
+import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsUserFindUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
@@ -10,7 +10,6 @@ import com.xk.upms.domain.service.UpmsUserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,11 +35,8 @@ public class UpmsUserFindUseCaseImpl implements UpmsUserFindUseCase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<UpmsUserResponseDTO> getList(UpmsUserRequestDTO request) {
+	public List<UpmsUserResponseDTO> getList(UpmsUserFindRequestDTO request) {
 		log.info("📌 查詢所有使用者（條件查詢 + 分頁）: {}", request);
-
-		UpmsUserBO userBO = XkBeanUtils.copyProperties(request, UpmsUserBO::new);
-		Sort sort = Sort.by(Sort.Order.asc("id"), Sort.Order.asc("username"));
 		List<UpmsUserBO> upmsUsers = upmsUserService.findAllLike(request.keyword(), request.enabled(), request.locked());
 		return XkBeanUtils.copyListProperties(upmsUsers, UpmsUserResponseDTO::new);
 	}

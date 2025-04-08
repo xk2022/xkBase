@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xk.common.base.BaseResult;
 import com.xk.upms.application.model.UpmsUserCreateDTO;
-import com.xk.upms.application.model.UpmsUserRequestDTO;
+import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.model.UpmsUserUpdateDTO;
 import com.xk.upms.application.usecase.UpmsUserCreateUseCase;
@@ -58,7 +58,7 @@ public class UpmsUserRestController {
 
 	@Operation(summary = "取得所有用戶", description = "返回系統中所有 UpmsUser 的列表。")
 	@GetMapping
-	public BaseResult<List<UpmsUserResponseDTO>> getAllUsers(UpmsUserRequestDTO request) {
+	public BaseResult<List<UpmsUserResponseDTO>> getAllUsers(UpmsUserFindRequestDTO request) {
 		List<UpmsUserResponseDTO> users = upmsUserFindUseCase.getList(request);
 		return BaseResult.success(users, "成功獲取用戶列表");
 	}
