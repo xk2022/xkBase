@@ -1,8 +1,11 @@
 package com.xk.upms.domain.service;
 
+import com.xk.upms.domain.model.bo.UpmsPermissionBO;
 import com.xk.upms.domain.model.po.UpmsPermission;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 📌 `UpmsPermissionService` - 使用者領域服務
@@ -22,4 +25,5 @@ public interface UpmsPermissionService {
 
 	List<UpmsPermission> findAllIn(List<Long> upmsPermissionIds);
 
+	Optional<UpmsPermissionBO> findBySystemId(UUID systemUuid);
 }
