@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface UpmsActionService {
 
-    List<UpmsAction> findAllIn(List<Long> actionIds);
+    List<UpmsAction> findAll();
+
+    List<UpmsAction> findAllIn(List<Long> upmsActionIds);
 
 }

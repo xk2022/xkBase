@@ -54,12 +54,6 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     private String uri;
 
     /**
-     * 狀態(0:禁止,1:正常)
-     */
-    @Comment("狀態(0:禁止,1:正常)")
-    @Column(name = "status")
-    private Boolean status;
-    /**
      * 排序
      */
     @Comment("排序")

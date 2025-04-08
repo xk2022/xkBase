@@ -11,35 +11,26 @@ import java.util.List;
 @AllArgsConstructor
 public class UpmsPermissionResponseDTO {
 
-	List<Permission> permissions;
+	private Long id;
+
+	private String name;
+
+	private boolean active;
+
+	private List<UpmsPermissionResponseDTO> permissions;
+
+	private List<UpmsPermissionResponseDTO.Action> actions;
 
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class Permission{
+	public static class Action{
 
 		private Long id;
 
 		private String name;
 
-		private boolean status;
-
-		private List<Permission> permissions;
-
-		private List<Action> actions;
-
-		@Data
-		@NoArgsConstructor
-		@AllArgsConstructor
-		public static class Action{
-
-			private Long id;
-
-			private String name;
-
-			private boolean active;
-
-		}
+		private boolean active;
 
 	}
 

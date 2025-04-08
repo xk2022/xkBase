@@ -1,25 +1,20 @@
 package com.xk.upms.application.usecase.impl;
 
-import com.xk.adm.domain.model.bo.AdmSystemBO;
-import com.xk.adm.domain.service.AdmSystemService;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 import com.xk.upms.application.usecase.UpmsPermissionFindUseCase;
-import com.xk.upms.domain.model.bo.UpmsRoleBO;
 import com.xk.upms.domain.model.po.UpmsAction;
 import com.xk.upms.domain.model.po.UpmsPermission;
-import com.xk.upms.domain.model.po.UpmsPermissionAction;
+import com.xk.upms.domain.model.po.UpmsRolePermissionAction;
+import com.xk.upms.domain.model.po.UpmsRolePermission;
 import com.xk.upms.domain.service.UpmsActionService;
-import com.xk.upms.domain.service.UpmsPermissionActionService;
+import com.xk.upms.domain.service.UpmsRolePermissionActionService;
 import com.xk.upms.domain.service.UpmsPermissionService;
-import com.xk.upms.domain.service.UpmsRoleService;
-import jakarta.persistence.EntityNotFoundException;
+import com.xk.upms.domain.service.UpmsRolePermissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,82 +32,106 @@ public class UpmsPermissionFindUseCaseImpl implements UpmsPermissionFindUseCase 
 	
 	private final UpmsPermissionService upmsPermissionService;
 
+	private final UpmsRolePermissionService upmsRolePermissionService;
+
 	private final UpmsActionService upmsActionService;
 
-	private final UpmsPermissionActionService upmsPermissionActionService;
+	private final UpmsRolePermissionActionService upmsRolePermissionActionService;
 
 	@Override
 	public List<UpmsPermissionResponseDTO> findAll(UUID systemUuid, Long roleId) {
-		List<UpmsPermission> upmsPermissions = upmsPermissionService.findAll(systemUuid, roleId);
-		List<Long> permissionIds = upmsPermissions.stream().map(UpmsPermission::getId).collect(Collectors.toList());
-		List<UpmsPermissionAction> upmsPermissionActions = upmsPermissionActionService.findAllIn(permissionIds);
-		List<Long> actionIds = upmsPermissionActions.stream().map(UpmsPermissionAction::getActionId).collect(Collectors.toList());
-		List<UpmsAction> upmsActions = upmsActionService.findAllIn(actionIds);
-		return convert(upmsPermissions, upmsPermissionActions, upmsActions);
+		// 取得預設的權限清單
+		List<UpmsPermission> defaultUpmsPermissions = upmsPermissionService.findAll();
+		List<Long> defaultUpmsPermissionIds = defaultUpmsPermissions.stream().map(UpmsPermission::getId).collect(Collectors.toList());
+		List<UpmsRolePermissionAction> defaultUpmsRolePermissionActions = upmsRolePermissionActionService.findAllIn(null, defaultUpmsPermissionIds);
+		List<UpmsAction> defaultUpmsActions = upmsActionService.findAll();
+
+		// 該角色的權限清單
+		List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionService.findAll(systemUuid, roleId);
+		List<Long> upmsPermissionIds = upmsRolePermissions.stream().map(UpmsRolePermission::getId).collect(Collectors.toList());
+		List<UpmsRolePermissionAction> upmsRolePermissionActions = upmsRolePermissionActionService.findAllIn(roleId, upmsPermissionIds);
+		return convert(
+				defaultUpmsPermissions,
+				defaultUpmsRolePermissionActions,
+				defaultUpmsActions,
+				upmsRolePermissions,
+				upmsRolePermissionActions
+		);
 	}
 
+	// 轉換權限
 	private List<UpmsPermissionResponseDTO> convert(
-		List<UpmsPermission> upmsPermissions,
-		List<UpmsPermissionAction> upmsPermissionActions,
-		List<UpmsAction> upmsActions){
-		List<UpmsPermissionResponseDTO> response = new ArrayList<>();
-		if(null == upmsPermissions || upmsPermissions.isEmpty() || null == upmsPermissionActions || upmsPermissionActions.isEmpty()){
-			return response;
-		}
-		List<UpmsPermission> parentUpmsPermission = upmsPermissions.stream().filter(upmsPermission -> null == upmsPermission.getPid()).collect(Collectors.toList());
-		List<UpmsPermissionResponseDTO.Permission> permissions;
-		List<UpmsPermissionResponseDTO.Permission> subPermissions;
-		UpmsPermissionResponseDTO.Permission permission;
-		UpmsPermissionResponseDTO.Permission subPermission;
-		List<UpmsPermissionResponseDTO.Permission.Action> actions;
-		for(UpmsPermission upmsPermission : parentUpmsPermission){
-			permissions = new ArrayList<>();
-			for(UpmsPermission subUpmsPermission : upmsPermissions){
-				if(!subUpmsPermission.getPid().equals(upmsPermission.getId())){
-					continue;
-				}
-				subPermissions = new ArrayList<>();
-				for(UpmsPermissionAction upmsPermissionAction : upmsPermissionActions){
-					if(!upmsPermission.getId().equals(upmsPermissionAction.getPermissionId())){
-						continue;
-					}
-					actions = findAllActions(
-							upmsActions
-									.stream()
-									.filter(upmsAction -> upmsAction.getId().equals(upmsPermissionAction.getActionId()))
-									.collect(Collectors.toList()));
-					subPermission = new UpmsPermissionResponseDTO.Permission();
-					subPermission.setId(subUpmsPermission.getId());
-					subPermission.setName(subUpmsPermission.getName());
-					subPermission.setActions(actions);
-					subPermission.setStatus(subUpmsPermission.getStatus());
-					subPermissions.add(subPermission);
-				}
-			}
-			permission = new UpmsPermissionResponseDTO.Permission();
-			permission.setId(upmsPermission.getId());
-			permission.setName(upmsPermission.getName());
-			permission.setActions(null);
-			permission.setStatus(upmsPermission.getStatus());
-			permissions.add(permission);
-		}
-		return response;
-	}
+			List<UpmsPermission> defaultUpmsPermissions,
+			List<UpmsRolePermissionAction> defaultUpmsRolePermissionActions,
+			List<UpmsAction> defaultUpmsActions,
+			List<UpmsRolePermission> upmsRolePermissions,
+			List<UpmsRolePermissionAction> upmsRolePermissionActions) {
 
-	private List<UpmsPermissionResponseDTO.Permission.Action> findAllActions(List<UpmsAction> upmsActions){
-		List<UpmsPermissionResponseDTO.Permission.Action> actions = new ArrayList<>();
-		if(null == upmsActions || upmsActions.isEmpty()){
-			return actions;
+		// rolePermission 取得啟用的 permissionId
+		Set<Long> enabledPermissionIds = upmsRolePermissions.stream()
+				.filter(UpmsRolePermission::getActive)
+				.map(UpmsRolePermission::getPermissionId)
+				.collect(Collectors.toSet());
+
+		// permissionAction 取得啟用的 permissionId-actionId 組合
+		Set<String> enabledPermissionActionKeys = upmsRolePermissionActions.stream()
+				.filter(UpmsRolePermissionAction::getActive)
+				.map(pa -> pa.getPermissionId() + "-" + pa.getActionId())
+				.collect(Collectors.toSet());
+
+		// permissionId -> action list 的 map
+		Map<Long, List<UpmsRolePermissionAction>> defaultActionMap = defaultUpmsRolePermissionActions.stream()
+				.collect(Collectors.groupingBy(UpmsRolePermissionAction::getPermissionId));
+
+		// actionId -> action 物件的 map
+		Map<Long, UpmsAction> actionIdMap = defaultUpmsActions.stream()
+				.collect(Collectors.toMap(UpmsAction::getId, a -> a));
+
+		// 權限
+		List<UpmsPermission> parents = defaultUpmsPermissions.stream()
+				.filter(p -> p.getPid() == null)
+				.collect(Collectors.toList());
+
+		Map<Long, List<UpmsPermission>> childPermissionMap = defaultUpmsPermissions.stream()
+				.filter(p -> p.getPid() != null)
+				.collect(Collectors.groupingBy(UpmsPermission::getPid));
+
+		// 組成 DTO
+		List<UpmsPermissionResponseDTO> result = new ArrayList<>();
+		for (UpmsPermission parent : parents) {
+			UpmsPermissionResponseDTO parentDTO = new UpmsPermissionResponseDTO();
+			parentDTO.setId(parent.getId());
+			parentDTO.setName(parent.getName());
+			// 包含代表啟用
+			parentDTO.setActive(enabledPermissionIds.contains(parent.getId()));
+			List<UpmsPermission> children = childPermissionMap.getOrDefault(parent.getId(), new ArrayList<>());
+			List<UpmsPermissionResponseDTO> childDTOList = new ArrayList<>();
+			for (UpmsPermission child : children) {
+				UpmsPermissionResponseDTO childDTO = new UpmsPermissionResponseDTO();
+				childDTO.setId(child.getId());
+				childDTO.setName(child.getName());
+				// 包含代表啟用
+				childDTO.setActive(enabledPermissionIds.contains(child.getId()));
+				// 取出對應的權限動作
+				List<UpmsRolePermissionAction> actions = defaultActionMap.getOrDefault(child.getId(), new ArrayList<>());
+				List<UpmsPermissionResponseDTO.Action> actionDTOs = actions.stream()
+						.map(pa -> {
+							UpmsAction action = actionIdMap.get(pa.getActionId());
+							// 根據動作是否啟用來設置
+							boolean isActive = enabledPermissionActionKeys.contains(child.getId() + "-" + action.getId());
+							return new UpmsPermissionResponseDTO.Action(
+									action.getId(),
+									action.getName(),
+									isActive
+							);
+						}).collect(Collectors.toList());
+				childDTO.setActions(actionDTOs);
+				childDTOList.add(childDTO);
+			}
+			parentDTO.setPermissions(childDTOList);
+			result.add(parentDTO);
 		}
-		UpmsPermissionResponseDTO.Permission.Action action;
-		for(UpmsAction upmsAction : upmsActions){
-			action = new UpmsPermissionResponseDTO.Permission.Action();
-			action.setId(upmsAction.getId());
-			action.setName(upmsAction.getName());
-			action.setActive(upmsAction.getActive());
-			actions.add(action);
-		}
-		return actions;
+		return result;
 	}
 
 }

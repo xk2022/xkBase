@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author yuan Updated on 2025/01/01 something note here.
  */
 @RestController
-@RequestMapping("/api/upms/users")
+@RequestMapping("/api/upms/user")
 @RequiredArgsConstructor // ✅ 使用建構子注入，減少 @Autowired
 @Validated
 @Tag(name = "UpmsUser Management", description = "提供 UpmsUser 的管理功能，包括新增、查詢、更新和刪除。")

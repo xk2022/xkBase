@@ -15,8 +15,8 @@ import java.time.ZonedDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "upms_permission_action")
-public class UpmsPermissionAction extends BaseEntity implements Serializable {
+@Table(name = "upms_role_permission_action")
+public class UpmsRolePermissionAction extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,15 +26,22 @@ public class UpmsPermissionAction extends BaseEntity implements Serializable {
     @Comment("00_流水號")
     private Long id;
 
-    @Comment("權限名稱")
+    @Comment("角色iid")
+    @Column(name = "role_id")
+    private Long roleId;
+
+    @Comment("權限id")
     @Column(name = "permission_id")
     @NotNull
     private Long permissionId;
 
-    @Comment("權限名稱")
+    @Comment("動作iid")
     @Column(name = "action_id")
     @NotNull
     private Long actionId;
+
+    @Column(name = "active")
+    private Boolean active;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */
     @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")

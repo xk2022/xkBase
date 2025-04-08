@@ -4,8 +4,13 @@ import com.xk.upms.domain.model.po.UpmsPermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UpmsPermissionRepository extends JpaRepository<UpmsPermission, Long> {
 
+    List<UpmsPermission> findByIsDeletedFalseOrderByOrdersAsc();
+
+    List<UpmsPermission> findByIsDeletedFalseAndIdInOrderByOrdersAsc(List<Long> upmsPermissionIds);
 
 }

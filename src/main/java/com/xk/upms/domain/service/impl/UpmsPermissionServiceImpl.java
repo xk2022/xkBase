@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 📌 `PermissionServiceImpl` - 權限服務的具體實作
@@ -32,7 +31,6 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 		}
 		for(UpmsPermission upmsPermission : upmsPermissions){
 			upmsPermission.setIsDeleted(false);
-			upmsPermission.setStatus(true);
 		}
 		upmsPermissionRepository.saveAll(upmsPermissions);
 	}
@@ -49,8 +47,13 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	}
 
 	@Override
-	public List<UpmsPermission> findAll(UUID systemUuid, Long roleId) {
-		return null;
+	public List<UpmsPermission> findAll() {
+		return upmsPermissionRepository.findByIsDeletedFalseOrderByOrdersAsc();
+	}
+
+	@Override
+	public List<UpmsPermission> findAllIn(List<Long> upmsPermissionIds) {
+		return upmsPermissionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(upmsPermissionIds);
 	}
 
 }

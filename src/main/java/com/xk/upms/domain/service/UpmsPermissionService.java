@@ -3,7 +3,6 @@ package com.xk.upms.domain.service;
 import com.xk.upms.domain.model.po.UpmsPermission;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 📌 `UpmsPermissionService` - 使用者領域服務
@@ -19,6 +18,8 @@ public interface UpmsPermissionService {
 
 	void deleteAll(List<UpmsPermission> upmsPermissions);
 
-	List<UpmsPermission> findAll(UUID systemUuid, Long roleId);
+	List<UpmsPermission> findAll();
+
+	List<UpmsPermission> findAllIn(List<Long> upmsPermissionIds);
 
 }

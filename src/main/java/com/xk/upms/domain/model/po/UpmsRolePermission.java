@@ -9,9 +9,12 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * Created by Hank on 2025/01/13
@@ -32,19 +35,20 @@ public class UpmsRolePermission extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
+    @Comment("角色id")
+    @Column(name = "role_id")
+    private Long roleId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="role_id" , nullable = false)
-    private UpmsRole role;
+    @Comment("權限id")
+    @Column(name="permission_id")
+    private Long permissionId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="permission_id",nullable = false)
-    private UpmsPermission permission;
+    @Comment("系統uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "system_uuid", length = 36)
+    private UUID systemUuid;
 
-    /**
-     * 权限開關
-     */
-    @Column(nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean active;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */

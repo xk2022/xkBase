@@ -38,7 +38,7 @@ public class UpmsPermissionRestController {
 	private final UpmsPermissionUpdateUseCase upmsPermissionUpdateUseCase;
 
 	@Operation(summary = "取得所有權限", description = "返回系統中所有 UpmsUser 的列表。")
-	@GetMapping
+	@GetMapping("/{systemUuid}/{roleId}")
 	public BaseResult<List<UpmsPermissionResponseDTO>> findAll(
 			@PathVariable @NotNull UUID systemUuid,
 			@PathVariable @NotNull Long roleId) {

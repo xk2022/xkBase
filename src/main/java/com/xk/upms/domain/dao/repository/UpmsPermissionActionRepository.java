@@ -1,14 +1,14 @@
 package com.xk.upms.domain.dao.repository;
 
-import com.xk.upms.domain.model.po.UpmsPermissionAction;
+import com.xk.upms.domain.model.po.UpmsRolePermissionAction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UpmsPermissionActionRepository extends JpaRepository<UpmsPermissionAction, Long> {
+public interface UpmsPermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, Long> {
 
-    List<UpmsPermissionAction> findByIsDeletedFalseAndPermissionIdIn(List<Long> permissionIds);
+    List<UpmsRolePermissionAction> findByIsDeletedFalseAndRoleIdAndPermissionIdIn(Long roleId, List<Long> upmsPermissionIds);
 
 }
