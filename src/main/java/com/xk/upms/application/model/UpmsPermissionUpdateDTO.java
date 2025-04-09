@@ -18,7 +18,7 @@ public record UpmsPermissionUpdateDTO (
 
 				@Schema(description = "權限id")
 				@NotNull(message = "權限id不得為空")
-				Long permissionId,
+				Long id,
 
 				@Schema(description = "是否啟用")
 				@NotNull(message = "是否啟用不得為空")
@@ -34,9 +34,9 @@ public record UpmsPermissionUpdateDTO (
 
 		public record Action(
 
-				@Schema(description = "權限id")
-				@NotNull(message = "權限id不得為空")
-				Long permissionId,
+				@Schema(description = "動作id")
+				@NotNull(message = "動作id不得為空")
+				Long id,
 
 				@Schema(description = "是否啟用")
 				@NotNull(message = "是否啟用不得為空")

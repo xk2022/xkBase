@@ -49,7 +49,7 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 	private List<Long> getPermissionIds(List<UpmsPermissionUpdateDTO.Permission> permissions){
 		List<Long> permissionIds = new ArrayList<>();
 		for(UpmsPermissionUpdateDTO.Permission permission : permissions){
-			permissionIds.add(permission.permissionId());
+			permissionIds.add(permission.id());
 		}
 		return permissionIds;
 	}
