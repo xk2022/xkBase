@@ -22,7 +22,25 @@ public record UpmsPermissionUpdateDTO (
 
 				@Schema(description = "是否啟用")
 				@NotNull(message = "是否啟用不得為空")
-				boolean enable
+				boolean active,
+
+				@Schema(description = "子權限清單")
+				List<UpmsPermissionUpdateDTO.Permission> permissions,
+
+				@Schema(description = "動作清單")
+				List<UpmsPermissionUpdateDTO.Action> actions
+
+		){}
+
+		public record Action(
+
+				@Schema(description = "權限id")
+				@NotNull(message = "權限id不得為空")
+				Long permissionId,
+
+				@Schema(description = "是否啟用")
+				@NotNull(message = "是否啟用不得為空")
+				boolean active
 
 		){}
 
