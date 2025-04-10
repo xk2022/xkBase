@@ -1,25 +1,22 @@
 package com.xk.common.util;
 
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
-
+import com.xk.common.base.Common;
+import com.xk.common.util.dto.JwtUserDTO;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.xk.common.base.Common;
-import com.xk.common.util.dto.JwtUserDTO;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 
 @Component
 public class XkJwtUtil implements InitializingBean {
@@ -61,15 +58,6 @@ public class XkJwtUtil implements InitializingBean {
         return extractClaim(token, XkJwtUtil::extractJwtUserFromClaims);
     }
 
-    // 產生Token
-    public static String generateToken(UUID UserUuid){
-        return generateToken(new HashMap<>(), UserUuid);
-    }
- // 產生Token
-    public static String generateToken(Long Userid){
-        return generateToken(new HashMap<>(), Userid);
-    }
-
     // 驗證Token
     public static boolean isTokenValid(String token, JwtUserDTO jwtUserDTO) {
         String userName = extractUsername(token);
@@ -77,7 +65,7 @@ public class XkJwtUtil implements InitializingBean {
     }
 
     // 取得所有Claim
-    private static Claims extractAllClaim(String token) {
+    public static Claims extractAllClaim(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -85,20 +73,9 @@ public class XkJwtUtil implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-    // 產生Token
-    private static String generateToken(Map<String, Object> extraClaims, UUID UserUuid) {
-        return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(UserUuid.toString())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_EXPIRATION))
-                .signWith(key)
-                .compact();
-    }
     
     // 產生Token Long id 
-    private static String generateToken(Map<String, Object> extraClaims, Long Userid) {
+    public static String generateToken(Map<String, Object> extraClaims, Long Userid) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(Userid.toString())

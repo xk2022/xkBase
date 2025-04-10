@@ -1,16 +1,15 @@
 package com.xk.upms.domain.dao.repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.xk.upms.domain.model.po.UpmsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.xk.upms.domain.model.po.UpmsUser;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -27,6 +26,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @return an {@link Optional} containing the user, if found.
 	 */
 	Optional<UpmsUser> findByIsDeletedFalseAndUsername(String username);
+
 
 	/**
 	 * Finds a user by email using a custom JPQL query.

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +38,19 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
 
 
 
-    @Query(value = """
-            Select * from UpmsRole ur
-            join  UpmsUserRole uur on  uur.roleId = ur.id
-            where uur.userId = :userId
-            """,nativeQuery = true)
-    List<UpmsRole> findUserRoleByUserId(@Param("keyword") Long userId);
+    @Query(value =
+            """
+            SELECT
+                r
+            FROM 
+                UpmsRole r
+            RIGHT JOIN
+                UpmsUserRole ur
+            ON
+                ur.userId = r.id
+            WHERE
+                ur.userId = :userId
+            """)
+    Optional<UpmsRole> findUserRoleByUserId(@Param("userId") Long userId);
 
 }

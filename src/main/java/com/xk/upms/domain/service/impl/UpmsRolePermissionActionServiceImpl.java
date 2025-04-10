@@ -1,6 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
-import com.xk.upms.domain.dao.repository.UpmsPermissionActionRepository;
+import com.xk.upms.domain.dao.repository.UpmsRolePermissionActionRepository;
 import com.xk.upms.domain.model.po.UpmsRolePermissionAction;
 import com.xk.upms.domain.service.UpmsRolePermissionActionService;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +12,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionActionService {
 
-    private final UpmsPermissionActionRepository upmsPermissionActionRepository;
+    private final UpmsRolePermissionActionRepository upmsRolePermissionActionRepository;
 
     @Override
     public List<UpmsRolePermissionAction> findAllIn(Long roleId, List<Long> upmsPermissionIds) {
-        return upmsPermissionActionRepository.findByIsDeletedFalseAndRoleIdAndPermissionIdIn(roleId, upmsPermissionIds);
+        return upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleIdAndPermissionIdIn(roleId, upmsPermissionIds);
     }
 
 }

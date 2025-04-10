@@ -1,27 +1,16 @@
 package com.xk.upms.application.usecase.impl;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import com.xk.common.base.BaseResult;
-
 import com.xk.upms.application.model.UpmsAuthLoginRequestDTO;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.xk.common.util.XkBeanUtils;
-import com.xk.common.util.XkJwtUtil;
-import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsAuthUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
-import com.xk.upms.domain.service.UpmsRoleService;
 import com.xk.upms.domain.service.UpmsUserService;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.xk.upms.domain.service.impl.UpmsUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 📌 AuthorizationUseCaseImpl（應用層 Use Case 實作）
@@ -37,45 +26,17 @@ import lombok.extern.slf4j.Slf4j;
 public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 	
 	private final UpmsUserService upmsUserService;
-	private final UpmsRoleService upmsRoleService;
+
+	private final UpmsUserDetailsServiceImpl upmsUserDetailsServiceImpl;
 	
 	@Override
-	public BaseResult<UpmsUserResponseDTO> signin(UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) throws Exception {
-		Optional<UpmsUserBO> userop  = upmsUserService.findByUsername(upmsAuthLoginRequestDTO.username());
-		if(userop.isPresent()) {
-			UpmsUserBO user = userop.get();
-			if(user.getEnabled()==true) {
-				//檢核密碼
-				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-				boolean isMatch = passwordEncoder.matches(upmsAuthLoginRequestDTO.password(), user.getPassword());
-				if(isMatch) {
-					//產token
-					String token  = XkJwtUtil.generateToken(user.getId());
-					UpmsUserResponseDTO response = XkBeanUtils.copyProperties(user, UpmsUserResponseDTO::new);
-					response.setToken(token);
-
-					return new BaseResult<>(HttpStatus.OK.value(), "登入成功", response, null, LocalDateTime.now());
-					
-				}else {
-					//錯誤記錄
-					int fail = user.getFailedAttempts();
-					if(fail==3) {
-						user.setLocked(true);
-						user.setFailedAttempts(fail);
-					}else {
-						user.setFailedAttempts(fail++);
-					}
-					upmsUserService.save(user);
-					throw new Exception("密碼輸入錯誤，請重新輸入");
-				}
-			}else {
-				//狀態未啟用 請洽詢服務人員
-				throw new Exception("狀態未啟用，請洽詢服務人員");
-			}
-		}else {
-			//查不到此使用者 請先註冊
-			throw new EntityNotFoundException("查不到此使用者，請先註冊");
+	public UpmsUserResponseDTO signin(UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) {
+		// 取得使用者
+		Optional<UpmsUserBO> upmsUserBO  = upmsUserService.findByUsername(upmsAuthLoginRequestDTO.username());
+		if(!upmsUserBO.isPresent()){
+			return null;
 		}
+		return null;
 	}
 
 }

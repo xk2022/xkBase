@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UpmsPermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, Long> {
+public interface UpmsRolePermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, Long> {
 
     List<UpmsRolePermissionAction> findByIsDeletedFalseAndRoleIdAndPermissionIdIn(Long roleId, List<Long> upmsPermissionIds);
 

@@ -1,20 +1,31 @@
 package com.xk.common.util.dto;
 
-import java.util.Collection;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Data;
+import java.util.Collection;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtUserDTO implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    private String username;
+    private Long userId;
+
+    private String userName;
 
     private String password;
+
+    private boolean enable;
+
+    private boolean lock;
+
+    private Long roleId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -22,17 +33,17 @@ public class JwtUserDTO implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return username;
+    public String getUsername() {
+        return this.userName;
     }
 
     @Override
-    public String getUsername() {
-        return password;
+    public String getPassword() {
+        return this.password;
     }
 
     public JwtUserDTO(String userName){
-        this.username = userName;
+        this.userName = userName;
     }
 
 }
