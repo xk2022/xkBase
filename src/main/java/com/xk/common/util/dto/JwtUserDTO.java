@@ -1,12 +1,18 @@
 package com.xk.common.util.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -44,6 +50,33 @@ public class JwtUserDTO implements UserDetails {
 
     public JwtUserDTO(String userName){
         this.userName = userName;
+    }
+
+    public void setPermissions(List<PermissionDTO> permissions) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.authorities = permissions.stream()
+                .map(permission -> {
+                    try {
+                        String permissionJson = objectMapper.writeValueAsString(permission);
+                        return new SimpleGrantedAuthority(permissionJson);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).collect(Collectors.toList());
+    }
+
+    public List<PermissionDTO> getPermissions() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return authorities.stream()
+                .map(grantedAuthority -> {
+                    try {
+                        return objectMapper.readValue(grantedAuthority.getAuthority(), PermissionDTO.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).collect(Collectors.toList());
     }
 
 }
