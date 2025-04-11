@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -29,7 +31,9 @@ public class UpmsRoleSystem extends BaseEntity implements Serializable {
     @Column(name = "role_id", nullable = false)
     private Long roleId;
 
-    @Column(name = "system_uuid", nullable = false)
+    @Comment("系統uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "system_uuid", length = 36)
     private UUID systemUuid;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */

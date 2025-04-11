@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface UpmsRoleSystemService {
 
+    List<UpmsRoleSystem> findAll();
+
     List<UpmsRoleSystem> findAllByRoleId(Long roleId);
 
 }

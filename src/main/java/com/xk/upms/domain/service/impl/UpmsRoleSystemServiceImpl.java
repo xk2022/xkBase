@@ -15,6 +15,11 @@ public class UpmsRoleSystemServiceImpl implements UpmsRoleSystemService {
     private final UpmsRoleSystemRepository upmsRoleSystemRepository;
 
     @Override
+    public List<UpmsRoleSystem> findAll() {
+        return upmsRoleSystemRepository.findByIsDeletedFalse();
+    }
+
+    @Override
     public List<UpmsRoleSystem> findAllByRoleId(Long roleId) {
         return upmsRoleSystemRepository.findByIsDeletedFalseAndRoleIdOrderByIdAsc(roleId);
     }

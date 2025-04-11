@@ -1,6 +1,8 @@
 package com.xk.upms.application.model;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.UUID;
 
 import lombok.Data;
 
@@ -15,6 +17,8 @@ public class UpmsRoleResponseDTO {
 	private String title;
 	
 	private String description;
+
+	private List<UUID> systemUuids;
 	
 	private String orders;
 	
