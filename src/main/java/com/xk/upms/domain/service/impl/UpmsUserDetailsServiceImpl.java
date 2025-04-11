@@ -1,22 +1,24 @@
 package com.xk.upms.domain.service.impl;
 
+import com.xk.adm.domain.dao.repository.AdmSystemRepository;
+import com.xk.adm.domain.model.po.AdmSystemPO;
 import com.xk.common.util.dto.JwtUserDTO;
 import com.xk.common.util.dto.PermissionDTO;
+import com.xk.common.util.dto.SystemDTO;
 import com.xk.upms.domain.dao.repository.*;
 import com.xk.upms.domain.model.po.*;
 import com.xk.upms.domain.service.UpmsUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
+
+	private final AdmSystemRepository admSystemRepository;
 
 	private final UpmsRoleRepository upmsRoleRepository;
 
@@ -42,6 +44,10 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		if(null == upmsRoleSystems || upmsRoleSystems.isEmpty()){
 			return null;
 		}
+		// 取得系統清單
+		List<UUID> systemUuids = upmsRoleSystems.stream().map(UpmsRoleSystem::getSystemUuid).collect(Collectors.toList());
+		List<AdmSystemPO> admSystemPOS = admSystemRepository.findByDeletedFalseAndEnabledTrueAndUuidIn(systemUuids);
+		List<SystemDTO> systemDTOS = admSystemPOS.stream().map(system -> new SystemDTO(system.getUuid(), system.getName())).collect(Collectors.toList());
 		// 取得角色權限清單
 		List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionRepository.findByIsDeletedFalseAndSystemUuidAndRoleId(
 				upmsRoleSystems.get(0).getSystemUuid(),
@@ -67,6 +73,7 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		jwtUserDTO.setLock(upmsUser.getLocked());
 		jwtUserDTO.setRoleId(upmsRole.get().getId());
 		jwtUserDTO.setPermissions(permissionDTOS);
+		jwtUserDTO.setSystems(systemDTOS);
 		return jwtUserDTO;
 	}
 

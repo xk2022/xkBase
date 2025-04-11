@@ -1,5 +1,6 @@
 package com.xk.adm.domain.dao.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,5 +51,7 @@ public interface AdmSystemRepository extends JpaRepository<AdmSystemPO, UUID> {
      * @return 如果存在則回傳 `true`
      */
     boolean existsByCode(String code);
+
+    List<AdmSystemPO> findByDeletedFalseAndEnabledTrueAndUuidIn(List<UUID> uuids);
     
 }

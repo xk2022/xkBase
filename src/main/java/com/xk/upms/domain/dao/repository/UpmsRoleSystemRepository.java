@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface UpmsRoleSystemRepository extends JpaRepository<UpmsRoleSystem, Long> {
 
+    List<UpmsRoleSystem> findByIsDeletedFalse();
+
     List<UpmsRoleSystem> findByIsDeletedFalseAndRoleIdOrderByIdAsc(Long roleId);
 
 }

@@ -52,6 +52,33 @@ public class JwtUserDTO implements UserDetails {
         this.userName = userName;
     }
 
+    public void setSystems(List<SystemDTO> systemDTOS) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.authorities = systemDTOS.stream()
+                .map(system -> {
+                    try {
+                        String systemJson = objectMapper.writeValueAsString(system);
+                        return new SimpleGrantedAuthority(systemJson);
+                    }catch (JsonProcessingException e){
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).collect(Collectors.toList());
+    }
+
+    public List<SystemDTO> getSystems() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return authorities.stream()
+                .map(grantedAuthority -> {
+                    try {
+                        return objectMapper.readValue(grantedAuthority.getAuthority(), SystemDTO.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).collect(Collectors.toList());
+    }
+
     public void setPermissions(List<PermissionDTO> permissions) {
         ObjectMapper objectMapper = new ObjectMapper();
         this.authorities = permissions.stream()
