@@ -1,9 +1,9 @@
 package com.xk.upms.controller.api;
 
 import com.xk.common.base.BaseResult;
+import com.xk.upms.application.model.UpmsPermissionCreateDTO;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
-import com.xk.upms.application.usecase.UpmsPermissionCreateUseCase;
 import com.xk.upms.application.usecase.UpmsPermissionFindUseCase;
 import com.xk.upms.application.usecase.UpmsPermissionUpdateUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class UpmsPermissionRestController {
 
 	private final UpmsPermissionUpdateUseCase upmsPermissionUpdateUseCase;
 
-	private final UpmsPermissionCreateUseCase upmsPermissionCreateUseCase;
+
 
 	@Operation(summary = "取得所有權限", description = "返回系統中所有 UpmsUser 的列表。")
 	@GetMapping("/{systemUuid}/{roleId}")
@@ -57,15 +56,6 @@ public class UpmsPermissionRestController {
 			@RequestBody UpmsPermissionUpdateDTO request) {
 		UpmsPermissionResponseDTO updatedPermission = upmsPermissionUpdateUseCase.update(systemUuid, roleId, request);
 		return BaseResult.success(updatedPermission, "權限更新成功");
-	}
-
-	@Operation(summary = "新增權限資料" ,description = "新增權限的詳細資料")
-	@PostMapping("/{systemUuid}/{roleId}")
-	public BaseResult<UpmsPermissionResponseDTO> create(@PathVariable @NotNull UUID systemUuid,
-														@PathVariable @NotNull Long roleId,
-														@RequestBody UpmsPermissionUpdateDTO request){
-		upmsPermissionCreateUseCase.create(systemUuid, roleId, request);
-		return BaseResult.success(null,"新增權限成功");
 	}
 
 }

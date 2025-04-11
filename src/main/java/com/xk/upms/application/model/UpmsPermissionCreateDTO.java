@@ -8,11 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Comment;
 
 import java.util.List;
+import java.util.UUID;
 
 public record UpmsPermissionCreateDTO (
 		
 		@Schema(description = "系統id")
-		Long systemId,
+		UUID systemId,
 
 		@Schema(description = "角色id")
 		Long roleId,

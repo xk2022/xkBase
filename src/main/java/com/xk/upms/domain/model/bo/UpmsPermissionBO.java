@@ -2,6 +2,7 @@ package com.xk.upms.domain.model.bo;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import com.xk.upms.domain.model.po.UpmsPermission;
 
@@ -25,11 +26,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsPermissionBO {
+	/**
+	 * 權限ID
+	 */
+	private Long permissionId;
 
 	/**
 	 * 所屬系統
 	 */
-	private Long systemId;
+	private UUID systemId;
 
 	/**
 	 * 所屬上層
@@ -74,11 +79,11 @@ public class UpmsPermissionBO {
 	/**
 	 * 子權限
 	 */
-	private List<UpmsPermission> children;
-
-	/**
-	 * 父權限
-	 */
-	private UpmsPermission parent;
+	private List<UpmsActionBO> children;
+//
+//	/**
+//	 * 父權限
+//	 */
+//	private UpmsPermission parent;
 
 }

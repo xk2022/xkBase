@@ -45,6 +45,10 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@Comment("03_RestfulMethod")
 	private String method;
 
+	@Column(name="active" , columnDefinition = "TINYINT(1) DEFAULT 1")
+	@Comment("是否啟用")
+	private Boolean active;
+
 	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
 	@Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
 	@ColumnDefault("1")

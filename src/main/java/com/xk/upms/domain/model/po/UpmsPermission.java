@@ -1,6 +1,7 @@
 package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
+import com.xk.upms.domain.model.enums.PermissionTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,7 +34,7 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     private Long id;
 
     /**
-     * 名稱
+     * 父權限id
      */
     @Comment("父權限id")
     @Column(name = "pid")
@@ -52,6 +53,34 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     @Column(name = "uri")
     @Comment("路徑")
     private String uri;
+
+    /**
+     * "狀態(0:禁止,1:正常)
+     */
+    @Column(name = "status")
+    @Comment("狀態(0:禁止,1:正常)")
+    private Boolean status;
+
+    /**
+     *
+     */
+    @Column(name="type")
+    @Comment("")
+    private Integer type;
+
+    /**
+     * system_id
+     */
+    @Column(name="system_id")
+    @Comment("system_id")
+    private Integer system_id;
+
+    /**
+     * permission_value
+     */
+    @Comment("permission_value")
+    @Comment("permission_value")
+    private PermissionTypeEnum permissionTypeEnum;
 
     /**
      * 排序
