@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * Created by Hank on 2025/01/13
@@ -61,26 +62,6 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     @Comment("狀態(0:禁止,1:正常)")
     private Boolean status;
 
-    /**
-     *
-     */
-    @Column(name="type")
-    @Comment("")
-    private Integer type;
-
-    /**
-     * system_id
-     */
-    @Column(name="system_id")
-    @Comment("system_id")
-    private Integer system_id;
-
-    /**
-     * permission_value
-     */
-    @Comment("permission_value")
-    @Comment("permission_value")
-    private PermissionTypeEnum permissionTypeEnum;
 
     /**
      * 排序

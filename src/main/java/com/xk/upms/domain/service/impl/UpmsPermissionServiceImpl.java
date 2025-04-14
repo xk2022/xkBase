@@ -66,6 +66,11 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	}
 
 	@Override
+	public List<UpmsPermission> findAllByIds(UUID systemUuid, List<Long> requestedPermissionIds) {
+		return upmsPermissionRepository.findAllBySystemIdAndPermissionIdIn(systemUuid, requestedPermissionIds);
+	}
+
+	@Override
 	public Optional<UpmsPermissionBO> findById(UUID systemId,Long permissionid) {
 		List<UpmsAction> actionPoS = upmsActionRepository.findByIsDeletedFalseOrderByOrdersAsc();
 		List<UpmsActionBO> actionBOS = actionPoS.stream().map(ua ->{
@@ -83,6 +88,7 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 		}).collect(Collectors.toList());
 
 		return upmsPermissionRepository.findById(permissionid).map(up -> new UpmsPermissionBO(
+				up.getId(),
 				systemId,
 				up.getPid(),
 				up.getName(),
@@ -94,6 +100,11 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 				up.getDeleteTime(),
 				actionBOS
 		));
+	}
+
+	@Override
+	public UpmsPermission findById(Long permissionId) {
+		return upmsPermissionRepository.findById(permissionId).orElse(null);
 	}
 
 }

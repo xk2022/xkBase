@@ -25,4 +25,16 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
         return null;
     }
 
+    @Override
+    public List<UpmsRolePermissionAction> deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+        upmsRolePermissionActionRepository.deleteAll(upmsRolePermissionActions);
+        return upmsRolePermissionActions;
+    }
+
+    @Override
+    public List<UpmsRolePermissionAction> saveAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+        upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
+        return upmsRolePermissionActions;
+    }
+
 }

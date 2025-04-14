@@ -25,5 +25,9 @@ public interface UpmsPermissionService {
 
 	List<UpmsPermission> findAllIn(List<Long> upmsPermissionIds);
 
+	List<UpmsPermission> findAllByIds(UUID systemUuid,List<Long> requestedPermissionIds);
+
 	Optional<UpmsPermissionBO> findById(UUID systemId,Long permissionId);
+
+	UpmsPermission findById(Long permissionId);
 }
