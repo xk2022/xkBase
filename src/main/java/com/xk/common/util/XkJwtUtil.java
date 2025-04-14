@@ -2,6 +2,8 @@ package com.xk.common.util;
 
 import com.xk.common.base.Common;
 import com.xk.common.util.dto.JwtUserDTO;
+import com.xk.common.util.dto.PermissionDTO;
+import com.xk.common.util.dto.SystemDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -9,14 +11,14 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class XkJwtUtil implements InitializingBean {
@@ -32,11 +34,6 @@ public class XkJwtUtil implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public static String extractUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return null == authentication ? null : authentication.getName();
-    }
-
     // 取得使用者名稱
     public static String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -50,7 +47,26 @@ public class XkJwtUtil implements InitializingBean {
 
     // 提取 JwtUserDTO 的具名方法
     public static JwtUserDTO extractJwtUserFromClaims(Claims claims) {
-        return new JwtUserDTO((String) claims.get("username"));
+        Long userId = claims.get("userId", Long.class);
+        String userName = claims.get("userName", String.class);
+        String email = claims.get("email", String.class);
+        String cellPhone = claims.get("cellPhone", String.class);
+        Long roleId = claims.get("roleId", Long.class);
+        Boolean enable = claims.get("enable", Boolean.class);
+        Boolean lock = claims.get("lock", Boolean.class);
+        List<SystemDTO> systemDTOs = claims.get("systemDTOs", List.class);
+        List<PermissionDTO> permissionDTOs = claims.get("permissionDTOs", List.class);
+        return new JwtUserDTO(
+                userId,
+                userName,
+                email,
+                cellPhone,
+                roleId,
+                enable,
+                lock,
+                systemDTOs,
+                permissionDTOs
+        );
     }
 
     // 解析 Token 並提取 JwtUserDTO
@@ -75,10 +91,20 @@ public class XkJwtUtil implements InitializingBean {
     }
     
     // 產生Token Long id 
-    public static String generateToken(Map<String, Object> extraClaims, Long Userid) {
+    public static String generateToken(JwtUserDTO jwtUserDTO) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", jwtUserDTO.getUserId());
+        claims.put("userName", jwtUserDTO.getUsername());
+        claims.put("email", jwtUserDTO.getEmail());
+        claims.put("cellPhone", jwtUserDTO.getCellPhone());
+        claims.put("roleId", jwtUserDTO.getRoleId());
+        claims.put("enable", jwtUserDTO.isEnable());
+        claims.put("lock", jwtUserDTO.isLock());
+        claims.put("permissionDTOs", jwtUserDTO.getPermissionDTOs());
+        claims.put("systemDTOs", jwtUserDTO.getSystemDTOs());
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(Userid.toString())
+                .setClaims(claims)
+                .setSubject(String.valueOf(jwtUserDTO.getUserId()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_EXPIRATION))
                 .signWith(key)

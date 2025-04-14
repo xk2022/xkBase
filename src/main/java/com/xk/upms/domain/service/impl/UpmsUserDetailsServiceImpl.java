@@ -2,10 +2,12 @@ package com.xk.upms.domain.service.impl;
 
 import com.xk.adm.domain.dao.repository.AdmSystemRepository;
 import com.xk.adm.domain.model.po.AdmSystemPO;
+import com.xk.common.util.XkJwtUtil;
 import com.xk.common.util.dto.JwtUserDTO;
 import com.xk.common.util.dto.PermissionDTO;
 import com.xk.common.util.dto.SystemDTO;
 import com.xk.upms.domain.dao.repository.*;
+import com.xk.upms.domain.model.bo.UpmsUserBO;
 import com.xk.upms.domain.model.po.*;
 import com.xk.upms.domain.service.UpmsUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +35,9 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 	private final UpmsActionRepository upmsActionRepository;
 
 	@Override
-	public JwtUserDTO extract(UpmsUser upmsUser) {
+	public JwtUserDTO extract(UpmsUserBO upmsUserBO) {
 		// 取得角色
-		Optional<UpmsRole> upmsRole = upmsRoleRepository.findUserRoleByUserId(upmsUser.getId());
+		Optional<UpmsRole> upmsRole = upmsRoleRepository.findUserRoleByUserId(upmsUserBO.getId());
 		if(upmsRole.isPresent()){
 			return null;
 		}
@@ -66,14 +68,17 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		List<UpmsAction> upmsActions = upmsActionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(actionIds);
 		List<PermissionDTO> permissionDTOS = convert(upmsPermissions, upmsActions, upmsRolePermissions, upmsRolePermissionActions);
 		JwtUserDTO jwtUserDTO = new JwtUserDTO();
-		jwtUserDTO.setUserId(upmsUser.getId());
-		jwtUserDTO.setUserName(upmsUser.getUsername());
-		jwtUserDTO.setPassword(upmsUser.getPassword());
-		jwtUserDTO.setEnable(upmsUser.getEnabled());
-		jwtUserDTO.setLock(upmsUser.getLocked());
+		jwtUserDTO.setUserId(upmsUserBO.getId());
+		jwtUserDTO.setUserName(upmsUserBO.getUsername());
+		jwtUserDTO.setEmail(upmsUserBO.getEmail());
+		jwtUserDTO.setCellPhone(upmsUserBO.getCellPhone());
 		jwtUserDTO.setRoleId(upmsRole.get().getId());
-		jwtUserDTO.setPermissions(permissionDTOS);
-		jwtUserDTO.setSystems(systemDTOS);
+		jwtUserDTO.setEnable(upmsUserBO.getEnabled());
+		jwtUserDTO.setLock(upmsUserBO.getLocked());
+		jwtUserDTO.setSystemDTOs(systemDTOS);
+		jwtUserDTO.setPermissionDTOs(permissionDTOS);
+		String token = XkJwtUtil.generateToken(jwtUserDTO);
+		jwtUserDTO.setToken(token);
 		return jwtUserDTO;
 	}
 
