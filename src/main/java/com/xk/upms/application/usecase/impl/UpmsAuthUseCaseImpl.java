@@ -1,11 +1,12 @@
 package com.xk.upms.application.usecase.impl;
 
+import com.xk.common.util.dto.JwtUserDTO;
 import com.xk.upms.application.model.UpmsAuthLoginRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
 import com.xk.upms.application.usecase.UpmsAuthUseCase;
 import com.xk.upms.domain.model.bo.UpmsUserBO;
+import com.xk.upms.domain.service.UpmsUserDetailsService;
 import com.xk.upms.domain.service.UpmsUserService;
-import com.xk.upms.domain.service.impl.UpmsUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 	
 	private final UpmsUserService upmsUserService;
 
-	private final UpmsUserDetailsServiceImpl upmsUserDetailsServiceImpl;
+	private final UpmsUserDetailsService upmsUserDetailsService;
 	
 	@Override
 	public UpmsUserResponseDTO signin(UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) {
@@ -36,7 +37,17 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 		if(!upmsUserBO.isPresent()){
 			return null;
 		}
-		return null;
+		JwtUserDTO jwtUserDTO = upmsUserDetailsService.extract(upmsUserBO.get());
+		return new UpmsUserResponseDTO(
+				jwtUserDTO.getUserId(),
+				jwtUserDTO.getUsername(),
+				jwtUserDTO.getEmail(),
+				jwtUserDTO.getCellPhone(),
+				jwtUserDTO.getRoleId(),
+				jwtUserDTO.isEnable(),
+				jwtUserDTO.isLock(),
+				jwtUserDTO.getToken()
+		);
 	}
 
 }
