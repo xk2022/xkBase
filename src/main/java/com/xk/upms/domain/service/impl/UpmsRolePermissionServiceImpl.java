@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +20,6 @@ import java.util.UUID;
 public class UpmsRolePermissionServiceImpl implements UpmsRolePermissionService {
 
     private final UpmsRolePermissionRepository upmsRolePermissionRepository;
-
-
 
     @Override
     public List<UpmsRolePermission> findAll(UUID systemUuid, Long roleId) {
@@ -42,12 +41,24 @@ public class UpmsRolePermissionServiceImpl implements UpmsRolePermissionService 
 
     @Override
     public List<UpmsRolePermission> deleteAll(List<UpmsRolePermission> upmsRolePermissions) {
-       upmsRolePermissionRepository.deleteAll(upmsRolePermissions);
-       return upmsRolePermissions;
+        if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
+            return new ArrayList<>();
+        }
+        for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
+            upmsRolePermission.setIsDeleted(true);
+        }
+        upmsRolePermissionRepository.deleteAll(upmsRolePermissions);
+        return upmsRolePermissions;
     }
 
     @Override
     public List<UpmsRolePermission> saveAll(List<UpmsRolePermission> upmsRolePermissions) {
+        if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
+            return new ArrayList<>();
+        }
+        for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
+            upmsRolePermission.setIsDeleted(false);
+        }
         upmsRolePermissionRepository.saveAll(upmsRolePermissions);
         return upmsRolePermissions;
     }

@@ -4,7 +4,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import com.xk.upms.domain.model.po.UpmsRoleSystem;
+import com.xk.upms.domain.service.UpmsRoleSystemService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.xk.common.util.XkBeanUtils;
@@ -29,18 +33,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 
 	private final UpmsRoleService upmsRoleService;
+
+	private final UpmsRoleSystemService upmsRoleSystemService;
 
 	@Override
 	public UpmsRoleResponseDTO create(UpmsRoleCreateDTO request) {
 		log.info("📌 開始創建新角色: {}", request.code());
 		// ✅ 轉換 DTO -> BO
 		UpmsRoleBO roleBO = XkBeanUtils.copyProperties(request, UpmsRoleBO::new);
-		roleBO.setIsDeleted(false);
-		// ✅ 儲存到 DB
 		UpmsRoleBO savedRole = upmsRoleService.save(roleBO);
+		// 轉換角色系統清單
+		List<UpmsRoleSystem> upmsRoleSystems = convert(request.systemUuids(), savedRole.getId());
+		// 儲存角色系統清單
+		upmsRoleSystemService.createAll(upmsRoleSystems);
 		// ✅ 轉換 PO -> DTO 回傳
 		return XkBeanUtils.copyProperties(savedRole, UpmsRoleResponseDTO::new);
 	}
@@ -59,6 +68,18 @@ public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 	    
 		upmsRoleService.saveAllRoles(roles);
 		return roles;
+	}
+
+	private List<UpmsRoleSystem> convert(List<UUID> systemUuids, Long roleId){
+		List<UpmsRoleSystem> upmsRoleSystems = new ArrayList<>();
+		UpmsRoleSystem upmsRoleSystem;
+		for(UUID systemUuid : systemUuids){
+			upmsRoleSystem = new UpmsRoleSystem();
+			upmsRoleSystem.setRoleId(roleId);
+			upmsRoleSystem.setSystemUuid(systemUuid);
+			upmsRoleSystems.add(upmsRoleSystem);
+		}
+		return upmsRoleSystems;
 	}
 
 }

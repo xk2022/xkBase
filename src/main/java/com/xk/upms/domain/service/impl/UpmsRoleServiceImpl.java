@@ -46,6 +46,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		upmsRoleRepository.findByIsDeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
 			throw new IllegalArgumentException("角色名稱重複");
 		});
+		upmsRoleBO.setIsDeleted(false);
 		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
 		UpmsRole saveRolePO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(saveRolePO, resultBo);

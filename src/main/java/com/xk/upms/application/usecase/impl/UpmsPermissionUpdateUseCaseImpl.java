@@ -51,8 +51,6 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 
 	private final UpmsActionService upmsActionService;
 
-
-
 	@Override
 	@Transactional
 	public UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request) {
@@ -66,82 +64,80 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 				.orElseThrow(() -> new EntityNotFoundException("系統不存在: " + systemUuid));
 		UpmsRoleBO upmsRoleBO = upmsRoleService.findById(roleId)
 				.orElseThrow(() -> new EntityNotFoundException("角色不存在: " + roleId));
+		// 取得權限清單
+		List<UpmsPermission> upmsPermissions = upmsPermissionService.findAll();
+		Map<Long, UpmsPermission> upmsPermissionMap = upmsPermissions
+				.stream()
+				.collect(Collectors.toMap(
+						UpmsPermission::getId,
+						up -> up
+				));
+		// 取得動作清單
+		List<UpmsAction> upmsActions = upmsActionService.findAll();
+		Map<Long, UpmsAction> upmsActionMap = upmsActions
+				.stream()
+				.collect(Collectors.toMap(
+						UpmsAction::getId,
+						ua -> ua
+				));
 		//角色原有權限id
 		List<UpmsRolePermission> existingRolePermissions = upmsRolePermissionService.findAll(systemUuid, roleId);
-
 		List<Long> existingPermissionIds = existingRolePermissions.stream().map(UpmsRolePermission::getPermissionId).collect(Collectors.toList());
 		//角色原有 控制權限動作
 		List<UpmsRolePermissionAction> existingRolePermissionAction = upmsRolePermissionActionService.findAllIn(roleId,existingPermissionIds);
 		//刪除角色原有權限清單
-		List<UpmsRolePermission> deletedRolePermissions= upmsRolePermissionService.deleteAll(existingRolePermissions);
+		List<UpmsRolePermission> deletedRolePermissions = upmsRolePermissionService.deleteAll(existingRolePermissions);
 		//刪除所有權限動作
 		List<UpmsRolePermissionAction> deletedRolePermissionActions = upmsRolePermissionActionService.deleteAll(existingRolePermissionAction);
+		upmsRolePermissionService.deleteAll(deletedRolePermissions);
+		upmsRolePermissionActionService.deleteAll(deletedRolePermissionActions);
+		//重新加入 角色權限 及動作
+		List<UpmsRolePermission> rolePermissions = new ArrayList<>();
+		List<UpmsRolePermissionAction> rolePermissionActions = new ArrayList<>();
+		for(UpmsPermissionUpdateDTO.Permission permission : request.permissions()){
+			UpmsPermission upmsPermission = upmsPermissionMap.get(permission.id());
+			if(null == upmsPermission){
+				continue;
+			}
+			// upmsrolepermission add
+			UpmsRolePermission upmsRolePermission = new UpmsRolePermission();
+			upmsRolePermission.setPermissionId(upmsPermission.getId());
+			upmsRolePermission.setRoleId(roleId);
+			upmsRolePermission.setSystemUuid(systemUuid);
+			upmsRolePermission.setUpdatedBy("");//更新人員
+			upmsRolePermission.setActive(upmsPermission.getStatus());
+			rolePermissions.add(upmsRolePermission);
 
-		if (CollectionUtils.isEmpty(deletedRolePermissions) && CollectionUtils.isEmpty(deletedRolePermissionActions)) {
-			//刪除成功
-			//重新加入 角色權限 及動作
-			List<UpmsRolePermission> rolePermissions = new ArrayList<>();
-			List<UpmsRolePermissionAction> rolePermissionActions = new ArrayList<>();
-			for(UpmsPermissionUpdateDTO.Permission permission :request.permissions()){
-				UpmsPermission upmsPermission=upmsPermissionService.findById(permission.id());
-				//upmsrolepermission add
-				UpmsRolePermission upmsRolePermission=new UpmsRolePermission();
-				upmsRolePermission.setPermissionId(upmsPermission.getId());
-				upmsRolePermission.setRoleId(roleId);
-				upmsRolePermission.setSystemUuid(systemUuid);
-				upmsRolePermission.setUpdatedBy("");//更新人員
-				upmsRolePermission.setActive(upmsPermission.getStatus());
-				rolePermissions.add(upmsRolePermission);
+			//response
+			UpmsPermissionResponseDTO permissionResponseDTO = new UpmsPermissionResponseDTO();
+			permissionResponseDTO.setId(upmsPermission.getId());
+			permissionResponseDTO.setName(upmsPermission.getName());
+			permissionResponseDTO.setActive(upmsPermission.getStatus());
+			permissions.add(permissionResponseDTO);
 
-				//response
-				UpmsPermissionResponseDTO permissionResponseDTO=new UpmsPermissionResponseDTO();
-				permissionResponseDTO.setId(upmsPermission.getId());
-				permissionResponseDTO.setName(upmsPermission.getName());
-				permissionResponseDTO.setActive(upmsPermission.getStatus());
-
-				permissions.add(permissionResponseDTO);
-
-
-				//upmsrolepermissionaction add
-				for(UpmsPermissionUpdateDTO.Action action : permission.actions()){
-					UpmsAction upmsAction = upmsActionService.findById(action.id());
-					UpmsRolePermissionAction upmsRolePermissionAction=new UpmsRolePermissionAction();
-					upmsRolePermissionAction.setRoleId(roleId);
-					upmsRolePermissionAction.setPermissionId(upmsPermission.getId());
-					upmsRolePermissionAction.setActionId(upmsAction.getId());
-					upmsRolePermissionAction.setUpdatedBy("");//更新人員
-					upmsRolePermissionAction.setActive(upmsAction.getActive());
-					rolePermissionActions.add(upmsRolePermissionAction);
-
-					//response
-					UpmsPermissionResponseDTO.Action actionDTO = new UpmsPermissionResponseDTO.Action();
-					actionDTO.setId(upmsAction.getId());
-					actionDTO.setName(upmsAction.getName());
-					actionDTO.setActive(upmsAction.getActive());
-					actions.add(actionDTO);
-
+			//upmsrolepermissionaction add
+			for(UpmsPermissionUpdateDTO.Action action : permission.actions()){
+				UpmsAction upmsAction = upmsActionMap.get(action.id());
+				if(null == upmsAction){
+					continue;
 				}
-
-
-			}
-
-			upmsRolePermissionService.saveAll(rolePermissions);
-			upmsRolePermissionActionService.saveAll(rolePermissionActions);
-
-
-		}else if(!CollectionUtils.isEmpty(deletedRolePermissions)){
-			//刪除失敗
-			for(UpmsRolePermission rolePermission:deletedRolePermissions){
-				rolePermission.setIsDeleted(true);
-			}
-
-		}else if(!CollectionUtils.isEmpty(deletedRolePermissionActions)){
-			//刪除失敗
-			for(UpmsRolePermissionAction rolePermissionAction:deletedRolePermissionActions){
-				rolePermissionAction.setIsDeleted(true);
+				UpmsRolePermissionAction upmsRolePermissionAction = new UpmsRolePermissionAction();
+				upmsRolePermissionAction.setRoleId(roleId);
+				upmsRolePermissionAction.setPermissionId(upmsPermission.getId());
+				upmsRolePermissionAction.setActionId(upmsAction.getId());
+				upmsRolePermissionAction.setUpdatedBy("");//更新人員
+				upmsRolePermissionAction.setActive(upmsAction.getActive());
+				rolePermissionActions.add(upmsRolePermissionAction);
+				//response
+				UpmsPermissionResponseDTO.Action actionDTO = new UpmsPermissionResponseDTO.Action();
+				actionDTO.setId(upmsAction.getId());
+				actionDTO.setName(upmsAction.getName());
+				actionDTO.setActive(upmsAction.getActive());
+				actions.add(actionDTO);
 			}
 		}
-
+		upmsRolePermissionService.saveAll(rolePermissions);
+		upmsRolePermissionActionService.saveAll(rolePermissionActions);
 		responseDTO.setPermissions(permissions);
 		responseDTO.setActions(actions);
 		return responseDTO;

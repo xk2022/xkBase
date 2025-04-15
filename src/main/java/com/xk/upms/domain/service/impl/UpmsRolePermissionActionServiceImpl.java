@@ -7,6 +7,7 @@ import com.xk.upms.domain.service.UpmsRolePermissionActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,12 +28,24 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
 
     @Override
     public List<UpmsRolePermissionAction> deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+        if(null == upmsRolePermissionActions || upmsRolePermissionActions.isEmpty()){
+            return new ArrayList<>();
+        }
+        for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
+            upmsRolePermissionAction.setIsDeleted(true);
+        }
         upmsRolePermissionActionRepository.deleteAll(upmsRolePermissionActions);
         return upmsRolePermissionActions;
     }
 
     @Override
     public List<UpmsRolePermissionAction> saveAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+        if(null == upmsRolePermissionActions || upmsRolePermissionActions.isEmpty()){
+            return new ArrayList<>();
+        }
+        for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
+            upmsRolePermissionAction.setIsDeleted(false);
+        }
         upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
         return upmsRolePermissionActions;
     }

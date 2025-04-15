@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,16 +57,6 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 	@Override
 	public List<UpmsPermission> findAll() {
 		return upmsPermissionRepository.findByIsDeletedFalseOrderByOrdersAsc();
-	}
-
-	@Override
-	public List<UpmsPermission> findAllIn(List<Long> upmsPermissionIds) {
-		return upmsPermissionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(upmsPermissionIds);
-	}
-
-	@Override
-	public List<UpmsPermission> findAllByIds(UUID systemUuid, List<Long> requestedPermissionIds) {
-		return upmsPermissionRepository.findAllBySystemIdAndPermissionIdIn(systemUuid, requestedPermissionIds);
 	}
 
 	@Override

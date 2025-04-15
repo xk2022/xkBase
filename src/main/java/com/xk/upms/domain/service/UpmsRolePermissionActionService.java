@@ -13,7 +13,7 @@ public interface UpmsRolePermissionActionService {
 
     UpmsRolePermissionAction save(UpmsRolePermissionActionBO upmsRolePermissionActionBO);
 
-    List<UpmsRolePermissionAction> deleteAll(	List<UpmsRolePermissionAction> upmsRolePermissionActions);
+    List<UpmsRolePermissionAction> deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions);
 
     List<UpmsRolePermissionAction> saveAll(List<UpmsRolePermissionAction> upmsRolePermissionActions);
 

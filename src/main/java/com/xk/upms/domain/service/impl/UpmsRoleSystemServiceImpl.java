@@ -15,6 +15,28 @@ public class UpmsRoleSystemServiceImpl implements UpmsRoleSystemService {
     private final UpmsRoleSystemRepository upmsRoleSystemRepository;
 
     @Override
+    public void createAll(List<UpmsRoleSystem> upmsRoleSystems) {
+        if(null == upmsRoleSystems || upmsRoleSystems.isEmpty()){
+            return;
+        }
+        for(UpmsRoleSystem upmsRoleSystem : upmsRoleSystems){
+            upmsRoleSystem.setIsDeleted(false);
+        }
+        upmsRoleSystemRepository.saveAll(upmsRoleSystems);
+    }
+
+    @Override
+    public void deleteAll(List<UpmsRoleSystem> upmsRoleSystems) {
+        if(null == upmsRoleSystems || upmsRoleSystems.isEmpty()){
+            return;
+        }
+        for(UpmsRoleSystem upmsRoleSystem : upmsRoleSystems){
+            upmsRoleSystem.setIsDeleted(true);
+        }
+        upmsRoleSystemRepository.saveAll(upmsRoleSystems);
+    }
+
+    @Override
     public List<UpmsRoleSystem> findAll() {
         return upmsRoleSystemRepository.findByIsDeletedFalse();
     }

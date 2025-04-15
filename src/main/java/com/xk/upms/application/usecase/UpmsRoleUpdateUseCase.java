@@ -20,6 +20,6 @@ public interface UpmsRoleUpdateUseCase {
 	 * @param request 更新請求 DTO
 	 * @return 更新後的 `UpmsRoleResponseDTO`
 	 */
-	UpmsRoleResponseDTO update(Long id, UpmsRoleUpdateDTO request);
+	UpmsRoleResponseDTO update(Long roleId, UpmsRoleUpdateDTO request);
 
 }

@@ -1,5 +1,7 @@
 package com.xk.upms.application.usecase.impl;
 
+import com.xk.upms.domain.model.po.UpmsRoleSystem;
+import com.xk.upms.domain.service.UpmsRoleSystemService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +10,8 @@ import com.xk.upms.domain.service.UpmsRoleService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * 📌 UpmsRoleDeleteUseCaseImpl（應用層 Use Case 實作）
@@ -20,9 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UpmsRoleDeleteUseCaseImpl implements UpmsRoleDeleteUseCase {
 
 	private final UpmsRoleService upmsRoleService;
+
+	private final UpmsRoleSystemService upmsRoleSystemService;
 
 	@Override
 	@Transactional
@@ -30,7 +37,10 @@ public class UpmsRoleDeleteUseCaseImpl implements UpmsRoleDeleteUseCase {
 		log.info("📌 嘗試刪除角色 ID: {}", roleId);
 		
 		boolean deleted = upmsRoleService.delete(roleId);
-		
+		// 取得角色系統清單
+		List<UpmsRoleSystem> upmsRoleSystems = upmsRoleSystemService.findAllByRoleId(roleId);
+		// 刪除角色系統清單
+		upmsRoleSystemService.deleteAll(upmsRoleSystems);
 		if (deleted) {
 			log.info("✅ 使用者刪除成功，ID: {}", roleId);
 		} else {
