@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface UpmsPermissionUpdateUseCase {
 
-	UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request);
+	UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request) throws Exception;
 
 }

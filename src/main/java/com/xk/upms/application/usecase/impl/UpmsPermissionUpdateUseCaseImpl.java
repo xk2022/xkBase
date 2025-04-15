@@ -53,7 +53,7 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 
 	@Override
 	@Transactional
-	public UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request) {
+	public UpmsPermissionResponseDTO update(UUID systemUuid, Long roleId, UpmsPermissionUpdateDTO request) throws Exception {
 		log.info("📌 更新系統ID: {}, 角色ID: {}", systemUuid, roleId);
 
 		UpmsPermissionResponseDTO responseDTO = new UpmsPermissionResponseDTO();
@@ -86,10 +86,9 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 		//角色原有 控制權限動作
 		List<UpmsRolePermissionAction> existingRolePermissionAction = upmsRolePermissionActionService.findAllIn(roleId,existingPermissionIds);
 		//刪除角色原有權限清單
-		List<UpmsRolePermission> deletedRolePermissions = upmsRolePermissionService.deleteAll(existingRolePermissions);
+		upmsRolePermissionService.deleteAll(existingRolePermissions);
 		//刪除所有權限動作
 		List<UpmsRolePermissionAction> deletedRolePermissionActions = upmsRolePermissionActionService.deleteAll(existingRolePermissionAction);
-		upmsRolePermissionService.deleteAll(deletedRolePermissions);
 		upmsRolePermissionActionService.deleteAll(deletedRolePermissionActions);
 		//重新加入 角色權限 及動作
 		List<UpmsRolePermission> rolePermissions = new ArrayList<>();
@@ -105,7 +104,7 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 			upmsRolePermission.setRoleId(roleId);
 			upmsRolePermission.setSystemUuid(systemUuid);
 			upmsRolePermission.setUpdatedBy("");//更新人員
-			upmsRolePermission.setActive(upmsPermission.getStatus());
+			upmsRolePermission.setActive(permission.active());
 			rolePermissions.add(upmsRolePermission);
 
 			//response
@@ -126,7 +125,7 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 				upmsRolePermissionAction.setPermissionId(upmsPermission.getId());
 				upmsRolePermissionAction.setActionId(upmsAction.getId());
 				upmsRolePermissionAction.setUpdatedBy("");//更新人員
-				upmsRolePermissionAction.setActive(upmsAction.getActive());
+				upmsRolePermissionAction.setActive(action.active());
 				rolePermissionActions.add(upmsRolePermissionAction);
 				//response
 				UpmsPermissionResponseDTO.Action actionDTO = new UpmsPermissionResponseDTO.Action();

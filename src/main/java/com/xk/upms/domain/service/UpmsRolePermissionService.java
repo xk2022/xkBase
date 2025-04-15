@@ -15,7 +15,7 @@ public interface UpmsRolePermissionService {
 
     UpmsRolePermissionBO save(UpmsRolePermissionBO upmsRolePermissionBO );
 
-    List<UpmsRolePermission> deleteAll(List<UpmsRolePermission> upmsRolePermissionBOs);
+    void deleteAll(List<UpmsRolePermission> upmsRolePermissionBOs) throws Exception;
 
-    List<UpmsRolePermission> saveAll(List<UpmsRolePermission> upmsRolePermissionBOs);
+    void saveAll(List<UpmsRolePermission> upmsRolePermissionBOs) throws Exception;
 }

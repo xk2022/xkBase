@@ -40,27 +40,25 @@ public class UpmsRolePermissionServiceImpl implements UpmsRolePermissionService 
     }
 
     @Override
-    public List<UpmsRolePermission> deleteAll(List<UpmsRolePermission> upmsRolePermissions) {
+    public void deleteAll(List<UpmsRolePermission> upmsRolePermissions) throws Exception {
         if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
-            return new ArrayList<>();
+             throw new Exception("權限清單為空");
         }
         for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
             upmsRolePermission.setIsDeleted(true);
         }
         upmsRolePermissionRepository.deleteAll(upmsRolePermissions);
-        return upmsRolePermissions;
     }
 
     @Override
-    public List<UpmsRolePermission> saveAll(List<UpmsRolePermission> upmsRolePermissions) {
+    public void saveAll(List<UpmsRolePermission> upmsRolePermissions) throws Exception{
         if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
-            return new ArrayList<>();
+            throw new Exception("權限清單為空");
         }
         for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
             upmsRolePermission.setIsDeleted(false);
         }
         upmsRolePermissionRepository.saveAll(upmsRolePermissions);
-        return upmsRolePermissions;
     }
 
 }
