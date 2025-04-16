@@ -11,6 +11,8 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true)
 public class UpmsUserRoleBO {
 
+    private Long id;
+
     private UUID uuid;
 
     private UUID userUuid;

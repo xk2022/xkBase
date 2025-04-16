@@ -38,6 +38,7 @@ public class UpmsUserRoleServiceImpl implements UpmsUserRoleService {
     public Optional<UpmsUserRoleBO> findByUserId(UUID userUuid) {
         return upmsUserRoleRepository.findByUserUuid(userUuid)
                 .map(upmsUserRole -> new UpmsUserRoleBO(
+                        upmsUserRole.getId(),
                         upmsUserRole.getUuid(),
                         upmsUserRole.getUserUuid(),
                         upmsUserRole.getRoleUuid()

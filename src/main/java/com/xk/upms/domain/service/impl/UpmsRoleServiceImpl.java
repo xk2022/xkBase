@@ -74,6 +74,7 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 		log.info("📌 查詢角色 UUID: {}", roleUuid);
 		return upmsRoleRepository.findByIsDeletedFalseAndUuid(roleUuid)
 				.map(role -> new UpmsRoleBO(
+						role.getId(),
 						role.getUuid(),
 						role.getCode(), 
 						role.getTitle(), 
@@ -96,7 +97,6 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 			}
 		});
 		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
-		rolePO.setUuid(uuid);
 		UpmsRole savedPO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(savedPO, roleBO);
 		return roleBO;

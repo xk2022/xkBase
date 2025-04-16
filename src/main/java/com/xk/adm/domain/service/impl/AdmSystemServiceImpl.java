@@ -179,7 +179,8 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 	    systemDO.markAsDeleted(); // ✅ 在 Entity 層執行軟刪除
 	    systemDO.setDeletedTime(ZonedDateTime.now());
 
-	    admSystemRepository.save(systemDO.toPO());
+		AdmSystemPO po = systemDO.toPO();
+		admSystemRepository.save(po);
 	    log.info("✅ [Service] 軟刪除成功 - ID: {}", uuid);
 	}
 
