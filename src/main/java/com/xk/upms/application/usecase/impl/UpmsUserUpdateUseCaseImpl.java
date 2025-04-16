@@ -17,6 +17,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 /**
  * 📌 `UserUpdateUseCaseImpl` - 使用者更新 Use Case 實作
  * 
@@ -41,21 +43,21 @@ public class UpmsUserUpdateUseCaseImpl implements UpmsUserUpdateUseCase {
 	 */
 	@Override
 	@Transactional
-	public UpmsUserResponseDTO update(Long userId, UpmsUserUpdateDTO request) {
-		log.info("📌 更新使用者 ID: {}", userId);
+	public UpmsUserResponseDTO update(UUID uuid, UpmsUserUpdateDTO request) {
+		log.info("📌 更新使用者 UUID: {}", uuid);
 
 		// ✅ 檢查使用者是否存在
-		UpmsUserBO existingUserBO = upmsUserService.findById(userId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者 ID %d 不存在，更新失敗", userId)));
+		UpmsUserBO existingUserBO = upmsUserService.findByUuid(uuid)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者 UUID %d 不存在，更新失敗", uuid)));
 		// ✅ 更新必要欄位（但不影響 ID）
 		GenericUpdateService<UpmsUserBO> updateUserService = new GenericUpdateService<>();
 		UpmsUserBO updatedUserEntity = updateUserService.updateEntity(existingUserBO, request);
 		// ✅ 儲存變更
-		UpmsUserBO savedUserEntity = upmsUserService.update(userId, updatedUserEntity);
+		UpmsUserBO savedUserEntity = upmsUserService.update(uuid, updatedUserEntity);
 		// 取得使用者角色
-		UpmsUserRoleBO existingUserRoleBO = upmsUserRoleService.findByUserId(userId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者角色 ID %d 不存在，更新失敗", userId)));
-		existingUserRoleBO.setRoleId(request.roleId());
+		UpmsUserRoleBO existingUserRoleBO = upmsUserRoleService.findByUserId(uuid)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("使用者角色 ID %d 不存在，更新失敗", uuid)));
+		existingUserRoleBO.setRoleUuid(request.roleUuid());
 		// 變更使用者角色
 		UpmsUserRoleBO savedUserRoleEntity = upmsUserRoleService.update(existingUserRoleBO);
 		// ✅ 回傳 DTO

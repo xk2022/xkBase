@@ -45,7 +45,7 @@ public interface AdmSystemService {
      * @param uuid 系統唯一識別碼
      * @return `AdmSystemBO`，如果找不到則回傳 `Optional.empty()`
      */
-    Optional<AdmSystemBO> findById(UUID uuid);
+    Optional<AdmSystemBO> findByUuid(UUID uuid);
     
     /**
      * 根據 `code` 取得系統資訊

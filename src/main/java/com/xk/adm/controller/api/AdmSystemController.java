@@ -60,11 +60,11 @@ public class AdmSystemController {
 	}
 
 	@Operation(summary = "根據類型獲取系統資訊", description = "查詢特定類型的系統")
-	@GetMapping("/{id}")
-	public BaseResult<AdmSystemResponse> getSystemById(
-			@Parameter(description = "系統的唯一ID", required = true) @PathVariable UUID id) {
-		log.info(" [API] 查詢特定系統 - UUID: {}", id);
-		AdmSystemResponse system = readUseCase.getSystemById(id);
+	@GetMapping("/{uuid}")
+	public BaseResult<AdmSystemResponse> getSystemByUuid(
+			@Parameter(description = "系統的唯一ID", required = true) @PathVariable UUID uuid) {
+		log.info(" [API] 查詢特定系統 - UUID: {}", uuid);
+		AdmSystemResponse system = readUseCase.getSystemByUuid(uuid);
 
 	    return (system != null) 
 	        ? BaseResult.success(system, "成功獲取系統資料") 
@@ -82,22 +82,22 @@ public class AdmSystemController {
 	}
 
 	@Operation(summary = "更新系統資訊", description = "更新現有的系統記錄")
-	@PutMapping("/{id}")
+	@PutMapping("/{uuid}")
 	public BaseResult<AdmSystemResponse> updateSystem(
-			@PathVariable UUID id, @RequestBody @Validated @NotNull AdmSystemRequest request) {
-		log.info("📌 [API] 更新系統 - UUID: {}", id);
+			@PathVariable UUID uuid, @RequestBody @Validated @NotNull AdmSystemRequest request) {
+		log.info("📌 [API] 更新系統 - UUID: {}", uuid);
 
-	    AdmSystemResponse updatedSystem = updateUseCase.update(id, request);
+	    AdmSystemResponse updatedSystem = updateUseCase.update(uuid, request);
 	    return BaseResult.success(updatedSystem, "系統更新成功");
 	}
 
 	@Operation(summary = "刪除系統資訊", description = "根據 ID 刪除系統")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{uuid}")
 	public ResponseEntity<Void> deleteSystem(
-	        @Parameter(description = "需要刪除的系統 ID", required = true) @PathVariable UUID id) {
-		log.info(" [API] 刪除系統 - UUID: {}", id);
+	        @Parameter(description = "需要刪除的系統 ID", required = true) @PathVariable UUID uuid) {
+		log.info(" [API] 刪除系統 - UUID: {}", uuid);
 
-	    deleteUseCase.delete(id); // 傳遞 UUID 進入 UseCase
+	    deleteUseCase.delete(uuid); // 傳遞 UUID 進入 UseCase
 
 	    return ResponseEntity.noContent().build(); // 204 No Content
 	}

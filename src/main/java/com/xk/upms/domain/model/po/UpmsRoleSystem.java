@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
@@ -28,12 +29,19 @@ public class UpmsRoleSystem extends BaseEntity implements Serializable {
     @Comment("00_流水號")
     private Long id;
 
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", length = 36, nullable = false)
+    private UUID uuid;
+
+    @Comment("角色uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "role_uuid", length = 36, nullable = false)
+    private UUID roleUuid;
 
     @Comment("系統uuid")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "system_uuid", length = 36)
+    @Column(name = "system_uuid", length = 36, nullable = false)
     private UUID systemUuid;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */

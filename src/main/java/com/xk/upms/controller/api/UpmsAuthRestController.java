@@ -35,7 +35,7 @@ public class UpmsAuthRestController {
 	@PostMapping("/signin")
 	public BaseResult<UpmsUserResponseDTO> signIn(@RequestBody @Valid UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) {
 		UpmsUserResponseDTO upmsUserResponseDTO = upmsAuthUseCase.signin(upmsAuthLoginRequestDTO);
-		return null;
+		return BaseResult.success(upmsUserResponseDTO, "成功");
 	}
 
 }

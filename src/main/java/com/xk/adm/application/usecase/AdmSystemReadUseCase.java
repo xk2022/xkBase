@@ -38,7 +38,7 @@ public interface AdmSystemReadUseCase {
 	 * @return `AdmSystemResponse`
 	 * @throws EntityNotFoundException 若無資料則拋出錯誤
 	 */
-	AdmSystemResponse getSystemById(UUID uuid);
+	AdmSystemResponse getSystemByUuid(UUID uuid);
 
 	/**
 	 * 📌 根據 `code` 獲取系統資訊

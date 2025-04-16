@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class UpmsUserRoleServiceImpl implements UpmsUserRoleService {
         if (upmsUserRoleBO == null) {
             throw new IllegalArgumentException("使用者不能為 null");
         }
-        log.info("📌 儲存使用者角色: {}, {}", upmsUserRoleBO.getUserId(), upmsUserRoleBO.getRoleId());
+        log.info("📌 儲存使用者角色: {}, {}", upmsUserRoleBO.getUserUuid(), upmsUserRoleBO.getRoleUuid());
         UpmsUserRole userRolePO = XkBeanUtils.copyProperties(upmsUserRoleBO, UpmsUserRole::new);
         UpmsUserRole savedPO = upmsUserRoleRepository.save(userRolePO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
@@ -34,12 +35,12 @@ public class UpmsUserRoleServiceImpl implements UpmsUserRoleService {
     }
 
     @Override
-    public Optional<UpmsUserRoleBO> findByUserId(Long userId) {
-        return upmsUserRoleRepository.findByUserId(userId)
+    public Optional<UpmsUserRoleBO> findByUserId(UUID userUuid) {
+        return upmsUserRoleRepository.findByUserUuid(userUuid)
                 .map(upmsUserRole -> new UpmsUserRoleBO(
-                        upmsUserRole.getId(),
-                        upmsUserRole.getUserId(),
-                        upmsUserRole.getRoleId()
+                        upmsUserRole.getUuid(),
+                        upmsUserRole.getUserUuid(),
+                        upmsUserRole.getRoleUuid()
                 ));
     }
 

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 📌 `UpmsUserService` - 使用者領域服務
@@ -49,10 +50,10 @@ public interface UpmsUserService {
 	/**
 	 * 📌 依據 ID 查詢單筆使用者
 	 * 
-	 * @param userId 使用者 ID
+	 * @param userUuid 使用者 UUID
 	 * @return 使用者物件（若存在）
 	 */
-	Optional<UpmsUserBO> findById(Long userId);
+	Optional<UpmsUserBO> findByUuid(UUID userUuid);
 
 	/**
 	 * 📌 依據 `username` 查詢使用者
@@ -84,20 +85,19 @@ public interface UpmsUserService {
 	// ============= 🟡【U】Update（更新）================
 	/**
 	 * 📌 更新使用者資訊（直接呼叫 `save()`，但可額外擴充業務邏輯）
-	 * 
-	 * @param userId
+	 *
 	 * @param updateData
 	 * @return
 	 */
-	UpmsUserBO update(Long userId, UpmsUserBO updateData);
+	UpmsUserBO update(UUID uuid, UpmsUserBO updateData);
 
 	// ============= 🔴【D】Delete（刪除）================
 	/**
 	 * 📌 刪除使用者（如果 ID 不存在則拋出 `ResourceNotFoundException`）
 	 * 
-	 * @param userId 使用者 ID
+	 * @param userUuid 使用者 UUID
 	 * @return 是否成功刪除
 	 */
-	boolean delete(Long userId);
+	boolean delete(UUID userUuid);
 
 }

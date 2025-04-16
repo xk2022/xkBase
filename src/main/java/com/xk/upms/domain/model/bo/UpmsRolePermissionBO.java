@@ -13,13 +13,13 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true)
 public class UpmsRolePermissionBO {
 
-    private Long id;
+    private UUID uuid;
 
-    private Long roleId;
+    private UUID roleUuid;
 
-    private Long permissionId;
+    private UUID permissionUuid;
 
-    private UUID systemId;
+    private UUID systemUuid;
 
     private Boolean active;
 

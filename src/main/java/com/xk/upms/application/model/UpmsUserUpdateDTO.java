@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
+import java.util.UUID;
 
 public record UpmsUserUpdateDTO(
 
@@ -24,9 +25,9 @@ public record UpmsUserUpdateDTO(
 		@NotBlank(message = "請輸入手機")
 		String cellPhone,
 
-		@Schema(description = "角色id")
+		@Schema(description = "角色uuid")
 		@NotNull(message = "請選擇角色")
-		Long roleId,
+		UUID roleUuid,
 
 		@Schema(description = "是否啟用")
 		Boolean enabled,

@@ -16,8 +16,4 @@ public interface UpmsActionService {
 
     List<UpmsAction> findAll();
 
-    List<UpmsAction> findAllIn(List<Long> upmsActionIds);
-
-    UpmsAction findById(Long id);
-
 }

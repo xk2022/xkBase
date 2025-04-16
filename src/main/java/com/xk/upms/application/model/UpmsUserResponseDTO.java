@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpmsUserResponseDTO{
 
-	private Long id;
+	private UUID userUuid;
 
 	private String username;
 
@@ -17,7 +19,7 @@ public class UpmsUserResponseDTO{
 
 	private String cellPhone;
 
-	private Long roleId;
+	private UUID roleUuid;
 
 	private boolean enable;
 

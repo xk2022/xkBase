@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class JwtUserDTO implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    private Long userId;
+    private UUID userUuid;
 
     private String userName;
 
@@ -22,7 +23,7 @@ public class JwtUserDTO implements UserDetails {
 
     private String password;
 
-    private Long roleId;
+    private UUID roleUuid;
 
     private boolean enable;
 
@@ -53,20 +54,20 @@ public class JwtUserDTO implements UserDetails {
     }
 
     public JwtUserDTO(
-            Long userId,
+            UUID userUuid,
             String userName,
             String email,
             String cellPhone,
-            Long roleId,
+            UUID roleUuid,
             boolean enable,
             boolean lock,
             List<SystemDTO> systemDTOs,
             List<PermissionDTO> permissionDTOs) {
-        this.userId = userId;
+        this.userUuid = userUuid;
         this.userName = userName;
         this.email = email;
         this.cellPhone = cellPhone;
-        this.roleId = roleId;
+        this.roleUuid = roleUuid;
         this.enable = enable;
         this.lock = lock;
         this.systemDTOs = systemDTOs;

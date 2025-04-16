@@ -1,6 +1,7 @@
 package com.xk.upms.application.usecase;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.xk.upms.application.model.UpmsRoleFindDTO;
 import com.xk.upms.application.model.UpmsRoleResponseDTO;
@@ -15,7 +16,7 @@ import com.xk.upms.application.model.UpmsRoleResponseDTO;
  */
 public interface UpmsRoleFindUseCase {
 
-	UpmsRoleResponseDTO findById(Long Id);
+	UpmsRoleResponseDTO findByUuid(UUID uuid);
 
 	List<UpmsRoleResponseDTO> findAll(UpmsRoleFindDTO request);
 	

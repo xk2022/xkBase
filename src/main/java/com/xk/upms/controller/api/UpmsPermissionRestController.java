@@ -37,21 +37,21 @@ public class UpmsPermissionRestController {
 	private final UpmsPermissionUpdateUseCase upmsPermissionUpdateUseCase;
 
 	@Operation(summary = "取得所有權限", description = "返回系統中所有 UpmsUser 的列表。")
-	@GetMapping("/{systemUuid}/{roleId}")
+	@GetMapping("/{systemUuid}/{roleUuid}")
 	public BaseResult<List<UpmsPermissionResponseDTO>> findAll(
 			@PathVariable @NotNull UUID systemUuid,
-			@PathVariable @NotNull Long roleId) {
-		List<UpmsPermissionResponseDTO> responseDTOS = upmsPermissionFindUseCase.findAll(systemUuid, roleId);
+			@PathVariable @NotNull UUID roleUuid) {
+		List<UpmsPermissionResponseDTO> responseDTOS = upmsPermissionFindUseCase.findAll(systemUuid, roleUuid);
 		return BaseResult.success(responseDTOS, "成功獲取權限列表");
 	}
 
 	@Operation(summary = "更新權限資料", description = "更新權限的詳細資料。")
-	@PutMapping("/{systemUuid}/{roleId}")
+	@PutMapping("/{systemUuid}/{roleUuid}")
 	public BaseResult update(
 			@PathVariable @NotNull UUID systemUuid,
-			@PathVariable @NotNull Long roleId,
+			@PathVariable @NotNull UUID roleUuid,
 			@RequestBody UpmsPermissionUpdateDTO request) {
-		upmsPermissionUpdateUseCase.update(systemUuid, roleId, request);
+		upmsPermissionUpdateUseCase.update(systemUuid, roleUuid, request);
 		return BaseResult.success(null, "權限更新成功");
 	}
 

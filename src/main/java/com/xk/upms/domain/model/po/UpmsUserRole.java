@@ -2,16 +2,17 @@ package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * Created by Hank on 2025/01/13
@@ -32,13 +33,20 @@ public class UpmsUserRole extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
-    @Comment("使用者id")
-    @Column(name="user_id",nullable = false)
-    private Long userId;
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", length = 36, nullable = false)
+    private UUID uuid;
 
-    @Comment("角色id")
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
+    @Comment("使用者uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name="user_uuid", length = 36, nullable = false)
+    private UUID userUuid;
+
+    @Comment("角色uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "role_uuid", length = 36, nullable = false)
+    private UUID roleUuid;
 
     /** 📌 刪除狀態（0:刪除, 1:未刪除） */
     @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")

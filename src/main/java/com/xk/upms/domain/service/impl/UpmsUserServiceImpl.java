@@ -16,10 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 📌 `UserServiceImpl` - 使用者領域服務的具體實作
@@ -85,11 +82,11 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      */
 	@Override
 	@Transactional(readOnly = true)
-    public Optional<UpmsUserBO> findById(Long userId) {
-        log.info("📌 查詢使用者 ID: {}", userId);
-        return upmsUserRepository.findById(userId)
+    public Optional<UpmsUserBO> findByUuid(UUID uuid) {
+        log.info("📌 查詢使用者 UUID: {}", uuid);
+        return upmsUserRepository.findByIsDeletedFalseAndUuid(uuid)
                 .map(upmsUser -> new UpmsUserBO(
-                        upmsUser.getId(),
+                        upmsUser.getUuid(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
@@ -113,7 +110,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
         log.info("📌 查詢使用者，username: {}", username);
         return upmsUserRepository.findByIsDeletedFalseAndUsername(username)
                 .map(upmsUser -> new UpmsUserBO(
-                        upmsUser.getId(),
+                        upmsUser.getUuid(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
@@ -139,7 +136,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
             log.info("📌 查詢所有使用者 (分頁)");
             return upmsUserRepository.findAll(pageable)
                     .map(upmsUser -> new UpmsUserBO(
-                            upmsUser.getId(),
+                            upmsUser.getUuid(),
                     		upmsUser.getUsername(),
                     		upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
@@ -160,7 +157,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			
 			return upmsUserRepository.findAll(example, pageable)
 					.map(upmsUser -> new UpmsUserBO(
-                            upmsUser.getId(),
+                            upmsUser.getUuid(),
                             upmsUser.getUsername(),
                             upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
@@ -192,21 +189,21 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      * {@inheritDoc}
      */
 	@Override
-	public UpmsUserBO update(Long userId, UpmsUserBO updateData) {
+	public UpmsUserBO update(UUID uuid, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());
         upmsUserRepository.findByIsDeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
-            if(!user.getId().equals(updateData.getId())){
+            if(!user.getUuid().equals(updateData.getUuid())){
                 throw new IllegalArgumentException("使用者名稱重複");
             }
         });
         upmsUserRepository.findByIsDeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
-            if(!user.getId().equals(updateData.getId())){
+            if(!user.getUuid().equals(updateData.getUuid())){
                 throw new IllegalArgumentException("信箱名稱重複");
             }
         });
         UpmsUser userPO = XkBeanUtils.copyProperties(updateData, UpmsUser::new);
-        userPO.setId(userId);
+        userPO.setUuid(uuid);
         UpmsUser savedPO = upmsUserRepository.save(userPO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
         return reslutBo;
@@ -217,12 +214,12 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      */
     @Override
     @Transactional
-    public boolean delete(Long userId) {
-        log.info("📌 嘗試刪除使用者 ID: {}", userId);
-        return upmsUserRepository.findById(userId)
+    public boolean delete(UUID userUuid) {
+        log.info("📌 嘗試刪除使用者 UUID: {}", userUuid);
+        return upmsUserRepository.findByIsDeletedFalseAndUuid(userUuid)
                 .map(user -> {
                 	upmsUserRepository.delete(user);
-                    log.info("✅ 使用者 ID: {} 已刪除", userId);
+                    log.info("✅ 使用者 UUID: {} 已刪除", userUuid);
                     return true;
                 }).orElse(false);
     }

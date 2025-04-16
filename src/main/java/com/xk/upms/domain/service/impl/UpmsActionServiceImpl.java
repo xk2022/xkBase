@@ -29,14 +29,4 @@ public class UpmsActionServiceImpl implements UpmsActionService {
 		return upmsActionRepository.findByIsDeletedFalseOrderByOrdersAsc();
 	}
 
-	@Override
-	public List<UpmsAction> findAllIn(List<Long> upmsActionIds) {
-		return upmsActionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(upmsActionIds);
-	}
-
-	@Override
-	public UpmsAction findById(Long id) {
-		return upmsActionRepository.findById(id).orElse(null);
-	}
-
 }

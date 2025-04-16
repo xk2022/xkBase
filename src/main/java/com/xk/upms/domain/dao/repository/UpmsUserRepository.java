@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 
 /**
@@ -37,14 +38,16 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	@Query("SELECT u FROM UpmsUser u WHERE u.email = :email")
 	Optional<UpmsUser> findByIsDeletedFalseAndEmail(@Param("email") String email);
 
+	Optional<UpmsUser> findByIsDeletedFalseAndUuid(UUID uuid);
+
 	@Query(value =
 			"""
             SELECT
-                u.id AS id,
+                u.uuid AS uuid,
                 u.username AS username,
                 u.email AS email,
                 u.cellPhone AS cellPhone,
-                ur.roleId AS roleId,
+                ur.roleUuid AS roleUuid,
                 u.enabled AS enabled,
                 u.locked AS locked
             FROM
@@ -52,7 +55,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
             LEFT JOIN
                 UpmsUserRole ur
             ON
-                ur.userId = u.id
+                ur.userUuid = u.uuid
             WHERE
             	1 = 1
             	AND u.isDeleted = false

@@ -3,6 +3,7 @@ package com.xk.upms.domain.service;
 import com.xk.upms.domain.model.po.UpmsRoleSystem;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UpmsRoleSystemService {
 
@@ -12,6 +13,6 @@ public interface UpmsRoleSystemService {
 
     List<UpmsRoleSystem> findAll();
 
-    List<UpmsRoleSystem> findAllByRoleId(Long roleId);
+    List<UpmsRoleSystem> findAllByRoleUuid(UUID roleUuid);
 
 }

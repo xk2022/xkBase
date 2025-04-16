@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 📌 `UserServiceImpl` - 角色領域服務的具體實作
@@ -33,7 +34,6 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 
 	private final UpmsRoleRepository upmsRoleRepository;
 
-	@SuppressWarnings("unused")
 	@Override
 	@Transactional
 	public UpmsRoleBO save(UpmsRoleBO upmsRoleBO) {
@@ -70,11 +70,11 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	}
 
 	@Override
-	public Optional<UpmsRoleBO> findById(Long roleId) {
-		log.info("📌 查詢角色 ID: {}", roleId);
-		return upmsRoleRepository.findById(roleId)
+	public Optional<UpmsRoleBO> findByUuid(UUID roleUuid) {
+		log.info("📌 查詢角色 UUID: {}", roleUuid);
+		return upmsRoleRepository.findByIsDeletedFalseAndUuid(roleUuid)
 				.map(role -> new UpmsRoleBO(
-						role.getId(),
+						role.getUuid(),
 						role.getCode(), 
 						role.getTitle(), 
 						role.getDescription(), 
@@ -86,17 +86,17 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	}
 
 	@Override
-	public UpmsRoleBO update(Long id, UpmsRoleBO upmsRoleBO) {
+	public UpmsRoleBO update(UUID uuid, UpmsRoleBO upmsRoleBO) {
 		UpmsRoleBO roleBO = new UpmsRoleBO();
 		log.info("📌 儲存角色: {}", roleBO.getCode());
 		// 檢核名稱是否重複
 		upmsRoleRepository.findByIsDeletedFalseAndCode(upmsRoleBO.getCode()).ifPresent(role -> {
-			if(!role.getId().equals(upmsRoleBO.getId())){
+			if(!role.getUuid().equals(upmsRoleBO.getUuid())){
 				throw new IllegalArgumentException("角色名稱重複");
 			}
 		});
 		UpmsRole rolePO = XkBeanUtils.copyProperties(upmsRoleBO, UpmsRole::new);
-		rolePO.setId(id);
+		rolePO.setUuid(uuid);
 		UpmsRole savedPO = upmsRoleRepository.save(rolePO);
 		XkBeanUtils.copyPropertiesAutoConvert(savedPO, roleBO);
 		return roleBO;
@@ -109,9 +109,9 @@ public class UpmsRoleServiceImpl implements UpmsRoleService {
 	}
 
 	@Override
-	public boolean delete(Long roleId) {
-		log.info("📌 嘗試刪除角色 ID: {}", roleId);
-		return upmsRoleRepository.findById(roleId).map(userRole -> {
+	public boolean delete(UUID roleUuid) {
+		log.info("📌 嘗試刪除角色 UUID: {}", roleUuid);
+		return upmsRoleRepository.findByIsDeletedFalseAndUuid(roleUuid).map(userRole -> {
 			userRole.setIsDeleted(true);
 			userRole.setDeleteTime(ZonedDateTime.now());
 			upmsRoleRepository.save(userRole);

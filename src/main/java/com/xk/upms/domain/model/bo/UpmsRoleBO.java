@@ -1,6 +1,7 @@
 package com.xk.upms.domain.model.bo;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsRoleBO {
 
-	private Long id;
+	private UUID uuid;
 	
 	private String code;
 	
@@ -34,7 +35,6 @@ public class UpmsRoleBO {
 	
 	@ToString.Include
 	private Long orders;
-	
 
     private Boolean isDeleted;
     

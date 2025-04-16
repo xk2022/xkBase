@@ -3,6 +3,8 @@ package com.xk.upms.application.usecase;
 import com.xk.upms.application.model.UpmsRoleResponseDTO;
 import com.xk.upms.application.model.UpmsRoleUpdateDTO;
 
+import java.util.UUID;
+
 /**
  * 📌 `UpmsRoleUpdateUseCase` - 角色更新應用層 Use Case 介面
  * 
@@ -20,6 +22,6 @@ public interface UpmsRoleUpdateUseCase {
 	 * @param request 更新請求 DTO
 	 * @return 更新後的 `UpmsRoleResponseDTO`
 	 */
-	UpmsRoleResponseDTO update(Long roleId, UpmsRoleUpdateDTO request);
+	UpmsRoleResponseDTO update(UUID roleUuid, UpmsRoleUpdateDTO request);
 
 }

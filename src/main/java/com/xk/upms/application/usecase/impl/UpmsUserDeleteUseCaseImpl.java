@@ -9,6 +9,8 @@ import com.xk.upms.domain.service.UpmsUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 /**
  * 📌 `UpmsUserDeleteUseCaseImpl` - 使用者刪除 Use Case 實作
  * 
@@ -29,16 +31,13 @@ public class UpmsUserDeleteUseCaseImpl implements UpmsUserDeleteUseCase {
 	 */
 	@Override
 	@Transactional
-	public boolean delete(Long userId) {
-		log.info("📌 嘗試刪除使用者 ID: {}", userId);
-
-//        UpmsUser upmsUser = upmsUserService.getOneById(id);
-		boolean deleted = upmsUserService.delete(userId);
-
+	public boolean delete(UUID userUuid) {
+		log.info("📌 嘗試刪除使用者 UUID: {}", userUuid);
+		boolean deleted = upmsUserService.delete(userUuid);
 		if (deleted) {
-			log.info("✅ 使用者刪除成功，ID: {}", userId);
+			log.info("✅ 使用者刪除成功，UUID: {}", userUuid);
 		} else {
-			log.warn("⚠️ 使用者 ID: {} 不存在，刪除失敗", userId);
+			log.warn("⚠️ 使用者 UUID: {} 不存在，刪除失敗", userUuid);
 		}
 		return deleted;
 	}

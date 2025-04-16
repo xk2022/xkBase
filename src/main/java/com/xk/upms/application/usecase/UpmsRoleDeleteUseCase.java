@@ -1,5 +1,7 @@
 package com.xk.upms.application.usecase;
 
+import java.util.UUID;
+
 /**
  * 📌 `UpmsRoleDeleteUseCase` - 刪除應用層 Use Case 介面
  * 
@@ -16,6 +18,6 @@ public interface UpmsRoleDeleteUseCase {
 	 * @param roleId ID
 	 * @return 是否成功刪除
 	 */
-	boolean delete(Long roleId);
+	boolean delete(UUID roleUuid);
 
 }

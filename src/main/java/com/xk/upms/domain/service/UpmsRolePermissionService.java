@@ -1,7 +1,5 @@
 package com.xk.upms.domain.service;
 
-import com.xk.upms.application.model.UpmsRolePermissionRequestDTO;
-import com.xk.upms.domain.model.bo.UpmsPermissionBO;
 import com.xk.upms.domain.model.bo.UpmsRolePermissionBO;
 import com.xk.upms.domain.model.po.UpmsRolePermission;
 
@@ -10,12 +8,12 @@ import java.util.UUID;
 
 public interface UpmsRolePermissionService {
 
-    List<UpmsRolePermission> findAll(UUID systemUuid, Long roleId);
+    List<UpmsRolePermission> findAll(UUID systemUuid, UUID roleUuid);
 
-
-    UpmsRolePermissionBO save(UpmsRolePermissionBO upmsRolePermissionBO );
+    UpmsRolePermissionBO save(UpmsRolePermissionBO upmsRolePermissionBO);
 
     void deleteAll(List<UpmsRolePermission> upmsRolePermissionBOs);
 
     void saveAll(List<UpmsRolePermission> upmsRolePermissionBOs);
+
 }

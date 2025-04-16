@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.UUID;
+
 public record UpmsUserCreateDTO(
 
 		@Schema(description = "使用者名稱")
@@ -26,9 +28,9 @@ public record UpmsUserCreateDTO(
 		@NotBlank(message = "請輸入密碼")
 		String password,
 
-		@Schema(description = "角色id")
+		@Schema(description = "角色uuid")
 		@NotNull(message = "請選擇角色")
-		Long roleId
+		UUID roleUuid
 
 ) {
 }

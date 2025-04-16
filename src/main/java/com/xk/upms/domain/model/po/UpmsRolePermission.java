@@ -2,14 +2,12 @@ package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
@@ -35,17 +33,24 @@ public class UpmsRolePermission extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
-    @Comment("角色id")
-    @Column(name = "role_id")
-    private Long roleId;
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", length = 36, nullable = false)
+    private UUID uuid;
 
-    @Comment("權限id")
-    @Column(name="permission_id")
-    private Long permissionId;
+    @Comment("角色uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "role_uuid", length = 36, nullable = false)
+    private UUID roleUuid;
+
+    @Comment("權限uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "permission_uuid", length = 36, nullable = false)
+    private UUID permissionUuid;
 
     @Comment("系統uuid")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "system_uuid", length = 36)
+    @Column(name = "system_uuid", length = 36, nullable = false)
     private UUID systemUuid;
 
     @Column(name = "active", nullable = false)

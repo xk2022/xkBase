@@ -7,9 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * Created by Hank on 2025/02/21
@@ -25,8 +29,13 @@ public class UpmsAction extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "action_id", updatable = false, nullable = false)
-	@Comment("00_流水號") // 描述
+	@Comment("00_流水號")
 	private Long id;
+
+	@UuidGenerator
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Column(name = "uuid", length = 36, nullable = false)
+	private UUID uuid;
 
 	@Column(name = "name", length = 100)
 	@Comment("01_動作名稱")

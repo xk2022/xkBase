@@ -5,11 +5,12 @@ import com.xk.upms.domain.model.po.UpmsRolePermissionAction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface UpmsRolePermissionActionService {
 
-    List<UpmsRolePermissionAction> findAllIn(Long roleId, List<Long> upmsPermissionIds);
+    List<UpmsRolePermissionAction> findAllIn(UUID roleUuid, List<UUID> upmsPermissionUuids);
 
     UpmsRolePermissionAction save(UpmsRolePermissionActionBO upmsRolePermissionActionBO);
 

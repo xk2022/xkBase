@@ -18,7 +18,7 @@ public interface AdmSystemUpdateUseCase {
 	/**
 	 * 更新系統資訊
 	 *
-	 * @param id       需要更新的系統 `UUID`
+	 * @param uuid       需要更新的系統 `UUID`
 	 * @param request  包含更新內容的 `AdmSystemRequest`
 	 * @return 更新後的 `AdmSystemResponse`
 	 */

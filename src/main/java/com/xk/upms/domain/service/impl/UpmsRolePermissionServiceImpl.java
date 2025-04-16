@@ -23,13 +23,13 @@ public class UpmsRolePermissionServiceImpl implements UpmsRolePermissionService 
     private final UpmsRolePermissionRepository upmsRolePermissionRepository;
 
     @Override
-    public List<UpmsRolePermission> findAll(UUID systemUuid, Long roleId) {
-        return upmsRolePermissionRepository.findByIsDeletedFalseAndSystemUuidAndRoleId(systemUuid, roleId);
+    public List<UpmsRolePermission> findAll(UUID systemUuid, UUID roleUuid) {
+        return upmsRolePermissionRepository.findByIsDeletedFalseAndSystemUuidAndRoleUuid(systemUuid, roleUuid);
     }
 
     @Override
     public UpmsRolePermissionBO save(UpmsRolePermissionBO upmsRolePermissionBO) {
-        UpmsRolePermissionBO resultBO =new UpmsRolePermissionBO();
+        UpmsRolePermissionBO resultBO = new UpmsRolePermissionBO();
         log.info("📌 儲存角色權限: {}", upmsRolePermissionBO);
         if (upmsRolePermissionBO == null) {
             throw new IllegalArgumentException("角色權限不能為 null");

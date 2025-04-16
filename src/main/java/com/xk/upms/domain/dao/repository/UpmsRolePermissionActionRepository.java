@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface UpmsRolePermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, Long> {
 
-    List<UpmsRolePermissionAction> findByIsDeletedFalseAndRoleIdAndPermissionIdIn(Long roleId, List<Long> upmsPermissionIds);
+    List<UpmsRolePermissionAction> findByIsDeletedFalseAndRoleUuidAndPermissionUuidIn(UUID roleUuid, List<UUID> upmsPermissionUuids);
 
 }

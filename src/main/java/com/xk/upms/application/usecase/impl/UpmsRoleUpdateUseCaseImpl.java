@@ -41,19 +41,19 @@ public class UpmsRoleUpdateUseCaseImpl implements UpmsRoleUpdateUseCase {
 	private final UpmsRoleSystemService upmsRoleSystemService;
 
 	@Override
-	public UpmsRoleResponseDTO update(Long roleId, UpmsRoleUpdateDTO request) {
-		log.info("📌 更新使用者角色 ID: {}", roleId);
+	public UpmsRoleResponseDTO update(UUID roleUuid, UpmsRoleUpdateDTO request) {
+		log.info("📌 更新使用者角色 UUID: {}", roleUuid);
 		
-		UpmsRoleBO upmsRoleBO = upmsRoleService.findById(roleId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("角色ID %d 不存在，更新失敗", roleId)));
-		List<UpmsRoleSystem> oldUpmsRoleSystems = upmsRoleSystemService.findAllByRoleId(roleId);
+		UpmsRoleBO upmsRoleBO = upmsRoleService.findByUuid(roleUuid)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("角色UUID %d 不存在，更新失敗", roleUuid)));
+		List<UpmsRoleSystem> oldUpmsRoleSystems = upmsRoleSystemService.findAllByRoleUuid(roleUuid);
 		// ✅ 更新必要欄位（但不影響 ID）
 		GenericUpdateService<UpmsRoleBO> updateService = new GenericUpdateService<>();
 		UpmsRoleBO updatedEntity = updateService.updateEntity(upmsRoleBO, request);
 		// ✅ 儲存變更
-		UpmsRoleBO savedEntity = upmsRoleService.update(roleId, updatedEntity);
+		UpmsRoleBO savedEntity = upmsRoleService.update(roleUuid, updatedEntity);
 		// 轉換角色系統清單
-		List<UpmsRoleSystem> newUpmsRoleSystems = convert(request.systemUuids(), roleId);
+		List<UpmsRoleSystem> newUpmsRoleSystems = convert(request.systemUuids(), roleUuid);
 		// 刪除舊的角色系統清單
 		upmsRoleSystemService.deleteAll(oldUpmsRoleSystems);
 		// 新增新的角色系統清單
@@ -62,12 +62,12 @@ public class UpmsRoleUpdateUseCaseImpl implements UpmsRoleUpdateUseCase {
 		return XkBeanUtils.copyProperties(savedEntity, UpmsRoleResponseDTO::new);
 	}
 
-	private List<UpmsRoleSystem> convert(List<UUID> systemUuids, Long roleId){
+	private List<UpmsRoleSystem> convert(List<UUID> systemUuids, UUID roleUuid){
 		List<UpmsRoleSystem> upmsRoleSystems = new ArrayList<>();
 		UpmsRoleSystem upmsRoleSystem;
 		for(UUID systemUuid : systemUuids){
 			upmsRoleSystem = new UpmsRoleSystem();
-			upmsRoleSystem.setRoleId(roleId);
+			upmsRoleSystem.setRoleUuid(roleUuid);
 			upmsRoleSystem.setSystemUuid(systemUuid);
 			upmsRoleSystems.add(upmsRoleSystem);
 		}

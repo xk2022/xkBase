@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface UpmsPermissionFindUseCase {
 
-	List<UpmsPermissionResponseDTO> findAll(UUID systemUuid, Long roleId);
+	List<UpmsPermissionResponseDTO> findAll(UUID systemUuid, UUID roleUuid);
 
 }

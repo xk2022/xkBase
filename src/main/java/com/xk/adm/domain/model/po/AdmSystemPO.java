@@ -39,11 +39,15 @@ public class AdmSystemPO extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "system_id", updatable = false, nullable = false)
+	@Comment("00_流水號")
+	private Long id;
+
 	@UuidGenerator
 	@JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "uuid", nullable = false, updatable = false, length = 36)
-	@Comment("00_流水號") /** 系統唯一識別碼 (UUID) */
+	@Comment("uuid") /** 系統唯一識別碼 (UUID) */
 	private UUID uuid;
 
 	@Column(nullable = false, unique = true)

@@ -66,10 +66,10 @@ public class AdmSystemReadUseCaseImpl implements AdmSystemReadUseCase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AdmSystemResponse getSystemById(UUID uuid) {
+	public AdmSystemResponse getSystemByUuid(UUID uuid) {
 	    log.info(" [UseCase] 依 UUID 查詢系統: {}", uuid);
 
-		AdmSystemBO systemBO = admSystemService.findById(uuid)
+		AdmSystemBO systemBO = admSystemService.findByUuid(uuid)
 	            .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, "❌ 系統不存在: " + uuid));
 
 		return XkBeanUtils.copyProperties(systemBO, AdmSystemResponse::new);

@@ -2,18 +2,19 @@ package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.*;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * 📌 用戶實體類（UPMS 系統）
@@ -38,8 +39,13 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Comment("00_流水號")
 	private Long id;
 
+	@UuidGenerator
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Column(name = "uuid", length = 36, nullable = false)
+	private UUID uuid;
+
 	@NotBlank(message = "用戶名稱不能為空")
-	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
+	@Size(max = 50, message = "用戶名稱不能超過50個字符")
 	@Column(nullable = false)
 	@Comment("01_用戶名稱")
 	private String username;

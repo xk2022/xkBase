@@ -10,9 +10,12 @@ import org.springframework.stereotype.Repository;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSpecificationExecutor<UpmsRole> {
+
+    Optional<UpmsRole> findByIsDeletedFalseAndUuid(UUID uuid);
 
     Optional<UpmsRole> findByIsDeletedFalseAndCode(String code);
 
@@ -47,10 +50,10 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
             RIGHT JOIN
                 UpmsUserRole ur
             ON
-                ur.userId = r.id
+                ur.roleUuid = r.uuid
             WHERE
-                ur.userId = :userId
+                ur.userUuid = :userUuid
             """)
-    Optional<UpmsRole> findUserRoleByUserId(@Param("userId") Long userId);
+    Optional<UpmsRole> findUserRoleByUserUuid(@Param("userUuid") UUID userUuid);
 
 }

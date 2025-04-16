@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,6 +16,9 @@ import com.xk.common.base.BaseEntity;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 /**
  * UpmsRole 實體類 - 角色管理
@@ -34,6 +38,11 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	@Column(name = "role_id", updatable = false, nullable = false)
 	@Comment("00_流水號") // 描述
 	private Long id;
+
+	@UuidGenerator
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Column(name = "uuid", length = 36, nullable = false)
+	private UUID uuid;
 
 	@Column(name = "code", nullable = false, length = 100)
 	@Comment("01_角色名稱")

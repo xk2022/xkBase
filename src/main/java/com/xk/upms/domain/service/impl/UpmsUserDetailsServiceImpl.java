@@ -37,12 +37,12 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 	@Override
 	public JwtUserDTO extract(UpmsUserBO upmsUserBO) {
 		// 取得角色
-		Optional<UpmsRole> upmsRole = upmsRoleRepository.findUserRoleByUserId(upmsUserBO.getId());
-		if(upmsRole.isPresent()){
+		Optional<UpmsRole> upmsRole = upmsRoleRepository.findUserRoleByUserUuid(upmsUserBO.getUuid());
+		if(!upmsRole.isPresent()){
 			return null;
 		}
 		// 取得角色系統清單
-		List<UpmsRoleSystem> upmsRoleSystems = upmsRoleSystemRepository.findByIsDeletedFalseAndRoleIdOrderByIdAsc(upmsRole.get().getId());
+		List<UpmsRoleSystem> upmsRoleSystems = upmsRoleSystemRepository.findByIsDeletedFalseAndRoleUuidOrderByIdAsc(upmsRole.get().getUuid());
 		if(null == upmsRoleSystems || upmsRoleSystems.isEmpty()){
 			return null;
 		}
@@ -51,28 +51,28 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		List<AdmSystemPO> admSystemPOS = admSystemRepository.findByDeletedFalseAndEnabledTrueAndUuidIn(systemUuids);
 		List<SystemDTO> systemDTOS = admSystemPOS.stream().map(system -> new SystemDTO(system.getUuid(), system.getName())).collect(Collectors.toList());
 		// 取得角色權限清單
-		List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionRepository.findByIsDeletedFalseAndSystemUuidAndRoleId(
+		List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionRepository.findByIsDeletedFalseAndSystemUuidAndRoleUuid(
 				upmsRoleSystems.get(0).getSystemUuid(),
-				upmsRole.get().getId()
+				upmsRole.get().getUuid()
 		);
 		// 取得角色權限動作清單
-		List<Long> permissionIds = upmsRolePermissions.stream().map(UpmsRolePermission::getPermissionId).collect(Collectors.toList());
-		List<UpmsRolePermissionAction> upmsRolePermissionActions = upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleIdAndPermissionIdIn(
-				upmsRole.get().getId(),
-				permissionIds
+		List<UUID> permissionUuids = upmsRolePermissions.stream().map(UpmsRolePermission::getPermissionUuid).collect(Collectors.toList());
+		List<UpmsRolePermissionAction> upmsRolePermissionActions = upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleUuidAndPermissionUuidIn(
+				upmsRole.get().getUuid(),
+				permissionUuids
 		);
-		List<Long> actionIds = upmsRolePermissionActions.stream().map(UpmsRolePermissionAction::getActionId).collect(Collectors.toList());
+		List<UUID> actionUuids = upmsRolePermissionActions.stream().map(UpmsRolePermissionAction::getActionUuid).collect(Collectors.toList());
 		// 取得權限清單
-		List<UpmsPermission> upmsPermissions = upmsPermissionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(permissionIds);
+		List<UpmsPermission> upmsPermissions = upmsPermissionRepository.findByIsDeletedFalseAndUuidInOrderByOrdersAsc(permissionUuids);
 		// 取得動作清單
-		List<UpmsAction> upmsActions = upmsActionRepository.findByIsDeletedFalseAndIdInOrderByOrdersAsc(actionIds);
+		List<UpmsAction> upmsActions = upmsActionRepository.findByIsDeletedFalseAndUuidInOrderByOrdersAsc(actionUuids);
 		List<PermissionDTO> permissionDTOS = convert(upmsPermissions, upmsActions, upmsRolePermissions, upmsRolePermissionActions);
 		JwtUserDTO jwtUserDTO = new JwtUserDTO();
-		jwtUserDTO.setUserId(upmsUserBO.getId());
+		jwtUserDTO.setUserUuid(upmsUserBO.getUuid());
 		jwtUserDTO.setUserName(upmsUserBO.getUsername());
 		jwtUserDTO.setEmail(upmsUserBO.getEmail());
 		jwtUserDTO.setCellPhone(upmsUserBO.getCellPhone());
-		jwtUserDTO.setRoleId(upmsRole.get().getId());
+		jwtUserDTO.setRoleUuid(upmsRole.get().getUuid());
 		jwtUserDTO.setEnable(upmsUserBO.getEnabled());
 		jwtUserDTO.setLock(upmsUserBO.getLocked());
 		jwtUserDTO.setSystemDTOs(systemDTOS);
@@ -92,27 +92,27 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 
 		// 父權限
 		List<UpmsPermission> parents = upmsPermissions.stream()
-				.filter(p -> p.getPid() == null)
+				.filter(p -> p.getPUuid() == null)
 				.collect(Collectors.toList());
 
 		// 子權限Map
-		Map<Long, List<UpmsPermission>> childPermissionMap = upmsPermissions.stream()
-				.filter(p -> p.getPid() != null)
-				.collect(Collectors.groupingBy(UpmsPermission::getPid));
+		Map<UUID, List<UpmsPermission>> childPermissionMap = upmsPermissions.stream()
+				.filter(p -> p.getPUuid() != null)
+				.collect(Collectors.groupingBy(UpmsPermission::getPUuid));
 
 		// 權限 active map（permissionId -> active）
-		Map<Long, Boolean> permissionActiveMap = upmsRolePermissions.stream()
+		Map<UUID, Boolean> permissionActiveMap = upmsRolePermissions.stream()
 				.collect(Collectors.toMap(
-						UpmsRolePermission::getPermissionId,
+						UpmsRolePermission::getPermissionUuid,
 						UpmsRolePermission::getActive
 				));
 
-		// 動作 active map（permissionId -> Map<actionId, active>）
-		Map<Long, Map<Long, Boolean>> actionActiveMap = upmsRolePermissionActions.stream()
+		// 動作 active map（permissionUuid -> Map<actionUuid, active>）
+		Map<UUID, Map<UUID, Boolean>> actionActiveMap = upmsRolePermissionActions.stream()
 				.collect(Collectors.groupingBy(
-						UpmsRolePermissionAction::getPermissionId,
+						UpmsRolePermissionAction::getPermissionUuid,
 						Collectors.toMap(
-								UpmsRolePermissionAction::getActionId,
+								UpmsRolePermissionAction::getActionUuid,
 								UpmsRolePermissionAction::getActive
 						)
 				));
@@ -120,28 +120,28 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		// 轉換父權限及子權限
 		for (UpmsPermission parent : parents) {
 			List<PermissionDTO> childPermissions = new ArrayList<>();
-			List<UpmsPermission> children = childPermissionMap.getOrDefault(parent.getId(), List.of());
+			List<UpmsPermission> children = childPermissionMap.getOrDefault(parent.getUuid(), List.of());
 			for (UpmsPermission child : children) {
 				List<PermissionDTO.Action> actions = new ArrayList<>();
-				Map<Long, Boolean> childActionMap = actionActiveMap.getOrDefault(child.getId(), Map.of());
+				Map<UUID, Boolean> childActionMap = actionActiveMap.getOrDefault(child.getUuid(), Map.of());
 				for (UpmsAction action : upmsActions) {
 					PermissionDTO.Action dtoAction = new PermissionDTO.Action();
 					dtoAction.setId(action.getId());
 					dtoAction.setName(action.getName());
-					dtoAction.setActive(childActionMap.getOrDefault(action.getId(), false));
+					dtoAction.setActive(childActionMap.getOrDefault(action.getUuid(), false));
 					actions.add(dtoAction);
 				}
 				PermissionDTO childDTO = new PermissionDTO();
 				childDTO.setId(child.getId());
 				childDTO.setName(child.getName());
-				childDTO.setActive(permissionActiveMap.getOrDefault(child.getId(), false));
+				childDTO.setActive(permissionActiveMap.getOrDefault(child.getUuid(), false));
 				childDTO.setActions(actions);
 				childPermissions.add(childDTO);
 			}
 			PermissionDTO parentDTO = new PermissionDTO();
 			parentDTO.setId(parent.getId());
 			parentDTO.setName(parent.getName());
-			parentDTO.setActive(permissionActiveMap.getOrDefault(parent.getId(), false));
+			parentDTO.setActive(permissionActiveMap.getOrDefault(parent.getUuid(), false));
 			parentDTO.setPermissionDTOs(childPermissions);
 			permissionDTOS.add(parentDTO);
 		}

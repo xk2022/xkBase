@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpmsPermissionResponseDTO {
 
-	private Long id;
+	private UUID uuid;
 
 	private String name;
 
@@ -26,7 +27,7 @@ public class UpmsPermissionResponseDTO {
 	@AllArgsConstructor
 	public static class Action{
 
-		private Long id;
+		private UUID uuid;
 
 		private String name;
 

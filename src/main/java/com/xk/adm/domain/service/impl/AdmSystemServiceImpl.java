@@ -83,9 +83,9 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public Optional<AdmSystemBO> findById(UUID uuid) {
+	public Optional<AdmSystemBO> findByUuid(UUID uuid) {
 		log.info(" [Service] 查找系統: uuid={}", uuid);
-		return admSystemRepository.findById(uuid)
+		return admSystemRepository.findByDeletedFalseAndUuid(uuid)
 				.map(system -> XkBeanUtils.copyProperties(system, AdmSystemBO::new));
 	}
 
@@ -147,7 +147,7 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 	    log.info(" [Service] 更新系統 - ID: {}", uuid);
 
 	    // 查詢系統是否存在
-	    AdmSystemPO existingPO = admSystemRepository.findById(uuid)
+	    AdmSystemPO existingPO = admSystemRepository.findByDeletedFalseAndUuid(uuid)
 	        .orElseThrow(() -> new EntityNotFoundException("❌ 找不到系統: " + uuid));
 	    // 進行安全的動態更新（不覆蓋 null）
 		GenericUpdateService<AdmSystemPO> updateSystemService = new GenericUpdateService<>();
@@ -167,7 +167,7 @@ public class AdmSystemServiceImpl implements AdmSystemService {
 	public void softDelete(UUID uuid) {
 	    log.info(" [Service] 軟刪除系統 - ID: {}", uuid);
 
-	    AdmSystemPO existingPO = admSystemRepository.findById(uuid)
+	    AdmSystemPO existingPO = admSystemRepository.findByDeletedFalseAndUuid(uuid)
 	        .orElseThrow(() -> new EntityNotFoundException("❌ 找不到系統: " + uuid));
 	    // 轉換 PO -> DO（領域對象）
 	    AdmSystem systemDO = existingPO.toDomain();

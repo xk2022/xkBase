@@ -1,5 +1,7 @@
 package com.xk.upms.application.usecase;
 
+import java.util.UUID;
+
 /**
  * 📌 `UpmsUserDeleteUseCase` - 使用者刪除應用層 Use Case 介面
  * 
@@ -13,9 +15,9 @@ public interface UpmsUserDeleteUseCase {
 	/**
 	 * 📌 刪除使用者
 	 * 
-	 * @param userId 使用者 ID
+	 * @param userUuid 使用者 UUID
 	 * @return 是否成功刪除
 	 */
-	boolean delete(Long userId);
+	boolean delete(UUID userUuid);
 
 }

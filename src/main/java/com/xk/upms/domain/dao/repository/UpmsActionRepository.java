@@ -8,12 +8,13 @@ import com.xk.upms.domain.model.po.UpmsAction;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface UpmsActionRepository extends JpaRepository<UpmsAction, Long> {
 
     List<UpmsAction> findByIsDeletedFalseOrderByOrdersAsc();
 
-    List<UpmsAction> findByIsDeletedFalseAndIdInOrderByOrdersAsc(List<Long> upmsActionIds);
+    List<UpmsAction> findByIsDeletedFalseAndUuidInOrderByOrdersAsc(List<UUID> upmsActionUuids);
 
 }

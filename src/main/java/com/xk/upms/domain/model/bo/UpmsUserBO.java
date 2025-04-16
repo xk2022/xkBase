@@ -3,6 +3,7 @@ package com.xk.upms.domain.model.bo;
 import lombok.*;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * 📌 `ExampleBO`（業務物件 - Business Object）
@@ -21,7 +22,7 @@ import java.time.ZonedDateTime;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsUserBO {
 
-    private Long id;
+    private UUID uuid;
 
     @ToString.Include
     private String username;
@@ -30,7 +31,7 @@ public class UpmsUserBO {
 
     private String cellPhone;
 
-    private Long roleId;
+    private UUID roleUuid;
 
     private String password;
 

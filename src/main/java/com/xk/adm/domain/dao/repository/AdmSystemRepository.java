@@ -37,12 +37,7 @@ public interface AdmSystemRepository extends JpaRepository<AdmSystemPO, UUID> {
      */
     List<AdmSystemPO> findByDeletedFalse();
 
-    /**
-     * 查找啟用中的系統（返回 PO）
-     *
-     * @return `enabled = true` 的 `AdmSystem`
-     */
-    List<AdmSystemPO> findByEnabledTrueAndDeletedFalse();
+    Optional<AdmSystemPO> findByDeletedFalseAndUuid(UUID uuid);
 
     /**
      * 📌 檢查是否有相同系統代碼

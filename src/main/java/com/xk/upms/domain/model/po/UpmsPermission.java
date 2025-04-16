@@ -2,16 +2,17 @@ package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * Created by Hank on 2025/01/13
@@ -32,12 +33,18 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     @NotNull(groups = Update.class)
     private Long id;
 
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", length = 36, nullable = false)
+    private UUID uuid;
+
     /**
      * 父權限id
      */
-    @Comment("父權限id")
-    @Column(name = "pid")
-    private Long pid;
+    @Comment("父權限uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "p_uuid", length = 36)
+    private UUID pUuid;
 
     /**
      * 名稱

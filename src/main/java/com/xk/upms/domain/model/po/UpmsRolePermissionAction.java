@@ -8,9 +8,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -26,19 +30,25 @@ public class UpmsRolePermissionAction extends BaseEntity implements Serializable
     @Comment("00_流水號")
     private Long id;
 
-    @Comment("角色iid")
-    @Column(name = "role_id")
-    private Long roleId;
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "uuid", length = 36, nullable = false)
+    private UUID uuid;
 
-    @Comment("權限id")
-    @Column(name = "permission_id")
-    @NotNull
-    private Long permissionId;
+    @Comment("角色uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "role_uuid", length = 36, nullable = false)
+    private UUID roleUuid;
 
-    @Comment("動作iid")
-    @Column(name = "action_id")
-    @NotNull
-    private Long actionId;
+    @Comment("權限uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "permission_uuid", length = 36, nullable = false)
+    private UUID permissionUuid;
+
+    @Comment("動作uuid")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "action_uuid", length = 36, nullable = false)
+    private UUID actionUuid;
 
     @Column(name = "active")
     private Boolean active;

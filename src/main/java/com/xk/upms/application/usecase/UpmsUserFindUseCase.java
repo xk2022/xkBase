@@ -1,9 +1,10 @@
 package com.xk.upms.application.usecase;
 
-import java.util.List;
-
 import com.xk.upms.application.model.UpmsUserFindRequestDTO;
 import com.xk.upms.application.model.UpmsUserResponseDTO;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 📌 UpmsUserFindUseCase（應用層 Use Case 介面）
@@ -15,15 +16,8 @@ import com.xk.upms.application.model.UpmsUserResponseDTO;
  */
 public interface UpmsUserFindUseCase {
 
-	/**
-	 * 📌 查詢所有使用者（支援分頁）
-	 * 
-	 * @param pageable 分頁請求
-	 * @return 分頁使用者列表
-	 */
-//	Page<ExampleResponseDTO> getList(ExampleRequestDTO request, Pageable pageable);
 	List<UpmsUserResponseDTO> getList(UpmsUserFindRequestDTO request);
 
-	UpmsUserResponseDTO getOneById(Long id);
+	UpmsUserResponseDTO getByUuid(UUID uuid);
 
 }

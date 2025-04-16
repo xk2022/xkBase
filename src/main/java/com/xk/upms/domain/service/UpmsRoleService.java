@@ -2,6 +2,7 @@ package com.xk.upms.domain.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.xk.upms.domain.model.bo.UpmsRoleBO;
 import com.xk.upms.domain.model.bo.UpmsRoleInitBO;
@@ -36,12 +37,12 @@ public interface UpmsRoleService {
 
 	// ============= 🔵【R】Read（查詢）================
 	/**
-	 * 📌 依據 ID 查詢單筆角色
+	 * 📌 依據 UUID 查詢單筆角色
 	 * 
-	 * @param roleId 角色 ID
+	 * @param roleUuid 角色 UUID
 	 * @return 角色物件（若存在）
 	 */
-	Optional<UpmsRoleBO> findById(Long roleId);
+	Optional<UpmsRoleBO> findByUuid(UUID roleUuid);
 
 	/**
 	 * 📌 查詢所有角色（無分頁） 📌 支援條件查詢（無分頁）
@@ -55,20 +56,20 @@ public interface UpmsRoleService {
 	/**
 	 * 📌 更新角色資訊（直接呼叫 `save()`，但可額外擴充業務邏輯）
 	 * 
-	 * @param roleId
+	 * @param roleUuid
 	 * @param updatedEntity
 	 * @return
 	 */
-	UpmsRoleBO update(Long roleId, UpmsRoleBO updatedEntity);
+	UpmsRoleBO update(UUID roleUuid, UpmsRoleBO updatedEntity);
 
 	// ============= 🔴【D】Delete（刪除）================
 	/**
-	 * 📌 刪除角色（如果 ID 不存在則拋出 `ResourceNotFoundException`）
+	 * 📌 刪除角色（如果 UUID 不存在則拋出 `ResourceNotFoundException`）
 	 * 
-	 * @param roleId 角色 ID
+	 * @param roleUuid 角色 UUID
 	 * @return 是否成功刪除
 	 */
-	boolean delete(Long roleId);
+	boolean delete(UUID roleUuid);
 
 
 }

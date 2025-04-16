@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +19,8 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
     private final UpmsRolePermissionActionRepository upmsRolePermissionActionRepository;
 
     @Override
-    public List<UpmsRolePermissionAction> findAllIn(Long roleId, List<Long> upmsPermissionIds) {
-        return upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleIdAndPermissionIdIn(roleId, upmsPermissionIds);
+    public List<UpmsRolePermissionAction> findAllIn(UUID roleUuid, List<UUID> upmsPermissionUuids) {
+        return upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleUuidAndPermissionUuidIn(roleUuid, upmsPermissionUuids);
     }
 
     @Override

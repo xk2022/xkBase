@@ -2,6 +2,8 @@ package com.xk.upms.domain.model.bo;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,10 +11,10 @@ import lombok.*;
 @ToString(onlyExplicitlyIncluded = true)
 public class UpmsUserRoleBO {
 
-    private Long id;
+    private UUID uuid;
 
-    private Long userId;
+    private UUID userUuid;
 
-    private Long roleId;
+    private UUID roleUuid;
 
 }

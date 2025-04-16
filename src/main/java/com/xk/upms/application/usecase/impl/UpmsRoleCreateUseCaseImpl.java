@@ -47,7 +47,7 @@ public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 		UpmsRoleBO roleBO = XkBeanUtils.copyProperties(request, UpmsRoleBO::new);
 		UpmsRoleBO savedRole = upmsRoleService.save(roleBO);
 		// 轉換角色系統清單
-		List<UpmsRoleSystem> upmsRoleSystems = convert(request.systemUuids(), savedRole.getId());
+		List<UpmsRoleSystem> upmsRoleSystems = convert(request.systemUuids(), savedRole.getUuid());
 		// 儲存角色系統清單
 		upmsRoleSystemService.createAll(upmsRoleSystems);
 		// ✅ 轉換 PO -> DTO 回傳
@@ -70,12 +70,12 @@ public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 		return roles;
 	}
 
-	private List<UpmsRoleSystem> convert(List<UUID> systemUuids, Long roleId){
+	private List<UpmsRoleSystem> convert(List<UUID> systemUuids, UUID roleUuid){
 		List<UpmsRoleSystem> upmsRoleSystems = new ArrayList<>();
 		UpmsRoleSystem upmsRoleSystem;
 		for(UUID systemUuid : systemUuids){
 			upmsRoleSystem = new UpmsRoleSystem();
-			upmsRoleSystem.setRoleId(roleId);
+			upmsRoleSystem.setRoleUuid(roleUuid);
 			upmsRoleSystem.setSystemUuid(systemUuid);
 			upmsRoleSystems.add(upmsRoleSystem);
 		}

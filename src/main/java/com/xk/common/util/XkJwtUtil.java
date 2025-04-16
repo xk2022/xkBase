@@ -10,15 +10,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 public class XkJwtUtil implements InitializingBean {
@@ -47,21 +43,21 @@ public class XkJwtUtil implements InitializingBean {
 
     // 提取 JwtUserDTO 的具名方法
     public static JwtUserDTO extractJwtUserFromClaims(Claims claims) {
-        Long userId = claims.get("userId", Long.class);
+        UUID userUuid = claims.get("userUuid", UUID.class);
         String userName = claims.get("userName", String.class);
         String email = claims.get("email", String.class);
         String cellPhone = claims.get("cellPhone", String.class);
-        Long roleId = claims.get("roleId", Long.class);
+        UUID roleUuid = claims.get("roleUuid", UUID.class);
         Boolean enable = claims.get("enable", Boolean.class);
         Boolean lock = claims.get("lock", Boolean.class);
         List<SystemDTO> systemDTOs = claims.get("systemDTOs", List.class);
         List<PermissionDTO> permissionDTOs = claims.get("permissionDTOs", List.class);
         return new JwtUserDTO(
-                userId,
+                userUuid,
                 userName,
                 email,
                 cellPhone,
-                roleId,
+                roleUuid,
                 enable,
                 lock,
                 systemDTOs,
@@ -93,18 +89,18 @@ public class XkJwtUtil implements InitializingBean {
     // 產生Token Long id 
     public static String generateToken(JwtUserDTO jwtUserDTO) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", jwtUserDTO.getUserId());
+        claims.put("userUuid", jwtUserDTO.getUserUuid());
         claims.put("userName", jwtUserDTO.getUsername());
         claims.put("email", jwtUserDTO.getEmail());
         claims.put("cellPhone", jwtUserDTO.getCellPhone());
-        claims.put("roleId", jwtUserDTO.getRoleId());
+        claims.put("roleUuid", jwtUserDTO.getRoleUuid());
         claims.put("enable", jwtUserDTO.isEnable());
         claims.put("lock", jwtUserDTO.isLock());
         claims.put("permissionDTOs", jwtUserDTO.getPermissionDTOs());
         claims.put("systemDTOs", jwtUserDTO.getSystemDTOs());
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(String.valueOf(jwtUserDTO.getUserId()))
+                .setSubject(String.valueOf(jwtUserDTO.getUserUuid()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_EXPIRATION))
                 .signWith(key)

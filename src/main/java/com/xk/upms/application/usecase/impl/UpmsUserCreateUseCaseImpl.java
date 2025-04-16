@@ -53,7 +53,7 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 		UpmsUserBO savedUser = upmsUserService.save(userBO);
 		// ✅ 轉換 DTO -> BO
 		UpmsUserRoleBO upmsUserRoleBO = XkBeanUtils.copyProperties(request, UpmsUserRoleBO::new);
-		upmsUserRoleBO.setUserId(savedUser.getId());
+		upmsUserRoleBO.setUserUuid(savedUser.getUuid());
 		// ✅ 儲存到 DB
 		UpmsUserRoleBO saveUserRole = upmsUserRoleService.save(upmsUserRoleBO);
 		// ✅ 轉換 PO -> DTO 回傳

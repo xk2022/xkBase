@@ -38,9 +38,9 @@ public class UpmsRoleFindUseCaseImpl implements UpmsRoleFindUseCase {
 	private final UpmsRoleSystemService upmsRoleSystemService;
 
 	@Override
-	public UpmsRoleResponseDTO findById(Long Id) {
-		UpmsRoleBO roleBO = upmsRoleService.findById(Id).orElseThrow(() -> new EntityNotFoundException("角色不存在: " + Id));
-		List<UpmsRoleSystem> upmsRoleSystems = upmsRoleSystemService.findAllByRoleId(roleBO.getId());
+	public UpmsRoleResponseDTO findByUuid(UUID uuid) {
+		UpmsRoleBO roleBO = upmsRoleService.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("角色不存在: " + uuid));
+		List<UpmsRoleSystem> upmsRoleSystems = upmsRoleSystemService.findAllByRoleUuid(roleBO.getUuid());
 		UpmsRoleResponseDTO upmsRoleResponseDTO = XkBeanUtils.copyProperties(roleBO, UpmsRoleResponseDTO::new);
 		List<UUID> systemUuids = upmsRoleSystems.stream().map(UpmsRoleSystem::getSystemUuid).collect(Collectors.toList());
 		upmsRoleResponseDTO.setSystemUuids(systemUuids);
@@ -58,7 +58,7 @@ public class UpmsRoleFindUseCaseImpl implements UpmsRoleFindUseCase {
 		for(UpmsRoleResponseDTO upmsRoleResponseDTO : responseDTOS){
 			systemUuids = upmsRoleSystems
 					.stream()
-					.filter(urs -> urs.getRoleId().equals(upmsRoleResponseDTO.getId()))
+					.filter(urs -> urs.getRoleUuid().equals(upmsRoleResponseDTO.getUuid()))
 					.map(UpmsRoleSystem::getSystemUuid)
 					.collect(Collectors.toList());
 			upmsRoleResponseDTO.setSystemUuids(systemUuids);

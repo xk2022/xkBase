@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,8 +43,8 @@ public class UpmsRoleSystemServiceImpl implements UpmsRoleSystemService {
     }
 
     @Override
-    public List<UpmsRoleSystem> findAllByRoleId(Long roleId) {
-        return upmsRoleSystemRepository.findByIsDeletedFalseAndRoleIdOrderByIdAsc(roleId);
+    public List<UpmsRoleSystem> findAllByRoleUuid(UUID roleUuid) {
+        return upmsRoleSystemRepository.findByIsDeletedFalseAndRoleUuidOrderByIdAsc(roleUuid);
     }
 
 }

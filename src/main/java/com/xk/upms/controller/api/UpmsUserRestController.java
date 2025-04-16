@@ -1,6 +1,7 @@
 package com.xk.upms.controller.api;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -64,10 +65,10 @@ public class UpmsUserRestController {
 	}
 
 	@Operation(summary = "根據ID取得用戶", description = "根據提供的用戶ID返回對應的用戶資料。")
-	@GetMapping("/{id}")
-	public BaseResult<UpmsUserResponseDTO> getUserById(
-			@Parameter(description = "用戶的唯一識別碼", required = true) @PathVariable Long id) {
-		UpmsUserResponseDTO user = upmsUserFindUseCase.getOneById(id);
+	@GetMapping("/{uuid}")
+	public BaseResult<UpmsUserResponseDTO> getUserByUuid(
+			@Parameter(description = "用戶的唯一識別碼", required = true) @PathVariable UUID uuid) {
+		UpmsUserResponseDTO user = upmsUserFindUseCase.getByUuid(uuid);
 		if (user != null) {
 			return BaseResult.success(user, "成功獲取用戶資料");
 		}
@@ -83,11 +84,11 @@ public class UpmsUserRestController {
 	}
 
 	@Operation(summary = "更新用戶資料", description = "根據提供的ID更新用戶的詳細資料。")
-	@PutMapping("/{id}")
+	@PutMapping("/{uuid}")
 	public BaseResult<UpmsUserResponseDTO> updateUser(
-			@Parameter(description = "需要更新的用戶ID", required = true) @PathVariable @NotNull Long id,
+			@Parameter(description = "需要更新的用戶uuid", required = true) @PathVariable @NotNull UUID uuid,
 			@RequestBody @Validated @NotNull UpmsUserUpdateDTO request) {
-		UpmsUserResponseDTO updatedUser = upmsUserUpdateUseCase.update(id, request);
+		UpmsUserResponseDTO updatedUser = upmsUserUpdateUseCase.update(uuid, request);
 		if (updatedUser != null) {
 			return BaseResult.success(updatedUser, "用戶更新成功");
 		}
@@ -95,10 +96,10 @@ public class UpmsUserRestController {
 	}
 
 	@Operation(summary = "刪除用戶", description = "根據提供的用戶ID刪除對應的用戶。")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{uuid}")
 	public BaseResult<Void> deleteUser(
-			@Parameter(description = "需要刪除的用戶ID", required = true) @PathVariable @NotNull Long id) {
-		upmsUserDeleteUseCase.delete(id);
+			@Parameter(description = "需要刪除的用戶uuid", required = true) @PathVariable @NotNull UUID uuid) {
+		upmsUserDeleteUseCase.delete(uuid);
 		return BaseResult.success(null, "用戶刪除成功");
 	}
 

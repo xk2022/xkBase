@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.UUID;
 
 public record UpmsPermissionUpdateDTO (
 
@@ -16,9 +17,9 @@ public record UpmsPermissionUpdateDTO (
 
 		public record Permission(
 
-				@Schema(description = "權限id")
-				@NotNull(message = "權限id不得為空")
-				Long id,
+				@Schema(description = "權限uuid")
+				@NotNull(message = "權限uuid不得為空")
+				UUID uuid,
 
 				@Schema(description = "是否啟用")
 				@NotNull(message = "是否啟用不得為空")
@@ -34,9 +35,9 @@ public record UpmsPermissionUpdateDTO (
 
 		public record Action(
 
-				@Schema(description = "動作id")
-				@NotNull(message = "動作id不得為空")
-				Long id,
+				@Schema(description = "動作uuid")
+				@NotNull(message = "動作uuid不得為空")
+				UUID uuid,
 
 				@Schema(description = "是否啟用")
 				@NotNull(message = "是否啟用不得為空")

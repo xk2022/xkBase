@@ -39,11 +39,11 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 		}
 		JwtUserDTO jwtUserDTO = upmsUserDetailsService.extract(upmsUserBO.get());
 		return new UpmsUserResponseDTO(
-				jwtUserDTO.getUserId(),
+				jwtUserDTO.getUserUuid(),
 				jwtUserDTO.getUsername(),
 				jwtUserDTO.getEmail(),
 				jwtUserDTO.getCellPhone(),
-				jwtUserDTO.getRoleId(),
+				jwtUserDTO.getRoleUuid(),
 				jwtUserDTO.isEnable(),
 				jwtUserDTO.isLock(),
 				jwtUserDTO.getToken()
