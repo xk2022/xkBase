@@ -48,7 +48,7 @@ public class UpmsPermissionFindUseCaseImpl implements UpmsPermissionFindUseCase 
 
 		// 該角色的權限清單
 		List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionService.findAll(systemUuid, roleId);
-		List<Long> upmsPermissionIds = upmsRolePermissions.stream().map(UpmsRolePermission::getId).collect(Collectors.toList());
+		List<Long> upmsPermissionIds = upmsRolePermissions.stream().map(UpmsRolePermission::getPermissionId).collect(Collectors.toList());
 		List<UpmsRolePermissionAction> upmsRolePermissionActions = upmsRolePermissionActionService.findAllIn(roleId, upmsPermissionIds);
 		return convert(
 				defaultUpmsPermissions,

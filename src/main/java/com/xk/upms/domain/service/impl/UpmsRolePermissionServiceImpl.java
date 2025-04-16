@@ -1,5 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
+import com.xk.common.handler.BusinessException;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.upms.domain.dao.repository.UpmsRolePermissionRepository;
 import com.xk.upms.domain.model.bo.UpmsPermissionBO;
@@ -40,20 +41,20 @@ public class UpmsRolePermissionServiceImpl implements UpmsRolePermissionService 
     }
 
     @Override
-    public void deleteAll(List<UpmsRolePermission> upmsRolePermissions) throws Exception {
+    public void deleteAll(List<UpmsRolePermission> upmsRolePermissions) {
         if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
-             throw new Exception("權限清單為空");
+             throw new BusinessException("角色權限清單為空");
         }
         for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
             upmsRolePermission.setIsDeleted(true);
         }
-        upmsRolePermissionRepository.deleteAll(upmsRolePermissions);
+        upmsRolePermissionRepository.saveAll(upmsRolePermissions);
     }
 
     @Override
-    public void saveAll(List<UpmsRolePermission> upmsRolePermissions) throws Exception{
+    public void saveAll(List<UpmsRolePermission> upmsRolePermissions){
         if(null == upmsRolePermissions || upmsRolePermissions.isEmpty()){
-            throw new Exception("權限清單為空");
+            throw new BusinessException("角色權限清單為空");
         }
         for(UpmsRolePermission upmsRolePermission : upmsRolePermissions){
             upmsRolePermission.setIsDeleted(false);

@@ -1,5 +1,6 @@
 package com.xk.upms.domain.service.impl;
 
+import com.xk.common.handler.BusinessException;
 import com.xk.upms.domain.dao.repository.UpmsRolePermissionActionRepository;
 import com.xk.upms.domain.model.bo.UpmsRolePermissionActionBO;
 import com.xk.upms.domain.model.po.UpmsRolePermissionAction;
@@ -27,27 +28,25 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
     }
 
     @Override
-    public List<UpmsRolePermissionAction> deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+    public void deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
         if(null == upmsRolePermissionActions || upmsRolePermissionActions.isEmpty()){
-            return new ArrayList<>();
+            throw new BusinessException("角色權限動作清單不得為空");
         }
         for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
             upmsRolePermissionAction.setIsDeleted(true);
         }
-        upmsRolePermissionActionRepository.deleteAll(upmsRolePermissionActions);
-        return upmsRolePermissionActions;
+        upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
     }
 
     @Override
-    public List<UpmsRolePermissionAction> saveAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
+    public void saveAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
         if(null == upmsRolePermissionActions || upmsRolePermissionActions.isEmpty()){
-            return new ArrayList<>();
+            throw new BusinessException("角色權限動作清單不得為空");
         }
         for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
             upmsRolePermissionAction.setIsDeleted(false);
         }
         upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
-        return upmsRolePermissionActions;
     }
 
 }

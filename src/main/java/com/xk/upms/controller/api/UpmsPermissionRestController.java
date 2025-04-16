@@ -1,7 +1,6 @@
 package com.xk.upms.controller.api;
 
 import com.xk.common.base.BaseResult;
-import com.xk.upms.application.model.UpmsPermissionCreateDTO;
 import com.xk.upms.application.model.UpmsPermissionResponseDTO;
 import com.xk.upms.application.model.UpmsPermissionUpdateDTO;
 import com.xk.upms.application.usecase.UpmsPermissionFindUseCase;
@@ -37,25 +36,23 @@ public class UpmsPermissionRestController {
 
 	private final UpmsPermissionUpdateUseCase upmsPermissionUpdateUseCase;
 
-
-
 	@Operation(summary = "取得所有權限", description = "返回系統中所有 UpmsUser 的列表。")
 	@GetMapping("/{systemUuid}/{roleId}")
 	public BaseResult<List<UpmsPermissionResponseDTO>> findAll(
 			@PathVariable @NotNull UUID systemUuid,
 			@PathVariable @NotNull Long roleId) {
-		List<UpmsPermissionResponseDTO> users = upmsPermissionFindUseCase.findAll(systemUuid, roleId);
-		return BaseResult.success(users, "成功獲取權限列表");
+		List<UpmsPermissionResponseDTO> responseDTOS = upmsPermissionFindUseCase.findAll(systemUuid, roleId);
+		return BaseResult.success(responseDTOS, "成功獲取權限列表");
 	}
 
 	@Operation(summary = "更新權限資料", description = "更新權限的詳細資料。")
 	@PutMapping("/{systemUuid}/{roleId}")
-	public BaseResult<UpmsPermissionResponseDTO> update(
+	public BaseResult update(
 			@PathVariable @NotNull UUID systemUuid,
 			@PathVariable @NotNull Long roleId,
 			@RequestBody UpmsPermissionUpdateDTO request) {
-		UpmsPermissionResponseDTO updatedPermission = upmsPermissionUpdateUseCase.update(systemUuid, roleId, request);
-		return BaseResult.success(updatedPermission, "權限更新成功");
+		upmsPermissionUpdateUseCase.update(systemUuid, roleId, request);
+		return BaseResult.success(null, "權限更新成功");
 	}
 
 }

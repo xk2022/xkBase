@@ -1,7 +1,6 @@
 package com.xk.upms.domain.model.po;
 
 import com.xk.common.base.BaseEntity;
-import com.xk.upms.domain.model.enums.PermissionTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 /**
  * Created by Hank on 2025/01/13
@@ -61,7 +59,6 @@ public class UpmsPermission extends BaseEntity implements Serializable {
     @Column(name = "status")
     @Comment("狀態(0:禁止,1:正常)")
     private Boolean status;
-
 
     /**
      * 排序
