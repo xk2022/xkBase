@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,29 +75,14 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 				));
 		//角色原有權限id
 		List<UpmsRolePermission> existingRolePermissions = upmsRolePermissionService.findAll(systemUuid, roleUuid);
-		List<UUID> existingPermissionUuids = existingRolePermissions.stream().map(UpmsRolePermission::getPermissionUuid).collect(Collectors.toList());
-		//角色原有控制權限動作
-		List<UpmsRolePermissionAction> existingRolePermissionActions = upmsRolePermissionActionService.findAllIn(roleUuid, existingPermissionUuids);
-		//刪除角色原有權限清單
-		upmsRolePermissionService.deleteAll(existingRolePermissions);
-		//刪除所有權限動作
-		upmsRolePermissionActionService.deleteAll(existingRolePermissionActions);
-		//重新加入 角色權限 及動作
-		List<UpmsRolePermission> rolePermissions = new ArrayList<>();
-		List<UpmsRolePermissionAction> rolePermissionActions = new ArrayList<>();
-		for(UpmsPermissionUpdateDTO.Permission permission : request.permissions()){
-			setPermission(
-					permission,
-					systemUuid,
-					roleUuid,
-					upmsPermissionMap,
-					upmsActionMap,
-					rolePermissions,
-					rolePermissionActions
-			);
-			for(UpmsPermissionUpdateDTO.Permission subPermission : permission.permissions()){
+		if(CollectionUtils.isEmpty(existingRolePermissions)){
+			//第一次 加入的權限 直接新增
+			//重新加入 角色權限 及動作
+			List<UpmsRolePermission> rolePermissions = new ArrayList<>();
+			List<UpmsRolePermissionAction> rolePermissionActions = new ArrayList<>();
+			for(UpmsPermissionUpdateDTO.Permission permission : request.permissions()){
 				setPermission(
-						subPermission,
+						permission,
 						systemUuid,
 						roleUuid,
 						upmsPermissionMap,
@@ -104,10 +90,58 @@ public class UpmsPermissionUpdateUseCaseImpl implements UpmsPermissionUpdateUseC
 						rolePermissions,
 						rolePermissionActions
 				);
+				for(UpmsPermissionUpdateDTO.Permission subPermission : permission.permissions()){
+					setPermission(
+							subPermission,
+							systemUuid,
+							roleUuid,
+							upmsPermissionMap,
+							upmsActionMap,
+							rolePermissions,
+							rolePermissionActions
+					);
+				}
 			}
+
+		}else{
+
+			List<UUID> existingPermissionUuids = existingRolePermissions.stream().map(UpmsRolePermission::getPermissionUuid).collect(Collectors.toList());
+			//角色原有控制權限動作
+			List<UpmsRolePermissionAction> existingRolePermissionActions = upmsRolePermissionActionService.findAllIn(roleUuid, existingPermissionUuids);
+			//刪除角色原有權限清單
+			upmsRolePermissionService.deleteAll(existingRolePermissions);
+			//刪除所有權限動作
+			upmsRolePermissionActionService.deleteAll(existingRolePermissionActions);
+			//重新加入 角色權限 及動作
+			List<UpmsRolePermission> rolePermissions = new ArrayList<>();
+			List<UpmsRolePermissionAction> rolePermissionActions = new ArrayList<>();
+			for(UpmsPermissionUpdateDTO.Permission permission : request.permissions()){
+				setPermission(
+						permission,
+						systemUuid,
+						roleUuid,
+						upmsPermissionMap,
+						upmsActionMap,
+						rolePermissions,
+						rolePermissionActions
+				);
+				for(UpmsPermissionUpdateDTO.Permission subPermission : permission.permissions()){
+					setPermission(
+							subPermission,
+							systemUuid,
+							roleUuid,
+							upmsPermissionMap,
+							upmsActionMap,
+							rolePermissions,
+							rolePermissionActions
+					);
+				}
+			}
+			upmsRolePermissionService.saveAll(rolePermissions);
+			upmsRolePermissionActionService.saveAll(rolePermissionActions);
+
 		}
-		upmsRolePermissionService.saveAll(rolePermissions);
-		upmsRolePermissionActionService.saveAll(rolePermissionActions);
+
 	}
 
 	private void setPermission(
