@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UpmsUserResponseDTO{
 
-	private UUID userUuid;
+	private UUID uuid;
 
 	private String username;
 
@@ -21,9 +21,9 @@ public class UpmsUserResponseDTO{
 
 	private UUID roleUuid;
 
-	private boolean enable;
+	private boolean enabled;
 
-	private boolean lock;
+	private boolean locked;
 
 	private String token;
 

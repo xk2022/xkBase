@@ -86,6 +86,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
         log.info("📌 查詢使用者 UUID: {}", uuid);
         return upmsUserRepository.findByIsDeletedFalseAndUuid(uuid)
                 .map(upmsUser -> new UpmsUserBO(
+                        upmsUser.getId(),
                         upmsUser.getUuid(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
@@ -110,6 +111,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
         log.info("📌 查詢使用者，username: {}", username);
         return upmsUserRepository.findByIsDeletedFalseAndUsername(username)
                 .map(upmsUser -> new UpmsUserBO(
+                        upmsUser.getId(),
                         upmsUser.getUuid(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
@@ -136,6 +138,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
             log.info("📌 查詢所有使用者 (分頁)");
             return upmsUserRepository.findAll(pageable)
                     .map(upmsUser -> new UpmsUserBO(
+                            upmsUser.getId(),
                             upmsUser.getUuid(),
                     		upmsUser.getUsername(),
                     		upmsUser.getEmail(),
@@ -157,6 +160,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			
 			return upmsUserRepository.findAll(example, pageable)
 					.map(upmsUser -> new UpmsUserBO(
+                            upmsUser.getId(),
                             upmsUser.getUuid(),
                             upmsUser.getUsername(),
                             upmsUser.getEmail(),
@@ -189,6 +193,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      * {@inheritDoc}
      */
 	@Override
+    @Transactional
 	public UpmsUserBO update(UUID uuid, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());

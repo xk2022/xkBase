@@ -22,6 +22,8 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsUserBO {
 
+    private Long id;
+
     private UUID uuid;
 
     @ToString.Include
