@@ -31,7 +31,7 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
     @Override
     public void deleteAll(List<UpmsRolePermissionAction> upmsRolePermissionActions) {
         if(null == upmsRolePermissionActions || upmsRolePermissionActions.isEmpty()){
-            throw new BusinessException("角色權限動作清單不得為空");
+            return;
         }
         for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
             upmsRolePermissionAction.setIsDeleted(true);

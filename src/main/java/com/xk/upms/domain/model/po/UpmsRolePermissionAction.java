@@ -37,7 +37,7 @@ public class UpmsRolePermissionAction extends BaseEntity implements Serializable
 
     @Comment("角色uuid")
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "role_uuid", length = 36, nullable = false)
+    @Column(name = "role_uuid", length = 36)
     private UUID roleUuid;
 
     @Comment("權限uuid")
