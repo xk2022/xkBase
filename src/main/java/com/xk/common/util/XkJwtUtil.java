@@ -2,8 +2,6 @@ package com.xk.common.util;
 
 import com.xk.common.base.Common;
 import com.xk.common.util.dto.JwtUserDTO;
-import com.xk.common.util.dto.PermissionDTO;
-import com.xk.common.util.dto.SystemDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -50,8 +48,7 @@ public class XkJwtUtil implements InitializingBean {
         UUID roleUuid = claims.get("roleUuid", UUID.class);
         Boolean enable = claims.get("enable", Boolean.class);
         Boolean lock = claims.get("lock", Boolean.class);
-        List<SystemDTO> systemDTOs = claims.get("systemDTOs", List.class);
-        List<PermissionDTO> permissionDTOs = claims.get("permissionDTOs", List.class);
+        List<JwtUserDTO.SystemDTO> systemDTOs = claims.get("systemDTOs", List.class);
         return new JwtUserDTO(
                 userUuid,
                 userName,
@@ -60,8 +57,7 @@ public class XkJwtUtil implements InitializingBean {
                 roleUuid,
                 enable,
                 lock,
-                systemDTOs,
-                permissionDTOs
+                systemDTOs
         );
     }
 
@@ -96,7 +92,6 @@ public class XkJwtUtil implements InitializingBean {
         claims.put("roleUuid", jwtUserDTO.getRoleUuid());
         claims.put("enable", jwtUserDTO.isEnable());
         claims.put("lock", jwtUserDTO.isLock());
-        claims.put("permissionDTOs", jwtUserDTO.getPermissionDTOs());
         claims.put("systemDTOs", jwtUserDTO.getSystemDTOs());
         return Jwts.builder()
                 .setClaims(claims)

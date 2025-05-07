@@ -1,6 +1,8 @@
 package com.xk.common.util.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,9 +31,7 @@ public class JwtUserDTO implements UserDetails {
 
     private boolean lock;
 
-    private List<SystemDTO> systemDTOs;
-
-    private List<PermissionDTO> permissionDTOs;
+    private List<JwtUserDTO.SystemDTO> systemDTOs;
 
     private String token;
 
@@ -50,6 +50,49 @@ public class JwtUserDTO implements UserDetails {
         return this.password;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SystemDTO {
+
+        private UUID systemUuid;
+
+        private String name;
+
+        private List<JwtUserDTO.SystemDTO.PermissionDTO> permissionDTOS;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class PermissionDTO {
+
+            private Long id;
+
+            private String name;
+
+            private boolean active;
+
+            private List<JwtUserDTO.SystemDTO.PermissionDTO> permissionDTOs;
+
+            private List<JwtUserDTO.SystemDTO.PermissionDTO.Action> actions;
+
+            @Data
+            @AllArgsConstructor
+            @NoArgsConstructor
+            public static class Action{
+
+                private Long id;
+
+                private String name;
+
+                private boolean active;
+
+            }
+
+        }
+
+    }
+
     public JwtUserDTO() {
     }
 
@@ -61,8 +104,7 @@ public class JwtUserDTO implements UserDetails {
             UUID roleUuid,
             boolean enable,
             boolean lock,
-            List<SystemDTO> systemDTOs,
-            List<PermissionDTO> permissionDTOs) {
+            List<JwtUserDTO.SystemDTO> systemDTOs) {
         this.userUuid = userUuid;
         this.userName = userName;
         this.email = email;
@@ -71,7 +113,6 @@ public class JwtUserDTO implements UserDetails {
         this.enable = enable;
         this.lock = lock;
         this.systemDTOs = systemDTOs;
-        this.permissionDTOs = permissionDTOs;
     }
 
 }

@@ -1,9 +1,11 @@
 package com.xk.upms.application.model;
 
+import com.xk.common.util.dto.JwtUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -24,6 +26,8 @@ public class UpmsUserResponseDTO{
 	private boolean enabled;
 
 	private boolean locked;
+
+	private List<JwtUserDTO.SystemDTO> systemDTOs;
 
 	private String token;
 
