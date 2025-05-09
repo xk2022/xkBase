@@ -14,7 +14,9 @@ import java.time.ZonedDateTime;
 @ToString(onlyExplicitlyIncluded = true)
 public class ExportOrderBO {
 
-    private OrderId orderId;
+    private Long exportId;
+
+    private String orderId;
 
     private ZonedDateTime exportDate;
 
@@ -43,4 +45,18 @@ public class ExportOrderBO {
     private Time loadingTime;
 
     private String note;
+
+    private String orderType;
+
+    private String customerId;
+
+    private String status;
+
+    private String createdBy;
+
+    private ZonedDateTime createdTime;
+
+    private String updatedBy;
+
+    private ZonedDateTime updatedTime;
 }

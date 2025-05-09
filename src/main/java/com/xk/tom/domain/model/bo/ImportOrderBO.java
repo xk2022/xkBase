@@ -15,7 +15,9 @@ import java.time.ZonedDateTime;
 @ToString(onlyExplicitlyIncluded = true)
 public class ImportOrderBO {
 
-    private OrderId orderId;
+    private Long importId;
+
+    private String orderId;
 
     private ZonedDateTime ImportDate;//進口日期
 

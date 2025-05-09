@@ -10,6 +10,7 @@ import org.hibernate.annotations.Comment;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 
 
@@ -17,10 +18,23 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Data
 @Table(name="Export_Order")
+@Entity
 public class ExportOrderAggreate extends OrderBasicAggreate{
 
-    @EmbeddedId
-    private OrderId  orderId;
+    private static final long serialVersionUID = 1L;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "exportId", updatable = false, nullable = false)
+    @Comment("流水號") // 描述
+    private Long exportId;
+
+
+
+    @Column(name = "orderId" , nullable = false)
+    @Comment("格式：yyyyMMdd-流水號")
+    private String orderId;
 
 
     /**

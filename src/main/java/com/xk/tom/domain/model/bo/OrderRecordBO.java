@@ -9,7 +9,7 @@ import lombok.*;
 @ToString(onlyExplicitlyIncluded = true)
 public class OrderRecordBO {
 
-    private Long id;
+    private Long orderRecordId;
     private Boolean isExport;
     private Boolean isImport;
 

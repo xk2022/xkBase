@@ -4,10 +4,11 @@ package com.xk.tom.application.usecase;
 
 import com.xk.tom.application.model.OrderCreateDTO;
 import com.xk.tom.application.model.OrderResponseDTO;
-import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
-import com.xk.tom.domain.model.bo.ImportOrderBO;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 public interface ImportOrderCreateUseCase {
 
-    OrderResponseDTO create(OrderCreateDTO order);
+    OrderResponseDTO create(@NotNull OrderCreateDTO order);
 }

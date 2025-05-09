@@ -5,6 +5,7 @@ import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
 import com.xk.tom.domain.repository.ImportOrderRepository;
+import com.xk.tom.domain.repository.OrderIdRepository;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.Date;
 public class ImportOrderServiceImpl implements ImportOrderService {
 
     private final ImportOrderRepository importOrderRepository;
+    private final OrderIdRepository orderIdRepository;
 
     @Override
     @Transactional
@@ -31,7 +33,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         String todaystr = new SimpleDateFormat("yyyyMMdd").format(today);
         log.info("📌 儲存訂單");
-        Long maxSequence = importOrderRepository.findMaxSequenceByDate(today);
+        Long maxSequence = orderIdRepository.findMaxSequenceBySeqDate(today);
 
         if (maxSequence == null) {
             maxSequence = 0L;
@@ -41,11 +43,15 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         Long newSequence = maxSequence + 1;
         String sequenceStr = String.format("%08d", newSequence);
 
+        //寫入新流水號
+        OrderId orderId = new OrderId();
+        orderId.setSequence(sequenceStr);
+        orderId.setSeqDate(todaystr);
+        orderIdRepository.save(orderId);
+
         // 4. 建立新的 OrderId
-        OrderId newOrderId = new OrderId(todaystr, sequenceStr);
-        newOrderId.getFormattedOrderId();
         ImportOrderAggreate aggreate = XkBeanUtils.copyProperties(importOrderBO ,ImportOrderAggreate::new );
-        aggreate.setOrderId(newOrderId);
+        aggreate.setOrderId(todaystr+"-"+sequenceStr);
         aggreate.setOrderType("IMPORT");
         aggreate.setStatus("PENDING");
         ImportOrderAggreate savedImportOrderAggreate  =importOrderRepository.save(aggreate);

@@ -13,13 +13,14 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Order_Record")
+@Entity
 public class OrderRecordAggreate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = BaseEntity.Update.class)
-    @Comment("00_流水號")
-    private Long id;
+    @Comment("流水號")
+    private Long orderRecordId;
 
 
     @Column(name="isExport")

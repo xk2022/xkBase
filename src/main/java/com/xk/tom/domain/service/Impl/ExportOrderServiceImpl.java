@@ -6,6 +6,7 @@ import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ExportOrderBO;
 import com.xk.tom.domain.repository.ExportOrderRepository;
+import com.xk.tom.domain.repository.OrderIdRepository;
 import com.xk.tom.domain.service.ExportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class ExportOrderServiceImpl implements ExportOrderService {
 
 
     private final ExportOrderRepository exportOrderRepository;
+    private final OrderIdRepository orderIdRepository;
 
 
     @Override
@@ -33,7 +35,7 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         String todaystr = new SimpleDateFormat("yyyyMMdd").format(today);
         log.info("📌 儲存訂單");
-        Long maxSequence = exportOrderRepository.findMaxSequenceByDate(today);
+        Long maxSequence = orderIdRepository.findMaxSequenceBySeqDate(today);
 
         if (maxSequence == null) {
             maxSequence = 0L;
@@ -43,12 +45,15 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         Long newSequence = maxSequence + 1;
         String sequenceStr = String.format("%08d", newSequence);
 
-        // 4. 建立新的 OrderId
-        OrderId newOrderId = new OrderId(todaystr, sequenceStr);
-        newOrderId.getFormattedOrderId();
+        //寫入新流水號
+        OrderId orderId = new OrderId();
+        orderId.setSequence(sequenceStr);
+        orderId.setSeqDate(todaystr);
+        orderIdRepository.save(orderId);
+
 
         ExportOrderAggreate exportOrderAggreate = XkBeanUtils.copyProperties(exportOrderBO ,ExportOrderAggreate::new);
-        exportOrderAggreate.setOrderId(newOrderId);
+        exportOrderAggreate.setOrderId(todaystr+"-"+sequenceStr);
         exportOrderAggreate.setOrderType("EXPORT");
         exportOrderAggreate.setStatus("PENDING");
         ExportOrderAggreate savedExportOrderAggreate = exportOrderRepository.save(exportOrderAggreate);

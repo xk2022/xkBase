@@ -1,23 +1,30 @@
 package com.xk.tom.domain.model.aggreate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Embeddable
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@Data
+@Table(name="daily_sequence")
+@Entity
 public class OrderId implements Serializable {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    @Comment("流水號") // 描述
+    private Long id;
+
 
     @Column(name = "seq_date" , nullable = false)
     private String seqDate;
@@ -26,11 +33,7 @@ public class OrderId implements Serializable {
     private String sequence;
 
 
-    @Transient
-    public String getFormattedOrderId() {
-        String datePart = new SimpleDateFormat("yyyyMMdd").format(seqDate);
-        String sequencePart = String.format("%08d", sequence); // 補0至8位數
-        return datePart + "-" + sequencePart;
-    }
+
+
 
 }

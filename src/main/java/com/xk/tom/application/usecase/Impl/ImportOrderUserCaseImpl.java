@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -41,9 +43,13 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
             OrderRecordBO savedOrderRecordBo =  orderRecordService.save(orderRecordBO);
 
             //TODO客戶訊息
+//            importOrderBO.setCustomerId(1L);
 
-            importOrderBO.setOrderRecordId(savedOrderRecordBo.getId());
-//          importOrderBO.setCustomerId(1L);
+            //訂單狀態預設pending
+            importOrderBO.setStatus("pending");
+            //訂單記錄
+            importOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
+
             ImportOrderBO savedImportOrderBO =importOrderService.save(importOrderBO);
              orderResponseDTO = XkBeanUtils.copyProperties(savedImportOrderBO ,OrderResponseDTO::new );
 
@@ -58,7 +64,10 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
 
             //訂單記錄
             OrderRecordBO savedOrderRecordBo =  orderRecordService.save(orderRecordBO);
-            exportOrderBO.setOrderRecordId(savedOrderRecordBo.getId());
+            exportOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
+
+            //訂單狀態 預設pending
+            exportOrderBO.setStatus("pending");
 
             //TODO客戶訊息
 
@@ -68,4 +77,7 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
         }
 
     }
+
+
+
 }

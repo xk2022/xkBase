@@ -16,15 +16,25 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @Data
 @Table(name="Import_Order")
+@Entity
 public class ImportOrderAggreate extends OrderBasicAggreate{
 
-    @EmbeddedId
-    private OrderId  orderId;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "importId", updatable = false, nullable = false)
+    @Comment("流水號") // 描述
+    private Long importId;
+
+    @Column(name = "orderId" , nullable = false)
+    @Comment("格式：yyyyMMdd-流水號")
+    private String orderId;
 
     /**
      * 進口日期
      */
-    @Column(name="ship_date")
+    @Column(name="import_date")
     @Comment("進口日期")
     private ZonedDateTime ImportDate;
 

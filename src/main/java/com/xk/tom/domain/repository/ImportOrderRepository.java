@@ -15,10 +15,8 @@ import java.util.Optional;
 public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate , OrderId> {
 
 
-    @Query(name = "SELECT * FROM Order o WHERE o.orderId = :orderId" , nativeQuery = true)
-    Optional<ImportOrderAggreate> findByOrderIdForUpdate(@Param("orderId") String orderId);
+    @Query(name = "SELECT * FROM Import_Order o WHERE o.importId = :importId" , nativeQuery = true)
+    Optional<ImportOrderAggreate> findByImportId(@Param("importId") String importId);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query(name = " SELECT MAX(e.orderId.sequence) FROM Import_Order e WHERE e.orderId.seqDate = :seqDate", nativeQuery = true)
-    Long findMaxSequenceByDate(@Param("seqDate") Date seqDate);
+
 }
