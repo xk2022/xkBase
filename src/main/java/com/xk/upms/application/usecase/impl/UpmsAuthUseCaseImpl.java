@@ -46,6 +46,7 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 				jwtUserDTO.getRoleUuid(),
 				jwtUserDTO.isEnable(),
 				jwtUserDTO.isLock(),
+				jwtUserDTO.getSystemDTOs(),
 				jwtUserDTO.getToken()
 		);
 	}
