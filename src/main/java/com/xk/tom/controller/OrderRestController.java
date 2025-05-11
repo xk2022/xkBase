@@ -12,12 +12,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -36,15 +38,18 @@ public class OrderRestController {
     @Operation(summary = "新增訂單", description = "創建一個新的訂單。")
     @PostMapping("/createOrder")
     public BaseResult<OrderResponseDTO> createUser(
-            @RequestBody @Validated @NotNull OrderCreateDTO request) {
+            @RequestBody @Validated @NotNull OrderCreateDTO request) throws ParseException {
         OrderResponseDTO orderResponseDTO = importOrderCreateUseCase.create(request);
         return BaseResult.success(orderResponseDTO, "新增訂單成功");
     }
 
     @Operation(summary = "查詢進口訂單", description = "查詢進口訂單")
     @PostMapping("getImportOrder")
-    public BaseResult<List<ImportOrderResponseDTO>> getImportOrder(@RequestBody @Validated @NotNull ImportOrderDTO request) {
-        List<ImportOrderResponseDTO> orderResponseDTOs = importOrderFindUserCase.getImportOrder(request);
+    public BaseResult<ImportOrderResponseDTO> getImportOrder(@RequestBody @Validated @NotNull ImportOrderDTO request) {
+        if ( request.orderid() == null) {
+            return BaseResult.failure(HttpStatus.NOT_FOUND ,"orderid  不可為空 ",null);
+        }
+        ImportOrderResponseDTO orderResponseDTOs = importOrderFindUserCase.getImportOrder(request);
         return BaseResult.success(orderResponseDTOs, "查詢訂單完成");
     }
 

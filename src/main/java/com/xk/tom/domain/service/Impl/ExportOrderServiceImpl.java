@@ -1,6 +1,7 @@
 package com.xk.tom.domain.service.Impl;
 
 
+import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -30,10 +32,11 @@ public class ExportOrderServiceImpl implements ExportOrderService {
 
     @Override
     @Transactional
-    public ExportOrderBO save(ExportOrderBO exportOrderBO) {
+    public ExportOrderBO save(ExportOrderBO exportOrderBO) throws ParseException {
         ExportOrderBO resultBO = new ExportOrderBO();
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         String todaystr = new SimpleDateFormat("yyyyMMdd").format(today);
+
         log.info("📌 儲存訂單");
         Long maxSequence = orderIdRepository.findMaxSequenceBySeqDate(today);
 
@@ -48,7 +51,7 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         //寫入新流水號
         OrderId orderId = new OrderId();
         orderId.setSequence(sequenceStr);
-        orderId.setSeqDate(todaystr);
+        orderId.setSeqDate(DateCoverUtils.StringCoverToDate(todaystr));
         orderIdRepository.save(orderId);
 
 

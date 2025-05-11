@@ -1,6 +1,8 @@
 package com.xk.tom.domain.service.Impl;
 
+import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
+import com.xk.tom.application.model.ImportOrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
@@ -13,10 +15,12 @@ import org.hibernate.query.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,7 +32,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
 
     @Override
     @Transactional
-    public ImportOrderBO save(ImportOrderBO importOrderBO) {
+    public ImportOrderBO save(ImportOrderBO importOrderBO) throws ParseException {
         ImportOrderBO resultBo = new ImportOrderBO();
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         String todaystr = new SimpleDateFormat("yyyyMMdd").format(today);
@@ -46,7 +50,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         //寫入新流水號
         OrderId orderId = new OrderId();
         orderId.setSequence(sequenceStr);
-        orderId.setSeqDate(todaystr);
+        orderId.setSeqDate(DateCoverUtils.StringCoverToDate(todaystr));
         orderIdRepository.save(orderId);
 
         // 4. 建立新的 OrderId
@@ -58,5 +62,19 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         XkBeanUtils.copyPropertiesAutoConvert(savedImportOrderAggreate ,resultBo);
 
         return resultBo;
+    }
+
+    @Override
+    public ImportOrderResponseDTO getImportOrder(String orderid) {
+
+        Optional<ImportOrderAggreate>  aggreate = importOrderRepository.findByOrderId(orderid);
+        ImportOrderResponseDTO responseDTO ;
+        if (aggreate.isPresent()) {
+            ImportOrderAggreate importOrderAggreate = aggreate.get();
+            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate , ImportOrderResponseDTO::new);
+            return responseDTO;
+        }else {
+            return new ImportOrderResponseDTO();
+        }
     }
 }

@@ -1,4 +1,7 @@
 package com.xk.tom.application.model;
 
-public class ExportOrderDTO {
+public record ExportOrderDTO (
+        Long exportId,
+        String orderid
+) {
 }

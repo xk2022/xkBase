@@ -27,7 +27,7 @@ public class OrderId implements Serializable {
 
 
     @Column(name = "seq_date" , nullable = false)
-    private String seqDate;
+    private Date seqDate;
 
     @Column(name = "sequence" , nullable = false)
     private String sequence;

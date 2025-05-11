@@ -19,7 +19,7 @@ public class ImportOrderBO {
 
     private String orderId;
 
-    private ZonedDateTime ImportDate;//進口日期
+    private ZonedDateTime importDate;//進口日期
 
     private Long orderRecordId;//記錄訂單
 

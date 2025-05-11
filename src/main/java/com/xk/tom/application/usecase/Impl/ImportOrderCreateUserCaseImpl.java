@@ -15,13 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
+public class ImportOrderCreateUserCaseImpl implements ImportOrderCreateUseCase {
 
 
     private final ImportOrderService importOrderService;
@@ -30,7 +31,7 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
 
 
     @Override
-    public OrderResponseDTO create(OrderCreateDTO order) {
+    public OrderResponseDTO create(OrderCreateDTO order) throws ParseException {
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
 
         if(order.orderType().equals("import")) {
@@ -46,7 +47,7 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
 //            importOrderBO.setCustomerId(1L);
 
             //訂單狀態預設pending
-            importOrderBO.setStatus("pending");
+            importOrderBO.setStatus("PENDING");
             //訂單記錄
             importOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
 
@@ -67,7 +68,7 @@ public class ImportOrderUserCaseImpl implements ImportOrderCreateUseCase {
             exportOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
 
             //訂單狀態 預設pending
-            exportOrderBO.setStatus("pending");
+            exportOrderBO.setStatus("PENDING");
 
             //TODO客戶訊息
 

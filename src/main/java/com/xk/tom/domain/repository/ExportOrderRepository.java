@@ -15,6 +15,6 @@ import java.util.Optional;
 public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate, Long> {
 
     @Query(name = "SELECT * FROM Export_Order o WHERE o.exportId = :exportId" , nativeQuery = true)
-    Optional<ExportOrderAggreate> findByExportId(@Param("exportId") String exportId);
+    Optional<ExportOrderAggreate> findByExportId(@Param("exportId") Long exportId);
 
 }

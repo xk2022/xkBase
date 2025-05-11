@@ -1,48 +1,58 @@
 package com.xk.tom.application.model;
 
 import com.xk.tom.domain.model.aggreate.OrderId;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.ZonedDateTime;
 
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderResponseDTO {
 
-    private Long id;
+    private Long importId;
 
-    private OrderId orderId;
+    private String orderId;
 
-    private ZonedDateTime ImportDate;//進口日期
+    private ZonedDateTime importDate;//進口日期
 
     private Long orderRecordId;//記錄訂單
 
     private String deliveryOrderLocation;//提貨單位置
 
-    private String ShippingCompany;//船公司
+    private String shippingCompany;//船公司
 
-    private String VesselVoyage;//船名/航次
+    private String vesselVoyage;//船名/航次
 
-    private String ContainerNumber;//櫃號
+    private String containerNumber;//櫃號
 
-    private String ContainerType;//櫃型
+    private String containerType;//櫃型
 
-    private String ContainerYard;//櫃場
+    private String containerYard;//櫃場
 
-    private ZonedDateTime LastPickupDate;//領櫃期限
+    private ZonedDateTime lastPickupDate;//領櫃期限
 
-    private String DeliveryLocation;//送貨地點
+    private String deliveryLocation;//送貨地點
 
-    private Date DeliveryDate;//送貨日期
+    private Date deliveryDate;//送貨日期
 
-    private Time DeliveryTime;//送貨時間
+    private Time deliveryTime;//送貨時間
 
-    private String ReturnYard;//還櫃地點
+    private String returnYard;//還櫃地點
 
-    private Date ReturnDate;//還櫃日期
+    private Date returnDate;//還櫃日期
 
-    private Time ReturnTime;//還櫃時間
+    private Time returnTime;//還櫃時間
 
-    private String Note;//備註
+    private String note;//備註
 
     private String orderType;//訂單類型
 

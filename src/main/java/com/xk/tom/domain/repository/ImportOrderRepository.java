@@ -16,7 +16,8 @@ public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate
 
 
     @Query(name = "SELECT * FROM Import_Order o WHERE o.importId = :importId" , nativeQuery = true)
-    Optional<ImportOrderAggreate> findByImportId(@Param("importId") String importId);
+    Optional<ImportOrderAggreate> findByImportId(@Param("importId") Long importId);
 
 
+    Optional<ImportOrderAggreate> findByOrderId(String orderId);
 }

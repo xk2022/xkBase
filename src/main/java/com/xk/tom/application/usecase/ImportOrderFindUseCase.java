@@ -7,5 +7,5 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public interface ImportOrderFindUseCase {
-    List<ImportOrderResponseDTO> getImportOrder(@NotNull ImportOrderDTO request);
+    ImportOrderResponseDTO getImportOrder(@NotNull ImportOrderDTO request);
 }
