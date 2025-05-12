@@ -65,4 +65,6 @@ public class ImportOrderBO {
 
     private ZonedDateTime updatedTime;//編輯時間
 
+    private String contactPerson;//聯絡人姓名
+
 }

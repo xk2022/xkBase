@@ -5,7 +5,7 @@ import com.xk.common.base.BaseResult;
 
 import com.xk.tom.application.model.*;
 import com.xk.tom.application.usecase.ExportOrderFindUseCase;
-import com.xk.tom.application.usecase.ImportOrderCreateUseCase;
+import com.xk.tom.application.usecase.OrderCreateUseCase;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,7 @@ import java.util.List;
 @Slf4j
 public class OrderRestController {
 
-    private final ImportOrderCreateUseCase importOrderCreateUseCase;
+    private final OrderCreateUseCase orderCreateUseCase;
     private final ImportOrderFindUseCase importOrderFindUserCase;
     private final ExportOrderFindUseCase exportOrderFindUseCase;
 
@@ -39,7 +39,7 @@ public class OrderRestController {
     @PostMapping("/createOrder")
     public BaseResult<OrderResponseDTO> createUser(
             @RequestBody @Validated @NotNull OrderCreateDTO request) throws ParseException {
-        OrderResponseDTO orderResponseDTO = importOrderCreateUseCase.create(request);
+        OrderResponseDTO orderResponseDTO = orderCreateUseCase.create(request);
         return BaseResult.success(orderResponseDTO, "新增訂單成功");
     }
 

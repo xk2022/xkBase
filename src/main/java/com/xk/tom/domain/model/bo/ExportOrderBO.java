@@ -48,7 +48,7 @@ public class ExportOrderBO {
 
     private String orderType;
 
-    private String customerId;
+    private Long customerId;
 
     private String status;
 
@@ -59,4 +59,6 @@ public class ExportOrderBO {
     private String updatedBy;
 
     private ZonedDateTime updatedTime;
+
+    private String contactPerson;
 }

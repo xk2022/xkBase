@@ -3,11 +3,12 @@ package com.xk.tom.application.usecase.Impl;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.tom.application.model.OrderCreateDTO;
 import com.xk.tom.application.model.OrderResponseDTO;
-import com.xk.tom.application.usecase.ImportOrderCreateUseCase;
-import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
+import com.xk.tom.application.usecase.OrderCreateUseCase;
+import com.xk.tom.domain.model.aggreate.CustomerAggreate;
 import com.xk.tom.domain.model.bo.ExportOrderBO;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
 import com.xk.tom.domain.model.bo.OrderRecordBO;
+import com.xk.tom.domain.service.CustomerService;
 import com.xk.tom.domain.service.ExportOrderService;
 import com.xk.tom.domain.service.ImportOrderService;
 import com.xk.tom.domain.service.OrderRecordService;
@@ -16,18 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ImportOrderCreateUserCaseImpl implements ImportOrderCreateUseCase {
+public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
 
 
     private final ImportOrderService importOrderService;
     private final ExportOrderService exportOrderService;
     private final OrderRecordService orderRecordService;
+    private final CustomerService customerService;
 
 
     @Override
@@ -44,10 +46,13 @@ public class ImportOrderCreateUserCaseImpl implements ImportOrderCreateUseCase {
             OrderRecordBO savedOrderRecordBo =  orderRecordService.save(orderRecordBO);
 
             //TODO客戶訊息
-//            importOrderBO.setCustomerId(1L);
+            Optional<CustomerAggreate> customerAggreateOptional =customerService.findByContactPerson(importOrderBO.getContactPerson());
+            customerAggreateOptional.ifPresent(customerAggreate -> importOrderBO.setCustomerId(customerAggreate.getCustomerId()));
 
             //訂單狀態預設pending
             importOrderBO.setStatus("PENDING");
+            //訂單類型
+            importOrderBO.setOrderType("IMPORT");
             //訂單記錄
             importOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
 
@@ -69,8 +74,12 @@ public class ImportOrderCreateUserCaseImpl implements ImportOrderCreateUseCase {
 
             //訂單狀態 預設pending
             exportOrderBO.setStatus("PENDING");
+            //訂單類型
+            exportOrderBO.setOrderType("EXPORT");
 
             //TODO客戶訊息
+            Optional<CustomerAggreate> customerAggreateOptional =customerService.findByContactPerson(exportOrderBO.getContactPerson());
+            customerAggreateOptional.ifPresent(customerAggreate -> exportOrderBO.setCustomerId(customerAggreate.getCustomerId()));
 
             ExportOrderBO savedExportOrderBO = exportOrderService.save(exportOrderBO);
              orderResponseDTO = XkBeanUtils.copyProperties(savedExportOrderBO ,OrderResponseDTO::new );

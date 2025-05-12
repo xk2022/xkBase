@@ -59,10 +59,10 @@ public record OrderCreateDTO(
          Date loadingDate ,//(上貨日期)
          Time loadingTime,//(上貨時間)
          //String note(共有)
-         ZonedDateTime clearanceDate//結關日
+         ZonedDateTime clearanceDate,//結關日
+//----------------------Customer 客戶 貨主-------------------------------
 
-
-
+        String contactPerson //聯絡人姓名
 
 ) {
 }

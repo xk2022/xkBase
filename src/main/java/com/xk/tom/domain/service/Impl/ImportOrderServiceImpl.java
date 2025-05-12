@@ -6,6 +6,7 @@ import com.xk.tom.application.model.ImportOrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
+import com.xk.tom.domain.repository.CustomerRepository;
 import com.xk.tom.domain.repository.ImportOrderRepository;
 import com.xk.tom.domain.repository.OrderIdRepository;
 import com.xk.tom.domain.service.ImportOrderService;
@@ -29,6 +30,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
 
     private final ImportOrderRepository importOrderRepository;
     private final OrderIdRepository orderIdRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     @Transactional
@@ -56,8 +58,6 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         // 4. 建立新的 OrderId
         ImportOrderAggreate aggreate = XkBeanUtils.copyProperties(importOrderBO ,ImportOrderAggreate::new );
         aggreate.setOrderId(todaystr+"-"+sequenceStr);
-        aggreate.setOrderType("IMPORT");
-        aggreate.setStatus("PENDING");
         ImportOrderAggreate savedImportOrderAggreate  =importOrderRepository.save(aggreate);
         XkBeanUtils.copyPropertiesAutoConvert(savedImportOrderAggreate ,resultBo);
 
