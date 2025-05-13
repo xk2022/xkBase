@@ -3,8 +3,10 @@ package com.xk.tom.domain.service.Impl;
 
 import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
+import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
+import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
 import com.xk.tom.domain.model.bo.ExportOrderBO;
 import com.xk.tom.domain.repository.ExportOrderRepository;
 import com.xk.tom.domain.repository.OrderIdRepository;
@@ -50,15 +52,13 @@ public class ExportOrderServiceImpl implements ExportOrderService {
 
         //寫入新流水號
         OrderId orderId = new OrderId();
-        orderId.setSequence(sequenceStr);
+        orderId.setSequence(Long.parseLong(sequenceStr));
         orderId.setSeqDate(DateCoverUtils.StringCoverToDate(todaystr));
         orderIdRepository.save(orderId);
 
 
         ExportOrderAggreate exportOrderAggreate = XkBeanUtils.copyProperties(exportOrderBO ,ExportOrderAggreate::new);
         exportOrderAggreate.setOrderId(todaystr+"-"+sequenceStr);
-        exportOrderAggreate.setOrderType("EXPORT");
-        exportOrderAggreate.setStatus("PENDING");
         ExportOrderAggreate savedExportOrderAggreate = exportOrderRepository.save(exportOrderAggreate);
         XkBeanUtils.copyPropertiesAutoConvert(savedExportOrderAggreate ,resultBO);
         return resultBO;

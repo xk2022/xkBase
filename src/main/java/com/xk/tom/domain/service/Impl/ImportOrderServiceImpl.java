@@ -51,7 +51,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
 
         //寫入新流水號
         OrderId orderId = new OrderId();
-        orderId.setSequence(sequenceStr);
+        orderId.setSequence(Long.parseLong(sequenceStr));
         orderId.setSeqDate(DateCoverUtils.StringCoverToDate(todaystr));
         orderIdRepository.save(orderId);
 
@@ -72,6 +72,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         if (aggreate.isPresent()) {
             ImportOrderAggreate importOrderAggreate = aggreate.get();
             responseDTO = XkBeanUtils.copyProperties(importOrderAggreate , ImportOrderResponseDTO::new);
+//
             return responseDTO;
         }else {
             return new ImportOrderResponseDTO();

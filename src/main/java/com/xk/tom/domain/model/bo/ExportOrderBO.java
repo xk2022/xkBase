@@ -1,6 +1,8 @@
 package com.xk.tom.domain.model.bo;
 
+import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.domain.model.aggreate.OrderId;
+import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
 import lombok.*;
 
 import java.sql.Date;
@@ -46,11 +48,11 @@ public class ExportOrderBO {
 
     private String note;
 
-    private String orderType;
+    private OrderTypeEnum orderType;
 
     private Long customerId;
 
-    private String status;
+    private OrderStatusEnum status;
 
     private String createdBy;
 

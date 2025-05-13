@@ -68,6 +68,7 @@ public class OrderResponseDTO {
 
     private ZonedDateTime updatedTime;//編輯時間
 //    --------------------------出口-------------------------
+
     private ZonedDateTime ExportDate;//出口日期
 
     private ZonedDateTime clearanceDate;//結關日

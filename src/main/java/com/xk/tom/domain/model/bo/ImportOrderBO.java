@@ -1,7 +1,9 @@
 package com.xk.tom.domain.model.bo;
 
 
+import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.domain.model.aggreate.OrderId;
+import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
 import lombok.*;
 
 import java.sql.Date;
@@ -51,11 +53,11 @@ public class ImportOrderBO {
 
     private String note;//備註
 
-    private String orderType;//訂單類型
+    private OrderTypeEnum orderType;//訂單類型
 
     private Long customerId;//客戶 ID
 
-    private String status;//訂單狀態
+    private OrderStatusEnum status;//訂單狀態
 
     private String createdBy;//創建者
 

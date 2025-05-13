@@ -30,7 +30,7 @@ public class OrderId implements Serializable {
     private Date seqDate;
 
     @Column(name = "sequence" , nullable = false)
-    private String sequence;
+    private Long sequence;
 
 
 

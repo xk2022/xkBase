@@ -2,6 +2,7 @@ package com.xk.tom.domain.model.aggreate;
 
 
 import com.xk.common.base.BaseEntity;
+import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ public class OrderBasicAggreate  implements Serializable {
 
     @Column(name = "order_type")
     @Comment("訂單類型")
-    private String orderType;
+    @Enumerated(EnumType.STRING)
+    private OrderTypeEnum orderType;
 
 
     @Column(name ="customer_id")
@@ -40,7 +42,8 @@ public class OrderBasicAggreate  implements Serializable {
 
     @Column(name="status")
     @Comment("訂單狀態")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatusEnum status;
 
 
     @Schema(description = "創建者", required = true, example = "admin")

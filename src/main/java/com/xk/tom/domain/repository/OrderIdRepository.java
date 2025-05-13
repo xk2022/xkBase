@@ -12,7 +12,6 @@ import java.util.Date;
 public interface OrderIdRepository extends JpaRepository<OrderId , Long> {
 
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query(name = " SELECT MAX(sequence) FROM daily_sequence e WHERE e.seqDate = :seqDate", nativeQuery = true)
+    @Query(value = "SELECT MAX(CAST(sequence AS SIGNED)) FROM daily_sequence e WHERE e.seq_date = :seqDate FOR UPDATE", nativeQuery = true)
     Long findMaxSequenceBySeqDate(@Param("seqDate") Date seqDate);
 }
