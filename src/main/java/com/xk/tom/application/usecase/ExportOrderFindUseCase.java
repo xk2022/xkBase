@@ -8,5 +8,5 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface ExportOrderFindUseCase {
-    List<ExportOrderResponseDTO> getExportOrder(@NotNull ExportOrderDTO request);
+    ExportOrderResponseDTO getExportOrder(@NotNull ExportOrderDTO request);
 }

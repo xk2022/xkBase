@@ -2,11 +2,20 @@ package com.xk.tom.application.model;
 
 import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.ZonedDateTime;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExportOrderResponseDTO {
 
 

@@ -3,6 +3,7 @@ package com.xk.tom.domain.repository;
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 
 import com.xk.tom.domain.model.aggreate.OrderId;
+import com.xk.tom.domain.model.bo.ExportOrderBO;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -17,4 +18,5 @@ public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate
     @Query(name = "SELECT * FROM Export_Order o WHERE o.exportId = :exportId" , nativeQuery = true)
     Optional<ExportOrderAggreate> findByExportId(@Param("exportId") Long exportId);
 
+    Optional<ExportOrderAggreate> findByOrderId(String orderid);
 }

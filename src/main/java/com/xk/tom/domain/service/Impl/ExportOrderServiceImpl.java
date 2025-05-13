@@ -4,6 +4,7 @@ package com.xk.tom.domain.service.Impl;
 import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
+import com.xk.tom.application.model.ExportOrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -62,5 +64,17 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         ExportOrderAggreate savedExportOrderAggreate = exportOrderRepository.save(exportOrderAggreate);
         XkBeanUtils.copyPropertiesAutoConvert(savedExportOrderAggreate ,resultBO);
         return resultBO;
+    }
+
+    @Override
+    public ExportOrderResponseDTO getExportOrder(String orderid) {
+        Optional<ExportOrderAggreate> aggreateOptional = exportOrderRepository.findByOrderId(orderid);
+        ExportOrderResponseDTO responseDTO ;
+        if (aggreateOptional.isPresent()) {
+            ExportOrderAggreate exportOrderAggreate = aggreateOptional.get();
+            responseDTO = XkBeanUtils.copyProperties(exportOrderAggreate ,ExportOrderResponseDTO::new);
+            return responseDTO;
+        }
+        return null;
     }
 }

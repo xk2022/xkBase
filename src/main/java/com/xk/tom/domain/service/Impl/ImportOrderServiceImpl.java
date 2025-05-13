@@ -75,7 +75,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
 //
             return responseDTO;
         }else {
-            return new ImportOrderResponseDTO();
+            return null;
         }
     }
 }

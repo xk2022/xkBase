@@ -55,8 +55,11 @@ public class OrderRestController {
 
     @Operation(summary = "查詢出口訂單", description = "查詢出口訂單")
     @PostMapping("getExportOrder")
-    public BaseResult<List<ExportOrderResponseDTO>> getExportOrder(@RequestBody @Validated @NotNull ExportOrderDTO request) {
-        List<ExportOrderResponseDTO> orderResponseDTOs = exportOrderFindUseCase.getExportOrder(request);
+    public BaseResult<ExportOrderResponseDTO> getExportOrder(@RequestBody @Validated @NotNull ExportOrderDTO request) {
+        if ( request.orderid() == null) {
+            return BaseResult.failure(HttpStatus.NOT_FOUND ,"orderid  不可為空 ",null);
+        }
+        ExportOrderResponseDTO orderResponseDTOs = exportOrderFindUseCase.getExportOrder(request);
         return BaseResult.success(orderResponseDTOs, "查詢訂單完成");
     }
 }

@@ -19,7 +19,9 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
 
     private final ExportOrderService exportOrderService;
     @Override
-    public List<ExportOrderResponseDTO> getExportOrder(ExportOrderDTO request)  {
-        return List.of();
+    public ExportOrderResponseDTO getExportOrder(ExportOrderDTO request)  {
+        ExportOrderResponseDTO exportOrderResponseDTO = new ExportOrderResponseDTO();
+        exportOrderResponseDTO = exportOrderService.getExportOrder(request.orderid());
+        return exportOrderResponseDTO;
     }
 }
