@@ -78,4 +78,23 @@ public class ImportOrderServiceImpl implements ImportOrderService {
             return null;
         }
     }
+
+    @Override
+    @Transactional
+    public int deleteImportOrder(Long importId) {
+        try {
+            importOrderRepository.deleteById(importId);
+            return 1;
+        } catch (Exception e) {
+            log.error("刪除進口訂單失敗，importId: {}", importId, e);
+            return 0;
+        }
+    }
+
+    @Override
+    public Optional<ImportOrderAggreate> findByImportIdAndStatusPending(Long importId) {
+        return importOrderRepository.findByImportIdAndStatusPending(importId);
+    }
+
+
 }

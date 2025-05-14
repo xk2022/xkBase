@@ -7,6 +7,7 @@ import com.xk.tom.application.model.*;
 import com.xk.tom.application.usecase.ExportOrderFindUseCase;
 import com.xk.tom.application.usecase.OrderCreateUseCase;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
+import com.xk.tom.application.usecase.OrderDeleteUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -14,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
@@ -33,6 +31,7 @@ public class OrderRestController {
     private final OrderCreateUseCase orderCreateUseCase;
     private final ImportOrderFindUseCase importOrderFindUserCase;
     private final ExportOrderFindUseCase exportOrderFindUseCase;
+    private final OrderDeleteUseCase orderDeleteUseCase;
 
 
     @Operation(summary = "新增訂單", description = "創建一個新的訂單。")
@@ -62,4 +61,14 @@ public class OrderRestController {
         ExportOrderResponseDTO orderResponseDTOs = exportOrderFindUseCase.getExportOrder(request);
         return BaseResult.success(orderResponseDTOs, "查詢訂單完成");
     }
+
+    @Operation(summary = "刪除進口訂單" ,description = "刪除進口訂單")
+    @DeleteMapping("/{importId}")
+    public BaseResult<Boolean> deleteImportOrder(@PathVariable Long importId) {
+        orderDeleteUseCase.deletedImportOrder(importId);
+        return BaseResult.success(true, "刪除成功");
+    }
+
+
+
 }
