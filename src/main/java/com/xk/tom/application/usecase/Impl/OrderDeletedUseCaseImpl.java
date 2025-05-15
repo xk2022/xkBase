@@ -1,5 +1,7 @@
 package com.xk.tom.application.usecase.Impl;
 
+import com.xk.exapmleFolder.exception.DemoNotFoundException;
+import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.application.usecase.OrderDeleteUseCase;
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
@@ -27,7 +29,7 @@ public class OrderDeletedUseCaseImpl implements OrderDeleteUseCase {
         Optional<ImportOrderAggreate> orderOptional = importOrderService.findByImportIdAndStatusPending(importId);
         if (orderOptional.isEmpty()) {
             log.warn("訂單不存在或狀態不為PENDING，importId: {}", importId);
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "訂單不存在或狀態不為PENDING");
+            throw new DemoNotFoundException( "訂單不存在或狀態不為PENDING，importId: {}" ,importId);
         }
         
         try {
@@ -45,5 +47,21 @@ public class OrderDeletedUseCaseImpl implements OrderDeleteUseCase {
     public void deletedExportOrder(Long exportId) {
 
         Optional<ExportOrderAggreate> orderOptional = exportOrderService.findByImportIdAndStatusPending(exportId);
+        if (orderOptional.isEmpty()) {
+            log.warn("訂單不存在或狀態不為PENDING，importId: {}", exportId);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "訂單不存在或狀態不為PENDING");
+        }
+
+        try {
+            int result = importOrderService.deleteImportOrder(exportId);
+            if (result <= 0) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "刪除訂單失敗");
+            }
+        } catch (Exception e) {
+            log.error("刪除訂單時發生錯誤，importId: {}", exportId, e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "刪除訂單時發生錯誤");
+        }
     }
+
+
 }

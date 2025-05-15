@@ -1,13 +1,17 @@
 package com.xk.tom.application.usecase.Impl;
 
+import com.xk.common.util.XkBeanUtils;
 import com.xk.tom.application.model.ImportOrderDTO;
 import com.xk.tom.application.model.ImportOrderResponseDTO;
+import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
+import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,5 +27,13 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
         responseDTO = importOrderService.getImportOrder(request.orderid());
 
         return responseDTO;
+    }
+
+    @Override
+    public List<OrderResponseDTO> getOrderByOrderTypeImport() {
+        List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByOrderTypeImport();
+        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
+        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates , OrderResponseDTO::new);
+        return orderResponseDTOS;
     }
 }

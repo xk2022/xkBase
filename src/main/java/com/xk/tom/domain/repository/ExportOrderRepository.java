@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate, Long> {
@@ -22,4 +23,7 @@ public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate
 
     @Query(value = "SELECT * FROM Export_Order o WHERE o.export_id = :exportId AND o.status = 'PENDING'", nativeQuery = true)
     Optional<ExportOrderAggreate> findByImportIdAndStatusPending(@Param("exportId") Long exportId);
+
+    @Query(value = "SELECT * FROM  Export_Order o  WHERE o.order_type ='EXPORT' ",nativeQuery = true)
+    List<ExportOrderAggreate> findByOrderTypeExport();
 }

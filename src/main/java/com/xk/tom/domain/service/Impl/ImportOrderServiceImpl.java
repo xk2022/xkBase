@@ -3,6 +3,7 @@ package com.xk.tom.domain.service.Impl;
 import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
 import com.xk.tom.application.model.ImportOrderResponseDTO;
+import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -94,6 +96,11 @@ public class ImportOrderServiceImpl implements ImportOrderService {
     @Override
     public Optional<ImportOrderAggreate> findByImportIdAndStatusPending(Long importId) {
         return importOrderRepository.findByImportIdAndStatusPending(importId);
+    }
+
+    @Override
+    public List<ImportOrderAggreate> getOrderByOrderTypeImport() {
+        return importOrderRepository.findByOrderTypeImport();
     }
 
 

@@ -3,11 +3,13 @@ package com.xk.tom.controller;
 
 import com.xk.common.base.BaseResult;
 
+import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.application.model.*;
 import com.xk.tom.application.usecase.ExportOrderFindUseCase;
 import com.xk.tom.application.usecase.OrderCreateUseCase;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
 import com.xk.tom.application.usecase.OrderDeleteUseCase;
+import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -74,6 +77,22 @@ public class OrderRestController {
     public BaseResult<Boolean> deleteExportOrder(@PathVariable Long exportId) {
         orderDeleteUseCase.deletedExportOrder(exportId);
         return BaseResult.success(true, "刪除成功");
+    }
+
+
+    @Operation(summary = "訂單類型查詢" ,description = "訂單類型查詢")
+    @PostMapping("/getOrderByStatus")
+    public BaseResult<List<OrderResponseDTO>> getOrderByStatus(@RequestBody String status)  {
+        OrderTypeEnum orderTypeEnum = OrderTypeEnum.valueOf(status);
+        List<OrderResponseDTO> responseDTOs = new ArrayList<>();
+        if (orderTypeEnum.name().equals("IMPORT")) {
+            responseDTOs = importOrderFindUserCase.getOrderByOrderTypeImport();
+            return BaseResult.success(responseDTOs ,"查詢進口訂單完成");
+        }else {
+            responseDTOs = exportOrderFindUseCase.getOrderByOrderTypeExport();
+            return BaseResult.success(responseDTOs ,"查詢出口訂單完成");
+        }
+
     }
 
 

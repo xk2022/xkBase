@@ -1,8 +1,12 @@
 package com.xk.tom.application.usecase.Impl;
 
+import com.xk.common.util.XkBeanUtils;
 import com.xk.tom.application.model.ExportOrderDTO;
 import com.xk.tom.application.model.ExportOrderResponseDTO;
+import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.application.usecase.ExportOrderFindUseCase;
+import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
+import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.service.ExportOrderService;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,5 +28,13 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
         ExportOrderResponseDTO exportOrderResponseDTO = new ExportOrderResponseDTO();
         exportOrderResponseDTO = exportOrderService.getExportOrder(request.orderid());
         return exportOrderResponseDTO;
+    }
+
+    @Override
+    public List<OrderResponseDTO> getOrderByOrderTypeExport() {
+        List<ExportOrderAggreate> exportOrderAggreates = exportOrderService.getOrderByOrderTypeImport();
+        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
+        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates , OrderResponseDTO::new);
+        return orderResponseDTOS;
     }
 }

@@ -2,6 +2,7 @@ package com.xk.tom.application.usecase.Impl;
 
 import com.xk.common.util.XkBeanUtils;
 import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
+import com.xk.exapmleFolder.exception.CustomerNotFoundException;
 import com.xk.tom.application.model.OrderCreateDTO;
 import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.application.usecase.OrderCreateUseCase;
@@ -84,7 +85,11 @@ public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
 
             //客戶訊息
             Optional<CustomerAggreate> customerAggreateOptional =customerService.findByContactPerson(exportOrderBO.getContactPerson());
-            customerAggreateOptional.ifPresent(customerAggreate -> exportOrderBO.setCustomerId(customerAggreate.getCustomerId()));
+            CustomerAggreate customerAggreate = customerAggreateOptional
+                    .orElseThrow(CustomerNotFoundException::new);
+
+            exportOrderBO.setCustomerId(customerAggreate.getCustomerId());
+
 
             ExportOrderBO savedExportOrderBO = exportOrderService.save(exportOrderBO);
             orderResponseDTO = XkBeanUtils.copyProperties(savedExportOrderBO ,OrderResponseDTO::new );

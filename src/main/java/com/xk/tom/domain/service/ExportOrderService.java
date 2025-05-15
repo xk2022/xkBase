@@ -5,6 +5,7 @@ import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 import com.xk.tom.domain.model.bo.ExportOrderBO;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 public interface ExportOrderService {
@@ -14,4 +15,6 @@ public interface ExportOrderService {
     ExportOrderResponseDTO getExportOrder(String orderid);
 
     Optional<ExportOrderAggreate> findByImportIdAndStatusPending(Long exportId);
+
+    List<ExportOrderAggreate> getOrderByOrderTypeImport();
 }

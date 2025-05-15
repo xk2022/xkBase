@@ -11,4 +11,8 @@ public class DemoNotFoundException extends RuntimeException {
         super("❌ 訂單 ID " + orderId + " 不存在");
     }
 
+    public DemoNotFoundException(String message, Long orderId) {
+        super(message + orderId);
+    }
+
 }
