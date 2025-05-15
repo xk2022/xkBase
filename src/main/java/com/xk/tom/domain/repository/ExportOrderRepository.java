@@ -19,4 +19,7 @@ public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate
     Optional<ExportOrderAggreate> findByExportId(@Param("exportId") Long exportId);
 
     Optional<ExportOrderAggreate> findByOrderId(String orderid);
+
+    @Query(value = "SELECT * FROM Export_Order o WHERE o.export_id = :exportId AND o.status = 'PENDING'", nativeQuery = true)
+    Optional<ExportOrderAggreate> findByImportIdAndStatusPending(@Param("exportId") Long exportId);
 }

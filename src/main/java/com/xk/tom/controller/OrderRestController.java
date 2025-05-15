@@ -69,6 +69,13 @@ public class OrderRestController {
         return BaseResult.success(true, "刪除成功");
     }
 
+    @Operation(summary = "刪除出口訂單" ,description = "刪除出口訂單")
+    @DeleteMapping("/{exportId}")
+    public BaseResult<Boolean> deleteExportOrder(@PathVariable Long exportId) {
+        orderDeleteUseCase.deletedExportOrder(exportId);
+        return BaseResult.success(true, "刪除成功");
+    }
+
 
 
 }

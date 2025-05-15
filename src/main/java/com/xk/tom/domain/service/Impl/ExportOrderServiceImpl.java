@@ -77,4 +77,9 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         }
         return null;
     }
+
+    @Override
+    public Optional<ExportOrderAggreate> findByImportIdAndStatusPending(Long exportId) {
+        return exportOrderRepository.findByImportIdAndStatusPending(exportId) ;
+    }
 }
