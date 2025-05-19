@@ -33,13 +33,17 @@ public class UpmsAuthUseCaseImpl implements UpmsAuthUseCase {
 	@Override
 	public UpmsUserResponseDTO signin(UpmsAuthLoginRequestDTO upmsAuthLoginRequestDTO) {
 		// 取得使用者
-		Optional<UpmsUserBO> upmsUserBO  = upmsUserService.findByUsername(upmsAuthLoginRequestDTO.username());
+		Optional<UpmsUserBO> upmsUserBO  = upmsUserService.findByAccount(upmsAuthLoginRequestDTO.account());
 		if(!upmsUserBO.isPresent()){
+			return null;
+		}
+		if(!upmsUserBO.get().getPassword().equals(upmsAuthLoginRequestDTO.password())){
 			return null;
 		}
 		JwtUserDTO jwtUserDTO = upmsUserDetailsService.extract(upmsUserBO.get());
 		return new UpmsUserResponseDTO(
 				jwtUserDTO.getUserUuid(),
+				jwtUserDTO.getAccount(),
 				jwtUserDTO.getUsername(),
 				jwtUserDTO.getEmail(),
 				jwtUserDTO.getCellPhone(),

@@ -10,6 +10,10 @@ import java.util.UUID;
 
 public record UpmsUserUpdateDTO(
 
+		@Schema(description = "帳號")
+		@NotBlank(message = "請輸入帳號")
+		String account,
+
 		@Schema(description = "使用者名稱")
 		@NotBlank(message = "請輸入使用者名稱")
 		String username,

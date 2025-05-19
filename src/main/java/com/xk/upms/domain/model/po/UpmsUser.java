@@ -44,6 +44,12 @@ public class UpmsUser extends BaseEntity implements Serializable {
 	@Column(name = "uuid", length = 36, nullable = false)
 	private UUID uuid;
 
+	@NotBlank(message = "帳號不能為空")
+	@Size(max = 50, message = "帳號不能超過50個字符")
+	@Column(nullable = true)
+	@Comment("04_帳號")
+	private String account;
+
 	@NotBlank(message = "用戶名稱不能為空")
 	@Size(max = 50, message = "用戶名稱不能超過50個字符")
 	@Column(nullable = false)

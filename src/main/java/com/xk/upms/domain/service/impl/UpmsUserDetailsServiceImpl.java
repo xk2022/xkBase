@@ -50,6 +50,7 @@ public class UpmsUserDetailsServiceImpl implements UpmsUserDetailsService {
 		List<JwtUserDTO.SystemDTO> systemDTOS = convertSystem(admSystemPOS, upmsRole.get());
 		JwtUserDTO jwtUserDTO = new JwtUserDTO();
 		jwtUserDTO.setUserUuid(upmsUserBO.getUuid());
+		jwtUserDTO.setAccount(upmsUserBO.getAccount());
 		jwtUserDTO.setUserName(upmsUserBO.getUsername());
 		jwtUserDTO.setEmail(upmsUserBO.getEmail());
 		jwtUserDTO.setCellPhone(upmsUserBO.getCellPhone());

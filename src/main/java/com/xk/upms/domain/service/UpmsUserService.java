@@ -61,7 +61,7 @@ public interface UpmsUserService {
 	 * @param username
 	 * @return
 	 */
-	Optional<UpmsUserBO> findByUsername(String username);
+	Optional<UpmsUserBO> findByAccount(String username);
 
 	// ============= ⚡【查詢 & 過濾】================
 	/**
