@@ -88,4 +88,9 @@ public class ExportOrderServiceImpl implements ExportOrderService {
     public List<ExportOrderAggreate> getOrderByOrderTypeImport() {
         return exportOrderRepository.findByOrderTypeExport();
     }
+
+    @Override
+    public List<ExportOrderAggreate> getOrderByCustomerNameAndOrderTypeExport(String customerName) {
+        return exportOrderRepository.findByCustomerNameAndOrderTypeExport(customerName);
+    }
 }

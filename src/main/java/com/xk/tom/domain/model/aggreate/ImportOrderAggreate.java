@@ -36,7 +36,7 @@ public class ImportOrderAggreate extends OrderBasicAggreate{
      */
     @Column(name="import_date")
     @Comment("進口日期")
-    private ZonedDateTime ImportDate;
+    private ZonedDateTime importDate;
 
     /**
      * OrderRecord
@@ -57,89 +57,89 @@ public class ImportOrderAggreate extends OrderBasicAggreate{
      */
     @Column(name="shipping_company")
     @Comment("船公司")
-    private String ShippingCompany;
+    private String shippingCompany;
 
     /**
      * 船名/航次
      */
     @Column(name="vessel_voyage")
     @Comment("船名/航次")
-    private String VesselVoyage;
+    private String vesselVoyage;
 
     /**
      * 櫃號
      */
     @Column(name="container_number")
     @Comment("櫃號")
-    private String ContainerNumber;
+    private String containerNumber;
 
     /**
      * 櫃型
      */
     @Column(name="container_type")
     @Comment("櫃型")
-    private String ContainerType;
+    private String containerType;
 
     /**
      * 櫃場
      */
     @Column(name="container_yard")
     @Comment("櫃場")
-    private String ContainerYard;
+    private String containerYard;
 
     /**
      * 領櫃期限
      */
     @Column(name="last_pickup_date")
     @Comment("領櫃期限")
-    private ZonedDateTime LastPickupDate;
+    private ZonedDateTime lastPickupDate;
 
     /**
      * 送貨地點
      */
     @Column(name="delivery_location")
     @Comment("送貨地點")
-    private String DeliveryLocation;
+    private String deliveryLocation;
 
     /**
      * 送貨日期
      */
     @Column(name="delivery_date")
     @Comment("送貨日期")
-    private Date DeliveryDate;
+    private Date deliveryDate;
 
     /**
      * 送貨時間
      */
     @Column(name="delivery_time")
     @Comment("送貨時間")
-    private Time DeliveryTime;
+    private Time deliveryTime;
 
     /**
      * 還櫃地點
      */
     @Column(name="return_yard")
     @Comment("還櫃地點")
-    private String ReturnYard;
+    private String returnYard;
 
     /**
      * 還櫃日期
      */
     @Column(name="return_date")
     @Comment("還櫃日期")
-    private Date ReturnDate;
+    private Date returnDate;
 
     /**
      * 還櫃時間
      */
     @Column(name="return_time")
     @Comment("還櫃時間")
-    private Time ReturnTime;
+    private Time returnTime;
 
     /**
      * 備註
      */
     @Column(name="note")
     @Comment("備註")
-    private String Note;
+    private String note;
 }

@@ -36,4 +36,13 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
         orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates , OrderResponseDTO::new);
         return orderResponseDTOS;
     }
+
+    @Override
+    public List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeImport(String customerName) {
+        List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByCustomerNameAndOrderTypeImport(customerName);
+        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
+        orderResponseDTOS =XkBeanUtils.copyListProperties(importOrderAggreates , OrderResponseDTO::new);
+
+        return orderResponseDTOS;
+    }
 }

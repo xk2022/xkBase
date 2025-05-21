@@ -103,5 +103,10 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         return importOrderRepository.findByOrderTypeImport();
     }
 
+    @Override
+    public List<ImportOrderAggreate> getOrderByCustomerNameAndOrderTypeImport(String customerName) {
+        return importOrderRepository.findByCustomerNameAndOrderTypeImport(customerName);
+    }
+
 
 }

@@ -18,4 +18,8 @@ public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate
 
     @Query(value = "SELECT * FROM  Import_Order o  WHERE o.order_type ='IMPORT' ",nativeQuery = true)
     List<ImportOrderAggreate> findByOrderTypeImport();
+
+    @Query(value = "SELECT * FROM import_order o Left JOIN customer c on o.customer_id = c.customer_id  where c.customer_name =:customerName " +
+            " And o.order_type ='IMPORT'  " , nativeQuery = true)
+    List<ImportOrderAggreate> findByCustomerNameAndOrderTypeImport(String customerName);
 }

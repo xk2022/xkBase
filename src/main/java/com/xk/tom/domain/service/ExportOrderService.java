@@ -17,4 +17,6 @@ public interface ExportOrderService {
     Optional<ExportOrderAggreate> findByImportIdAndStatusPending(Long exportId);
 
     List<ExportOrderAggreate> getOrderByOrderTypeImport();
+
+    List<ExportOrderAggreate> getOrderByCustomerNameAndOrderTypeExport(String customerName);
 }

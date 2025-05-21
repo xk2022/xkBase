@@ -11,4 +11,6 @@ public interface ImportOrderFindUseCase {
     ImportOrderResponseDTO getImportOrder(@NotNull ImportOrderDTO request);
 
     List<OrderResponseDTO> getOrderByOrderTypeImport();
+
+    List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeImport(String customerName);
 }

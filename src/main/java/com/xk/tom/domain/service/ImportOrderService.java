@@ -20,4 +20,6 @@ public interface ImportOrderService {
     Optional<ImportOrderAggreate> findByImportIdAndStatusPending(Long importId);
 
     List<ImportOrderAggreate> getOrderByOrderTypeImport();
+
+    List<ImportOrderAggreate> getOrderByCustomerNameAndOrderTypeImport(String customerName);
 }

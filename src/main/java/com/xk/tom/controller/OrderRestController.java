@@ -82,7 +82,7 @@ public class OrderRestController {
 
     @Operation(summary = "訂單類型查詢" ,description = "訂單類型查詢")
     @PostMapping("/getOrderByStatus")
-    public BaseResult<List<OrderResponseDTO>> getOrderByStatus(@RequestBody String status)  {
+    public BaseResult<List<OrderResponseDTO>> getOrderByStatus(@RequestBody  @Validated @NotNull String status)  {
         OrderTypeEnum orderTypeEnum = OrderTypeEnum.valueOf(status);
         List<OrderResponseDTO> responseDTOs = new ArrayList<>();
         if (orderTypeEnum.name().equals("IMPORT")) {
@@ -94,6 +94,22 @@ public class OrderRestController {
         }
 
     }
+
+    @Operation(summary = "客戶名稱查詢訂單" ,description = "客戶名稱查詢訂單")
+    @PostMapping("getOrderByCustomerName")
+    public BaseResult<List<OrderResponseDTO>> getOrderByCustomerName(@RequestBody @Validated @NotNull OrderRequestDTO requestDTO) {
+        OrderTypeEnum orderTypeEnum = OrderTypeEnum.valueOf(requestDTO.status());
+        List<OrderResponseDTO> responseDTOs = new ArrayList<>();
+        if (orderTypeEnum.name().equals("IMPORT")) {
+            responseDTOs = importOrderFindUserCase.getOrderByCustomerNameAndOrderTypeImport(requestDTO.customerName());
+            return BaseResult.success(responseDTOs ,"查詢進口訂單完成");
+        }else {
+            responseDTOs = exportOrderFindUseCase.getOrderByCustomerNameAndOrderTypeExport(requestDTO.customerName());
+            return BaseResult.success(responseDTOs ,"查詢出口訂單完成");
+        }
+    }
+
+
 
 
 
