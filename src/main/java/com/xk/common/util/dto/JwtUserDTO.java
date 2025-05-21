@@ -17,6 +17,8 @@ public class JwtUserDTO implements UserDetails {
 
     private UUID userUuid;
 
+    private String account;
+
     private String userName;
 
     private String email;

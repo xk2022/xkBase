@@ -15,6 +15,8 @@ public class UpmsUserResponseDTO{
 
 	private UUID uuid;
 
+	private String account;
+
 	private String username;
 
 	private String email;

@@ -49,6 +49,9 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			throw new IllegalArgumentException("使用者不能為 null");
 		}
     	log.info("📌 儲存使用者: {}", upmsUserBO.getUsername());
+        upmsUserRepository.findByIsDeletedFalseAndAccount(upmsUserBO.getAccount()).ifPresent(user -> {
+            throw new IllegalArgumentException("帳號重複");
+        });
         upmsUserRepository.findByIsDeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
             throw new IllegalArgumentException("使用者名稱重複");
         });
@@ -88,6 +91,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                 .map(upmsUser -> new UpmsUserBO(
                         upmsUser.getId(),
                         upmsUser.getUuid(),
+                        upmsUser.getAccount(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
@@ -107,12 +111,13 @@ public class UpmsUserServiceImpl implements UpmsUserService {
      * {@inheritDoc}
      */
 	@Override
-    public Optional<UpmsUserBO> findByUsername(String username) {
-        log.info("📌 查詢使用者，username: {}", username);
-        return upmsUserRepository.findByIsDeletedFalseAndUsername(username)
+    public Optional<UpmsUserBO> findByAccount(String account) {
+        log.info("📌 查詢帳號，account: {}", account);
+        return upmsUserRepository.findByIsDeletedFalseAndAccount(account)
                 .map(upmsUser -> new UpmsUserBO(
                         upmsUser.getId(),
                         upmsUser.getUuid(),
+                        upmsUser.getAccount(),
                 		upmsUser.getUsername(),
                 		upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
@@ -140,6 +145,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                     .map(upmsUser -> new UpmsUserBO(
                             upmsUser.getId(),
                             upmsUser.getUuid(),
+                            upmsUser.getAccount(),
                     		upmsUser.getUsername(),
                     		upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
@@ -162,6 +168,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 					.map(upmsUser -> new UpmsUserBO(
                             upmsUser.getId(),
                             upmsUser.getUuid(),
+                            upmsUser.getAccount(),
                             upmsUser.getUsername(),
                             upmsUser.getEmail(),
                             upmsUser.getCellPhone(),
@@ -197,6 +204,9 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	public UpmsUserBO update(UUID uuid, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());
+        upmsUserRepository.findByIsDeletedFalseAndAccount(updateData.getAccount()).ifPresent(user -> {
+            throw new IllegalArgumentException("帳號重複");
+        });
         upmsUserRepository.findByIsDeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
             if(!user.getUuid().equals(updateData.getUuid())){
                 throw new IllegalArgumentException("使用者名稱重複");

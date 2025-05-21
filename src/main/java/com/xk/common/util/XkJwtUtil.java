@@ -86,6 +86,7 @@ public class XkJwtUtil implements InitializingBean {
     public static String generateToken(JwtUserDTO jwtUserDTO) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userUuid", jwtUserDTO.getUserUuid());
+        claims.put("account", jwtUserDTO.getAccount());
         claims.put("userName", jwtUserDTO.getUsername());
         claims.put("email", jwtUserDTO.getEmail());
         claims.put("cellPhone", jwtUserDTO.getCellPhone());

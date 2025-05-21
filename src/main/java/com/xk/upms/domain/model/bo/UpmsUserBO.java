@@ -26,6 +26,8 @@ public class UpmsUserBO {
 
     private UUID uuid;
 
+    private String account;
+
     @ToString.Include
     private String username;
 
