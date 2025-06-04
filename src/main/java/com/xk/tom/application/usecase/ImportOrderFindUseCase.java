@@ -13,4 +13,6 @@ public interface ImportOrderFindUseCase {
     List<OrderResponseDTO> getOrderByOrderTypeImport();
 
     List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeImport(String customerName);
+
+    List<OrderResponseDTO> getImportOrderByKeyWord( String keyWord);
 }

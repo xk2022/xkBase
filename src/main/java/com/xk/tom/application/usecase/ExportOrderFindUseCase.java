@@ -14,4 +14,6 @@ public interface ExportOrderFindUseCase {
     List<OrderResponseDTO> getOrderByOrderTypeExport();
 
     List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeExport(String customerName);
+
+    List<OrderResponseDTO> getExportOrderByKeyWord( String keyWord);
 }

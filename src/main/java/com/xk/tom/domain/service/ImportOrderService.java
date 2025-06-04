@@ -22,4 +22,6 @@ public interface ImportOrderService {
     List<ImportOrderAggreate> getOrderByOrderTypeImport();
 
     List<ImportOrderAggreate> getOrderByCustomerNameAndOrderTypeImport(String customerName);
+
+    List<ImportOrderAggreate> getImportOrderByKeyWord(String keyWord);
 }

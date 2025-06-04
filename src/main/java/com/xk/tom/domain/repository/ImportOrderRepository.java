@@ -22,4 +22,28 @@ public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate
     @Query(value = "SELECT * FROM import_order o Left JOIN customer c on o.customer_id = c.customer_id  where c.customer_name =:customerName " +
             " And o.order_type ='IMPORT'  " , nativeQuery = true)
     List<ImportOrderAggreate> findByCustomerNameAndOrderTypeImport(String customerName);
+
+
+    @Query(value = """
+    SELECT * FROM import_order o
+    WHERE (
+        :keyword IS NULL OR (
+            o.delivery_order_location LIKE CONCAT('%', :keyword, '%') OR
+            o.shipping_company LIKE CONCAT('%', :keyword, '%') OR
+            o.vessel_voyage LIKE CONCAT('%', :keyword, '%') OR
+            o.container_number LIKE CONCAT('%', :keyword, '%') OR
+            o.container_type LIKE CONCAT('%', :keyword, '%') OR
+            o.container_yard LIKE CONCAT('%', :keyword, '%') OR
+            o.delivery_location LIKE CONCAT('%', :keyword, '%') OR
+            o.return_yard LIKE CONCAT('%', :keyword, '%') OR
+            o.note LIKE CONCAT('%', :keyword, '%') OR
+            o.order_type LIKE CONCAT('%', :keyword, '%') OR
+            o.status LIKE CONCAT('%', :keyword, '%') OR
+            o.created_by LIKE CONCAT('%', :keyword, '%') OR
+            o.update_by LIKE CONCAT('%', :keyword, '%')
+        )
+    )
+    """, nativeQuery = true)
+    List<ImportOrderAggreate> findByImportOrderByKeyWord(@Param("keyword") String keyword);
+
 }

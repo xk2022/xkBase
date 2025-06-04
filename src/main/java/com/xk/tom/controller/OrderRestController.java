@@ -12,6 +12,7 @@ import com.xk.tom.application.usecase.OrderDeleteUseCase;
 import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,20 +48,16 @@ public class OrderRestController {
 
     @Operation(summary = "查詢進口訂單", description = "查詢進口訂單")
     @PostMapping("getImportOrder")
-    public BaseResult<ImportOrderResponseDTO> getImportOrder(@RequestBody @Validated @NotNull ImportOrderDTO request) {
-        if ( request.orderid() == null) {
-            return BaseResult.failure(HttpStatus.NOT_FOUND ,"orderid  不可為空 ",null);
-        }
+    public BaseResult<ImportOrderResponseDTO> getImportOrder(@RequestBody @Valid ImportOrderDTO request) {
+
         ImportOrderResponseDTO orderResponseDTOs = importOrderFindUserCase.getImportOrder(request);
         return BaseResult.success(orderResponseDTOs, "查詢訂單完成");
     }
 
     @Operation(summary = "查詢出口訂單", description = "查詢出口訂單")
     @PostMapping("getExportOrder")
-    public BaseResult<ExportOrderResponseDTO> getExportOrder(@RequestBody @Validated @NotNull ExportOrderDTO request) {
-        if ( request.orderid() == null) {
-            return BaseResult.failure(HttpStatus.NOT_FOUND ,"orderid  不可為空 ",null);
-        }
+    public BaseResult<ExportOrderResponseDTO> getExportOrder(@RequestBody @Valid  ExportOrderDTO request) {
+
         ExportOrderResponseDTO orderResponseDTOs = exportOrderFindUseCase.getExportOrder(request);
         return BaseResult.success(orderResponseDTOs, "查詢訂單完成");
     }
@@ -108,6 +105,28 @@ public class OrderRestController {
             return BaseResult.success(responseDTOs ,"查詢出口訂單完成");
         }
     }
+
+    @Operation(summary = "客戶模糊查詢進口訂單" ,description = "客戶模糊查詢進口訂單")
+    @PostMapping("/getImportOrderByKeyWord")
+    public BaseResult<List<OrderResponseDTO>> getImportOrderByKeyWord(@RequestBody String keyWord){
+
+        List<OrderResponseDTO> responseDTOs = new ArrayList<>();
+        responseDTOs = importOrderFindUserCase.getImportOrderByKeyWord(keyWord);
+
+        return BaseResult.success(responseDTOs ,"查詢進口訂單完成");
+    }
+
+
+    @Operation(summary = "客戶模糊查詢出口訂單" ,description = "客戶模糊查詢出口訂單")
+    @PostMapping("/getExportOrderByKeyWord")
+    public BaseResult<List<OrderResponseDTO>> getExportOrderByKeyWord(@RequestBody String keyWord){
+
+        List<OrderResponseDTO> responseDTOs = new ArrayList<>();
+        responseDTOs = exportOrderFindUseCase.getExportOrderByKeyWord(keyWord);
+
+        return BaseResult.success(responseDTOs ,"查詢出口訂單完成");
+    }
+
 
 
 
