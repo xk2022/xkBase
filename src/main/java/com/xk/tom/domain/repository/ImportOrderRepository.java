@@ -37,13 +37,18 @@ public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate
             o.delivery_location LIKE CONCAT('%', :keyword, '%') OR
             o.return_yard LIKE CONCAT('%', :keyword, '%') OR
             o.note LIKE CONCAT('%', :keyword, '%') OR
-            o.order_type LIKE CONCAT('%', :keyword, '%') OR
             o.status LIKE CONCAT('%', :keyword, '%') OR
             o.created_by LIKE CONCAT('%', :keyword, '%') OR
             o.update_by LIKE CONCAT('%', :keyword, '%')
         )
-    )
+    )AND o.order_type = 'IMPORT';
     """, nativeQuery = true)
     List<ImportOrderAggreate> findByImportOrderByKeyWord(@Param("keyword") String keyword);
 
+
+//    @Query(value = """
+//     UPDATE import_order o SET
+//
+//    """)
+    ImportOrderAggreate updateImportOrder(Long importId);
 }

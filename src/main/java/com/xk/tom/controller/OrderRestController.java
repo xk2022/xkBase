@@ -5,11 +5,10 @@ import com.xk.common.base.BaseResult;
 
 import com.xk.exapmleFolder.domain.model.demo.OrderStatusEnum;
 import com.xk.tom.application.model.*;
-import com.xk.tom.application.usecase.ExportOrderFindUseCase;
-import com.xk.tom.application.usecase.OrderCreateUseCase;
-import com.xk.tom.application.usecase.ImportOrderFindUseCase;
-import com.xk.tom.application.usecase.OrderDeleteUseCase;
+import com.xk.tom.application.usecase.*;
+import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderTypeEnum;
+import com.xk.tom.domain.service.ImportOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,6 +35,7 @@ public class OrderRestController {
     private final ImportOrderFindUseCase importOrderFindUserCase;
     private final ExportOrderFindUseCase exportOrderFindUseCase;
     private final OrderDeleteUseCase orderDeleteUseCase;
+    private final ImportOrderUpdateUseCase importOrderUpdateUseCase ;
 
 
     @Operation(summary = "新增訂單", description = "創建一個新的訂單。")
@@ -125,6 +125,19 @@ public class OrderRestController {
         responseDTOs = exportOrderFindUseCase.getExportOrderByKeyWord(keyWord);
 
         return BaseResult.success(responseDTOs ,"查詢出口訂單完成");
+    }
+
+
+    @Operation(summary = "更新進口訂單" ,description = "更新進口訂單")
+    @PutMapping("/updateImportOrder/{importId}")
+    public BaseResult<Boolean> updateImportOrder(@PathVariable Long importId , @RequestBody ImportOrderRequestDTO request){
+        ImportOrderResponseDTO newImportOrderResponseDTO  = importOrderUpdateUseCase.updateImportOrder(importId ,request);
+        return null;
+//        if(isUpdate){
+//            return BaseResult.success(true,"更新成功");
+//        }else {
+//            return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR,"更新失敗", false);
+//        }
     }
 
 

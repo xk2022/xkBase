@@ -13,7 +13,7 @@ public interface ImportOrderService {
 
     ImportOrderBO save(ImportOrderBO importOrderBO)throws ParseException;
 
-    ImportOrderResponseDTO getImportOrder(String orderid);
+    Optional<ImportOrderAggreate> getImportOrder(String orderid);
 
     int deleteImportOrder(Long importId);
 
@@ -24,4 +24,8 @@ public interface ImportOrderService {
     List<ImportOrderAggreate> getOrderByCustomerNameAndOrderTypeImport(String customerName);
 
     List<ImportOrderAggreate> getImportOrderByKeyWord(String keyWord);
+
+    ImportOrderAggreate updateImportOrder(Long importId);
+
+    Optional<ImportOrderAggreate> findByImportId(Long importId);
 }

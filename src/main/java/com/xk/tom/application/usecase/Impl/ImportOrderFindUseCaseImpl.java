@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,9 +25,15 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     public ImportOrderResponseDTO getImportOrder(ImportOrderDTO request) {
         ImportOrderResponseDTO responseDTO = new ImportOrderResponseDTO();
 
-        responseDTO = importOrderService.getImportOrder(request.orderid());
-
-        return responseDTO;
+        Optional<ImportOrderAggreate> aggreate = importOrderService.getImportOrder(request.orderid());
+        if (aggreate.isPresent()) {
+            ImportOrderAggreate importOrderAggreate = aggreate.get();
+            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate , ImportOrderResponseDTO::new);
+//
+            return responseDTO;
+        }else {
+            return responseDTO;
+        }
     }
 
     @Override

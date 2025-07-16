@@ -67,18 +67,10 @@ public class ImportOrderServiceImpl implements ImportOrderService {
     }
 
     @Override
-    public ImportOrderResponseDTO getImportOrder(String orderid) {
+    public Optional<ImportOrderAggreate> getImportOrder(String orderid) {
 
-        Optional<ImportOrderAggreate>  aggreate = importOrderRepository.findByOrderId(orderid);
-        ImportOrderResponseDTO responseDTO ;
-        if (aggreate.isPresent()) {
-            ImportOrderAggreate importOrderAggreate = aggreate.get();
-            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate , ImportOrderResponseDTO::new);
-//
-            return responseDTO;
-        }else {
-            return null;
-        }
+        return importOrderRepository.findByOrderId(orderid);
+
     }
 
     @Override
@@ -111,6 +103,17 @@ public class ImportOrderServiceImpl implements ImportOrderService {
     @Override
     public List<ImportOrderAggreate> getImportOrderByKeyWord(String keyWord) {
         return importOrderRepository.findByImportOrderByKeyWord(keyWord);
+    }
+
+    @Override
+    public ImportOrderAggreate updateImportOrder(Long importId) {
+
+        return importOrderRepository.updateImportOrder(importId);
+    }
+
+    @Override
+    public Optional<ImportOrderAggreate> findByImportId(Long importId) {
+        return importOrderRepository.findById(importId);
     }
 
 
