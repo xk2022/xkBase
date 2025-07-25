@@ -30,4 +30,7 @@ public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate
     @Query(value="SELECT * FROM export_order o Left JOIN customer c on o.customer_id = c.customer_id  where c.customer_name =:customerName \" +\n" +
             "            \" And o.order_type ='EXPORT'", nativeQuery = true)
     List<ExportOrderAggreate> findByCustomerNameAndOrderTypeExport(String customerName);
+
+    @Query
+    void update(ExportOrderAggreate exportOrderAggreate);
 }

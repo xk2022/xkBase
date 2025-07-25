@@ -36,6 +36,7 @@ public class OrderRestController {
     private final ExportOrderFindUseCase exportOrderFindUseCase;
     private final OrderDeleteUseCase orderDeleteUseCase;
     private final ImportOrderUpdateUseCase importOrderUpdateUseCase ;
+    private final ExportOrderUpdateUseCase exportOrderUpdateUseCase ;
 
 
     @Operation(summary = "新增訂單", description = "創建一個新的訂單。")
@@ -130,14 +131,24 @@ public class OrderRestController {
 
     @Operation(summary = "更新進口訂單" ,description = "更新進口訂單")
     @PutMapping("/updateImportOrder/{importId}")
-    public BaseResult<Boolean> updateImportOrder(@PathVariable Long importId , @RequestBody ImportOrderRequestDTO request){
+    public BaseResult<ImportOrderResponseDTO> updateImportOrder(@PathVariable Long importId , @RequestBody ImportOrderRequestDTO request) throws ParseException {
         ImportOrderResponseDTO newImportOrderResponseDTO  = importOrderUpdateUseCase.updateImportOrder(importId ,request);
-        return null;
-//        if(isUpdate){
-//            return BaseResult.success(true,"更新成功");
-//        }else {
-//            return BaseResult.failure(HttpStatus.INTERNAL_SERVER_ERROR,"更新失敗", false);
-//        }
+        if(newImportOrderResponseDTO!=null){
+            return BaseResult.success(newImportOrderResponseDTO,"更新成功");
+        }else {
+            return BaseResult.failure(HttpStatus.NOT_FOUND,"更新失敗", false);
+        }
+    }
+
+    @Operation(summary = "更新出口訂單" ,description = "更新出口訂單")
+    @PutMapping("/updateExportOrder/{exportId}")
+    public BaseResult<ExportOrderResponseDTO> updateExportOrder(@PathVariable Long exportId , @RequestBody ExportOrderRequestDTO request) throws ParseException {
+        ExportOrderResponseDTO newExportOrderResponseDTO  = exportOrderUpdateUseCase.updateExportOrder(exportId ,request);
+        if(newExportOrderResponseDTO!=null){
+            return BaseResult.success(newExportOrderResponseDTO,"更新成功");
+        }else {
+            return BaseResult.failure(HttpStatus.NOT_FOUND,"更新失敗", false);
+        }
     }
 
 

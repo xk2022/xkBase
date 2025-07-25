@@ -6,14 +6,14 @@ import com.xk.tom.application.model.ImportOrderRequestDTO;
 import com.xk.tom.application.model.ImportOrderResponseDTO;
 import com.xk.tom.application.usecase.ImportOrderUpdateUseCase;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
-import com.xk.tom.domain.model.bo.ImportOrderBO;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.util.Optional;
+import java.time.ZonedDateTime;
 
 @Slf4j
 @Service
@@ -24,6 +24,7 @@ public class ImportOrderUpdateUseCaseImpl implements ImportOrderUpdateUseCase {
     private final ImportOrderService importOrderService;
 
     @Override
+    @Transactional
     public ImportOrderResponseDTO updateImportOrder(Long importId, ImportOrderRequestDTO request) throws ParseException {
 
         ImportOrderAggreate importOrder = importOrderService.findByImportId(importId)
@@ -32,37 +33,81 @@ public class ImportOrderUpdateUseCaseImpl implements ImportOrderUpdateUseCase {
 
         updateImportOrderFromRequest(importOrder, request);
 
-        // 儲存 BO
-        ImportOrderBO bo = XkBeanUtils.copyProperties(importOrder, ImportOrderBO::new);
-        importOrderService.save(bo);
+        // 儲存
+        ImportOrderAggreate aggreate = importOrderService.update(importOrder);
 
-        return XkBeanUtils.copyProperties(importOrder, ImportOrderResponseDTO::new);
+        return XkBeanUtils.copyProperties(aggreate, ImportOrderResponseDTO::new);
     }
 
 
-    private void updateImportOrderFromRequest(ImportOrderAggreate order, ImportOrderRequestDTO req) {
-        order.setImportDate(req.importDate());
-        order.setDeliveryOrderLocation(req.deliveryOrderLocation());
-        order.setShippingCompany(req.shippingCompany());
-        order.setVesselVoyage(req.vesselVoyage());
-        order.setContainerNumber(req.containerNumber());
-        order.setContainerType(req.containerType());
-        order.setContainerYard(req.containerYard());
-        order.setLastPickupDate(req.lastPickupDate());
-        order.setDeliveryLocation(req.deliveryLocation());
-        order.setDeliveryDate(req.deliveryDate());
-        order.setDeliveryTime(req.deliveryTime());
-        order.setReturnYard(req.returnYard());
-        order.setReturnDate(req.returnDate());
-        order.setNote(req.note());
+    @Transactional
+    public void updateImportOrderFromRequest(ImportOrderAggreate order, ImportOrderRequestDTO req) {
+
+        if(req.importDate()!=null){
+            order.setImportDate(req.importDate());
+        }
+
+        if(req.deliveryOrderLocation()!=null){
+            order.setDeliveryOrderLocation(req.deliveryOrderLocation());
+        }
+
+        if(req.shippingCompany()!=null){
+            order.setShippingCompany(req.shippingCompany());
+        }
+
+        if(req.vesselVoyage()!=null){
+            order.setVesselVoyage(req.vesselVoyage());
+        }
+
+        if(req.containerNumber()!=null){
+            order.setContainerNumber(req.containerNumber());
+        }
+
+        if(req.containerYard()!=null){
+            order.setContainerYard(req.containerYard());
+        }
+
+        if(req.lastPickupDate()!=null){
+            order.setLastPickupDate(req.lastPickupDate());
+        }
+
+        if(req.deliveryLocation()!=null){
+            order.setDeliveryLocation(req.deliveryLocation());
+        }
+
+        if(req.deliveryDate()!=null){
+            order.setDeliveryDate(req.deliveryDate());
+        }
+
+        if(req.deliveryTime()!=null){
+            order.setDeliveryTime(req.deliveryTime());
+        }
+
+        if(req.returnYard()!=null){
+            order.setReturnYard(req.returnYard());
+        }
+
+        if(req.returnDate()!=null){
+            order.setReturnDate(req.returnDate());
+        }
+
+        if(req.note()!=null){
+            order.setNote(req.note());
+        }
 
         // 使用安全轉換
-        OrderStatusEnum status = OrderStatusEnum.valueOf(req.status());
-        if (status == null) throw new IllegalArgumentException("無效的狀態：" + req.status());
-        order.setStatus(status);
+        if(req.status()!=null){
+            try {
+                order.setStatus(OrderStatusEnum.valueOf(req.status()));
+            }catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("無效的狀態：" + req.status());
+            }
 
-        order.setUpdatedBy(req.updatedBy());
-        order.setUpdatedTime(req.updatedTime());
+        }
+        if(req.updatedBy()!=null){
+            order.setUpdatedBy(req.updatedBy());
+        }
+        order.setUpdatedTime(ZonedDateTime.now());
     }
 
 }

@@ -1,7 +1,5 @@
 package com.xk.tom.domain.service;
 
-import com.xk.tom.application.model.ImportOrderResponseDTO;
-import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
 
@@ -28,4 +26,6 @@ public interface ImportOrderService {
     ImportOrderAggreate updateImportOrder(Long importId);
 
     Optional<ImportOrderAggreate> findByImportId(Long importId);
+
+    ImportOrderAggreate update(ImportOrderAggreate importOrder);
 }

@@ -2,8 +2,6 @@ package com.xk.tom.domain.service.Impl;
 
 import com.xk.common.util.DateCoverUtils;
 import com.xk.common.util.XkBeanUtils;
-import com.xk.tom.application.model.ImportOrderResponseDTO;
-import com.xk.tom.application.model.OrderResponseDTO;
 import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
 import com.xk.tom.domain.model.aggreate.OrderId;
 import com.xk.tom.domain.model.bo.ImportOrderBO;
@@ -13,7 +11,6 @@ import com.xk.tom.domain.repository.OrderIdRepository;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,6 +111,11 @@ public class ImportOrderServiceImpl implements ImportOrderService {
     @Override
     public Optional<ImportOrderAggreate> findByImportId(Long importId) {
         return importOrderRepository.findById(importId);
+    }
+
+    @Override
+    public ImportOrderAggreate update(ImportOrderAggreate importOrder) {
+        return importOrderRepository.save(importOrder);
     }
 
 
