@@ -2,15 +2,10 @@ package com.xk.tom.domain.repository;
 
 import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
 
-import com.xk.tom.domain.model.aggreate.OrderId;
-import com.xk.tom.domain.model.bo.ExportOrderBO;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +26,23 @@ public interface ExportOrderRepository extends JpaRepository<ExportOrderAggreate
             "            \" And o.order_type ='EXPORT'", nativeQuery = true)
     List<ExportOrderAggreate> findByCustomerNameAndOrderTypeExport(String customerName);
 
-    @Query
-    void update(ExportOrderAggreate exportOrderAggreate);
+
+    @Query(value = """
+    SELECT * FROM export_order o
+        WHERE (
+                o.vessel_voyage LIKE CONCAT('%', :keyword, '%') OR
+                o.shipping_company LIKE CONCAT('%', :keyword, '%') OR
+                o.pickup_yard LIKE CONCAT('%', :keyword, '%') OR
+                o.pickup_code LIKE CONCAT('%', :keyword, '%') OR
+                o.note LIKE CONCAT('%', :keyword, '%') OR
+                o.loading_location LIKE CONCAT('%', :keyword, '%') OR
+                o.delivery_yard LIKE CONCAT('%', :keyword, '%') OR
+                o.container_type  LIKE CONCAT('%', :keyword, '%') OR
+                o.container_number LIKE CONCAT('%', :keyword, '%') OR
+                o.update_by LIKE CONCAT('%', :keyword, '%') OR
+                o.status LIKE CONCAT('%', :keyword, '%') OR
+                o.created_by LIKE CONCAT('%', :keyword, '%') OR
+            )AND o.order_type='EXPORT';
+   \s""", nativeQuery = true)
+    List<ExportOrderAggreate> findByExportOrderByKeyWord(@Param("keyword") String keyword);
 }

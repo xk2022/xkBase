@@ -104,4 +104,9 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         return  exportOrderRepository.save(exportOrderAggreate);
 
     }
+
+    @Override
+    public List<ExportOrderAggreate> getImportOrderByKeyWord(String keyWord) {
+        return exportOrderRepository.findByExportOrderByKeyWord(keyWord);
+    }
 }

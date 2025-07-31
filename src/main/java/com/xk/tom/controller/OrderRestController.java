@@ -130,7 +130,7 @@ public class OrderRestController {
 
 
     @Operation(summary = "更新進口訂單" ,description = "更新進口訂單")
-    @PutMapping("/updateImportOrder/{importId}")
+    @PostMapping("/updateImportOrder/{importId}")
     public BaseResult<ImportOrderResponseDTO> updateImportOrder(@PathVariable Long importId , @RequestBody ImportOrderRequestDTO request) throws ParseException {
         ImportOrderResponseDTO newImportOrderResponseDTO  = importOrderUpdateUseCase.updateImportOrder(importId ,request);
         if(newImportOrderResponseDTO!=null){

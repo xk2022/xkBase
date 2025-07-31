@@ -23,8 +23,6 @@ public interface ImportOrderService {
 
     List<ImportOrderAggreate> getImportOrderByKeyWord(String keyWord);
 
-    ImportOrderAggreate updateImportOrder(Long importId);
-
     Optional<ImportOrderAggreate> findByImportId(Long importId);
 
     ImportOrderAggreate update(ImportOrderAggreate importOrder);

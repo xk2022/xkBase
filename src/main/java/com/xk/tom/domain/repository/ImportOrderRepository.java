@@ -46,9 +46,4 @@ public interface ImportOrderRepository extends JpaRepository<ImportOrderAggreate
     List<ImportOrderAggreate> findByImportOrderByKeyWord(@Param("keyword") String keyword);
 
 
-//    @Query(value = """
-//     UPDATE import_order o SET
-//
-//    """)
-    ImportOrderAggreate updateImportOrder(Long importId);
 }

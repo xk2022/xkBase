@@ -23,4 +23,6 @@ public interface ExportOrderService {
     Optional<ExportOrderAggreate> findByExportId(Long exportId);
 
     ExportOrderAggreate update(ExportOrderAggreate exportOrderAggreate);
+
+    List<ExportOrderAggreate> getImportOrderByKeyWord(String keyWord);
 }

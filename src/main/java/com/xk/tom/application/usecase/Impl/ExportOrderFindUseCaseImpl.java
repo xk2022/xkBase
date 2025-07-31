@@ -48,7 +48,9 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
 
     @Override
     public List<OrderResponseDTO> getExportOrderByKeyWord(String keyWord) {
-
-        return List.of();
+        List<ExportOrderAggreate> exportOrderAggreates = exportOrderService.getImportOrderByKeyWord(keyWord);
+        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
+        orderResponseDTOS =XkBeanUtils.copyListProperties(exportOrderAggreates ,OrderResponseDTO::new );
+        return orderResponseDTOS;
     }
 }

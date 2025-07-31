@@ -103,12 +103,6 @@ public class ImportOrderServiceImpl implements ImportOrderService {
     }
 
     @Override
-    public ImportOrderAggreate updateImportOrder(Long importId) {
-
-        return importOrderRepository.updateImportOrder(importId);
-    }
-
-    @Override
     public Optional<ImportOrderAggreate> findByImportId(Long importId) {
         return importOrderRepository.findById(importId);
     }
