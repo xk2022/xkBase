@@ -39,17 +39,17 @@ public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
     public OrderResponseDTO create(OrderCreateDTO order) throws ParseException {
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
 
-        if(order.orderType().equals(OrderTypeEnum.IMPORT.name())) {
+        if (order.orderType().equals(OrderTypeEnum.IMPORT.name())) {
             //進口
-            ImportOrderBO importOrderBO = XkBeanUtils.copyProperties(order ,ImportOrderBO::new);
+            ImportOrderBO importOrderBO = XkBeanUtils.copyProperties(order, ImportOrderBO::new);
             OrderRecordBO orderRecordBO = new OrderRecordBO();
             orderRecordBO.setIsImport(true);
             orderRecordBO.setIsExport(false);
             //訂單記錄
-            OrderRecordBO savedOrderRecordBo =  orderRecordService.save(orderRecordBO);
+            OrderRecordBO savedOrderRecordBo = orderRecordService.save(orderRecordBO);
 
             //客戶訊息
-            Optional<CustomerAggreate> customerAggreateOptional =customerService.findByContactPerson(importOrderBO.getContactPerson());
+            Optional<CustomerAggreate> customerAggreateOptional = customerService.findByContactPerson(importOrderBO.getContactPerson());
             customerAggreateOptional.ifPresent(customerAggreate -> importOrderBO.setCustomerId(customerAggreate.getCustomerId()));
 
             //訂單狀態預設pending
@@ -59,23 +59,23 @@ public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
             //訂單記錄
             importOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
 
-            ImportOrderBO savedImportOrderBO =importOrderService.save(importOrderBO);
+            ImportOrderBO savedImportOrderBO = importOrderService.save(importOrderBO);
 
-            orderResponseDTO = XkBeanUtils.copyProperties(savedImportOrderBO ,OrderResponseDTO::new );
+            orderResponseDTO = XkBeanUtils.copyProperties(savedImportOrderBO, OrderResponseDTO::new);
             orderResponseDTO.setOrderType(savedImportOrderBO.getOrderType().name());
             orderResponseDTO.setStatus(savedImportOrderBO.getStatus().name());
 
             return orderResponseDTO;
 
-        }else{
+        } else {
             //出口
-            ExportOrderBO exportOrderBO = XkBeanUtils.copyProperties(order ,ExportOrderBO::new);
+            ExportOrderBO exportOrderBO = XkBeanUtils.copyProperties(order, ExportOrderBO::new);
             OrderRecordBO orderRecordBO = new OrderRecordBO();
             orderRecordBO.setIsImport(false);
             orderRecordBO.setIsExport(true);
 
             //訂單記錄
-            OrderRecordBO savedOrderRecordBo =  orderRecordService.save(orderRecordBO);
+            OrderRecordBO savedOrderRecordBo = orderRecordService.save(orderRecordBO);
             exportOrderBO.setOrderRecordId(savedOrderRecordBo.getOrderRecordId());
 
             //訂單狀態 預設pending
@@ -84,7 +84,7 @@ public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
             exportOrderBO.setOrderType(OrderTypeEnum.EXPORT);
 
             //客戶訊息
-            Optional<CustomerAggreate> customerAggreateOptional =customerService.findByContactPerson(exportOrderBO.getContactPerson());
+            Optional<CustomerAggreate> customerAggreateOptional = customerService.findByContactPerson(exportOrderBO.getContactPerson());
             CustomerAggreate customerAggreate = customerAggreateOptional
                     .orElseThrow(CustomerNotFoundException::new);
 
@@ -92,14 +92,13 @@ public class OrderCreateUserCaseImpl implements OrderCreateUseCase {
 
 
             ExportOrderBO savedExportOrderBO = exportOrderService.save(exportOrderBO);
-            orderResponseDTO = XkBeanUtils.copyProperties(savedExportOrderBO ,OrderResponseDTO::new );
+            orderResponseDTO = XkBeanUtils.copyProperties(savedExportOrderBO, OrderResponseDTO::new);
             orderResponseDTO.setOrderType(savedExportOrderBO.getOrderType().name());
             orderResponseDTO.setStatus(savedExportOrderBO.getStatus().name());
             return orderResponseDTO;
         }
 
     }
-
 
 
 }

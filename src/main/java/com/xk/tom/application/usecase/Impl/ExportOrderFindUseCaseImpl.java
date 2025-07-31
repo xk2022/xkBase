@@ -23,8 +23,9 @@ import java.util.List;
 public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
 
     private final ExportOrderService exportOrderService;
+
     @Override
-    public ExportOrderResponseDTO getExportOrder(ExportOrderDTO request)  {
+    public ExportOrderResponseDTO getExportOrder(ExportOrderDTO request) {
         ExportOrderResponseDTO exportOrderResponseDTO = new ExportOrderResponseDTO();
         exportOrderResponseDTO = exportOrderService.getExportOrder(request.orderid());
         return exportOrderResponseDTO;
@@ -34,7 +35,7 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
     public List<OrderResponseDTO> getOrderByOrderTypeExport() {
         List<ExportOrderAggreate> exportOrderAggreates = exportOrderService.getOrderByOrderTypeImport();
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates , OrderResponseDTO::new);
+        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates, OrderResponseDTO::new);
         return orderResponseDTOS;
     }
 
@@ -42,7 +43,7 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
     public List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeExport(String customerName) {
         List<ExportOrderAggreate> exportOrderAggreates = exportOrderService.getOrderByCustomerNameAndOrderTypeExport(customerName);
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates , OrderResponseDTO::new);
+        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates, OrderResponseDTO::new);
         return orderResponseDTOS;
     }
 
@@ -50,7 +51,7 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
     public List<OrderResponseDTO> getExportOrderByKeyWord(String keyWord) {
         List<ExportOrderAggreate> exportOrderAggreates = exportOrderService.getImportOrderByKeyWord(keyWord);
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS =XkBeanUtils.copyListProperties(exportOrderAggreates ,OrderResponseDTO::new );
+        orderResponseDTOS = XkBeanUtils.copyListProperties(exportOrderAggreates, OrderResponseDTO::new);
         return orderResponseDTOS;
     }
 }

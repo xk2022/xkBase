@@ -21,6 +21,7 @@ import java.util.Optional;
 public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
 
     private final ImportOrderService importOrderService;
+
     @Override
     public ImportOrderResponseDTO getImportOrder(ImportOrderDTO request) {
         ImportOrderResponseDTO responseDTO = new ImportOrderResponseDTO();
@@ -28,10 +29,10 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
         Optional<ImportOrderAggreate> aggreate = importOrderService.getImportOrder(request.orderid());
         if (aggreate.isPresent()) {
             ImportOrderAggreate importOrderAggreate = aggreate.get();
-            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate , ImportOrderResponseDTO::new);
+            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate, ImportOrderResponseDTO::new);
 //
             return responseDTO;
-        }else {
+        } else {
             return responseDTO;
         }
     }
@@ -40,7 +41,7 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     public List<OrderResponseDTO> getOrderByOrderTypeImport() {
         List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByOrderTypeImport();
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates , OrderResponseDTO::new);
+        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
         return orderResponseDTOS;
     }
 
@@ -48,7 +49,7 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     public List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeImport(String customerName) {
         List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByCustomerNameAndOrderTypeImport(customerName);
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS =XkBeanUtils.copyListProperties(importOrderAggreates , OrderResponseDTO::new);
+        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
 
         return orderResponseDTOS;
     }
@@ -57,7 +58,7 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     public List<OrderResponseDTO> getImportOrderByKeyWord(String keyWord) {
         List<ImportOrderAggreate> importOrderAggreates = importOrderService.getImportOrderByKeyWord(keyWord);
         List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-        orderResponseDTOS =XkBeanUtils.copyListProperties(importOrderAggreates ,OrderResponseDTO::new );
+        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
         return orderResponseDTOS;
     }
 }

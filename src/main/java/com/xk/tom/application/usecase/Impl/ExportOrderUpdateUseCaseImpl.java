@@ -27,55 +27,55 @@ public class ExportOrderUpdateUseCaseImpl implements ExportOrderUpdateUseCase {
 
     @Override
     @Transactional
-    public ExportOrderResponseDTO updateExportOrder(Long exportId, ExportOrderRequestDTO request)throws ParseException {
+    public ExportOrderResponseDTO updateExportOrder(Long exportId, ExportOrderRequestDTO request) throws ParseException {
         ExportOrderAggreate exportOrderAggreate = exportOrderService.findByExportId(exportId)
-                .orElseThrow(()-> new IllegalArgumentException("找不到對應的 ExportOrder ID :"+exportId));
+                .orElseThrow(() -> new IllegalArgumentException("找不到對應的 ExportOrder ID :" + exportId));
 
-        updateExportOrderFromRequest(exportOrderAggreate,request);
+        updateExportOrderFromRequest(exportOrderAggreate, request);
 
         // 儲存
-        ExportOrderAggreate aggreate=  exportOrderService.update(exportOrderAggreate);
+        ExportOrderAggreate aggreate = exportOrderService.update(exportOrderAggreate);
 
 
         return XkBeanUtils.copyProperties(aggreate, ExportOrderResponseDTO::new);
     }
 
     @Transactional
-    public void updateExportOrderFromRequest(ExportOrderAggreate order ,ExportOrderRequestDTO req){
-        if(req.exportDate()!=null){
+    public void updateExportOrderFromRequest(ExportOrderAggreate order, ExportOrderRequestDTO req) {
+        if (req.exportDate() != null) {
             order.setExportDate(req.exportDate());
         }
-        if(req.deliveryYard()!=null){
+        if (req.deliveryYard() != null) {
             order.setDeliveryYard(req.deliveryYard());
         }
-        if(req.shippingCompany()!=null){
+        if (req.shippingCompany() != null) {
             order.setShippingCompany(req.shippingCompany());
         }
-        if(req.vesselVoyage()!=null){
+        if (req.vesselVoyage() != null) {
             order.setVesselVoyage(req.vesselVoyage());
         }
-        if(req.clearanceDate()!=null){
+        if (req.clearanceDate() != null) {
             order.setClearanceDate(req.clearanceDate());
         }
-        if(req.pickupCode()!=null){
+        if (req.pickupCode() != null) {
             order.setPickupCode(req.pickupCode());
         }
-        if(req.containerType()!=null){
+        if (req.containerType() != null) {
             order.setContainerType(req.containerType());
         }
-        if(req.pickupYard()!=null){
+        if (req.pickupYard() != null) {
             order.setPickupYard(req.pickupYard());
         }
-        if(req.containerNumber()!=null){
+        if (req.containerNumber() != null) {
             order.setContainerNumber(req.containerNumber());
         }
-        if(req.loadingLocation()!=null){
+        if (req.loadingLocation() != null) {
             order.setLoadingLocation(req.loadingLocation());
         }
-        if(req.loadingDate()!=null){
+        if (req.loadingDate() != null) {
             order.setLoadingDate(req.loadingDate());
         }
-        if(req.note()!=null){
+        if (req.note() != null) {
             order.setNote(req.note());
         }
 
@@ -88,7 +88,7 @@ public class ExportOrderUpdateUseCaseImpl implements ExportOrderUpdateUseCase {
         }
 
 
-        if(req.updatedBy()!=null){
+        if (req.updatedBy() != null) {
             order.setUpdatedBy(req.updatedBy());
         }
         order.setUpdatedTime(ZonedDateTime.now());

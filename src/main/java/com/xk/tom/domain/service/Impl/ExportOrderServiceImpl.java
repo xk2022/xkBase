@@ -60,20 +60,20 @@ public class ExportOrderServiceImpl implements ExportOrderService {
         orderIdRepository.save(orderId);
 
 
-        ExportOrderAggreate exportOrderAggreate = XkBeanUtils.copyProperties(exportOrderBO ,ExportOrderAggreate::new);
-        exportOrderAggreate.setOrderId(todaystr+"-"+sequenceStr);
+        ExportOrderAggreate exportOrderAggreate = XkBeanUtils.copyProperties(exportOrderBO, ExportOrderAggreate::new);
+        exportOrderAggreate.setOrderId(todaystr + "-" + sequenceStr);
         ExportOrderAggreate savedExportOrderAggreate = exportOrderRepository.save(exportOrderAggreate);
-        XkBeanUtils.copyPropertiesAutoConvert(savedExportOrderAggreate ,resultBO);
+        XkBeanUtils.copyPropertiesAutoConvert(savedExportOrderAggreate, resultBO);
         return resultBO;
     }
 
     @Override
     public ExportOrderResponseDTO getExportOrder(String orderid) {
         Optional<ExportOrderAggreate> aggreateOptional = exportOrderRepository.findByOrderId(orderid);
-        ExportOrderResponseDTO responseDTO ;
+        ExportOrderResponseDTO responseDTO;
         if (aggreateOptional.isPresent()) {
             ExportOrderAggreate exportOrderAggreate = aggreateOptional.get();
-            responseDTO = XkBeanUtils.copyProperties(exportOrderAggreate ,ExportOrderResponseDTO::new);
+            responseDTO = XkBeanUtils.copyProperties(exportOrderAggreate, ExportOrderResponseDTO::new);
             return responseDTO;
         }
         return null;
@@ -81,7 +81,7 @@ public class ExportOrderServiceImpl implements ExportOrderService {
 
     @Override
     public Optional<ExportOrderAggreate> findByImportIdAndStatusPending(Long exportId) {
-        return exportOrderRepository.findByImportIdAndStatusPending(exportId) ;
+        return exportOrderRepository.findByImportIdAndStatusPending(exportId);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ExportOrderServiceImpl implements ExportOrderService {
 
     @Override
     public ExportOrderAggreate update(ExportOrderAggreate exportOrderAggreate) {
-        return  exportOrderRepository.save(exportOrderAggreate);
+        return exportOrderRepository.save(exportOrderAggreate);
 
     }
 

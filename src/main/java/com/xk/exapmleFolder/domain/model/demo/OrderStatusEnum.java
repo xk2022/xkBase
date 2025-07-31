@@ -20,7 +20,7 @@ package com.xk.exapmleFolder.domain.model.demo;
  * @author yuan Updated on 2025/01/21 something note here.
  */
 public enum OrderStatusEnum {
-    
+
     PENDING,       // ✅ 待處理
     PLACED,        // ✅ 已下單
     SHIPPED,       // ✅ 已發貨
@@ -60,5 +60,5 @@ public enum OrderStatusEnum {
             default -> throw new IllegalStateException("⚠️ 該狀態不可再變更：" + this);
         };
     }
-    
+
 }

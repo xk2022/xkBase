@@ -21,11 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 📌 `UserServiceImpl` - 使用者領域服務的具體實作
- * 
+ * <p>
  * - **提供基本的 CRUD 操作**
  * - **支援條件查詢**
  * - **確保與 `Repository` 交互的邏輯**
- * 
+ *
  * @author yuan Created on 2025/01/23.
  * @author yuan Updated on 2025/01/23 something note here.
  */
@@ -42,16 +42,16 @@ public class ExampleServiceImpl implements ExampleService {
      * 適用於 interface（介面）到 class（類別）的實作
      * 適用於 abstract class（抽象類別）到 concrete class（具體類別）
      * 適用於 superclass（父類別）到 subclass（子類別）
-     * 
+     * <p>
      * ✅ `save()` 應該直接回傳 `ExamplePO`
      * ✅ `findById()` 使用 `Optional`，確保呼叫端處理缺少的值
      */
     @SuppressWarnings("unused")
-	@Override
+    @Override
     @Transactional
     public ExampleBO save(ExampleBO userBO) {
-    	ExampleBO reslutBo = new ExampleBO();
-    	log.info("📌 儲存使用者: {}", userBO.getUsername());
+        ExampleBO reslutBo = new ExampleBO();
+        log.info("📌 儲存使用者: {}", userBO.getUsername());
         if (userBO == null) {
             throw new IllegalArgumentException("使用者不能為 null");
         }
@@ -69,8 +69,8 @@ public class ExampleServiceImpl implements ExampleService {
         log.info("📌 查詢使用者 ID: {}", userId);
         return userRepository.findById(userId)
                 .map(examplePO -> new ExampleBO(
-                		examplePO.getUsername(),
-                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        examplePO.getUsername(),
+                        examplePO.getEmail(), // ✅ 直接使用 EmailVO
                         null
                 ));
     }
@@ -83,8 +83,8 @@ public class ExampleServiceImpl implements ExampleService {
         log.info("📌 查詢使用者，username: {}", username);
         return userRepository.findByUsername(username)
                 .map(examplePO -> new ExampleBO(
-                		examplePO.getUsername(),
-                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        examplePO.getUsername(),
+                        examplePO.getEmail(), // ✅ 直接使用 EmailVO
                         null
                 ));
     }
@@ -97,8 +97,8 @@ public class ExampleServiceImpl implements ExampleService {
         log.info("📌 查詢所有使用者 (分頁)");
         return userRepository.findAll(pageable)
                 .map(examplePO -> new ExampleBO(
-                		examplePO.getUsername(),
-                		examplePO.getEmail(), // ✅ 直接使用 EmailVO
+                        examplePO.getUsername(),
+                        examplePO.getEmail(), // ✅ 直接使用 EmailVO
                         null
                 ));
     }
@@ -106,25 +106,25 @@ public class ExampleServiceImpl implements ExampleService {
     /**
      * {@inheritDoc}
      */
-	@Override
-	public List<ExampleBO> findAll() {
-	    return XkBeanUtils.copyListProperties(userRepository.findAll(), ExampleBO::new);
-	}
+    @Override
+    public List<ExampleBO> findAll() {
+        return XkBeanUtils.copyListProperties(userRepository.findAll(), ExampleBO::new);
+    }
 
     /**
      * {@inheritDoc}
      */
-	@Override
-	public ExampleBO update(Long userId, ExampleBO updateData) {
-    	ExampleBO reslutBo = new ExampleBO();
-    	log.info("📌 儲存使用者: {}", updateData.getUsername());
+    @Override
+    public ExampleBO update(Long userId, ExampleBO updateData) {
+        ExampleBO reslutBo = new ExampleBO();
+        log.info("📌 儲存使用者: {}", updateData.getUsername());
         ExamplePO userPO = XkBeanUtils.copyProperties(updateData, ExamplePO::new);
         userPO.setId(userId);
         ExamplePO savedPO = userRepository.save(userPO);
         XkBeanUtils.copyPropertiesAutoConvert(savedPO, reslutBo);
         return reslutBo;
-	}
-	
+    }
+
 
     /**
      * {@inheritDoc}
@@ -135,7 +135,7 @@ public class ExampleServiceImpl implements ExampleService {
         log.info("📌 嘗試刪除使用者 ID: {}", userId);
         return userRepository.findById(userId)
                 .map(user -> {
-                	userRepository.delete(user);
+                    userRepository.delete(user);
                     log.info("✅ 使用者 ID: {} 已刪除", userId);
                     return true;
                 }).orElse(false);
@@ -149,7 +149,7 @@ public class ExampleServiceImpl implements ExampleService {
         log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
 
         Example<ExamplePO> example = buildExample(request);
-        
+
         return userRepository.findAll(example, pageable)
                 .map(examplePO -> new ExampleBO(
                         examplePO.getUsername(),
@@ -158,23 +158,23 @@ public class ExampleServiceImpl implements ExampleService {
                 ));
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ExampleBO> findAll(Example<ExamplePO> example) {
-	    log.info("📌 查詢所有使用者 (支援條件過濾)");
-	    return XkBeanUtils.copyListProperties(userRepository.findAll(example), ExampleBO::new);
-	}
-	
-	private Example<ExamplePO> buildExample(ExampleBO request) {
-	    ExampleMatcher matcher = ExampleMatcher.matching()
-//	            .withIgnorePaths("email") // ✅ 忽略 `EmailVO`，避免 JPA 解析錯誤
-	            .withIgnoreNullValues()
-	            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-	            .withIgnoreCase();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ExampleBO> findAll(Example<ExamplePO> example) {
+        log.info("📌 查詢所有使用者 (支援條件過濾)");
+        return XkBeanUtils.copyListProperties(userRepository.findAll(example), ExampleBO::new);
+    }
 
-	    return Example.of(XkBeanUtils.copyProperties(request, ExamplePO::new), matcher);
-	}
+    private Example<ExamplePO> buildExample(ExampleBO request) {
+        ExampleMatcher matcher = ExampleMatcher.matching()
+//	            .withIgnorePaths("email") // ✅ 忽略 `EmailVO`，避免 JPA 解析錯誤
+                .withIgnoreNullValues()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
+
+        return Example.of(XkBeanUtils.copyProperties(request, ExamplePO::new), matcher);
+    }
 
 }

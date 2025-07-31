@@ -43,68 +43,68 @@ public class ImportOrderUpdateUseCaseImpl implements ImportOrderUpdateUseCase {
     @Transactional
     public void updateImportOrderFromRequest(ImportOrderAggreate order, ImportOrderRequestDTO req) {
 
-        if(req.importDate()!=null){
+        if (req.importDate() != null) {
             order.setImportDate(req.importDate());
         }
 
-        if(req.deliveryOrderLocation()!=null){
+        if (req.deliveryOrderLocation() != null) {
             order.setDeliveryOrderLocation(req.deliveryOrderLocation());
         }
 
-        if(req.shippingCompany()!=null){
+        if (req.shippingCompany() != null) {
             order.setShippingCompany(req.shippingCompany());
         }
 
-        if(req.vesselVoyage()!=null){
+        if (req.vesselVoyage() != null) {
             order.setVesselVoyage(req.vesselVoyage());
         }
 
-        if(req.containerNumber()!=null){
+        if (req.containerNumber() != null) {
             order.setContainerNumber(req.containerNumber());
         }
 
-        if(req.containerYard()!=null){
+        if (req.containerYard() != null) {
             order.setContainerYard(req.containerYard());
         }
 
-        if(req.lastPickupDate()!=null){
+        if (req.lastPickupDate() != null) {
             order.setLastPickupDate(req.lastPickupDate());
         }
 
-        if(req.deliveryLocation()!=null){
+        if (req.deliveryLocation() != null) {
             order.setDeliveryLocation(req.deliveryLocation());
         }
 
-        if(req.deliveryDate()!=null){
+        if (req.deliveryDate() != null) {
             order.setDeliveryDate(req.deliveryDate());
         }
 
-        if(req.deliveryTime()!=null){
+        if (req.deliveryTime() != null) {
             order.setDeliveryTime(req.deliveryTime());
         }
 
-        if(req.returnYard()!=null){
+        if (req.returnYard() != null) {
             order.setReturnYard(req.returnYard());
         }
 
-        if(req.returnDate()!=null){
+        if (req.returnDate() != null) {
             order.setReturnDate(req.returnDate());
         }
 
-        if(req.note()!=null){
+        if (req.note() != null) {
             order.setNote(req.note());
         }
 
         // 使用安全轉換
-        if(req.status()!=null){
+        if (req.status() != null) {
             try {
                 order.setStatus(OrderStatusEnum.valueOf(req.status()));
-            }catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("無效的狀態：" + req.status());
             }
 
         }
-        if(req.updatedBy()!=null){
+        if (req.updatedBy() != null) {
             order.setUpdatedBy(req.updatedBy());
         }
         order.setUpdatedTime(ZonedDateTime.now());

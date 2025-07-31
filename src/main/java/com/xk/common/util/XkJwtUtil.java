@@ -81,7 +81,7 @@ public class XkJwtUtil implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
     }
-    
+
     // 產生Token Long id 
     public static String generateToken(JwtUserDTO jwtUserDTO) {
         Map<String, Object> claims = new HashMap<>();
@@ -104,12 +104,12 @@ public class XkJwtUtil implements InitializingBean {
     }
 
     // 驗證Token是否過期
-    private static boolean isTokenExpired(String token){
+    private static boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
     // 取得Token過期時間
-    private static Date extractExpiration(String token){
+    private static Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 

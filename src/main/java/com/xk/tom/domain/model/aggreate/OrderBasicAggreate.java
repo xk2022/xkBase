@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class OrderBasicAggreate  implements Serializable {
+public class OrderBasicAggreate implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
@@ -35,12 +35,12 @@ public class OrderBasicAggreate  implements Serializable {
     private OrderTypeEnum orderType;
 
 
-    @Column(name ="customer_id")
+    @Column(name = "customer_id")
     @Comment("客戶 ID")
     private Long customerId;
 
 
-    @Column(name="status")
+    @Column(name = "status")
     @Comment("訂單狀態")
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum status;
@@ -71,7 +71,6 @@ public class OrderBasicAggreate  implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Comment("編輯時間")
     private ZonedDateTime updatedTime;
-
 
 
 }

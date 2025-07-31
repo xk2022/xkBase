@@ -29,9 +29,9 @@ public class OrderDeletedUseCaseImpl implements OrderDeleteUseCase {
         Optional<ImportOrderAggreate> orderOptional = importOrderService.findByImportIdAndStatusPending(importId);
         if (orderOptional.isEmpty()) {
             log.warn("訂單不存在或狀態不為PENDING，importId: {}", importId);
-            throw new DemoNotFoundException( "訂單不存在或狀態不為PENDING，importId: {}" ,importId);
+            throw new DemoNotFoundException("訂單不存在或狀態不為PENDING，importId: {}", importId);
         }
-        
+
         try {
             int result = importOrderService.deleteImportOrder(importId);
             if (result <= 0) {
