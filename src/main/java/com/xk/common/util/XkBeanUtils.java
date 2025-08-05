@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import com.xk.exapmleFolder.application.model.SaveUserCmd;
+import com.xk.exapmleFolder.domain.model.UserEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 

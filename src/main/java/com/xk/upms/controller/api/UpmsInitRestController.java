@@ -33,8 +33,8 @@ public class UpmsInitRestController {
 	@Operation(summary = "倒入所有upms相關data", description = "返回。")
 	@GetMapping("/all")
 	public BaseResult<Object> initUpms() {
-		upmsUserCreateUseCase.createSampleUsers();
 		upmsRoleCreateUseCase.createSampleRoles();
+		upmsUserCreateUseCase.createSampleUsers();
 		return BaseResult.success(true, "成功");
 	}
 

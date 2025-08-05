@@ -86,5 +86,5 @@ public record EmailVO(
     public int hashCode() {
         return Objects.hash(value);
     }
-    
+
 }

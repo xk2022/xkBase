@@ -27,8 +27,10 @@ jwt:
 logging:
   level:
     root: INFO
-    org.springframework: INFO
+#    org.hibernate: debug
+#    org.springframework: debug
     org.hibernate: WARN
+    org.springframework: INFO
 server:
   port: 8081
 

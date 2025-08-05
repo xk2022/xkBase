@@ -141,7 +141,12 @@
             <artifactId>druid</artifactId>
             <version>1.1.10</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.xk</groupId>
+            <artifactId>xkBase</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

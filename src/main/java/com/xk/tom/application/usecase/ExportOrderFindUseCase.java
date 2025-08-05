@@ -1,19 +1,28 @@
 package com.xk.tom.application.usecase;
 
-import com.xk.tom.application.model.ExportOrderDTO;
-import com.xk.tom.application.model.ExportOrderResponseDTO;
-import com.xk.tom.application.model.OrderResponseDTO;
+import com.xk.tom.application.model.ExportOrderResponseDto;
+import com.xk.tom.domain.model.enums.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 
-import java.text.ParseException;
 import java.util.List;
+import java.util.UUID;
 
+/**
+ * 📌 ExportOrderFindUseCase
+ * - 查詢出口訂單用例
+ *
+ * @author yuan Created on 2025/08/05.
+ */
 public interface ExportOrderFindUseCase {
-    ExportOrderResponseDTO getExportOrder(@NotNull ExportOrderDTO request);
+    ExportOrderResponseDto getByUuid(UUID uuid);
 
-    List<OrderResponseDTO> getOrderByOrderTypeExport();
+    List<ExportOrderResponseDto> getByStatus(OrderStatus status);
 
-    List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeExport(String customerName);
-
-    List<OrderResponseDTO> getExportOrderByKeyWord( String keyWord);
+//    ExportOrderResponseDto getExportOrder(@NotNull ExportOrderDTO request);
+//
+//    List<OrderResponseDTO> getOrderByOrderTypeExport();
+//
+//    List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeExport(String customerName);
+//
+//    List<OrderResponseDTO> getExportOrderByKeyWord(String keyWord);
 }

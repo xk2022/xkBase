@@ -25,6 +25,7 @@ public class UpmsUserInitBO {
 	private String createdBy;
 	private ZonedDateTime createdTime;
 
+	private String account;
 	private String username;
 	private String email;
 	private String cellPhone;

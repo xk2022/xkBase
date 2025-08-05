@@ -1,29 +1,29 @@
 package com.xk.tom.domain.service;
 
-import com.xk.tom.domain.model.aggreate.ImportOrderAggreate;
-import com.xk.tom.domain.model.bo.ImportOrderBO;
+import com.xk.tom.application.model.ImportOrderCmd;
+import com.xk.tom.domain.model.bo.ImportOrderBo;
+import com.xk.tom.domain.model.entity.ImportOrderEntity;
+import com.xk.tom.infrastructure.persistence.model.po.ImportOrderPo;
 
-import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
+/**
+ * 📌 `ImportOrderService`
+ * - 提供 **進口訂單（Order）** 的核心業務邏輯
+ *
+ * @author yuan Created on 2025/08/04.
+ */
 public interface ImportOrderService {
 
-    ImportOrderBO save(ImportOrderBO importOrderBO) throws ParseException;
+    ImportOrderBo create(ImportOrderCmd createData);
 
-    Optional<ImportOrderAggreate> getImportOrder(String orderid);
+    ImportOrderPo findByUuid(UUID uuid);
 
-    int deleteImportOrder(Long importId);
+    List<ImportOrderPo> findByContainerNumber(String containerNumber);
 
-    Optional<ImportOrderAggreate> findByImportIdAndStatusPending(Long importId);
+    void delete(UUID uuid);
 
-    List<ImportOrderAggreate> getOrderByOrderTypeImport();
+    ImportOrderEntity getOrder(UUID uuid);
 
-    List<ImportOrderAggreate> getOrderByCustomerNameAndOrderTypeImport(String customerName);
-
-    List<ImportOrderAggreate> getImportOrderByKeyWord(String keyWord);
-
-    Optional<ImportOrderAggreate> findByImportId(Long importId);
-
-    ImportOrderAggreate update(ImportOrderAggreate importOrder);
 }

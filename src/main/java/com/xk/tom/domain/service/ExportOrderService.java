@@ -1,28 +1,11 @@
 package com.xk.tom.domain.service;
 
-import com.xk.tom.application.model.ExportOrderResponseDTO;
-import com.xk.tom.domain.model.aggreate.ExportOrderAggreate;
-import com.xk.tom.domain.model.bo.ExportOrderBO;
+import com.xk.tom.domain.model.entity.ExportOrderEntity;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 public interface ExportOrderService {
 
-    ExportOrderBO save(ExportOrderBO exportOrderBO) throws ParseException;
+    ExportOrderEntity getOrder(UUID uuid);
 
-    ExportOrderResponseDTO getExportOrder(String orderid);
-
-    Optional<ExportOrderAggreate> findByImportIdAndStatusPending(Long exportId);
-
-    List<ExportOrderAggreate> getOrderByOrderTypeImport();
-
-    List<ExportOrderAggreate> getOrderByCustomerNameAndOrderTypeExport(String customerName);
-
-    Optional<ExportOrderAggreate> findByExportId(Long exportId);
-
-    ExportOrderAggreate update(ExportOrderAggreate exportOrderAggreate);
-
-    List<ExportOrderAggreate> getImportOrderByKeyWord(String keyWord);
 }

@@ -66,9 +66,7 @@ public abstract class BaseEntity implements Serializable {
 //	private Boolean deleted = false;
 
 //	@Schema(description = "刪除時間", example = "2024-12-06T10:15:30+08:00[Asia/Taipei]")
-//	@UpdateTimestamp
 //	@Column(name = "delete_time", nullable = true) // Make the column nullable
-//	@Temporal(TemporalType.TIMESTAMP)
 //	@Comment("94_刪除時間(軟刪除)")
 //	private ZonedDateTime deletedTime;
 
