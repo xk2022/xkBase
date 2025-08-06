@@ -1,4 +1,4 @@
-package com.xk.tom.infrastructure.persistence.model.po;
+package com.xk.tom.infra.persistence.model.po;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;

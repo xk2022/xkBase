@@ -1,14 +1,6 @@
 package com.xk.tom.domain.dao.repository;
 
 import com.xk.tom.domain.model.entity.ExportOrderEntity;
-import com.xk.tom.domain.model.enums.OrderStatus;
-import com.xk.tom.infrastructure.persistence.model.po.ExportOrderPo;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * 📌 ExportOrderRepository

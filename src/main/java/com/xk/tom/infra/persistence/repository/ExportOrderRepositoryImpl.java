@@ -1,11 +1,13 @@
-package com.xk.tom.infrastructure.persistence.repository;
+package com.xk.tom.infra.persistence.repository;
 
 import com.xk.tom.domain.dao.repository.ExportOrderRepository;
 import com.xk.tom.domain.model.entity.ExportOrderEntity;
 import com.xk.tom.domain.model.enums.OrderStatus;
-import com.xk.tom.infrastructure.persistence.mapper.OrderPersistenceMapper;
-import com.xk.tom.infrastructure.persistence.model.po.ExportOrderPo;
+import com.xk.tom.infra.persistence.mapper.OrderPersistenceMapper;
+import com.xk.tom.infra.persistence.model.po.ExportOrderPo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,4 +44,16 @@ public class ExportOrderRepositoryImpl implements ExportOrderRepository {
     public List<ExportOrderEntity> findByStatus(OrderStatus status) {
         return exportJpaRepo.findByStatus(status).stream().map(mapper::toEntity).toList();
     }
+
+    @Override
+    public List<ExportOrderEntity> findAll() {
+        return exportJpaRepo.findAll().stream().map(mapper::toEntity).toList();
+    }
+
+    @Override
+    public Page<ExportOrderEntity> findAll(Pageable pageable) {
+        return exportJpaRepo.findAll(pageable)
+                .map(mapper::toEntity);
+    }
+
 }

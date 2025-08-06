@@ -1,8 +1,8 @@
-package com.xk.tom.infrastructure.persistence.repository;
+package com.xk.tom.infra.persistence.repository;
 
 
 import com.xk.tom.domain.model.enums.OrderStatus;
-import com.xk.tom.infrastructure.persistence.model.po.ImportOrderPo;
+import com.xk.tom.infra.persistence.model.po.ImportOrderPo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

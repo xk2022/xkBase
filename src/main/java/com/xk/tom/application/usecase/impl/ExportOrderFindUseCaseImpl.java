@@ -1,6 +1,7 @@
 package com.xk.tom.application.usecase.impl;
 
 import com.xk.tom.application.model.ExportOrderResponseDto;
+import com.xk.tom.application.model.OrderResponseDto;
 import com.xk.tom.application.usecase.ExportOrderFindUseCase;
 import com.xk.tom.domain.model.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ *
+ *
+ * @author yuan Created on 2025/08/05.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,7 +26,12 @@ public class ExportOrderFindUseCaseImpl implements ExportOrderFindUseCase {
     }
 
     @Override
-    public List<ExportOrderResponseDto> getByStatus(OrderStatus status) {
+    public List<OrderResponseDto> getByStatus(OrderStatus status) {
+        return List.of();
+    }
+
+    @Override
+    public List<OrderResponseDto> findAll() {
         return List.of();
     }
 

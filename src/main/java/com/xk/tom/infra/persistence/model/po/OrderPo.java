@@ -1,9 +1,7 @@
-package com.xk.tom.infrastructure.persistence.model.po;
+package com.xk.tom.infra.persistence.model.po;
 
-import com.xk.common.base.BaseEntity;
 import com.xk.common.base.SoftDeletableEntity;
 import com.xk.tom.domain.model.enums.OrderStatus;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -12,7 +10,6 @@ import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 /**

@@ -1,69 +1,64 @@
 package com.xk.tom.application.usecase.impl;
 
+import com.xk.tom.application.mapper.ImportOrderMapper;
+import com.xk.tom.application.model.ImportOrderQueryDto;
 import com.xk.tom.application.model.ImportOrderResponseDto;
+import com.xk.tom.application.model.OrderResponseDto;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
+import com.xk.tom.domain.dao.repository.ImportOrderRepository;
 import com.xk.tom.domain.model.enums.OrderStatus;
+import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
+/**
+ *
+ *
+ * @author yuan Created on 2025/08/05.
+ */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
 
+    private final ImportOrderService service;
+    private final ImportOrderMapper mapper;
+
     @Override
-    public ImportOrderResponseDto getByUuid(UUID uuid) {
-        return null;
+    public OrderResponseDto getByUuid(UUID uuid) {
+        log.info("[UseCase] 查詢進口訂單 by uuid={}", uuid);
+        var entity = service.findByUuid(uuid);
+        return mapper.toResponseDto(entity);
     }
 
     @Override
-    public List<ImportOrderResponseDto> getByStatus(OrderStatus status) {
-        return List.of();
+    public List<OrderResponseDto> getAll() {
+        log.info("[UseCase] 查詢所有進口訂單");
+        return service.findAll().stream()
+                .map(mapper::toResponseDto)
+                .toList();
     }
 
-//    private final ImportOrderService importOrderService;
-//
-//    @Override
-//    public ImportOrderResponseDto getImportOrder(ImportOrderDTO request) {
-//        ImportOrderResponseDto responseDTO = new ImportOrderResponseDto();
-//
-//        Optional<ImportOrderAggreate> aggreate = importOrderService.getImportOrder(request.orderid());
-//        if (aggreate.isPresent()) {
-//            ImportOrderAggreate importOrderAggreate = aggreate.get();
-//            responseDTO = XkBeanUtils.copyProperties(importOrderAggreate, ImportOrderResponseDto::new);
-////
-//            return responseDTO;
-//        } else {
-//            return responseDTO;
-//        }
-//    }
-//
-//    @Override
-//    public List<OrderResponseDTO> getOrderByOrderTypeImport() {
-//        List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByOrderTypeImport();
-//        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-//        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
-//        return orderResponseDTOS;
-//    }
-//
-//    @Override
-//    public List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeImport(String customerName) {
-//        List<ImportOrderAggreate> importOrderAggreates = importOrderService.getOrderByCustomerNameAndOrderTypeImport(customerName);
-//        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-//        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
-//
-//        return orderResponseDTOS;
-//    }
-//
-//    @Override
-//    public List<OrderResponseDTO> getImportOrderByKeyWord(String keyWord) {
-//        List<ImportOrderAggreate> importOrderAggreates = importOrderService.getImportOrderByKeyWord(keyWord);
-//        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-//        orderResponseDTOS = XkBeanUtils.copyListProperties(importOrderAggreates, OrderResponseDTO::new);
-//        return orderResponseDTOS;
-//    }
+    @Override
+    public Page<OrderResponseDto> getAll(Pageable pageable) {
+        log.info("[UseCase] 分頁查詢進口訂單 page={}", pageable);
+        return service.findAll(pageable)
+                .map(mapper::toResponseDto);
+    }
+
+    @Override
+    public List<OrderResponseDto> findByCondition(ImportOrderQueryDto query) {
+        log.info("[UseCase] 複合條件查詢進口訂單 query={}", query);
+        return service.findByCondition(query).stream()
+                .map(mapper::toResponseDto)
+                .toList();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.xk.tom.application.model;
 
+import com.xk.tom.domain.model.enums.OrderStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,4 +16,5 @@ public class ImportOrderQueryDto {
     private LocalDate fromDate;
     private LocalDate toDate;
     private String deliveryLocation;
+    private OrderStatus ststus;
 }

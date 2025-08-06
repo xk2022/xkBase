@@ -1,11 +1,13 @@
-package com.xk.tom.infrastructure.persistence.repository;
+package com.xk.tom.infra.persistence.repository;
 
 import com.xk.tom.domain.dao.repository.ImportOrderRepository;
 import com.xk.tom.domain.model.entity.ImportOrderEntity;
 import com.xk.tom.domain.model.enums.OrderStatus;
-import com.xk.tom.infrastructure.persistence.mapper.OrderPersistenceMapper;
-import com.xk.tom.infrastructure.persistence.model.po.ImportOrderPo;
+import com.xk.tom.infra.persistence.mapper.OrderPersistenceMapper;
+import com.xk.tom.infra.persistence.model.po.ImportOrderPo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -41,5 +43,16 @@ public class ImportOrderRepositoryImpl implements ImportOrderRepository {
     @Override
     public List<ImportOrderEntity> findByStatus(OrderStatus status) {
         return importJpaRepo.findByStatus(status).stream().map(mapper::toEntity).toList();
+    }
+
+    @Override
+    public List<ImportOrderEntity> findAll() {
+        return importJpaRepo.findAll().stream().map(mapper::toEntity).toList();
+    }
+
+    @Override
+    public Page<ImportOrderEntity> findAll(Pageable pageable) {
+        return importJpaRepo.findAll(pageable)
+                .map(mapper::toEntity);
     }
 }

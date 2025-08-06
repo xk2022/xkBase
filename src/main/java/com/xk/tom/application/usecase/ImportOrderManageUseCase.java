@@ -1,7 +1,7 @@
 package com.xk.tom.application.usecase;
 
-import com.xk.tom.application.model.ImportOrderRequestDto;
-import com.xk.tom.application.model.ImportOrderResponseDto;
+import com.xk.tom.application.model.*;
+import jakarta.validation.Valid;
 
 import java.util.UUID;
 
@@ -13,28 +13,7 @@ import java.util.UUID;
  */
 public interface ImportOrderManageUseCase {
 
-    /**
-     * 流程：
-     * Controller 呼叫 UseCase (帶入 request)
-     * Mapper → requestDto → entity
-     * 初始化 Entity 狀態（例如 status = PENDING）
-     * Repository.save(entity)
-     * Mapper → entity → responseDto
-     * 回傳 ResponseDto
-     */
-    ImportOrderResponseDto create(ImportOrderRequestDto request);
-
-    /**
-     * 流程：
-     * Controller 呼叫 UseCase (uuid + request)
-     * Repository.findByUuid(uuid) → 取出 Entity
-     * 更新 Entity 欄位（可能要用 Cmd 封裝）
-     * 呼叫 Entity 的 狀態檢查邏輯（避免違反業務規則）
-     * Repository.save(entity)
-     * Mapper → entity → responseDto
-     * 回傳 ResponseDto
-     */
-    ImportOrderResponseDto update(UUID uuid, ImportOrderRequestDto request);
+    OrderResponseDto save(@Valid ImportOrderRequestDto request);
 
     /**
      * 流程：
@@ -45,5 +24,23 @@ public interface ImportOrderManageUseCase {
      * 不需要回傳 DTO，直接 200 OK
      */
     void delete(UUID uuid);
+
+    /**
+     * 指派司機與車輛（自動或手動）
+     * 修改狀態 → ASSIGNED
+     * 記錄：assigned_vehicle_id、assigned_driver_id、assigned_by
+     */
+    OrderResponseDto assign(UUID uuid, AssignOrderRequestDto cmd);
+
+    /**
+     * 允許司機或管理員回報進度
+     * 例如：PENDING → IN_TRANSIT → COMPLETED
+     * 記錄：status、操作者 userId、timestamp
+     */
+    OrderResponseDto updateStatus(UUID uuid, UpdateOrderStatusRequestDto cmd);
+
+//    List<OrderResponseDto> batchCreate(List<CreateImportOrderCmd> cmds);
+
+    OrderResponseDto restore(UUID uuid);
 
 }

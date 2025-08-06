@@ -1,11 +1,5 @@
 package com.xk.tom.domain.service;
 
-import com.xk.tom.domain.model.enums.OrderStatus;
-import com.xk.tom.infrastructure.persistence.model.po.OrderPo;
-
-import java.util.List;
-import java.util.UUID;
-
 /**
  * 📌 `OrderService`
  * - 提供 **訂單（Order）** 的核心業務邏輯

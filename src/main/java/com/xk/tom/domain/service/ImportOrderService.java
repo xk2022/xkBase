@@ -1,9 +1,9 @@
 package com.xk.tom.domain.service;
 
-import com.xk.tom.application.model.ImportOrderCmd;
+import com.xk.tom.application.model.*;
 import com.xk.tom.domain.model.bo.ImportOrderBo;
-import com.xk.tom.domain.model.entity.ImportOrderEntity;
-import com.xk.tom.infrastructure.persistence.model.po.ImportOrderPo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,14 +16,24 @@ import java.util.UUID;
  */
 public interface ImportOrderService {
 
-    ImportOrderBo create(ImportOrderCmd createData);
+    ImportOrderBo findByUuid(UUID uuid);
 
-    ImportOrderPo findByUuid(UUID uuid);
+    List<ImportOrderBo> findAll();
 
-    List<ImportOrderPo> findByContainerNumber(String containerNumber);
+    Page<ImportOrderBo> findAll(Pageable pageable);
+
+    List<ImportOrderBo> findByCondition(ImportOrderQueryDto condition);
+
+    ImportOrderBo create(ImportOrderCreateCmd cmd);
+
+    ImportOrderBo update(UUID uuid, ImportOrderUpdateCmd updateData);
+
+    ImportOrderBo assign(UUID uuid, OrderAssignCmd cmd);
+
+    ImportOrderBo updateStatus(UUID uuid, OrderUpdateStatusCmd cmd);
+
+    ImportOrderBo restore(UUID uuid);
 
     void delete(UUID uuid);
-
-    ImportOrderEntity getOrder(UUID uuid);
 
 }
