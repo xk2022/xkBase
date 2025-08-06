@@ -102,5 +102,4 @@ public class ImportOrderEntity {
         this.deletedTime = LocalDate.now();
     }
 
-
 }

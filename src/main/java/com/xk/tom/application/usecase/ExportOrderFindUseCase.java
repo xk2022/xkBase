@@ -1,9 +1,12 @@
 package com.xk.tom.application.usecase;
 
+import com.xk.tom.application.model.ExportOrderQueryDto;
 import com.xk.tom.application.model.ExportOrderResponseDto;
 import com.xk.tom.application.model.OrderResponseDto;
 import com.xk.tom.domain.model.enums.OrderStatus;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,17 +18,11 @@ import java.util.UUID;
  * @author yuan Created on 2025/08/05.
  */
 public interface ExportOrderFindUseCase {
-    ExportOrderResponseDto getByUuid(UUID uuid);
 
-    List<OrderResponseDto> getByStatus(OrderStatus status);
+    OrderResponseDto getByUuid(UUID uuid);
 
-    List<OrderResponseDto> findAll();
+    Page<OrderResponseDto> findAll(Pageable pageable);
 
-//    ExportOrderResponseDto getExportOrder(@NotNull ExportOrderDTO request);
-//
-//    List<OrderResponseDTO> getOrderByOrderTypeExport();
-//
-//    List<OrderResponseDTO> getOrderByCustomerNameAndOrderTypeExport(String customerName);
-//
-//    List<OrderResponseDTO> getExportOrderByKeyWord(String keyWord);
+    List<OrderResponseDto> query(@Valid ExportOrderQueryDto query);
+
 }

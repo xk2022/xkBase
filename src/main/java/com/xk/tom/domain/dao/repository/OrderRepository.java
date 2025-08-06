@@ -1,7 +1,9 @@
 package com.xk.tom.domain.dao.repository;
 
+import com.xk.tom.application.model.ExportOrderQueryDto;
 import com.xk.tom.domain.model.entity.ImportOrderEntity;
 import com.xk.tom.domain.model.enums.OrderStatus;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +41,5 @@ public interface OrderRepository<T> {
     List<T> findAll();
 
     Page<T> findAll(Pageable pageable);
+
 }

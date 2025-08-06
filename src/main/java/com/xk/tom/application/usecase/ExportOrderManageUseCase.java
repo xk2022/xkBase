@@ -1,7 +1,7 @@
 package com.xk.tom.application.usecase;
 
-import com.xk.tom.application.model.ExportOrderRequestDto;
-import com.xk.tom.application.model.ExportOrderResponseDto;
+import com.xk.tom.application.model.*;
+import jakarta.validation.Valid;
 
 import java.util.UUID;
 
@@ -12,9 +12,15 @@ import java.util.UUID;
  * @author yuan Created on 2025/08/05.
  */
 public interface ExportOrderManageUseCase {
-    ExportOrderResponseDto create(ExportOrderRequestDto request);
 
-    ExportOrderResponseDto update(UUID uuid, ExportOrderRequestDto request);
+    OrderResponseDto save(@Valid ExportOrderRequestDto request);
 
     void delete(UUID uuid);
+
+    OrderResponseDto assign(UUID uuid, AssignOrderRequestDto cmd);
+
+    OrderResponseDto updateStatus(UUID uuid, UpdateOrderStatusRequestDto cmd);
+
+    OrderResponseDto restore(UUID uuid);
+
 }

@@ -2,11 +2,8 @@ package com.xk.tom.application.usecase.impl;
 
 import com.xk.tom.application.mapper.ImportOrderMapper;
 import com.xk.tom.application.model.ImportOrderQueryDto;
-import com.xk.tom.application.model.ImportOrderResponseDto;
 import com.xk.tom.application.model.OrderResponseDto;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
-import com.xk.tom.domain.dao.repository.ImportOrderRepository;
-import com.xk.tom.domain.model.enums.OrderStatus;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 /**
- *
- *
  * @author yuan Created on 2025/08/05.
  */
 @Service
@@ -39,14 +33,6 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     }
 
     @Override
-    public List<OrderResponseDto> getAll() {
-        log.info("[UseCase] 查詢所有進口訂單");
-        return service.findAll().stream()
-                .map(mapper::toResponseDto)
-                .toList();
-    }
-
-    @Override
     public Page<OrderResponseDto> getAll(Pageable pageable) {
         log.info("[UseCase] 分頁查詢進口訂單 page={}", pageable);
         return service.findAll(pageable)
@@ -54,7 +40,7 @@ public class ImportOrderFindUseCaseImpl implements ImportOrderFindUseCase {
     }
 
     @Override
-    public List<OrderResponseDto> findByCondition(ImportOrderQueryDto query) {
+    public List<OrderResponseDto> query(ImportOrderQueryDto query) {
         log.info("[UseCase] 複合條件查詢進口訂單 query={}", query);
         return service.findByCondition(query).stream()
                 .map(mapper::toResponseDto)

@@ -9,7 +9,6 @@ import com.xk.tom.domain.model.enums.OrderStatus;
 import com.xk.tom.domain.service.ImportOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,10 +26,8 @@ import java.util.UUID;
 @Slf4j
 public class ImportOrderServiceImpl implements ImportOrderService {
 
-    @Autowired
     private final ImportOrderRepository repository;
-    @Autowired
-    private ImportOrderMapper mapper;
+    private final ImportOrderMapper mapper;
 
     @Override
     public ImportOrderBo create(ImportOrderCreateCmd createData) {
@@ -89,7 +86,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         log.info("[Service] 條件查詢進口訂單 condition={}", condition);
 
         // 這裡可以用 Specification / QueryDSL / 自訂 JPQL
-        return repository.findByStatus(OrderStatus.PENDING).stream()
+        return repository.findByCondition(condition).stream()
                 .map(mapper::toBo)
                 .toList();
     }
@@ -110,7 +107,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         ImportOrderEntity entity = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("訂單不存在"));
 
-        entity.updateStatus(cmd.getStatus(), cmd.getOperatorId(), cmd.getTimestamp());
+        entity.updateStatus(cmd.getNewStatus(), cmd.getOperatorId(), cmd.getTimestamp());
 
         var saved = repository.save(entity);
         return mapper.toBo(saved);

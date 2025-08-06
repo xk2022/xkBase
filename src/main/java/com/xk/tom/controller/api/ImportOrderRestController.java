@@ -1,16 +1,17 @@
 package com.xk.tom.controller.api;
 
+import com.xk.common.base.BaseResult;
 import com.xk.tom.application.model.ImportOrderQueryDto;
 import com.xk.tom.application.model.ImportOrderRequestDto;
 import com.xk.tom.application.model.OrderResponseDto;
 import com.xk.tom.application.usecase.ImportOrderFindUseCase;
 import com.xk.tom.application.usecase.ImportOrderManageUseCase;
-import com.xk.tom.domain.model.enums.OrderStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,32 +37,40 @@ public class ImportOrderRestController {
 
     @GetMapping("/{uuid}")
     @Operation(summary = "查詢單筆進口訂單", description = "根據 UUID 查詢進口訂單")
-    public OrderResponseDto getByUuid(@PathVariable UUID uuid) {
+    public BaseResult<OrderResponseDto> getByUuid(@PathVariable UUID uuid) {
         log.info("[API] 查詢進口訂單 uuid={}", uuid);
-        return findUseCase.getByUuid(uuid);
+        OrderResponseDto order = findUseCase.getByUuid(uuid);
+        if (order != null) {
+            return BaseResult.success(order, "成功獲取訂單資料");
+        }
+        return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到對應的訂單", null);
     }
 
-    @GetMapping
-    @Operation(summary = "查詢進口訂單清單", description = "根據狀態查詢進口訂單列表")
-    public List<OrderResponseDto> getByStatus(@RequestParam(required = false) OrderStatus status) {
-        log.info("[API] 查詢進口訂單列表 status={}", status);
-        ImportOrderQueryDto query = new ImportOrderQueryDto();
-        query.setStstus(status);
-        return (status != null) ? findUseCase.findByCondition(query) : findUseCase.getAll();
+    @PostMapping
+    @Operation(summary = "查詢進口訂單清單", description = "根據查詢條件查詢進口訂單")
+    public BaseResult<List<OrderResponseDto>> query(@Valid ImportOrderQueryDto query) {
+        log.info("[API] 查詢進口訂單 query={}", query);
+        List<OrderResponseDto> list = findUseCase.query(query);
+        return BaseResult.success(list, "成功獲取用戶列表");
     }
 
     @PostMapping("/save")
     @Operation(summary = "建立或更新進口訂單", description = "如果 UUID 存在 → 更新，否則 → 建立")
-    public OrderResponseDto save(@Valid @RequestBody ImportOrderRequestDto request) {
+    public BaseResult<OrderResponseDto> save(@Valid @RequestBody ImportOrderRequestDto request) {
         log.info("[API] Save 進口訂單 request={}", request);
-        return manageUseCase.save(request);
+        OrderResponseDto manage = manageUseCase.save(request);
+        if (manage != null) {
+            return BaseResult.success(manage, "訂單更新成功");
+        }
+        return BaseResult.failure(HttpStatus.NOT_FOUND, "未找到需要更新的訂單", null);
     }
 
     @DeleteMapping("/{uuid}")
     @Operation(summary = "刪除進口訂單", description = "刪除指定 UUID 的進口訂單（僅限 pending 狀態）")
-    public void delete(@PathVariable UUID uuid) {
+    public BaseResult<Void> delete(@PathVariable UUID uuid) {
         log.info("[API] 刪除進口訂單 uuid={}", uuid);
         manageUseCase.delete(uuid);
+        return BaseResult.success(null, "訂單刪除成功");
     }
 
     /**

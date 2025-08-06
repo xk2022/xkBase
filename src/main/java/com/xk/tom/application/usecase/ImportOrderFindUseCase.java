@@ -54,13 +54,12 @@ public interface ImportOrderFindUseCase {
      *
      * @return 全部進口訂單清單
      */
-    List<OrderResponseDto> getAll();
     Page<OrderResponseDto> getAll(Pageable pageable);
     // TODO - LESS USE
 //    List<OrderResponseDto> getRecent(int limit);
 
     // 複合查詢
-    List<OrderResponseDto> findByCondition(ImportOrderQueryDto query);
+    List<OrderResponseDto> query(ImportOrderQueryDto query);
 
     // 統計
     // TODO - LESS USE

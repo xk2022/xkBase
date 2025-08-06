@@ -49,8 +49,8 @@ public class OrderRestController {
     @GetMapping
     @Operation(summary = "查詢所有訂單", description = "查詢所有進口與出口訂單")
     public BaseResult<List<OrderResponseDto>> getAllOrders() {
-        List<OrderResponseDto> importOrders = importOrderFindUseCase.getAll();
-        List<OrderResponseDto> exportOrders = exportOrderFindUseCase.findAll();
+        List<OrderResponseDto> importOrders = importOrderFindUseCase.query(null);
+        List<OrderResponseDto> exportOrders = exportOrderFindUseCase.query(null);
         List<OrderResponseDto> allOrders = new ArrayList<>();
         allOrders.addAll(importOrders);
         allOrders.addAll(exportOrders);
