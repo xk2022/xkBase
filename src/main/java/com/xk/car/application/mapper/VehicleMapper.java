@@ -1,0 +1,35 @@
+package com.xk.car.application.mapper;
+
+
+import com.xk.car.application.model.VehicleCreateCmd;
+import com.xk.car.application.model.VehicleRequest;
+import com.xk.car.application.model.VehicleResponse;
+import com.xk.car.domain.model.bo.VihicleBo;
+import com.xk.car.domain.model.entity.VehicleEntity;
+import com.xk.common.util.XkBeanUtils;
+import org.springframework.stereotype.Component;
+
+@Component
+public class VehicleMapper {
+
+
+    public  VehicleCreateCmd toCreateVehicleCmd(VehicleRequest createDTO){
+      return XkBeanUtils.copyProperties(createDTO ,VehicleCreateCmd::new);
+    }
+
+    public VehicleCreateCmd toUpdateCmd(VehicleRequest createDTO){
+        return XkBeanUtils.copyProperties(createDTO , VehicleCreateCmd::new );
+    }
+
+    public VehicleResponse toResponseDto(VihicleBo result){
+        return XkBeanUtils.copyProperties(result, VehicleResponse::new);
+    }
+
+    public VehicleEntity toEntity(VehicleCreateCmd cmd) {
+        return XkBeanUtils.copyProperties(cmd,VehicleEntity::new);
+    }
+
+    public VihicleBo toBo(VehicleEntity saved) {
+        return XkBeanUtils.copyProperties(saved,VihicleBo::new);
+    }
+}

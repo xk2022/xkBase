@@ -25,7 +25,7 @@ public interface AdmSystemService {
     /**
      * 建立新系統
      *
-     * @param systemBO 系統 `BO` 物件
+     * @param createData 系統 `BO` 物件
      * @return 儲存後的 `AdmSystemBO`
      */
     AdmSystemBO create(AdmSystemCreateBO createData);
@@ -83,7 +83,6 @@ public interface AdmSystemService {
      * 根據條件查詢系統列表（支援分頁）
      *
      * @param searchParams 查詢條件
-     * @param pageable 分頁參數
      * @return 符合條件的 `AdmSystemBO` 分頁結果
      */
     List<AdmSystemBO> search(AdmSystemSearchBO searchParams);
@@ -93,7 +92,7 @@ public interface AdmSystemService {
      * 更新系統資訊（完整更新）
      *
      * @param uuid 系統唯一識別碼
-     * @param systemBO 需要更新的 `BO` 物件
+     * @param updateData 需要更新的 `BO` 物件
      * @return 更新後的 `AdmSystemBO`
      */
     AdmSystemBO update(UUID uuid, AdmSystemUpdateBO updateData);

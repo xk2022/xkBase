@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "Import Order API", description = "進口訂單相關操作 API")
 @Slf4j
+@Validated
 public class ImportOrderRestController {
 
     private final ImportOrderFindUseCase findUseCase;

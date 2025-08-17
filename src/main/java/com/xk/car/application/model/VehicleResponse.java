@@ -1,0 +1,23 @@
+package com.xk.car.application.model;
+
+import com.xk.car.domain.model.enums.VehicleEnum;
+import com.xk.car.domain.model.enums.VehicleStatusEnum;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
+@Data
+public class VehicleResponse {
+
+    private UUID uuid;
+    private VehicleEnum vehicleType;
+    private String licensePlate;
+    private String brandModel;
+    private String year;
+    private BigDecimal mileage;
+    private VehicleStatusEnum status;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
+}
