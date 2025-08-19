@@ -1,6 +1,7 @@
 package com.xk.car.domain.service;
 
 import com.xk.car.application.model.VehicleCreateCmd;
+import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.domain.model.bo.VihicleBo;
 
 import java.util.UUID;
@@ -33,4 +34,7 @@ public interface VehicleService {
       * @param uuid
       */
      void delete(UUID uuid);
+
+
+     VihicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd);
 }

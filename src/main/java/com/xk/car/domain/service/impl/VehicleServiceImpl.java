@@ -3,6 +3,7 @@ package com.xk.car.domain.service.impl;
 
 import com.xk.car.application.mapper.VehicleMapper;
 import com.xk.car.application.model.VehicleCreateCmd;
+import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.domain.dao.repository.VehicleRepository;
 import com.xk.car.domain.model.bo.VihicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
@@ -57,5 +58,12 @@ public class VehicleServiceImpl  implements VehicleService {
         log.info("[Service] 刪除車輛資訊 uuid={}", uuid);
         var entity = repository.findById(uuid).orElseThrow(()->new IllegalArgumentException("此車輛資訊不存在:" + uuid));
         repository.delete(entity);
+    }
+
+    @Override
+    public VihicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
+        log.info("[Service] 查詢車輛資訊");
+        var entity = repository.getVehicleByStatusAndLicensePlate(vehicleCreateCmd.getStatus(),vehicleCreateCmd.getLicensePlate());
+        return mapper.toBo(entity);
     }
 }

@@ -4,6 +4,8 @@ package com.xk.car.controller;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleCreateUseCase;
+import com.xk.car.application.usecase.VehicleDeleteUseCase;
+import com.xk.car.application.usecase.VehicleQueryUseCase;
 import com.xk.common.base.BaseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +37,7 @@ public class VehicleController {
 
     private final VehicleCreateUseCase vehicleCreateUseCase;
     private final VehicleDeleteUseCase vehicleDeleteUseCase;
+    private final VehicleQueryUseCase vehicleQueryUseCase;
 
 
     @Operation(summary = "新增或更新車輛資訊", description = "新增或更新一台車輛記錄")
@@ -50,7 +53,17 @@ public class VehicleController {
     @DeleteMapping("/{uuid}")
     public BaseResult<Void> delete (@PathVariable UUID uuid){
         log.info("[API] 刪除車輛資訊 uuid={}", uuid);
+        vehicleDeleteUseCase.delete(uuid);
+        return BaseResult.success(null,"刪除車輛成功");
+    }
 
+    @Operation(summary = "查詢車輛資訊" ,description = "查詢車輛資訊")
+    @PostMapping("/getVehicleByStatusAndLicensePlate")
+    public BaseResult<VehicleResponse> getVehicleByStatusAndLicensePlate(
+            @RequestBody @Valid VehicleRequest vehicleRequest){
+        log.info("[API] 查詢車輛資訊");
+        VehicleResponse response = vehicleQueryUseCase.getVehicleByStatusAndLicensePlate(vehicleRequest);
+        return BaseResult.success(response , "查詢成功");
     }
 
 }
