@@ -29,29 +29,24 @@ public class VehicleMaintenanceRequest {
     private String maintenanceType;
 
     @Schema(description = "維修時的里程")
-    private BigDecimal mileageAt;
+    private String mileageAt;
 
     @Schema(description = "維修日期")
-    private Date maintenanceDate;
+    private String maintenanceDate;
 
     @Schema(description = "維修項目或情況說明")
     private String description;
 
     @Schema(description = "維修金額")
-    private BigDecimal cost;
+    private String cost;
 
     @Schema(description = "提醒方式")
     private String reminderType;
 
     @Schema(description = "下次預定保養里程")
-    private BigDecimal nextDueMileage;
+    private String nextDueMileage;
 
     @Schema(description = "下次預定保養日期")
-    private Date nextDueDate;
+    private String nextDueDate;
 
-    @Schema(description = "創建時間")
-    private ZonedDateTime createdAt;
-
-    @Schema(description = "更新時間")
-    private ZonedDateTime updatedAt;
 }

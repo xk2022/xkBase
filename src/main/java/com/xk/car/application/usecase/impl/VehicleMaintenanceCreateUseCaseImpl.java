@@ -10,10 +10,13 @@ import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
 import com.xk.car.domain.service.VehicleMaintenanceService;
 import com.xk.car.domain.service.VehicleService;
+import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.util.Date;
 
 
 /**
@@ -32,17 +35,22 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
 
     private final VehicleMaintenanceMapper mapper;
     private final VehicleMaintenanceService service;
+    private final DateCoverUtils dateCoverUtils;
 
     @Override
-    public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) {
+    public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) throws ParseException {
         VehicleMaintenanceBo result;
         if(createDTO.getUuid() == null){
             log.info("[UseCase] 建立車輛維修資訊request={}", createDTO);
             MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
             ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
+            Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
+            Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
             var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
             cmd.setMaintenanceType(maintenanceType);
             cmd.setReminderType(reminderTypeEnum);
+            cmd.setMaintenanceDate(maintenanceDate);
+            cmd.setNextDueDate(nextDueDate);
 
             result = service.create(cmd);
 

@@ -10,10 +10,13 @@ import com.xk.car.domain.model.bo.VihicleBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
+import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.ZonedDateTime;
 
 /**
  * 📌 `VehicleCreateUseCaseImpl` - 负责車輛系统管理的创建逻辑

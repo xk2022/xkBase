@@ -4,16 +4,17 @@ package com.xk.car.controller;
 import com.xk.car.application.model.VehicleMaintenanceRequest;
 import com.xk.car.application.model.VehicleMaintenanceResponse;
 import com.xk.car.application.usecase.VehicleMaintenanceCreateUseCase;
+import com.xk.car.application.usecase.VehicleMaintenanceDeleteUseCase;
 import com.xk.common.base.BaseResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.UUID;
 
 /**
  * 📌 `VehicleMaintenanceController` - 負責管理 車輛性能監控與維修提醒 API**
@@ -33,14 +34,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class VehicleMaintenanceController {
 
     private final VehicleMaintenanceCreateUseCase vehicleMaintenanceCreateUseCase;
-
+    private final VehicleMaintenanceDeleteUseCase vehicleMaintenanceDeleteUseCase;
 
     @PostMapping("/save")
     public BaseResult<VehicleMaintenanceResponse> createOrUpdateVehicleMaintenance(
             @RequestBody @Valid VehicleMaintenanceRequest request
-    ){
+    ) throws ParseException {
         VehicleMaintenanceResponse response = vehicleMaintenanceCreateUseCase.create(request);
         return  BaseResult.success(response , "新增成功");
+    }
+
+
+    @DeleteMapping("{uuid}")
+    public BaseResult<Void> delete(@PathVariable UUID uuid){
+        log.info("[API] 刪除車輛維修提醒 uuid ={}" , uuid );
+        vehicleMaintenanceDeleteUseCase.delete(uuid);
+        return BaseResult.success(null,"刪除車輛維修提醒成功");
+
     }
 
 }

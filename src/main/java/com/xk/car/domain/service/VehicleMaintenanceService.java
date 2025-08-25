@@ -11,4 +11,10 @@ public interface VehicleMaintenanceService {
     VehicleMaintenanceBo create(VehicleMaintenanceCreateCmd cmd);
 
     VehicleMaintenanceBo update(UUID uuid, VehicleMaintenanceCreateCmd cmd);
+
+    /**
+     * 刪除車輛維修提醒資訊
+     * @param uuid
+     */
+    void delete(UUID uuid);
 }

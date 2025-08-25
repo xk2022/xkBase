@@ -58,4 +58,11 @@ public class VehicleMaintenanceServiceImpl implements VehicleMaintenanceService 
         var saved = repository.save(existing);
         return mapper.toBo(saved);
     }
+
+    @Override
+    public void delete(UUID uuid) {
+        log.info("刪除車輛維修提醒資訊");
+        var entity = repository.findById(uuid).orElseThrow(()-> new IllegalArgumentException("此車輛維修資訊不存在" + uuid));
+        repository.delete(entity);
+    }
 }

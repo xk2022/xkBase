@@ -35,7 +35,7 @@ public class VehicleRequest {
 
 
     @Schema(description = "車輛里程",example = "12000.5")
-    private BigDecimal mileage;
+    private String mileage;
 
     @NotBlank
     @Size(min = 2, max = 50, message = "車輛狀態長度須介於 2 到 50 個字之間")
