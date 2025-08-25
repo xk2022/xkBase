@@ -1,4 +1,4 @@
-package com.xk.car.domain.model.entity;
+package com.xk.car.application.model;
 
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
@@ -10,15 +10,9 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
-
-/**
- * 車輛性能監控與維修提醒
- * Hank create 8/11
- */
 @Data
-public class VehicleMaintenanceEntity {
+public class VehicleMaintenanceResponse {
 
-    private Long vehicleId;
     private UUID uuid;
     private String carId;
     private Boolean deleted = false;
@@ -33,14 +27,4 @@ public class VehicleMaintenanceEntity {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
     private LocalDateTime deletedTime;
-
-    /**
-     * 初始化車輛提醒監控
-     */
-    public void initialize(){
-        this.createdAt = ZonedDateTime.now();
-    }
-
-
-
 }

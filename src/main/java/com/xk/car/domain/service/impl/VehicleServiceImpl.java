@@ -3,7 +3,6 @@ package com.xk.car.domain.service.impl;
 
 import com.xk.car.application.mapper.VehicleMapper;
 import com.xk.car.application.model.VehicleCreateCmd;
-import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.domain.dao.repository.VehicleRepository;
 import com.xk.car.domain.model.bo.VihicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
@@ -32,12 +31,14 @@ public class VehicleServiceImpl  implements VehicleService {
     public VihicleBo create(VehicleCreateCmd cmd) {
         log.info("[Service] 建立車輛資訊 cmd={}", cmd);
         VehicleEntity entity = mapper.toEntity(cmd);
-        VehicleEntity saved = repository.save(entity);
+        entity.initialize();
+        var po = mapper.toPo(entity);
+        var saved = repository.save(po);
         return mapper.toBo(saved);
     }
 
     @Override
-    public VihicleBo update(UUID uuid,VehicleCreateCmd  cmd) {
+    public VihicleBo update(UUID  uuid ,VehicleCreateCmd  cmd) {
         log.info("[Service] 更新車輛資訊 uuid={}, cmd={}", uuid, cmd);
         var existing = repository.findById(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("車輛不存在: " + uuid));
@@ -48,7 +49,7 @@ public class VehicleServiceImpl  implements VehicleService {
         existing.setYear(cmd.getYear());
         existing.setStatus(cmd.getStatus());
         existing.setVehicleType(cmd.getVehicleType());
-        existing.setUpdatedAt(cmd.getUpdatedAt());
+        existing.setUpdatedTime(cmd.getUpdatedAt());
         var saved =repository.save(existing);
         return mapper.toBo(saved);
     }

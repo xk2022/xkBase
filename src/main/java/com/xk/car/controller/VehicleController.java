@@ -9,12 +9,15 @@ import com.xk.car.application.usecase.VehicleQueryUseCase;
 import com.xk.common.base.BaseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -64,6 +67,14 @@ public class VehicleController {
         log.info("[API] 查詢車輛資訊");
         VehicleResponse response = vehicleQueryUseCase.getVehicleByStatusAndLicensePlate(vehicleRequest);
         return BaseResult.success(response , "查詢成功");
+    }
+
+    @Operation(summary = "依照查詢結果 匯出成報表" ,description = "依照查詢結果 匯出成報表")
+    @PostMapping("/writeExcelReport")
+    public void writeExcelReport(@RequestBody Map<String ,Object> params , HttpServletRequest request, HttpServletResponse response){
+        log.info("[API] 匯出車輛資訊報表");
+
+
     }
 
 }

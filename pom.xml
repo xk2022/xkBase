@@ -134,6 +134,13 @@
             <!-- 版本需自行輸入，否則無效 -->
 			<version>3.0.3</version>
         </dependency>
+
+		<!-- Alibaba Easy Excel -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>4.0.1</version>
+		</dependency>
         
 		<!-- Druid 连接池 -->
         <dependency>

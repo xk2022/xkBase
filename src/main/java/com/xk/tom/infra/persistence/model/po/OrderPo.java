@@ -2,6 +2,8 @@ package com.xk.tom.infra.persistence.model.po;
 
 import com.xk.common.base.SoftDeletableEntity;
 import com.xk.tom.domain.model.enums.OrderStatus;
+import com.xk.tom.domain.model.enums.OrderType;
+import com.xk.tom.domain.model.enums.OrderTypeConverter;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -49,10 +51,10 @@ public abstract class OrderPo extends SoftDeletableEntity implements Serializabl
     @Column(name = "uuid", nullable = false, updatable = false, unique = true, length = 36)
     private UUID uuid;
 
-//    @Convert(converter = OrderTypeConverter.class)
-//    @Column(name = "order_type", nullable = false, length = 10)
-//    @Comment("訂單類型：import / export")
-//    private OrderType orderType;
+    @Convert(converter = OrderTypeConverter.class)
+    @Column(name = "order_type", nullable = false, length = 10, insertable = false, updatable = false)
+    @Comment("訂單類型：import / export")
+    private OrderType orderType;
 
     @Column(name = "customer_id")
     @Comment("客戶 ID")

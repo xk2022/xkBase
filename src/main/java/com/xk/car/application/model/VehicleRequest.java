@@ -33,7 +33,7 @@ public class VehicleRequest {
     @Schema(description = "出廠年份",example = "2025")
     private String year;
 
-    @Size(min = 2, max = 50, message = "車輛里程長度須介於 2 到 50 個字之間")
+
     @Schema(description = "車輛里程",example = "12000.5")
     private BigDecimal mileage;
 

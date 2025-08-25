@@ -7,6 +7,8 @@ import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleCreateUseCase;
 
 import com.xk.car.domain.model.bo.VihicleBo;
+import com.xk.car.domain.model.enums.VehicleEnum;
+import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +38,12 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
         VihicleBo result;
         if (createDTO.getUuid() == null) {
             log.info("[UseCase] 建立車輛資訊 request={}", createDTO);
+            VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
+            VehicleStatusEnum status = VehicleStatusEnum.fromString(createDTO.getStatus());
             var cmd = mapper.toCreateVehicleCmd(createDTO);
+            cmd.setVehicleType(vehicleType);
+            cmd.setStatus(status);
+
             result = service.create(cmd);
         } else {
             log.info("[UseCase] 更新車輛資訊 uuid={}, request={}", createDTO.getUuid(), createDTO);

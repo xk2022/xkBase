@@ -2,11 +2,13 @@ package com.xk.car.domain.model.bo;
 
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+@Data
 public class VihicleBo {
 
     private UUID uuid;

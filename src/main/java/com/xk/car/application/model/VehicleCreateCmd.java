@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
 public class VehicleCreateCmd {
+
 
     @Schema(description = "車輛ID")
     private UUID uuid;
@@ -33,8 +35,6 @@ public class VehicleCreateCmd {
     @Schema(description = "車輛狀態")
     private VehicleStatusEnum status;
 
-    @Schema(description = "創建時間")
-    private ZonedDateTime createdAt;
 
     @Schema(description = "編輯時間")
     private ZonedDateTime updatedAt;

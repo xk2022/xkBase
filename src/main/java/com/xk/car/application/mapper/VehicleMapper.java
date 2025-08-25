@@ -6,6 +6,7 @@ import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.domain.model.bo.VihicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
+import com.xk.car.infrastrcture.persistence.model.po.VehiclePo;
 import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,12 @@ public class VehicleMapper {
         return XkBeanUtils.copyProperties(cmd,VehicleEntity::new);
     }
 
-    public VihicleBo toBo(VehicleEntity saved) {
+    public VihicleBo toBo(VehiclePo saved) {
         return XkBeanUtils.copyProperties(saved,VihicleBo::new);
+    }
+
+    public VehiclePo toPo(VehicleEntity vehicleEntity){
+        return XkBeanUtils.copyProperties(vehicleEntity ,VehiclePo::new);
+
     }
 }
