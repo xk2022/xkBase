@@ -6,17 +6,17 @@ import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleCreateUseCase;
 
-import com.xk.car.domain.model.bo.VihicleBo;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
-import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * 📌 `VehicleCreateUseCaseImpl` - 负责車輛系统管理的创建逻辑
@@ -38,22 +38,41 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
     @Transactional
     @Override
     public VehicleResponse create(VehicleRequest createDTO) {
-        VihicleBo result;
+        VehicleBo result;
+        VehicleResponse response = new VehicleResponse();
         if (createDTO.getUuid() == null) {
             log.info("[UseCase] 建立車輛資訊 request={}", createDTO);
             VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
-            VehicleStatusEnum status = VehicleStatusEnum.fromString(createDTO.getStatus());
+            BigDecimal mileage = new BigDecimal(createDTO.getMileage());
             var cmd = mapper.toCreateVehicleCmd(createDTO);
             cmd.setVehicleType(vehicleType);
-            cmd.setStatus(status);
+            cmd.setMileage(mileage);
 
             result = service.create(cmd);
+            response =  mapper.toResponseDto(result);
+            response.setVehicleType(result.getVehicleType().toString());
+            response.setMileage(result.getMileage().toString());
+            response.setStatus(result.getStatus().toString());
+            response.setCreatedTime(result.getCreatedTime().toString());
         } else {
             log.info("[UseCase] 更新車輛資訊 uuid={}, request={}", createDTO.getUuid(), createDTO);
             var cmd = mapper.toUpdateCmd(createDTO);
-            result = service.update(createDTO.getUuid(), cmd);
+            VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
+            VehicleStatusEnum status = VehicleStatusEnum.fromString(createDTO.getStatus());
+            BigDecimal mileage = new BigDecimal(createDTO.getMileage());
+            cmd.setVehicleType(vehicleType);
+            cmd.setMileage(mileage);
+            cmd.setStatus(status);
+            result = service.update(UUID.fromString(createDTO.getUuid()), cmd);
+            response =  mapper.toResponseDto(result);
+            response.setVehicleType(result.getVehicleType().toString());
+            response.setMileage(result.getMileage().toString());
+            response.setStatus(result.getStatus().toString());
+            response.setCreatedTime(result.getCreatedTime().toString());
+            response.setUpdatedTime(result.getUpdatedTime().toString());
         }
-        return mapper.toResponseDto(result);
+
+        return response;
     }
 
 }

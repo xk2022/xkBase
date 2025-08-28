@@ -7,6 +7,7 @@ import com.xk.common.base.SoftDeletableEntity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,10 +33,10 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
     @GeneratedValue
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "uuid", nullable = false, updatable = false, unique = true, length = 36)
+    @Column(name = "uuid", nullable = false, updatable = false, unique = true)
     private UUID uuid;
 
-    @NotBlank
+    @NotNull
     @Column(name = "vehicle_type" ,nullable = false)
     @Comment("車頭/板車")
     private VehicleEnum vehicleType;
@@ -57,7 +58,7 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
     @Comment("初始里程數")
     private BigDecimal mileage;
 
-    @NotBlank
+    @NotNull
     @Column(name = "status" , nullable = false)
     @Comment("車輛狀態")
     private VehicleStatusEnum status;

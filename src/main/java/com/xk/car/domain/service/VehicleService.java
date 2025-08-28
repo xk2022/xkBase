@@ -2,7 +2,7 @@ package com.xk.car.domain.service;
 
 import com.xk.car.application.model.VehicleCreateCmd;
 import com.xk.car.application.model.VehicleRequest;
-import com.xk.car.domain.model.bo.VihicleBo;
+import com.xk.car.domain.model.bo.VehicleBo;
 
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public interface VehicleService {
       * @param cmd
       * @return
       */
-     VihicleBo create(VehicleCreateCmd cmd);
+     VehicleBo create(VehicleCreateCmd cmd);
 
      /**
       * 更新車輛資訊
@@ -27,7 +27,7 @@ public interface VehicleService {
       * @param cmd
       * @return
       */
-     VihicleBo update(UUID uuid, VehicleCreateCmd cmd);
+     VehicleBo update(UUID uuid, VehicleCreateCmd cmd);
 
      /**
       * 刪除車輛資訊
@@ -36,5 +36,5 @@ public interface VehicleService {
      void delete(UUID uuid);
 
 
-     VihicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd);
+     VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd);
 }

@@ -3,10 +3,10 @@ package com.xk.car.domain.service.impl;
 
 import com.xk.car.application.mapper.VehicleMaintenanceMapper;
 import com.xk.car.application.model.VehicleMaintenanceCreateCmd;
-import com.xk.car.domain.dao.repository.VehicleMaintenanceRepository;
 import com.xk.car.domain.model.bo.VehicleMaintenanceBo;
 import com.xk.car.domain.model.entity.VehicleMaintenanceEntity;
 import com.xk.car.domain.service.VehicleMaintenanceService;
+import com.xk.car.infrastrcture.persistence.repository.VehicleMaintenanceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

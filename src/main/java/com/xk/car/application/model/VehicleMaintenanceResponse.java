@@ -13,18 +13,22 @@ import java.util.UUID;
 @Data
 public class VehicleMaintenanceResponse {
 
-    private UUID uuid;
+    private String uuid;
     private String carId;
-    private Boolean deleted = false;
-    private MaintenanceTypeEnum maintenanceType;
-    private BigDecimal mileageAt;
-    private Date maintenanceDate;
+
+    private String maintenanceType;
+    private String mileageAt;
+    private String maintenanceDate;
     private String description;
-    private BigDecimal cost;
-    private ReminderTypeEnum reminderType;
-    private BigDecimal nextDueMileage;
-    private Date nextDueDate;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
-    private LocalDateTime deletedTime;
+    private String cost;
+    private String reminderType;
+    private String nextDueMileage;
+    private String nextDueDate;
+
+    private String deleted;
+    private String deletedTime;
+    private String createdBy;
+    private String createdTime;
+    private String updatedBy;
+    private String updatedTime;
 }

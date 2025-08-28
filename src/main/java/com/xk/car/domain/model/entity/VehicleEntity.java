@@ -5,7 +5,6 @@ import com.xk.car.domain.model.enums.VehicleStatusEnum;
 
 import lombok.Data;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -27,9 +26,11 @@ public class VehicleEntity {
     private String year;
     private BigDecimal mileage;
     private VehicleStatusEnum status;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
-    private LocalDateTime deletedTime;
+    private String createdBy;
+    private ZonedDateTime createdTime;
+    private String updatedBy;
+    private ZonedDateTime updatedTime;
+    private ZonedDateTime deletedTime;
 
 
     /**
@@ -37,13 +38,13 @@ public class VehicleEntity {
      */
     public void initialize() {
         this.status = VehicleStatusEnum.IDLE;
-        this.createdAt = ZonedDateTime.now();
+        this.createdTime = ZonedDateTime.now();
     }
 
 
     public void updateStatus(String status){
         this.status = VehicleStatusEnum.fromString(status);
-        this.updatedAt = ZonedDateTime.now();
+        this.updatedTime = ZonedDateTime.now();
     }
 
     public void delete(){
@@ -52,7 +53,7 @@ public class VehicleEntity {
         }
 
         this.deleted = true;
-        this.deletedTime = LocalDateTime.now();
+        this.deletedTime = ZonedDateTime.now();
 
     }
 

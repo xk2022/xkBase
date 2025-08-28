@@ -2,17 +2,15 @@ package com.xk.car.infrastrcture.persistence.model.po;
 
 
 import com.xk.common.base.SoftDeletableEntity;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "vehicle_parts_usage")
 @Entity
-@SQLDelete(sql = "UPDATE vehicle  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
+@SQLDelete(sql = "UPDATE vehicle_parts_usage  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
 public class VehiclePartsUsagePo extends SoftDeletableEntity implements Serializable {
 
 

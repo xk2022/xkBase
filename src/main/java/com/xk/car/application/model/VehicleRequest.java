@@ -13,7 +13,7 @@ import java.util.UUID;
 public class VehicleRequest {
 
     @Schema(description ="車輛UUID" )
-    private UUID uuid;
+    private String uuid;
 
     @NotBlank(message = "車輛類型不能為空")
     @Schema(description = "車輛類型")

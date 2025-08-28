@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -46,11 +48,13 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
             ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
             Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
             Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
+            BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
             var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
             cmd.setMaintenanceType(maintenanceType);
             cmd.setReminderType(reminderTypeEnum);
             cmd.setMaintenanceDate(maintenanceDate);
             cmd.setNextDueDate(nextDueDate);
+            cmd.setMileageAt(mileageAt);
 
             result = service.create(cmd);
 
@@ -58,7 +62,7 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         }else{
             log.info("[UseCase] 更新車輛維修資訊request={}", createDTO);
             var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
-            result = service.update(createDTO.getUuid(),cmd);
+            result = service.update(UUID.fromString(createDTO.getUuid()),cmd);
 
         }
         return mapper.toResponseDto(result);

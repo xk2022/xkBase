@@ -25,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "vehicle_status_logs")
-@SQLDelete(sql = "UPDATE vehicle  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
+@SQLDelete(sql = "UPDATE vehicle_status_logs  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
 public class VehicleStatusLogsPo extends SoftDeletableEntity implements Serializable {
 
 

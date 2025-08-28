@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +30,19 @@ public class VehiclePartsUsageEntity {
     private BigDecimal cost;
     private String description;
     private Date usedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
+    private LocalDateTime deletedTime;
+    private Boolean deleted = false;
+
+    /**
+     * 初始化
+     */
+    public void initialize(){
+        this.createdAt = ZonedDateTime.now();
+    }
+
+
+
 
 }

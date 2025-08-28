@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
-public class VihicleBo {
+public class VehicleBo {
 
     private UUID uuid;
     private VehicleEnum vehicleType;
@@ -18,7 +18,12 @@ public class VihicleBo {
     private String year;
     private BigDecimal mileage;
     private VehicleStatusEnum status;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
+    private String createdBy;
+    private ZonedDateTime createdTime;
+    private String updatedBy;
+    private ZonedDateTime updatedTime;
+    private Boolean deleted;
+    private ZonedDateTime deletedTime;
+
 
 }

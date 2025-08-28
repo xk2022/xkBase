@@ -20,7 +20,7 @@ public class VehicleMaintenanceRequest {
 
 
     @Schema(description = "uuid")
-    private UUID uuid;
+    private String uuid;
 
     @Schema(description = "關聯車輛")
     private String carId;

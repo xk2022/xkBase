@@ -1,6 +1,5 @@
-package com.xk.car.domain.dao.repository;
+package com.xk.car.infrastrcture.persistence.repository;
 
-import com.xk.car.domain.model.entity.VehicleEntity;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.infrastrcture.persistence.model.po.VehiclePo;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -11,13 +11,17 @@ import java.util.UUID;
 @Data
 public class VehicleResponse {
 
-    private UUID uuid;
-    private VehicleEnum vehicleType;
+    private String vehicleType;
     private String licensePlate;
     private String brandModel;
     private String year;
-    private BigDecimal mileage;
-    private VehicleStatusEnum status;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
+    private String mileage;
+    private String status;
+
+    private String deleted;
+    private String deletedTime;
+    private String createdBy;
+    private String createdTime;
+    private String updatedBy;
+    private String updatedTime;
 }

@@ -3,14 +3,15 @@ package com.xk.car.domain.service.impl;
 
 import com.xk.car.application.mapper.VehicleMapper;
 import com.xk.car.application.model.VehicleCreateCmd;
-import com.xk.car.domain.dao.repository.VehicleRepository;
-import com.xk.car.domain.model.bo.VihicleBo;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
 import com.xk.car.domain.service.VehicleService;
+import com.xk.car.infrastrcture.persistence.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,7 @@ public class VehicleServiceImpl  implements VehicleService {
     private final VehicleMapper mapper;
     private final VehicleRepository repository;
     @Override
-    public VihicleBo create(VehicleCreateCmd cmd) {
+    public VehicleBo create(VehicleCreateCmd cmd) {
         log.info("[Service] 建立車輛資訊 cmd={}", cmd);
         VehicleEntity entity = mapper.toEntity(cmd);
         entity.initialize();
@@ -38,7 +39,7 @@ public class VehicleServiceImpl  implements VehicleService {
     }
 
     @Override
-    public VihicleBo update(UUID  uuid ,VehicleCreateCmd  cmd) {
+    public VehicleBo update(UUID  uuid ,VehicleCreateCmd  cmd) {
         log.info("[Service] 更新車輛資訊 uuid={}, cmd={}", uuid, cmd);
         var existing = repository.findById(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("車輛不存在: " + uuid));
@@ -49,7 +50,7 @@ public class VehicleServiceImpl  implements VehicleService {
         existing.setYear(cmd.getYear());
         existing.setStatus(cmd.getStatus());
         existing.setVehicleType(cmd.getVehicleType());
-        existing.setUpdatedTime(cmd.getUpdatedAt());
+        existing.setUpdatedTime(ZonedDateTime.now());
         var saved =repository.save(existing);
         return mapper.toBo(saved);
     }
@@ -62,7 +63,7 @@ public class VehicleServiceImpl  implements VehicleService {
     }
 
     @Override
-    public VihicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
+    public VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
         log.info("[Service] 查詢車輛資訊");
         var entity = repository.getVehicleByStatusAndLicensePlate(vehicleCreateCmd.getStatus(),vehicleCreateCmd.getLicensePlate());
         return mapper.toBo(entity);

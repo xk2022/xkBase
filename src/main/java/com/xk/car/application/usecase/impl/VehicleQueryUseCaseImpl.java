@@ -5,7 +5,8 @@ import com.xk.car.application.mapper.VehicleMapper;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleQueryUseCase;
-import com.xk.car.domain.model.bo.VihicleBo;
+
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class VehicleQueryUseCaseImpl implements VehicleQueryUseCase {
 
     @Override
     public VehicleResponse getVehicleByStatusAndLicensePlate(VehicleRequest vehicleRequest) {
-        VihicleBo result;
+        VehicleBo result;
         var cmd = mapper.toCreateVehicleCmd(vehicleRequest);
         result = service.getVehicleByStatusAndLicensePlate(cmd);
         if(result != null){
