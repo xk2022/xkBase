@@ -17,7 +17,6 @@ import java.util.UUID;
 @Data
 public class VehicleEntity {
 
-    private Long vehicleId;
     private UUID uuid;
     private Boolean deleted = false;
     private VehicleEnum vehicleType;

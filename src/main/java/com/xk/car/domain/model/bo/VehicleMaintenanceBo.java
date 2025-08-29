@@ -24,8 +24,10 @@ public class VehicleMaintenanceBo {
     private ReminderTypeEnum reminderType;
     private BigDecimal nextDueMileage;
     private Date nextDueDate;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
-    private LocalDateTime deletedTime;
+    private ZonedDateTime createdTime;
+    private ZonedDateTime updatedTime;
+    private ZonedDateTime deletedTime;
+    private String createdBy;
+    private String updatedBy;
 
 }

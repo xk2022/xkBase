@@ -10,8 +10,10 @@ import com.xk.car.domain.service.VehiclePartsUsageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 /**
@@ -31,6 +33,7 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
     private final VehiclePartsUsageMapper mapper;
     private final VehiclePartsUsageService service;
 
+    @Transactional
     @Override
     public VehiclePartsUsageResponse create(VehiclePartsUsageRequest request) {
         VehiclePartsUsageBo result;
@@ -47,6 +50,10 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
 
             result = service.create(cmd);
             response =  mapper.toResponseDto(result);
+            response.setMileage(String.valueOf(result.getMileage()));
+            response.setCost(String.valueOf(result.getCost()));
+            response.setUsedAt(String.valueOf(result.getUsedAt()));
+            response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
 
 
         }else{
@@ -54,8 +61,10 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
             var cmd = mapper.toUpdateCmd(request);
             result = service.update(UUID.fromString(request.getUuid()) , cmd);
             response =  mapper.toResponseDto(result);
-            response.setUpdatedTime(result.getUpdatedTime());
-            response.setCreatedTime(result.getCreatedTime());
+            response.setUpdatedTime(String.valueOf(ZonedDateTime.now()));
+            response.setMileage(String.valueOf(result.getMileage()));
+            response.setCost(String.valueOf(result.getCost()));
+            response.setUsedAt(String.valueOf(result.getUsedAt()));
         }
 
 

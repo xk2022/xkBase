@@ -18,7 +18,6 @@ import java.util.UUID;
 @Data
 public class VehicleMaintenanceEntity {
 
-    private Long vehicleId;
     private UUID uuid;
     private String carId;
     private Boolean deleted = false;
@@ -30,15 +29,16 @@ public class VehicleMaintenanceEntity {
     private ReminderTypeEnum reminderType;
     private BigDecimal nextDueMileage;
     private Date nextDueDate;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
-    private LocalDateTime deletedTime;
+    private ZonedDateTime createdTime;
+    private ZonedDateTime updatedTime;
+    private ZonedDateTime deletedTime;
+    private String createdBy;
 
     /**
      * 初始化車輛提醒監控
      */
     public void initialize(){
-        this.createdAt = ZonedDateTime.now();
+        this.createdTime = ZonedDateTime.now();
     }
 
 

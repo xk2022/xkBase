@@ -50,10 +50,10 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
 
             result = service.create(cmd);
             response =  mapper.toResponseDto(result);
-            response.setVehicleType(result.getVehicleType().toString());
-            response.setMileage(result.getMileage().toString());
-            response.setStatus(result.getStatus().toString());
-            response.setCreatedTime(result.getCreatedTime().toString());
+            response.setVehicleType(String.valueOf(result.getVehicleType()));
+            response.setMileage(String.valueOf(result.getMileage()));
+            response.setStatus(String.valueOf(result.getStatus()));
+            response.setCreatedTime(String.valueOf(result.getCreatedTime()));
         } else {
             log.info("[UseCase] 更新車輛資訊 uuid={}, request={}", createDTO.getUuid(), createDTO);
             var cmd = mapper.toUpdateCmd(createDTO);
@@ -65,11 +65,10 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
             cmd.setStatus(status);
             result = service.update(UUID.fromString(createDTO.getUuid()), cmd);
             response =  mapper.toResponseDto(result);
-            response.setVehicleType(result.getVehicleType().toString());
-            response.setMileage(result.getMileage().toString());
-            response.setStatus(result.getStatus().toString());
-            response.setCreatedTime(result.getCreatedTime().toString());
-            response.setUpdatedTime(result.getUpdatedTime().toString());
+            response.setVehicleType(String.valueOf(result.getVehicleType()));
+            response.setMileage(String.valueOf(result.getMileage()));
+            response.setStatus(String.valueOf(result.getStatus()));
+            response.setUpdatedTime(String.valueOf(result.getUpdatedTime()));
         }
 
         return response;

@@ -24,7 +24,9 @@ public class VehicleMaintenanceCreateCmd {
     private ReminderTypeEnum reminderType;
     private BigDecimal nextDueMileage;
     private Date nextDueDate;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
-    private LocalDateTime deletedTime;
+    private String createdBy;
+    private String updatedBy;
+    private ZonedDateTime createdTime;
+    private ZonedDateTime updatedTime;
+    private ZonedDateTime deletedTime;
 }

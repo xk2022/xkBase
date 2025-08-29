@@ -1,26 +1,26 @@
 package com.xk.car.application.model;
 
-
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
+/**
+ *  車輛狀態管理
+ *   @author hank Created on 2025/08/29.
+ */
 @Data
-public class VehiclePartsUsageResponse {
+public class VehicleStatusLogsResponse {
 
-    private String uuid;
+
     private String carId;
-    private String partName;
-    private String mileage;
-    private String cost;
-    private String description;
-    private String usedAt;
+    private String status;
+    private String operatorId;
+    private String statusNote;
     private String deleted;
     private String deletedTime;
     private String createdBy;
     private String createdTime;
     private String updatedBy;
     private String updatedTime;
+
 }

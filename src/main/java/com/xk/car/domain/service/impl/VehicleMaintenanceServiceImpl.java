@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 
@@ -54,6 +55,7 @@ public class VehicleMaintenanceServiceImpl implements VehicleMaintenanceService 
         existing.setNextDueMileage(cmd.getNextDueMileage());
         existing.setMaintenanceDate(cmd.getMaintenanceDate());
         existing.setCarId(cmd.getCarId());
+        existing.setUpdatedTime(ZonedDateTime.now());
 
         var saved = repository.save(existing);
         return mapper.toBo(saved);

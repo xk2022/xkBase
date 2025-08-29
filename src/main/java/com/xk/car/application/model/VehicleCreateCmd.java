@@ -35,9 +35,14 @@ public class VehicleCreateCmd {
     @Schema(description = "車輛狀態")
     private VehicleStatusEnum status;
 
+    @Schema(description = "創建者")
+    private String createdBy;
+
+    @Schema(description = "編輯者")
+    private String updatedBy;
 
     @Schema(description = "編輯時間")
-    private ZonedDateTime updatedAt;
+    private ZonedDateTime updatedTime;
 
 
 }

@@ -1,25 +1,13 @@
-package com.xk.car.domain.model.entity;
-
+package com.xk.car.application.model;
 
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.UuidGenerator;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-
-/**
- *車輛狀態管理
- * Hank create 8/11
- */
 @Data
-public class VehicleStatusLogsEntity {
+public class VehicleStatusLogsCmd {
 
     private UUID uuid;
     private String carId;
@@ -27,8 +15,10 @@ public class VehicleStatusLogsEntity {
     private Integer operatorId;
     private String statusNote;
     private String createdBy;
-    private ZonedDateTime createdTime;
     private String updatedBy;
+    private ZonedDateTime createdTime;
     private ZonedDateTime updatedTime;
+    private ZonedDateTime deletedTime;
+    private Boolean deleted = false;
 
 }

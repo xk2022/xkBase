@@ -7,9 +7,24 @@ import java.util.UUID;
 
 public interface VehiclePartsUsageService {
 
+    /**
+     *
+     * @param cmd
+     * @return
+     */
     VehiclePartsUsageBo create(VehiclePartsUsageCmd cmd);
 
+    /**
+     *
+     * @param uuid
+     * @param cmd
+     * @return
+     */
     VehiclePartsUsageBo update(UUID uuid, VehiclePartsUsageCmd cmd);
 
+    /**
+     *
+     * @param uuid
+     */
     void delete(UUID uuid);
 }

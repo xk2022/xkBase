@@ -22,7 +22,6 @@ import java.util.UUID;
 @Data
 public class VehiclePartsUsageEntity {
 
-    private Long vehicleId;
     private UUID uuid;
     private String carId;
     private String partName;
@@ -30,16 +29,18 @@ public class VehiclePartsUsageEntity {
     private BigDecimal cost;
     private String description;
     private Date usedAt;
-    private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
+    private ZonedDateTime createdTime;
+    private ZonedDateTime updatedTime;
     private LocalDateTime deletedTime;
     private Boolean deleted = false;
+    private String createdBy;
+    private String updatedBy;
 
     /**
      * 初始化
      */
     public void initialize(){
-        this.createdAt = ZonedDateTime.now();
+        this.createdTime = ZonedDateTime.now();
     }
 
 
