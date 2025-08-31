@@ -11,6 +11,7 @@ public class VehicleStatusLogsCmd {
 
     private UUID uuid;
     private String carId;
+    private String driverId;
     private VehicleStatusEnum status;
     private Integer operatorId;
     private String statusNote;

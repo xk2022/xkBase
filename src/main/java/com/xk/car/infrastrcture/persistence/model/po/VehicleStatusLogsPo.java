@@ -41,6 +41,10 @@ public class VehicleStatusLogsPo extends SoftDeletableEntity implements Serializ
     @Comment("關聯車輛")
     private String carId;
 
+    @Column(name="driver_id")
+    @Comment("司機ID")
+    private String driverId;
+
     @Column(name = "status" , nullable = false)
     @Comment("車輛狀態")
     private VehicleStatusEnum status;

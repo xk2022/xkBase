@@ -21,17 +21,22 @@ public class DateCoverUtils {
         return date;
     }
 
-    public  ZonedDateTime parseZdt(String s, ZoneId defaultZone) {
-        if (s == null) throw new IllegalArgumentException("input is null");
-        String in = s.trim();
+    /**
+     * 將字串轉換程 ZonedDateTime
+     * @param time
+     * @return ZonedDateTime
+     */
+    public  ZonedDateTime parseZdt(String time) {
+        if (time == null) throw new IllegalArgumentException("input is null");
+        String in = time.trim();
         if (in.isEmpty()) throw new IllegalArgumentException("input is blank");
 
         // 數字：Epoch 秒或毫秒
         if (in.matches("^\\d{10}$")) {                 // 10 位：秒
-            return Instant.ofEpochSecond(Long.parseLong(in)).atZone(defaultZone);
+            return Instant.ofEpochSecond(Long.parseLong(in)).atZone(ZoneId.of("[Asia/Taipei]"));
         }
         if (in.matches("^\\d{13}$")) {                 // 13 位：毫秒
-            return Instant.ofEpochMilli(Long.parseLong(in)).atZone(defaultZone);
+            return Instant.ofEpochMilli(Long.parseLong(in)).atZone(ZoneId.of("[Asia/Taipei]"));
         }
 
         // 先試有時區的格式
@@ -41,7 +46,7 @@ public class DateCoverUtils {
 
         try { // 例：2024-12-06T10:15:30+08:00（只有 offset）
             OffsetDateTime odt = OffsetDateTime.parse(in, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            return odt.toInstant().atZone(defaultZone);
+            return odt.toInstant().atZone(ZoneId.of("[Asia/Taipei]"));
         } catch (DateTimeParseException ignore) {}
 
         // 沒帶時區 → 視為 local，套 defaultZone
@@ -55,7 +60,7 @@ public class DateCoverUtils {
         for (DateTimeFormatter f : localDateTimeFormats) {
             try {
                 LocalDateTime ldt = LocalDateTime.parse(in, f);
-                return ldt.atZone(defaultZone);
+                return ldt.atZone(ZoneId.of("[Asia/Taipei]"));
             } catch (DateTimeParseException ignore) {}
         }
 
@@ -67,10 +72,10 @@ public class DateCoverUtils {
         for (DateTimeFormatter f : dateOnlyFormats) {
             try {
                 LocalDate d = LocalDate.parse(in, f);
-                return d.atStartOfDay(defaultZone);
+                return d.atStartOfDay(ZoneId.of("[Asia/Taipei]"));
             } catch (DateTimeParseException ignore) {}
         }
 
-        throw new IllegalArgumentException("Unsupported datetime format: \"" + s + "\"");
+        throw new IllegalArgumentException("Unsupported datetime format: \"" + time + "\"");
     }
 }

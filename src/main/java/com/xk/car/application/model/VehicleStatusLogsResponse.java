@@ -13,6 +13,7 @@ public class VehicleStatusLogsResponse {
 
 
     private String carId;
+    private String driverId;
     private String status;
     private String operatorId;
     private String statusNote;
