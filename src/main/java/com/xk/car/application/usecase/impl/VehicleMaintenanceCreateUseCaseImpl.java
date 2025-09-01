@@ -44,62 +44,31 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
     @Transactional
     @Override
     public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) throws ParseException {
-        VehicleMaintenanceBo result;
-        VehicleMaintenanceResponse response = new VehicleMaintenanceResponse();
-        if(createDTO.getUuid() == null){
-            log.info("[UseCase] 建立車輛維修資訊request={}", createDTO);
-            MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
-            ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
-            Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
-            Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
-            BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
-            var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
-            cmd.setMaintenanceType(maintenanceType);
-            cmd.setReminderType(reminderTypeEnum);
-            cmd.setMaintenanceDate(maintenanceDate);
-            cmd.setNextDueDate(nextDueDate);
-            cmd.setMileageAt(mileageAt);
+        log.info("[UseCase] {}車輛維修資訊request={}", createDTO.getUuid() == null?"建立":"更新",  createDTO);
+        MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
+        ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
+        Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
+        Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
+        BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
+        var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
+        cmd.setMaintenanceType(maintenanceType);
+        cmd.setReminderType(reminderTypeEnum);
+        cmd.setMaintenanceDate(maintenanceDate);
+        cmd.setNextDueDate(nextDueDate);
+        cmd.setMileageAt(mileageAt);
 
-            result = service.create(cmd);
-
-            response = mapper.toResponseDto(result);
-            response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
-            response.setMileageAt(String.valueOf(result.getMileageAt()));
-            response.setMaintenanceDate(String.valueOf(result.getMaintenanceDate()));
-            response.setNextDueDate(String.valueOf(result.getNextDueDate()));
-            response.setCost(String.valueOf(result.getCost()));
-            response.setReminderType(String.valueOf(result.getReminderType()));
-            response.setNextDueMileage(String.valueOf(result.getNextDueMileage()));
-            response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
-
-        }else{
-            log.info("[UseCase] 更新車輛維修資訊request={}", createDTO);
-            MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
-            ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
-            Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
-            Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
-            BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
-
-            var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
-            cmd.setMaintenanceType(maintenanceType);
-            cmd.setReminderType(reminderTypeEnum);
-            cmd.setMaintenanceDate(maintenanceDate);
-            cmd.setNextDueDate(nextDueDate);
-            cmd.setMileageAt(mileageAt);
-            result = service.update(UUID.fromString(createDTO.getUuid()),cmd);
-
-            response = mapper.toResponseDto(result);
-            response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
-            response.setMileageAt(String.valueOf(result.getMileageAt()));
-            response.setMaintenanceDate(String.valueOf(result.getMaintenanceDate()));
-            response.setNextDueDate(String.valueOf(result.getNextDueDate()));
-            response.setCost(String.valueOf(result.getCost()));
-            response.setReminderType(String.valueOf(result.getReminderType()));
-            response.setNextDueMileage(String.valueOf(result.getNextDueMileage()));
-            response.setUpdatedTime(String.valueOf(ZonedDateTime.now()));
-
-
-        }
+        VehicleMaintenanceBo result = (createDTO.getUuid() == null)
+                ? service.create(cmd)
+                :service.update(UUID.fromString(createDTO.getUuid()),cmd);
+        VehicleMaintenanceResponse response =  mapper.toResponseDto(result);
+        response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
+        response.setMileageAt(String.valueOf(result.getMileageAt()));
+        response.setMaintenanceDate(String.valueOf(result.getMaintenanceDate()));
+        response.setNextDueDate(String.valueOf(result.getNextDueDate()));
+        response.setCost(String.valueOf(result.getCost()));
+        response.setReminderType(String.valueOf(result.getReminderType()));
+        response.setNextDueMileage(String.valueOf(result.getNextDueMileage()));
+        response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
 
         return response;
     }

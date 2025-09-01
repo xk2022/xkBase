@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * 📌 `VehicleStatusLogsService`
  * <p>
@@ -16,4 +18,8 @@ import org.springframework.stereotype.Service;
 public interface VehicleStatusLogsService {
 
     VehicleStatusLogsBo create(VehicleStatusLogsCmd cmd);
+
+    VehicleStatusLogsBo update(UUID uuid, VehicleStatusLogsCmd cmd);
+
+    void delete(UUID uuid);
 }

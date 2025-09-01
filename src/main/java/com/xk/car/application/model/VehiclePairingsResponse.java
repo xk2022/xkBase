@@ -13,7 +13,6 @@ import java.util.UUID;
 @Data
 public class VehiclePairingsResponse {
 
-    private String uuid;
     private String headId;
     private String trailerId;
     private String bindTime;

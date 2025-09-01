@@ -38,38 +38,23 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
     @Transactional
     @Override
     public VehicleResponse create(VehicleRequest createDTO) {
-        VehicleBo result;
-        VehicleResponse response = new VehicleResponse();
-        if (createDTO.getUuid() == null) {
-            log.info("[UseCase] 建立車輛資訊 request={}", createDTO);
-            VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
-            BigDecimal mileage = new BigDecimal(createDTO.getMileage());
-            var cmd = mapper.toCreateVehicleCmd(createDTO);
-            cmd.setVehicleType(vehicleType);
-            cmd.setMileage(mileage);
+        log.info("[UseCase] {}建立車輛資訊 request={}", createDTO.getUuid() ==null ?"建立":"更新",createDTO);
+        VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
+        BigDecimal mileage = new BigDecimal(createDTO.getMileage());
+        var cmd = mapper.toCreateVehicleCmd(createDTO);
+        cmd.setVehicleType(vehicleType);
+        cmd.setMileage(mileage);
 
-            result = service.create(cmd);
-            response =  mapper.toResponseDto(result);
-            response.setVehicleType(String.valueOf(result.getVehicleType()));
-            response.setMileage(String.valueOf(result.getMileage()));
-            response.setStatus(String.valueOf(result.getStatus()));
-            response.setCreatedTime(String.valueOf(result.getCreatedTime()));
-        } else {
-            log.info("[UseCase] 更新車輛資訊 uuid={}, request={}", createDTO.getUuid(), createDTO);
-            var cmd = mapper.toUpdateCmd(createDTO);
-            VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
-            VehicleStatusEnum status = VehicleStatusEnum.fromString(createDTO.getStatus());
-            BigDecimal mileage = new BigDecimal(createDTO.getMileage());
-            cmd.setVehicleType(vehicleType);
-            cmd.setMileage(mileage);
-            cmd.setStatus(status);
-            result = service.update(UUID.fromString(createDTO.getUuid()), cmd);
-            response =  mapper.toResponseDto(result);
-            response.setVehicleType(String.valueOf(result.getVehicleType()));
-            response.setMileage(String.valueOf(result.getMileage()));
-            response.setStatus(String.valueOf(result.getStatus()));
-            response.setUpdatedTime(String.valueOf(result.getUpdatedTime()));
-        }
+        VehicleBo result = (createDTO.getUuid()==null)
+                ? service.create(cmd)
+                : service.update(UUID.fromString(createDTO.getUuid()), cmd);
+
+        VehicleResponse response =  mapper.toResponseDto(result);
+        response.setVehicleType(String.valueOf(result.getVehicleType()));
+        response.setMileage(String.valueOf(result.getMileage()));
+        response.setStatus(String.valueOf(result.getStatus()));
+        response.setCreatedTime(String.valueOf(result.getCreatedTime()));
+
 
         return response;
     }

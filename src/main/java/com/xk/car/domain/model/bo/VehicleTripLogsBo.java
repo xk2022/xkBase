@@ -1,25 +1,17 @@
-package com.xk.car.domain.model.entity;
+package com.xk.car.domain.model.bo;
 
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 /**
- * 車輛里程
- * create by hank
+ * @author hank create 2025/09/01
  */
 @Data
-public class VehicleTripLogsEntity {
+public class VehicleTripLogsBo {
 
     private UUID uuid;
     private String carId;
@@ -34,8 +26,4 @@ public class VehicleTripLogsEntity {
     private ZonedDateTime createdTime;
     private String updatedBy;
     private ZonedDateTime updatedTime;
-
-    public void initialize() {
-        this.createdTime = ZonedDateTime.now();
-    }
 }

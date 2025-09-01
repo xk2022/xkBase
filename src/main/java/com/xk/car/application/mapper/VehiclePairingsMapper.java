@@ -2,6 +2,7 @@ package com.xk.car.application.mapper;
 
 import com.xk.car.application.model.VehiclePairingsCmd;
 import com.xk.car.application.model.VehiclePairingsRequest;
+import com.xk.car.application.model.VehiclePairingsResponse;
 import com.xk.car.domain.model.bo.VehiclePairingsBo;
 import com.xk.car.domain.model.entity.VehiclePairingsEntity;
 import com.xk.car.infrastrcture.persistence.model.po.VehiclePairingsPo;
@@ -26,4 +27,9 @@ public class VehiclePairingsMapper {
     public VehiclePairingsBo toBo(VehiclePairingsPo saved) {
         return XkBeanUtils.copyProperties(saved , VehiclePairingsBo::new);
     }
+
+    public VehiclePairingsResponse toResponse(VehiclePairingsBo result) {
+        return XkBeanUtils.copyProperties(result,VehiclePairingsResponse::new);
+    }
+
 }

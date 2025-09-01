@@ -37,7 +37,7 @@ public class VehicleMaintenanceController {
     private final VehicleMaintenanceDeleteUseCase vehicleMaintenanceDeleteUseCase;
 
     @PostMapping("/save")
-    public BaseResult<VehicleMaintenanceResponse> createOrUpdateVehicleMaintenance(
+    public BaseResult<VehicleMaintenanceResponse> create(
             @RequestBody @Valid VehicleMaintenanceRequest request
     ) throws ParseException {
         VehicleMaintenanceResponse response = vehicleMaintenanceCreateUseCase.create(request);

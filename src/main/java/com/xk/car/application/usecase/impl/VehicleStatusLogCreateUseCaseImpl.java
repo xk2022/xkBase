@@ -3,6 +3,7 @@ package com.xk.car.application.usecase.impl;
 import com.xk.car.application.mapper.VehicleStatusLogsMapper;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleStatusLogsCmd;
+import com.xk.car.application.model.VehicleStatusLogsRequest;
 import com.xk.car.application.model.VehicleStatusLogsResponse;
 import com.xk.car.application.usecase.VehicleStatusLogCreateUseCase;
 import com.xk.car.domain.model.bo.VehicleStatusLogsBo;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * 📌 `VehicleStatusLogCreateUseCaseImpl` - 负责車輛狀態管理的创建逻辑
@@ -34,25 +36,22 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
 
     @Transactional
     @Override
-    public VehicleStatusLogsResponse create(VehicleRequest request) {
-        VehicleStatusLogsBo result;
-        VehicleStatusLogsResponse response = new VehicleStatusLogsResponse();
-        if(request.getUuid() == null || StringUtil.isBlank(request.getUuid())){
-            log.info("[UseCase] 建立車輛狀態資訊 request={} " , request);
-            VehicleStatusEnum status = VehicleStatusEnum.fromString(request.getStatus());
-            var cmd = mapper.toTransCmd(request);
-            cmd.setStatus(status);
+    public VehicleStatusLogsResponse create(VehicleStatusLogsRequest request) {
+        log.info("[UseCase] {}車輛狀態資訊 request={} " , request.getUuid() == null?"建立":"更新" , request);
+        VehicleStatusEnum status = VehicleStatusEnum.fromString(request.getStatus());
+        var cmd = mapper.toTransCmd(request);
+        cmd.setStatus(status);
+        cmd.setOperatorId(Integer.parseInt(request.getOperatorId()));
 
-            result = service.create(cmd);
-            response = mapper.toResponseDto(result);
-            response.setStatus(String.valueOf(result.getStatus()));
-            response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
-            response.setOperatorId(String.valueOf(result.getOperatorId()));
-        }else {
-            log.info("[UseCase] 更新車輛狀態資訊 request={} " , request);
-        }
+        VehicleStatusLogsBo result =(request.getUuid() == null)
+                    ?service.create(cmd)
+                    :service.update(UUID.fromString(request.getUuid()) , cmd);
 
+        VehicleStatusLogsResponse response =mapper.toResponseDto(result);
+        response.setStatus(String.valueOf(result.getStatus()));
+        response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
+        response.setOperatorId(String.valueOf(result.getOperatorId()));
 
-        return null;
+        return response;
     }
 }

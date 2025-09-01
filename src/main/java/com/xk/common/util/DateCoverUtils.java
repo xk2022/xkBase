@@ -14,6 +14,7 @@ import java.util.List;
 @Component
 public class DateCoverUtils {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_ZONED_DATE_TIME;
 
     public  Date StringCoverToDate(String dateStr) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -27,55 +28,13 @@ public class DateCoverUtils {
      * @return ZonedDateTime
      */
     public  ZonedDateTime parseZdt(String time) {
-        if (time == null) throw new IllegalArgumentException("input is null");
-        String in = time.trim();
-        if (in.isEmpty()) throw new IllegalArgumentException("input is blank");
-
-        // 數字：Epoch 秒或毫秒
-        if (in.matches("^\\d{10}$")) {                 // 10 位：秒
-            return Instant.ofEpochSecond(Long.parseLong(in)).atZone(ZoneId.of("[Asia/Taipei]"));
+        if (time == null || time.isBlank()) {
+            throw new IllegalArgumentException("bindTime/unbindTime 不能為空");
         }
-        if (in.matches("^\\d{13}$")) {                 // 13 位：毫秒
-            return Instant.ofEpochMilli(Long.parseLong(in)).atZone(ZoneId.of("[Asia/Taipei]"));
+        try {
+            return ZonedDateTime.parse(time, FORMATTER);
+        } catch (DateTimeParseException e) {
+            return ZonedDateTime.now();
         }
-
-        // 先試有時區的格式
-        try { // 例：2024-12-06T10:15:30+08:00[Asia/Taipei]
-            return ZonedDateTime.parse(in, DateTimeFormatter.ISO_ZONED_DATE_TIME);
-        } catch (DateTimeParseException ignore) {}
-
-        try { // 例：2024-12-06T10:15:30+08:00（只有 offset）
-            OffsetDateTime odt = OffsetDateTime.parse(in, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            return odt.toInstant().atZone(ZoneId.of("[Asia/Taipei]"));
-        } catch (DateTimeParseException ignore) {}
-
-        // 沒帶時區 → 視為 local，套 defaultZone
-        List<DateTimeFormatter> localDateTimeFormats = new ArrayList<>();
-        localDateTimeFormats.add(DateTimeFormatter.ISO_LOCAL_DATE_TIME);                // 2024-12-06T10:15:30
-        localDateTimeFormats.add(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   // 2024-12-06 10:15:30
-        localDateTimeFormats.add(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));   // 2024/12/06 10:15:30
-        localDateTimeFormats.add(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
-        localDateTimeFormats.add(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS"));
-
-        for (DateTimeFormatter f : localDateTimeFormats) {
-            try {
-                LocalDateTime ldt = LocalDateTime.parse(in, f);
-                return ldt.atZone(ZoneId.of("[Asia/Taipei]"));
-            } catch (DateTimeParseException ignore) {}
-        }
-
-        // 只有日期 → 當天 00:00
-        List<DateTimeFormatter> dateOnlyFormats = List.of(
-                DateTimeFormatter.ISO_LOCAL_DATE,                       // 2024-12-06
-                DateTimeFormatter.ofPattern("yyyy/MM/dd")               // 2024/12/06
-        );
-        for (DateTimeFormatter f : dateOnlyFormats) {
-            try {
-                LocalDate d = LocalDate.parse(in, f);
-                return d.atStartOfDay(ZoneId.of("[Asia/Taipei]"));
-            } catch (DateTimeParseException ignore) {}
-        }
-
-        throw new IllegalArgumentException("Unsupported datetime format: \"" + time + "\"");
     }
 }

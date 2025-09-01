@@ -45,7 +45,7 @@ public class VehicleController {
 
     @Operation(summary = "新增或更新車輛資訊", description = "新增或更新一台車輛記錄")
     @PostMapping("/save")
-    public BaseResult<VehicleResponse> createOrUpdateVehicle(
+    public BaseResult<VehicleResponse> create(
             @RequestBody @Valid VehicleRequest vehicleRequest
     ){
         VehicleResponse result =vehicleCreateUseCase.create(vehicleRequest);

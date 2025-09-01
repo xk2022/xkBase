@@ -32,4 +32,7 @@ public class VehicleStatusLogsEntity {
     private String updatedBy;
     private ZonedDateTime updatedTime;
 
+    public void initialize() {
+        this.createdTime = ZonedDateTime.now();
+    }
 }

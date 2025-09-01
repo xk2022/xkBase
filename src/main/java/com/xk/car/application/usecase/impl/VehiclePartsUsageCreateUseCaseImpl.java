@@ -36,37 +36,22 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
     @Transactional
     @Override
     public VehiclePartsUsageResponse create(VehiclePartsUsageRequest request) {
-        VehiclePartsUsageBo result;
-        VehiclePartsUsageResponse response = new VehiclePartsUsageResponse();
+        log.info("[UseCase] {}耗損與維修項目紀錄 request={} " ,request.getUuid() ==null?"建立":"更新" ,request);
+        BigDecimal cost = new BigDecimal(request.getCost());
+        BigDecimal mileage = new BigDecimal(request.getMileage());
 
-        if (request.getUuid() ==null){
-            log.info("建立耗損與維修項目紀錄 request={}" , request);
-            BigDecimal cost = new BigDecimal(request.getCost());
-            BigDecimal mileage = new BigDecimal(request.getMileage());
+        var cmd =  mapper.toCreateVehiclePartsUsageCmd(request);
+        cmd.setCost(cost);
+        cmd.setMileage(mileage);
 
-            var cmd =  mapper.toCreateVehiclePartsUsageCmd(request);
-            cmd.setCost(cost);
-            cmd.setMileage(mileage);
-
-            result = service.create(cmd);
-            response =  mapper.toResponseDto(result);
-            response.setMileage(String.valueOf(result.getMileage()));
-            response.setCost(String.valueOf(result.getCost()));
-            response.setUsedAt(String.valueOf(result.getUsedAt()));
-            response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
-
-
-        }else{
-            log.info("更新耗損與維修項目紀錄 request={}" , request);
-            var cmd = mapper.toUpdateCmd(request);
-            result = service.update(UUID.fromString(request.getUuid()) , cmd);
-            response =  mapper.toResponseDto(result);
-            response.setUpdatedTime(String.valueOf(ZonedDateTime.now()));
-            response.setMileage(String.valueOf(result.getMileage()));
-            response.setCost(String.valueOf(result.getCost()));
-            response.setUsedAt(String.valueOf(result.getUsedAt()));
-        }
-
+        VehiclePartsUsageBo result =  (request.getUuid() ==null)
+                ? service.create(cmd)
+                : service.update(UUID.fromString(request.getUuid()) , cmd);
+        VehiclePartsUsageResponse response = mapper.toResponseDto(result);;
+        response.setMileage(String.valueOf(result.getMileage()));
+        response.setCost(String.valueOf(result.getCost()));
+        response.setUsedAt(String.valueOf(result.getUsedAt()));
+        response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
 
         return response;
     }
