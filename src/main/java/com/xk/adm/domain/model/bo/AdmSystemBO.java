@@ -1,6 +1,7 @@
 package com.xk.adm.domain.model.bo;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import lombok.Data;
 
@@ -20,6 +21,6 @@ public class AdmSystemBO {
 	private String description; // 系統描述
 	private Boolean enabled; // 系統是否啟用
 	private Boolean deleted; // 是否已刪除（軟刪除標誌）
-	private LocalDateTime createdAt; // 創建時間
-	private LocalDateTime updatedAt; // 更新時間
+	private ZonedDateTime createdTime; // 創建時間
+	private ZonedDateTime updatedTime; // 更新時間
 }
