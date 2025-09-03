@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UpmsRolePermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, Long> {
+public interface UpmsRolePermissionActionRepository extends JpaRepository<UpmsRolePermissionAction, UUID> {
 
-    List<UpmsRolePermissionAction> findByIsDeletedFalseAndRoleUuidAndPermissionUuidIn(UUID roleUuid, List<UUID> upmsPermissionUuids);
+    List<UpmsRolePermissionAction> findByDeletedFalseAndRoleUuidAndPermissionUuidIn(UUID roleUuid, List<UUID> upmsPermissionUuids);
 
 }

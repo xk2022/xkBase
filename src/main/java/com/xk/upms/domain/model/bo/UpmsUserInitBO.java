@@ -1,6 +1,7 @@
 package com.xk.upms.domain.model.bo;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,13 +23,23 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsUserInitBO {
 
-	private String createdBy;
-	private ZonedDateTime createdTime;
-
+	private UUID uuid;
 	private String account;
 	private String username;
 	private String email;
 	private String cellPhone;
 	private String password;
+
+	private Boolean deleted;
+
+	private ZonedDateTime deletedTime;
+
+	private String createdBy;
+
+	private ZonedDateTime createdTime;
+
+	private String updatedBy;
+
+	private ZonedDateTime updatedTime;
 
 }

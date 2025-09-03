@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UpmsUserRoleRepository extends JpaRepository<UpmsUserRole, Long>, JpaSpecificationExecutor<UpmsUserRole> {
+public interface UpmsUserRoleRepository extends JpaRepository<UpmsUserRole, UUID>, JpaSpecificationExecutor<UpmsUserRole> {
 
     Optional<UpmsUserRole> findByUserUuid(UUID userUuid);
 

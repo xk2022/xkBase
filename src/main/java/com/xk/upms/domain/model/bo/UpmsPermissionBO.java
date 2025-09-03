@@ -26,10 +26,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsPermissionBO {
-	/**
-	 * 權限ID
-	 */
-	private Long permissionId;
+
+	private UUID uuid;
 
 	/**
 	 * 所屬系統
@@ -62,24 +60,28 @@ public class UpmsPermissionBO {
 	private Long orders;
 
 	/**
-	 * 是否刪除狀態（0:刪除, 1:未刪除）
-	 */
-	private Boolean isDeleted;
-
-	/**
 	 * 刪除的使用者名稱
 	 */
 	private String deleteUser;
 
-	/**
-	 * 用戶被刪除的時間
-	 */
-	private ZonedDateTime deleteTime;
 
 	/**
 	 * 子權限
 	 */
 	private List<UpmsActionBO> children;
+
+	private Boolean deleted;
+
+	private ZonedDateTime deletedTime;
+
+	private String createdBy;
+
+	private ZonedDateTime createdTime;
+
+	private String updatedBy;
+
+	private ZonedDateTime updatedTime;
+
 //
 //	/**
 //	 * 父權限

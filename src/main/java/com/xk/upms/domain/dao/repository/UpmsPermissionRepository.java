@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UpmsPermissionRepository extends JpaRepository<UpmsPermission, Long> {
+public interface UpmsPermissionRepository extends JpaRepository<UpmsPermission, UUID> {
 
-    List<UpmsPermission> findByIsDeletedFalseOrderByOrdersAsc();
+    List<UpmsPermission> findByDeletedFalseOrderByOrdersAsc();
 
-    List<UpmsPermission> findByIsDeletedFalseAndUuidInOrderByOrdersAsc(List<UUID> upmsPermissionUuids);
+    List<UpmsPermission> findByDeletedFalseAndUuidInOrderByOrdersAsc(List<UUID> upmsPermissionUuids);
 
 }

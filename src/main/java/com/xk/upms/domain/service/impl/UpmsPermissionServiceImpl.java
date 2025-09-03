@@ -26,7 +26,7 @@ public class UpmsPermissionServiceImpl implements UpmsPermissionService {
 
 	@Override
 	public List<UpmsPermission> findAll() {
-		return upmsPermissionRepository.findByIsDeletedFalseOrderByOrdersAsc();
+		return upmsPermissionRepository.findByDeletedFalseOrderByOrdersAsc();
 	}
 
 }

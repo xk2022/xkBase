@@ -13,11 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSpecificationExecutor<UpmsRole> {
+public interface UpmsRoleRepository extends JpaRepository<UpmsRole, UUID>, JpaSpecificationExecutor<UpmsRole> {
 
-    Optional<UpmsRole> findByIsDeletedFalseAndUuid(UUID uuid);
+    Optional<UpmsRole> findByDeletedFalseAndUuid(UUID uuid);
 
-    Optional<UpmsRole> findByIsDeletedFalseAndCode(String code);
+    Optional<UpmsRole> findByDeletedFalseAndCode(String code);
 
     @Query(value =
             """
@@ -27,7 +27,7 @@ public interface UpmsRoleRepository extends JpaRepository<UpmsRole, Long>, JpaSp
                 UpmsRole ur
             WHERE
                 1 = 1
-                AND ur.isDeleted = false
+                AND ur.deleted = false
                 AND
                 (
                     (:keyword IS NULL OR ur.code LIKE CONCAT('%', :keyword, '%')) OR

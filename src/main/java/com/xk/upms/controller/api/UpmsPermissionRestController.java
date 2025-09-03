@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "UpmsPermission Management", description = "提供 UpmsPermission 的管理功能，包括新增、查詢、更新和刪除。")
 @Slf4j
+@Validated
 public class UpmsPermissionRestController {
 
 	private final UpmsPermissionFindUseCase upmsPermissionFindUseCase;

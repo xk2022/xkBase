@@ -60,11 +60,11 @@ public class UpmsRoleCreateUseCaseImpl implements UpmsRoleCreateUseCase {
 	@Override
 	public List<UpmsRoleInitBO> createSampleRoles() {
 		List<UpmsRoleInitBO> roles = new ArrayList<>();
-		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "admin", "系統管理員", "系統管理員", (long) 1));
-		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "sys", "管理員", "管理員", (long) 2));
-		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "boss", "老闆", "老闆", (long) 3));
-		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "accounter", "會計", "會計", (long) 4));
-		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "driver", "司機", "司機", (long) 5));
+//		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "admin", "系統管理員", "系統管理員", (long) 1));
+//		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "sys", "管理員", "管理員", (long) 2));
+//		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "boss", "老闆", "老闆", (long) 3));
+//		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "accounter", "會計", "會計", (long) 4));
+//		roles.add(new UpmsRoleInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "driver", "司機", "司機", (long) 5));
 	    
 		upmsRoleService.saveAllRoles(roles);
 		return roles;

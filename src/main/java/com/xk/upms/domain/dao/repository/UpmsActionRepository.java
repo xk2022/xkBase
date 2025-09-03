@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UpmsActionRepository extends JpaRepository<UpmsAction, Long> {
+public interface UpmsActionRepository extends JpaRepository<UpmsAction, UUID> {
 
-    List<UpmsAction> findByIsDeletedFalseOrderByOrdersAsc();
+    List<UpmsAction> findByDeletedFalseOrderByOrdersAsc();
 
-    List<UpmsAction> findByIsDeletedFalseAndUuidInOrderByOrdersAsc(List<UUID> upmsActionUuids);
+    List<UpmsAction> findByDeletedFalseAndUuidInOrderByOrdersAsc(List<UUID> upmsActionUuids);
 
 }

@@ -26,7 +26,7 @@ public class UpmsActionServiceImpl implements UpmsActionService {
 
 	@Override
 	public List<UpmsAction> findAll() {
-		return upmsActionRepository.findByIsDeletedFalseOrderByOrdersAsc();
+		return upmsActionRepository.findByDeletedFalseOrderByOrdersAsc();
 	}
 
 }

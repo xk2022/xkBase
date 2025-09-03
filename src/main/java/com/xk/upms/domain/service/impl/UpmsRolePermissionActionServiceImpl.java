@@ -20,7 +20,7 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
 
     @Override
     public List<UpmsRolePermissionAction> findAllIn(UUID roleUuid, List<UUID> upmsPermissionUuids) {
-        return upmsRolePermissionActionRepository.findByIsDeletedFalseAndRoleUuidAndPermissionUuidIn(roleUuid, upmsPermissionUuids);
+        return upmsRolePermissionActionRepository.findByDeletedFalseAndRoleUuidAndPermissionUuidIn(roleUuid, upmsPermissionUuids);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
             return;
         }
         for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
-            upmsRolePermissionAction.setIsDeleted(true);
+            upmsRolePermissionAction.setDeleted(true);
         }
         upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
     }
@@ -45,7 +45,7 @@ public class UpmsRolePermissionActionServiceImpl implements UpmsRolePermissionAc
             throw new BusinessException("角色權限動作清單不得為空");
         }
         for(UpmsRolePermissionAction upmsRolePermissionAction : upmsRolePermissionActions){
-            upmsRolePermissionAction.setIsDeleted(false);
+            upmsRolePermissionAction.setDeleted(false);
         }
         upmsRolePermissionActionRepository.saveAll(upmsRolePermissionActions);
     }

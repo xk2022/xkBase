@@ -1,12 +1,16 @@
 package com.xk.car.domain.model.bo;
 
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
-import lombok.Data;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class VehicleStatusLogsBo {
 
     private UUID uuid;

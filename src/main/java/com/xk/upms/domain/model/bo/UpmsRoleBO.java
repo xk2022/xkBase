@@ -25,8 +25,6 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsRoleBO {
 
-	private Long id;
-
 	private UUID uuid;
 	
 	private String code;
@@ -38,10 +36,19 @@ public class UpmsRoleBO {
 	@ToString.Include
 	private Long orders;
 
-    private Boolean isDeleted;
-    
     private String deleteUser;
-    
-    private ZonedDateTime deleteTime;
+
+	private Boolean deleted;
+
+	private ZonedDateTime deletedTime;
+
+	private String createdBy;
+
+	private ZonedDateTime createdTime;
+
+	private String updatedBy;
+
+	private ZonedDateTime updatedTime;
+
 
 }

@@ -7,17 +7,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.xk.common.base.SoftDeletableEntity;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.*;
 
 import com.xk.common.base.BaseEntity;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 /**
@@ -28,20 +29,19 @@ import org.hibernate.type.SqlTypes;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "upms_role")
-public class UpmsRole extends BaseEntity implements Serializable {
+@SQLDelete(sql = "UPDATE upms_role  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
+public class UpmsRole extends SoftDeletableEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "role_id", updatable = false, nullable = false)
-	@Comment("00_流水號") // 描述
-	private Long id;
-
-	@UuidGenerator
+	@GeneratedValue
+	@UuidGenerator(style = UuidGenerator.Style.TIME)
 	@JdbcTypeCode(SqlTypes.VARCHAR)
-	@Column(name = "uuid", length = 36, nullable = false)
+	@Column(name = "uuid", nullable = false, updatable = false, unique = true, length = 36)
 	private UUID uuid;
 
 	@Column(name = "code", nullable = false, length = 100)
@@ -61,11 +61,6 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	@Comment("89_資料排序")
 	private Long orders = 0L;
 
-	/** 📌 刪除狀態（0:刪除, 1:未刪除） */
-	@Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
-	@ColumnDefault("1")
-	@Comment("93_是否刪除狀態（0:刪除, 1:未刪除）")
-	private Boolean isDeleted = false;
 
 	/** 📌 刪除的使用者 */
 	@Size(max = 50, message = "用戶名稱不能超過50個字符") //
@@ -73,10 +68,5 @@ public class UpmsRole extends BaseEntity implements Serializable {
 	@Comment("04_刪除的使用者名稱")
 	private String deleteUser;
 
-	/** 📌 記錄用戶被刪除的時間（記錄登入歷史） */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "deleted_time")
-	@Comment("05_用戶被刪除的時間")
-	private ZonedDateTime deleteTime;
 
 }

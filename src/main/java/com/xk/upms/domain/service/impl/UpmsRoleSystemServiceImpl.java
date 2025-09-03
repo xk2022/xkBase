@@ -21,7 +21,7 @@ public class UpmsRoleSystemServiceImpl implements UpmsRoleSystemService {
             return;
         }
         for(UpmsRoleSystem upmsRoleSystem : upmsRoleSystems){
-            upmsRoleSystem.setIsDeleted(false);
+            upmsRoleSystem.setDeleted(false);
         }
         upmsRoleSystemRepository.saveAll(upmsRoleSystems);
     }
@@ -32,19 +32,19 @@ public class UpmsRoleSystemServiceImpl implements UpmsRoleSystemService {
             return;
         }
         for(UpmsRoleSystem upmsRoleSystem : upmsRoleSystems){
-            upmsRoleSystem.setIsDeleted(true);
+            upmsRoleSystem.setDeleted(true);
         }
         upmsRoleSystemRepository.saveAll(upmsRoleSystems);
     }
 
     @Override
     public List<UpmsRoleSystem> findAll() {
-        return upmsRoleSystemRepository.findByIsDeletedFalse();
+        return upmsRoleSystemRepository.findByDeletedFalse();
     }
 
     @Override
     public List<UpmsRoleSystem> findAllByRoleUuid(UUID roleUuid) {
-        return upmsRoleSystemRepository.findByIsDeletedFalseAndRoleUuidOrderByIdAsc(roleUuid);
+        return upmsRoleSystemRepository.findByDeletedFalseAndRoleUuidOrderByUuidAsc(roleUuid);
     }
 
 }

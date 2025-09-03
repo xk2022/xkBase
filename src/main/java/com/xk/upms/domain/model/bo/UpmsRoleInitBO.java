@@ -1,6 +1,7 @@
 package com.xk.upms.domain.model.bo;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,13 +21,28 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpmsRoleInitBO {
-	
-	private String createdBy;
-	private ZonedDateTime createdTime;
+
+	private UUID uuid;
 
 	private String code;
+
 	private String title;
+
 	private String description;
+
 	private Long orders;
+
+	private Boolean deleted;
+
+	private ZonedDateTime deletedTime;
+
+	private String createdBy;
+
+	private ZonedDateTime createdTime;
+
+	private String updatedBy;
+
+	private ZonedDateTime updatedTime;
+
 
 }

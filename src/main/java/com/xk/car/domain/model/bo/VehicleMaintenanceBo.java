@@ -2,7 +2,7 @@ package com.xk.car.domain.model.bo;
 
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,7 +10,11 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class VehicleMaintenanceBo {
 
     private UUID uuid;

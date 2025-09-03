@@ -23,10 +23,20 @@ public class UpmsRolePermissionBO {
 
     private Boolean active;
 
-    private Boolean isDeleted = false;
-
     private String deleteUser;
 
-    private ZonedDateTime deleteTime;
+    private Boolean deleted;
+
+    private ZonedDateTime deletedTime;
+
+    private String createdBy;
+
+    private ZonedDateTime createdTime;
+
+    private String updatedBy;
+
+    private ZonedDateTime updatedTime;
+
+
 
 }

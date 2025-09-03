@@ -1,6 +1,7 @@
 package com.xk.upms.domain.model.bo;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true) 
 public class UpmsActionBO {
 	
-	private Long id;
+	private UUID uuid;
 	
 	private String actionName;
 	
@@ -29,9 +30,20 @@ public class UpmsActionBO {
 	
 	private Boolean active;
 	
-	private Boolean isDeleted;
-	
 	private String deleteUser;
-	
-	private ZonedDateTime deleteTime;
+
+	private Boolean deleted;
+
+	private ZonedDateTime deletedTime;
+
+	private String createdBy;
+
+	private ZonedDateTime createdTime;
+
+	private String updatedBy;
+
+	private ZonedDateTime updatedTime;
+
+
+
 }

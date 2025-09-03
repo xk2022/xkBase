@@ -1,5 +1,6 @@
 package com.xk.upms.controller.api;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/upms/init")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class UpmsInitRestController {
 
 	private final UpmsUserCreateUseCase upmsUserCreateUseCase;

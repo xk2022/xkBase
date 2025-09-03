@@ -49,13 +49,13 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 			throw new IllegalArgumentException("使用者不能為 null");
 		}
     	log.info("📌 儲存使用者: {}", upmsUserBO.getUsername());
-        upmsUserRepository.findByIsDeletedFalseAndAccount(upmsUserBO.getAccount()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndAccount(upmsUserBO.getAccount()).ifPresent(user -> {
             throw new IllegalArgumentException("帳號重複");
         });
-        upmsUserRepository.findByIsDeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndUsername(upmsUserBO.getUsername()).ifPresent(user -> {
             throw new IllegalArgumentException("使用者名稱重複");
         });
-        upmsUserRepository.findByIsDeletedFalseAndEmail(upmsUserBO.getEmail()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndEmail(upmsUserBO.getEmail()).ifPresent(user -> {
             throw new IllegalArgumentException("信箱名稱重複");
         });
         UpmsUser userPO = XkBeanUtils.copyProperties(upmsUserBO, UpmsUser::new);
@@ -87,9 +87,8 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Transactional(readOnly = true)
     public Optional<UpmsUserBO> findByUuid(UUID uuid) {
         log.info("📌 查詢使用者 UUID: {}", uuid);
-        return upmsUserRepository.findByIsDeletedFalseAndUuid(uuid)
+        return upmsUserRepository.findByDeletedFalseAndUuid(uuid)
                 .map(upmsUser -> new UpmsUserBO(
-                        upmsUser.getId(),
                         upmsUser.getUuid(),
                         upmsUser.getAccount(),
                 		upmsUser.getUsername(),
@@ -101,9 +100,13 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getLocked(),
                         upmsUser.getLastLogin(), 
                         upmsUser.getFailedAttempts(),
-                        upmsUser.getIsDeleted(),
                         upmsUser.getDeleteUser(),
-                        upmsUser.getDeleteTime()
+                        upmsUser.getDeleted(),
+                        upmsUser.getDeletedTime(),
+                        upmsUser.getCreatedBy(),
+                        upmsUser.getCreatedTime(),
+                        upmsUser.getUpdatedBy(),
+                        upmsUser.getUpdatedTime()
                 ));
     }
 
@@ -113,13 +116,12 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	@Override
     public Optional<UpmsUserBO> findByAccount(String account) {
         log.info("📌 查詢帳號，account: {}", account);
-        return upmsUserRepository.findByIsDeletedFalseAndAccount(account)
+        return upmsUserRepository.findByDeletedFalseAndAccount(account)
                 .map(upmsUser -> new UpmsUserBO(
-                        upmsUser.getId(),
                         upmsUser.getUuid(),
                         upmsUser.getAccount(),
-                		upmsUser.getUsername(),
-                		upmsUser.getEmail(),
+                        upmsUser.getUsername(),
+                        upmsUser.getEmail(),
                         upmsUser.getCellPhone(),
                         null,
                         upmsUser.getPassword(),
@@ -127,9 +129,13 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                         upmsUser.getLocked(),
                         upmsUser.getLastLogin(),
                         upmsUser.getFailedAttempts(),
-                        upmsUser.getIsDeleted(),
                         upmsUser.getDeleteUser(),
-                        upmsUser.getDeleteTime()
+                        upmsUser.getDeleted(),
+                        upmsUser.getDeletedTime(),
+                        upmsUser.getCreatedBy(),
+                        upmsUser.getCreatedTime(),
+                        upmsUser.getUpdatedBy(),
+                        upmsUser.getUpdatedTime()
                 ));
     }
 
@@ -143,30 +149,6 @@ public class UpmsUserServiceImpl implements UpmsUserService {
             log.info("📌 查詢所有使用者 (分頁)");
             return upmsUserRepository.findAll(pageable)
                     .map(upmsUser -> new UpmsUserBO(
-                            upmsUser.getId(),
-                            upmsUser.getUuid(),
-                            upmsUser.getAccount(),
-                    		upmsUser.getUsername(),
-                    		upmsUser.getEmail(),
-                            upmsUser.getCellPhone(),
-                            null,
-                            upmsUser.getPassword(),
-                            upmsUser.getEnabled(),
-                            upmsUser.getLocked(),
-                            upmsUser.getLastLogin(),
-                            upmsUser.getFailedAttempts(),
-                            upmsUser.getIsDeleted(),
-                            upmsUser.getDeleteUser(),
-                            upmsUser.getDeleteTime()
-                    ));            
-		} else {
-			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
-			
-			Example<UpmsUser> example = buildExample(request);
-			
-			return upmsUserRepository.findAll(example, pageable)
-					.map(upmsUser -> new UpmsUserBO(
-                            upmsUser.getId(),
                             upmsUser.getUuid(),
                             upmsUser.getAccount(),
                             upmsUser.getUsername(),
@@ -178,9 +160,39 @@ public class UpmsUserServiceImpl implements UpmsUserService {
                             upmsUser.getLocked(),
                             upmsUser.getLastLogin(),
                             upmsUser.getFailedAttempts(),
-                            upmsUser.getIsDeleted(),
                             upmsUser.getDeleteUser(),
-                            upmsUser.getDeleteTime()
+                            upmsUser.getDeleted(),
+                            upmsUser.getDeletedTime(),
+                            upmsUser.getCreatedBy(),
+                            upmsUser.getCreatedTime(),
+                            upmsUser.getUpdatedBy(),
+                            upmsUser.getUpdatedTime()
+                    ));            
+		} else {
+			log.info("📌 查詢所有使用者 (支援條件過濾 + 分頁)");
+			
+			Example<UpmsUser> example = buildExample(request);
+			
+			return upmsUserRepository.findAll(example, pageable)
+					.map(upmsUser -> new UpmsUserBO(
+                            upmsUser.getUuid(),
+                            upmsUser.getAccount(),
+                            upmsUser.getUsername(),
+                            upmsUser.getEmail(),
+                            upmsUser.getCellPhone(),
+                            null,
+                            upmsUser.getPassword(),
+                            upmsUser.getEnabled(),
+                            upmsUser.getLocked(),
+                            upmsUser.getLastLogin(),
+                            upmsUser.getFailedAttempts(),
+                            upmsUser.getDeleteUser(),
+                            upmsUser.getDeleted(),
+                            upmsUser.getDeletedTime(),
+                            upmsUser.getCreatedBy(),
+                            upmsUser.getCreatedTime(),
+                            upmsUser.getUpdatedBy(),
+                            upmsUser.getUpdatedTime()
                     ));
 		}
     }
@@ -204,15 +216,15 @@ public class UpmsUserServiceImpl implements UpmsUserService {
 	public UpmsUserBO update(UUID uuid, UpmsUserBO updateData) {
 		UpmsUserBO reslutBo = new UpmsUserBO();
     	log.info("📌 儲存使用者: {}", updateData.getUsername());
-        upmsUserRepository.findByIsDeletedFalseAndAccount(updateData.getAccount()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndAccount(updateData.getAccount()).ifPresent(user -> {
             throw new IllegalArgumentException("帳號重複");
         });
-        upmsUserRepository.findByIsDeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndUsername(updateData.getUsername()).ifPresent(user -> {
             if(!user.getUuid().equals(updateData.getUuid())){
                 throw new IllegalArgumentException("使用者名稱重複");
             }
         });
-        upmsUserRepository.findByIsDeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
+        upmsUserRepository.findByDeletedFalseAndEmail(updateData.getEmail()).ifPresent(user -> {
             if(!user.getUuid().equals(updateData.getUuid())){
                 throw new IllegalArgumentException("信箱名稱重複");
             }
@@ -231,7 +243,7 @@ public class UpmsUserServiceImpl implements UpmsUserService {
     @Transactional
     public boolean delete(UUID userUuid) {
         log.info("📌 嘗試刪除使用者 UUID: {}", userUuid);
-        return upmsUserRepository.findByIsDeletedFalseAndUuid(userUuid)
+        return upmsUserRepository.findByDeletedFalseAndUuid(userUuid)
                 .map(user -> {
                 	upmsUserRepository.delete(user);
                     log.info("✅ 使用者 UUID: {} 已刪除", userUuid);

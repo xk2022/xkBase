@@ -48,7 +48,7 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 		log.info("📌 開始創建新使用者: {}", request.username());
 		// ✅ 轉換 DTO -> BO
 		UpmsUserBO userBO = XkBeanUtils.copyProperties(request, UpmsUserBO::new);
-		userBO.setIsDeleted(false);
+		userBO.setDeleted(false);
 		userBO.setEnabled(true);
 		userBO.setLocked(false);
 		// ✅ 儲存到 DB
@@ -70,11 +70,11 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         List<UpmsUserInitBO> users = new ArrayList<>();
-	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "ADMIN", "admin@example.com", "admin@example.com", "9099999999", "Aa123456"));
-	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Louis", "louis@example.com", "louis@example.com", "0978628329", passwordEncoder.encode("Aa123456")));
-	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Lisa", "lisa@example.com", "lisa@example.com", "9099999998", passwordEncoder.encode("Aa123456")));
-	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Tim", "tim@example.com", "tim@example.com", "9099999997", passwordEncoder.encode("Aa123456")));
-	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Hank", "hank@example.com", "hank@example.com", "9099999996", passwordEncoder.encode("Aa123456")));
+//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "ADMIN", "admin@example.com", "admin@example.com", "9099999999", "Aa123456"));
+//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Louis", "louis@example.com", "louis@example.com", "0978628329", passwordEncoder.encode("Aa123456")));
+//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Lisa", "lisa@example.com", "lisa@example.com", "9099999998", passwordEncoder.encode("Aa123456")));
+//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Tim", "tim@example.com", "tim@example.com", "9099999997", passwordEncoder.encode("Aa123456")));
+//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Hank", "hank@example.com", "hank@example.com", "9099999996", passwordEncoder.encode("Aa123456")));
 
 		List<UpmsUserBO> userBOs = upmsUserService.saveAllUsers(users);
 		for (UpmsUserBO userBO : userBOs) {

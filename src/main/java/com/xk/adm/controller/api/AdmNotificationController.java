@@ -2,6 +2,7 @@ package com.xk.adm.controller.api;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/adm/notification")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AdmNotificationController {
 
 //    private final AdmNotificationUseCase admNotificationUseCase;

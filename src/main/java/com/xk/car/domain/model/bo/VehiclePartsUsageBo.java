@@ -1,6 +1,6 @@
 package com.xk.car.domain.model.bo;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -8,7 +8,11 @@ import java.util.Date;
 import java.util.UUID;
 
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class VehiclePartsUsageBo {
 
     private UUID uuid;

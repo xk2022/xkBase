@@ -19,6 +19,9 @@ public class AdmSystem {
 	private boolean enabled;
 	private boolean deleted;
 	private ZonedDateTime deletedTime;
+	private ZonedDateTime createdTime; // 創建時間
+	private ZonedDateTime updatedTime; // 更新時間
+
 
 	public void disable() {
 		this.enabled = false;
@@ -26,6 +29,7 @@ public class AdmSystem {
 
 	public void initialize() {
 		this.enabled = true;
+		this.createdTime = ZonedDateTime.now();
 	}
 
 	// 📌 軟刪除邏輯

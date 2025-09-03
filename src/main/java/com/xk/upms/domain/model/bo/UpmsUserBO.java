@@ -22,8 +22,6 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true) // ✅ 避免洩露敏感資料
 public class UpmsUserBO {
 
-    private Long id;
-
     private UUID uuid;
 
     private String account;
@@ -46,11 +44,19 @@ public class UpmsUserBO {
     private ZonedDateTime lastLogin;
     
     private Integer failedAttempts = 0;
-    
-    private Boolean isDeleted;
-    
+
     private String deleteUser;
-    
-    private ZonedDateTime deleteTime;
+
+    private Boolean deleted;
+
+    private ZonedDateTime deletedTime;
+
+    private String createdBy;
+
+    private ZonedDateTime createdTime;
+
+    private String updatedBy;
+
+    private ZonedDateTime updatedTime;
 
 }

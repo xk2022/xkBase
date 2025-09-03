@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface UpmsRoleSystemRepository extends JpaRepository<UpmsRoleSystem, Long> {
+public interface UpmsRoleSystemRepository extends JpaRepository<UpmsRoleSystem, UUID> {
 
-    List<UpmsRoleSystem> findByIsDeletedFalse();
+    List<UpmsRoleSystem> findByDeletedFalse();
 
-    List<UpmsRoleSystem> findByIsDeletedFalseAndRoleUuidOrderByIdAsc(UUID roleUuid);
+    List<UpmsRoleSystem> findByDeletedFalseAndRoleUuidOrderByUuidAsc(UUID roleUuid);
 
 }

@@ -4,6 +4,7 @@ package com.xk.upms.domain.model.bo;
 import lombok.*;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,18 +13,28 @@ import java.time.ZonedDateTime;
 @ToString(onlyExplicitlyIncluded = true)
 public class UpmsRolePermissionActionBO {
 
-    private Long roleId;
+    private UUID uuid;
 
-    private Long permissionId;
+    private UUID roleUuid;
 
-    private Long actionId;
+    private UUID permissionUuid;
+
+    private UUID actionUuid;
 
     private Boolean active;
 
-    private Boolean isDeleted = false;
-
     private String deleteUser;
 
-    private ZonedDateTime deleteTime;
+    private Boolean deleted;
+
+    private ZonedDateTime deletedTime;
+
+    private String createdBy;
+
+    private ZonedDateTime createdTime;
+
+    private String updatedBy;
+
+    private ZonedDateTime updatedTime;
 
 }

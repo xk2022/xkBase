@@ -88,7 +88,7 @@ public class JwtUserDTO implements UserDetails {
         @NoArgsConstructor
         public static class PermissionDTO {
 
-            private Long id;
+            private UUID uuid;
 
             private String name;
 
@@ -103,7 +103,7 @@ public class JwtUserDTO implements UserDetails {
             @NoArgsConstructor
             public static class Action{
 
-                private Long id;
+                private UUID uuid;
 
                 private String name;
 

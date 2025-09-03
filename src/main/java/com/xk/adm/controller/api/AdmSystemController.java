@@ -45,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/adm/system")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AdmSystemController {
 
 	private final AdmSystemCreateUseCase createUseCase;

@@ -2,6 +2,7 @@ package com.xk.adm.controller.api;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/adm/logging")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AdmLoggingMonitorController {
 
 //    private final AdmLoggingUseCase admLoggingUseCase;

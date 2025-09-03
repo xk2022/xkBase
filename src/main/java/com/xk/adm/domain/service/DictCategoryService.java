@@ -1,0 +1,12 @@
+package com.xk.adm.domain.service;
+
+import com.xk.adm.domain.model.bo.DictCategoryBO;
+import com.xk.adm.domain.model.entity.DictCategoryEntity;
+
+import java.util.UUID;
+
+public interface DictCategoryService {
+    DictCategoryBO create(DictCategoryEntity entity);
+
+    DictCategoryBO update(UUID uuid, DictCategoryEntity entity);
+}

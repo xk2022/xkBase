@@ -18,7 +18,7 @@ import java.util.UUID;
  * operations, and supports custom queries.
  */
 @Repository
-public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSpecificationExecutor<UpmsUser> {
+public interface UpmsUserRepository extends JpaRepository<UpmsUser, UUID>, JpaSpecificationExecutor<UpmsUser> {
 
 	/**
 	 * Finds a user by name.
@@ -26,7 +26,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @param username the name of the user.
 	 * @return an {@link Optional} containing the user, if found.
 	 */
-	Optional<UpmsUser> findByIsDeletedFalseAndUsername(String username);
+	Optional<UpmsUser> findByDeletedFalseAndUsername(String username);
 
 	/**
 	 * Finds a user by name.
@@ -34,7 +34,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @param account the name of the user.
 	 * @return an {@link Optional} containing the user, if found.
 	 */
-	Optional<UpmsUser> findByIsDeletedFalseAndAccount(String account);
+	Optional<UpmsUser> findByDeletedFalseAndAccount(String account);
 
 
 	/**
@@ -44,9 +44,9 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
 	 * @return an {@link Optional} containing the user, if found.
 	 */
 	@Query("SELECT u FROM UpmsUser u WHERE u.email = :email")
-	Optional<UpmsUser> findByIsDeletedFalseAndEmail(@Param("email") String email);
+	Optional<UpmsUser> findByDeletedFalseAndEmail(@Param("email") String email);
 
-	Optional<UpmsUser> findByIsDeletedFalseAndUuid(UUID uuid);
+	Optional<UpmsUser> findByDeletedFalseAndUuid(UUID uuid);
 
 	@Query(value =
 			"""
@@ -66,7 +66,7 @@ public interface UpmsUserRepository extends JpaRepository<UpmsUser, Long>, JpaSp
                 ur.userUuid = u.uuid
             WHERE
             	1 = 1
-            	AND u.isDeleted = false
+            	AND u.deleted = false
             	AND
                 (
                     (:keyword IS NULL OR u.username LIKE CONCAT('%', :keyword, '%')) OR

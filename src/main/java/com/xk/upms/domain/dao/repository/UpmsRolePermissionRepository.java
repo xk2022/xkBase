@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface UpmsRolePermissionRepository  extends JpaRepository<UpmsRolePermission, Long> {
 
-    List<UpmsRolePermission> findByIsDeletedFalseAndSystemUuidAndRoleUuid(UUID systemUuid, UUID roleUuid);
+    List<UpmsRolePermission> findByDeletedFalseAndSystemUuidAndRoleUuid(UUID systemUuid, UUID roleUuid);
 
 }
