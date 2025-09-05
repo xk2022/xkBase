@@ -1,5 +1,6 @@
 package com.xk.car.application.model;
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public class VehiclePartsUsageCmd {
 
     private UUID uuid;
     private String carId;
+    private VehicleEnum vehicleType;
     private String partName;
     private BigDecimal mileage;
     private BigDecimal cost;

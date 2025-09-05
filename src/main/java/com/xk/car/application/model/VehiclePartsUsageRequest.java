@@ -10,8 +10,9 @@ public class VehiclePartsUsageRequest {
     @Schema(description ="UUID" )
     private String uuid;
 
-    @Schema(description = "關聯車輛ID")
-    private String carId;
+    @Schema(description = "車牌號碼")
+    private String licensePlate;
+
 
     @Schema(description = "耗損或更換零件名稱")
     private String partName;

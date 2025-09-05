@@ -6,8 +6,10 @@ import com.xk.car.application.model.VehicleStatusLogsCmd;
 import com.xk.car.application.model.VehicleStatusLogsRequest;
 import com.xk.car.application.model.VehicleStatusLogsResponse;
 import com.xk.car.application.usecase.VehicleStatusLogCreateUseCase;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehicleStatusLogsBo;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
+import com.xk.car.domain.service.VehicleService;
 import com.xk.car.domain.service.VehicleStatusLogsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +35,21 @@ import java.util.UUID;
 public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreateUseCase {
     private final VehicleStatusLogsMapper mapper;
     private final VehicleStatusLogsService service;
+    private final VehicleService vehicleService;
 
     @Transactional
     @Override
     public VehicleStatusLogsResponse create(VehicleStatusLogsRequest request) {
         log.info("[UseCase] {}車輛狀態資訊 request={} " , request.getUuid() == null?"建立":"更新" , request);
+        //查詢車輛資訊
+        VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
+
         VehicleStatusEnum status = VehicleStatusEnum.fromString(request.getStatus());
         var cmd = mapper.toTransCmd(request);
         cmd.setStatus(status);
         cmd.setOperatorId(Integer.parseInt(request.getOperatorId()));
+        cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
+        cmd.setVehicleType(vehicleBo.getVehicleType());
 
         VehicleStatusLogsBo result =(request.getUuid() == null)
                     ?service.create(cmd)
@@ -49,6 +57,7 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
 
         VehicleStatusLogsResponse response =mapper.toResponseDto(result);
         response.setStatus(String.valueOf(result.getStatus()));
+        response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
         response.setOperatorId(String.valueOf(result.getOperatorId()));
 

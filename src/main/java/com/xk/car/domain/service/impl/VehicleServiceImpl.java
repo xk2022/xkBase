@@ -68,4 +68,11 @@ public class VehicleServiceImpl  implements VehicleService {
         var entity = repository.getVehicleByStatusAndLicensePlate(vehicleCreateCmd.getStatus(),vehicleCreateCmd.getLicensePlate());
         return mapper.toBo(entity);
     }
+
+    @Override
+    public VehicleBo findByLicensePlate(String licensePlate) {
+        log.info("[Service] 車牌號碼查詢車輛資訊");
+        var entity = repository.findByLicensePlate(licensePlate).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
+        return mapper.toBo(entity);
+    }
 }

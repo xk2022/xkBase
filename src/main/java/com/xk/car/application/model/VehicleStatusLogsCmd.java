@@ -1,5 +1,6 @@
 package com.xk.car.application.model;
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class VehicleStatusLogsCmd {
     private UUID uuid;
     private String carId;
     private String driverId;
+    private VehicleEnum vehicleType;
     private VehicleStatusEnum status;
     private Integer operatorId;
     private String statusNote;

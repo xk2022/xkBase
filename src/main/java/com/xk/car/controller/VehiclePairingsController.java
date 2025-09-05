@@ -7,11 +7,13 @@ import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.usecase.VehiclePairingsCreateUseCase;
 import com.xk.car.application.usecase.VehiclePairingsDeleteUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,8 @@ public class VehiclePairingsController {
     @Operation(summary = "新增或更新車頭或版車資訊" ,description = "新增或更新車頭或版車資訊")
     @PostMapping("/save")
     public BaseResult<VehiclePairingsResponse> create(
-            @RequestBody @Valid VehiclePairingsRequest request
+            @RequestBody @Valid VehiclePairingsRequest request,
+            @AuthenticationPrincipal JwtUserDTO userDTO
     ){
         VehiclePairingsResponse result = vehiclePairingsCreateUseCase.create(request);
         return BaseResult.success(result ,"新增車頭與板車資訊完成");

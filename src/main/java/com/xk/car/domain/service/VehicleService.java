@@ -37,4 +37,7 @@ public interface VehicleService {
 
 
      VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd);
+
+
+     VehicleBo findByLicensePlate(String licensePlate);
 }

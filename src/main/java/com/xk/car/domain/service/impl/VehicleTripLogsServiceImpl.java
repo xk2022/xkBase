@@ -49,6 +49,7 @@ public class VehicleTripLogsServiceImpl implements VehicleTripLogsService {
         existing.setCarId(cmd.getCarId());
         existing.setOrderId(cmd.getOrderId());
         existing.setStartMileage(cmd.getStartMileage());
+        existing.setVehicleType(cmd.getVehicleType());
         existing.setEndMileage(cmd.getEndMileage());
         existing.setDistance(cmd.getDistance());
         existing.setDate(cmd.getDate());

@@ -2,6 +2,7 @@ package com.xk.car.domain.model.entity;
 
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
+import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class VehicleMaintenanceEntity {
 
     private UUID uuid;
     private String carId;
+    private VehicleEnum vehicleType;
     private Boolean deleted = false;
     private MaintenanceTypeEnum maintenanceType;
     private BigDecimal mileageAt;

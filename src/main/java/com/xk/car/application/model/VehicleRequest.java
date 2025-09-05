@@ -42,6 +42,12 @@ public class VehicleRequest {
     @Schema(description = "車輛狀態")
     private String status;
 
+    @Schema(description = "創建人員")
+    private String createdBy;
+
+    @Schema(description = "更新人員")
+    private String updatedBy;
+
 
 
 }

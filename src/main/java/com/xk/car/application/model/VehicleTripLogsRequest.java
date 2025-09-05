@@ -1,20 +1,34 @@
 package com.xk.car.application.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 public class VehicleTripLogsRequest {
+
+    @Schema(description = "uuid")
     private String uuid;
-    private String carId;
+
+    @Schema(description = "車牌號碼")
+    private String licensePlate;
+
+    @Schema(description = "對應派車單編號")
     private String orderId;
+
+    @Schema(description = "出發里程")
     private String startMileage;
+
+    @Schema(description = "返回里程")
     private String endMileage;
-    private String distance;
+
+
+    @Schema(description = "行駛日期")
     private String date;
-    private String deleted;
-    private String deletedTime;
+
+    @Schema(description = "創建人員")
     private String createdBy;
-    private String createdTime;
+
+    @Schema(description = "更新人員")
     private String updatedBy;
-    private String updatedTime;
+
 }

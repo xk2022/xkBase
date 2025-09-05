@@ -15,7 +15,7 @@ public class VehicleMaintenanceResponse {
 
     private String uuid;
     private String carId;
-
+    private String vehicleType;
     private String maintenanceType;
     private String mileageAt;
     private String maintenanceDate;

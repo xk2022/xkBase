@@ -8,11 +8,13 @@ import com.xk.car.application.model.VehicleStatusLogsResponse;
 import com.xk.car.application.usecase.VehicleStatusLogCreateUseCase;
 import com.xk.car.application.usecase.VehicleStatusLogDeleteUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +45,8 @@ public class VehicleStatusLogsController {
     @Operation(summary = "新增車輛狀態管理" ,description = "新增車輛狀態管理")
     @PostMapping("/save")
     public BaseResult<VehicleStatusLogsResponse> create(
-            @RequestBody @Valid VehicleStatusLogsRequest request
+            @RequestBody @Valid VehicleStatusLogsRequest request,
+            @AuthenticationPrincipal JwtUserDTO userDTO
     ){
         VehicleStatusLogsResponse result =vehicleStatusLogCreateUseCase.create(request);
         return BaseResult.success(result, "車輛狀態管理新增成功");

@@ -1,9 +1,11 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.common.base.SoftDeletableEntity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
@@ -39,6 +41,11 @@ public class VehiclePartsUsagePo extends SoftDeletableEntity implements Serializ
     @Column(name = "car_id", nullable = false)
     @Comment("關聯車輛")
     private String carId;
+
+    @NotNull
+    @Column(name = "vehicle_type" ,nullable = false)
+    @Comment("車頭/板車")
+    private VehicleEnum vehicleType;
 
     @Column(name = "part_name" , nullable = false)
     @Comment("耗損或更換零件名稱")

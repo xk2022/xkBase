@@ -6,11 +6,13 @@ import com.xk.car.application.model.VehiclePartsUsageResponse;
 import com.xk.car.application.usecase.VehiclePartsUsageCreateUseCase;
 import com.xk.car.application.usecase.VehiclePartsUsageDeleteUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +41,10 @@ public class VehiclePartsUsageController {
 
     @Operation(summary = "新增車輛性能監控與維修提醒 ")
     @PostMapping("/save")
-    public BaseResult<VehiclePartsUsageResponse> create(@RequestBody @Valid VehiclePartsUsageRequest request){
+    public BaseResult<VehiclePartsUsageResponse> create(
+            @RequestBody @Valid VehiclePartsUsageRequest request,
+            @AuthenticationPrincipal JwtUserDTO userDTO
+    ){
         VehiclePartsUsageResponse result = vehiclePartsUsageCreateUseCase.create(request);
         return BaseResult.success(result , "新增車輛性能監控成功");
     }

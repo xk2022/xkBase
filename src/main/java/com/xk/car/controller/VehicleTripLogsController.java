@@ -7,11 +7,13 @@ import com.xk.car.application.model.VehicleTripLogsResponse;
 import com.xk.car.application.usecase.VehicleTripLogsCreateUseCase;
 import com.xk.car.application.usecase.VehicleTripLogsDeleteUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,8 @@ public class VehicleTripLogsController {
     @Operation(summary = "新增里程紀錄管理" ,description = "新增里程紀錄管理")
     @PostMapping("/save")
     public BaseResult<VehicleTripLogsResponse> create(
-            @RequestBody @Valid VehicleTripLogsRequest request
+            @RequestBody @Valid VehicleTripLogsRequest request,
+            @AuthenticationPrincipal JwtUserDTO userDTO
     ) throws ParseException {
         VehicleTripLogsResponse result =vehicleTripLogsCreateUseCase.create(request);
         return BaseResult.success(result, "車輛里程紀錄新增成功");

@@ -63,9 +63,4 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
     @Comment("車輛狀態")
     private VehicleStatusEnum status;
 
-
-
-
-
-
 }

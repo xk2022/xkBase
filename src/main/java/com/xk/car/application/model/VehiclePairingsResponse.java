@@ -20,4 +20,10 @@ public class VehiclePairingsResponse {
     private String bindBy;
     private String unbindBy;
     private String note;
+    private String deleted ;
+    private String deletedTime;
+    private String createdBy;
+    private String createdTime;
+    private String updatedBy;
+    private String updatedTime;
 }

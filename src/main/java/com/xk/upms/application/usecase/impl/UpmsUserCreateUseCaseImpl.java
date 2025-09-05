@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.xk.upms.domain.model.bo.UpmsUserRoleBO;
 import com.xk.upms.domain.service.UpmsRoleService;
@@ -70,11 +71,12 @@ public class UpmsUserCreateUseCaseImpl implements UpmsUserCreateUseCase {
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         List<UpmsUserInitBO> users = new ArrayList<>();
-//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "ADMIN", "admin@example.com", "admin@example.com", "9099999999", "Aa123456"));
-//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Louis", "louis@example.com", "louis@example.com", "0978628329", passwordEncoder.encode("Aa123456")));
-//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Lisa", "lisa@example.com", "lisa@example.com", "9099999998", passwordEncoder.encode("Aa123456")));
-//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Tim", "tim@example.com", "tim@example.com", "9099999997", passwordEncoder.encode("Aa123456")));
-//	    users.add(new UpmsUserInitBO("system restAPI", ZonedDateTime.now(ZoneId.of("Asia/Taipei")), "Hank", "hank@example.com", "hank@example.com", "9099999996", passwordEncoder.encode("Aa123456")));
+	    users.add(new UpmsUserInitBO(UUID.randomUUID(),"ADMIN", "admin@example.com", "admin@example.com", "9099999999", "Aa123456",false ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST",ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST" ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")) ));
+	    users.add(new UpmsUserInitBO(UUID.randomUUID(),"Louis", "louis@example.com", "louis@example.com", "0978628329", "Aa123456",false ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST",ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST" ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")) ));
+	    users.add(new UpmsUserInitBO(UUID.randomUUID(),"Lisa", "lisa@example.com", "lisa@example.com", "9099999998", "Aa123456",false ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST",ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST" ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")) ));
+	    users.add(new UpmsUserInitBO(UUID.randomUUID(),"Tim", "tim@example.com", "tim@example.com", "9099999997", "Aa123456",false ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST",ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST" ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")) ));
+	    users.add(new UpmsUserInitBO(UUID.randomUUID(),"Hank", "hank@example.com", "hank@example.com", "9099999996", "Aa123456",false ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST",ZonedDateTime.now(ZoneId.of("Asia/Taipei")),"TEST" ,ZonedDateTime.now(ZoneId.of("Asia/Taipei")) ));
+
 
 		List<UpmsUserBO> userBOs = upmsUserService.saveAllUsers(users);
 		for (UpmsUserBO userBO : userBOs) {

@@ -51,6 +51,7 @@ public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
         existing.setDriverId(cmd.getDriverId());
         existing.setOperatorId(cmd.getOperatorId());
         existing.setStatusNote(cmd.getStatusNote());
+        existing.setVehicleType(cmd.getVehicleType());
 
         existing.setUpdatedTime(ZonedDateTime.now());
         var saved =repository.save(existing);

@@ -1,6 +1,7 @@
 package com.xk.car.domain.model.entity;
 
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class VehicleStatusLogsEntity {
     private UUID uuid;
     private String carId;
     private String driverId;
+    private VehicleEnum vehicleType;
     private VehicleStatusEnum status;
     private Integer operatorId;
     private String statusNote;

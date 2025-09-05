@@ -5,8 +5,10 @@ import com.xk.car.application.mapper.VehiclePartsUsageMapper;
 import com.xk.car.application.model.VehiclePartsUsageRequest;
 import com.xk.car.application.model.VehiclePartsUsageResponse;
 import com.xk.car.application.usecase.VehiclePartsUsageCreateUseCase;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehiclePartsUsageBo;
 import com.xk.car.domain.service.VehiclePartsUsageService;
+import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,22 +34,29 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
 
     private final VehiclePartsUsageMapper mapper;
     private final VehiclePartsUsageService service;
+    private final VehicleService vehicleService;
 
     @Transactional
     @Override
     public VehiclePartsUsageResponse create(VehiclePartsUsageRequest request) {
         log.info("[UseCase] {}耗損與維修項目紀錄 request={} " ,request.getUuid() ==null?"建立":"更新" ,request);
+        //查詢車輛資訊
+        VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
+
         BigDecimal cost = new BigDecimal(request.getCost());
         BigDecimal mileage = new BigDecimal(request.getMileage());
 
         var cmd =  mapper.toCreateVehiclePartsUsageCmd(request);
         cmd.setCost(cost);
         cmd.setMileage(mileage);
+        cmd.setVehicleType(vehicleBo.getVehicleType());
+        cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
 
         VehiclePartsUsageBo result =  (request.getUuid() ==null)
                 ? service.create(cmd)
                 : service.update(UUID.fromString(request.getUuid()) , cmd);
-        VehiclePartsUsageResponse response = mapper.toResponseDto(result);;
+        VehiclePartsUsageResponse response = mapper.toResponseDto(result);
+        response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileage(String.valueOf(result.getMileage()));
         response.setCost(String.valueOf(result.getCost()));
         response.setUsedAt(String.valueOf(result.getUsedAt()));

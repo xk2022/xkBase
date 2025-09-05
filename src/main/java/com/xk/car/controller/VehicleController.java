@@ -7,6 +7,7 @@ import com.xk.car.application.usecase.VehicleCreateUseCase;
 import com.xk.car.application.usecase.VehicleDeleteUseCase;
 import com.xk.car.application.usecase.VehicleQueryUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +48,8 @@ public class VehicleController {
     @Operation(summary = "新增或更新車輛資訊", description = "新增或更新一台車輛記錄")
     @PostMapping("/save")
     public BaseResult<VehicleResponse> create(
-            @RequestBody @Valid VehicleRequest vehicleRequest
+            @RequestBody @Valid VehicleRequest vehicleRequest,
+            @AuthenticationPrincipal JwtUserDTO userDTO
     ){
         VehicleResponse result =vehicleCreateUseCase.create(vehicleRequest);
         return BaseResult.success(result, "車輛新增成功");

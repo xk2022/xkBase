@@ -5,6 +5,7 @@ import com.xk.car.application.mapper.VehicleMaintenanceMapper;
 import com.xk.car.application.model.VehicleMaintenanceRequest;
 import com.xk.car.application.model.VehicleMaintenanceResponse;
 import com.xk.car.application.usecase.VehicleMaintenanceCreateUseCase;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehicleMaintenanceBo;
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -40,17 +42,23 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
     private final VehicleMaintenanceMapper mapper;
     private final VehicleMaintenanceService service;
     private final DateCoverUtils dateCoverUtils;
+    private final VehicleService vehicleService;
 
     @Transactional
     @Override
     public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) throws ParseException {
         log.info("[UseCase] {}車輛維修資訊request={}", createDTO.getUuid() == null?"建立":"更新",  createDTO);
+        //查詢車輛資訊
+        VehicleBo vehicleBo = vehicleService.findByLicensePlate(createDTO.getLicensePlate());
+
         MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
         ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
         Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
         Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
         BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
         var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
+        cmd.setVehicleType(vehicleBo.getVehicleType());
+        cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
         cmd.setMaintenanceType(maintenanceType);
         cmd.setReminderType(reminderTypeEnum);
         cmd.setMaintenanceDate(maintenanceDate);
@@ -60,8 +68,11 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         VehicleMaintenanceBo result = (createDTO.getUuid() == null)
                 ? service.create(cmd)
                 :service.update(UUID.fromString(createDTO.getUuid()),cmd);
+
+
         VehicleMaintenanceResponse response =  mapper.toResponseDto(result);
         response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
+        response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileageAt(String.valueOf(result.getMileageAt()));
         response.setMaintenanceDate(String.valueOf(result.getMaintenanceDate()));
         response.setNextDueDate(String.valueOf(result.getNextDueDate()));

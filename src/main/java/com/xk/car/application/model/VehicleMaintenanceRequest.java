@@ -22,8 +22,8 @@ public class VehicleMaintenanceRequest {
     @Schema(description = "uuid")
     private String uuid;
 
-    @Schema(description = "關聯車輛")
-    private String carId;
+    @Schema(description = "車牌號碼")
+    private String licensePlate;
 
     @Schema(description = "維修類型")
     private String maintenanceType;
@@ -48,5 +48,11 @@ public class VehicleMaintenanceRequest {
 
     @Schema(description = "下次預定保養日期")
     private String nextDueDate;
+
+    @Schema(description = "創建人員")
+    private String createdBy;
+
+    @Schema(description = "更新人員")
+    private String updatedBy;
 
 }

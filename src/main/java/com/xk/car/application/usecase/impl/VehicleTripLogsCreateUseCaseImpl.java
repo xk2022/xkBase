@@ -4,7 +4,9 @@ import com.xk.car.application.mapper.VehicleTripLogsMapper;
 import com.xk.car.application.model.VehicleTripLogsRequest;
 import com.xk.car.application.model.VehicleTripLogsResponse;
 import com.xk.car.application.usecase.VehicleTripLogsCreateUseCase;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehicleTripLogsBo;
+import com.xk.car.domain.service.VehicleService;
 import com.xk.car.domain.service.VehicleTripLogsService;
 import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
@@ -32,21 +34,27 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
     private final VehicleTripLogsMapper mapper;
     private final VehicleTripLogsService service;
     private final DateCoverUtils dateCoverUtils;
+    private final VehicleService vehicleService;
 
 
     @Override
     public VehicleTripLogsResponse create(VehicleTripLogsRequest request) throws ParseException {
         log.info("[UseCase] {}里程紀錄 ,request={}" ,request.getUuid()==null?"建立":"更新" ,request);
+        //查詢車輛資訊
+        VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
+
         BigDecimal startMileage = new BigDecimal(request.getStartMileage());
         BigDecimal endMileage = new BigDecimal(request.getEndMileage());
-        BigDecimal distance = new BigDecimal(request.getDistance());
+
         Date date = dateCoverUtils.StringCoverToDate(request.getDate());
 
         var cmd = mapper.toCreateCmd(request);
         cmd.setStartMileage(startMileage);
         cmd.setEndMileage(endMileage);
-        cmd.setDistance(distance);
+        cmd.setDistance(endMileage.divide(startMileage));
         cmd.setDate(date);
+        cmd.setVehicleType(vehicleBo.getVehicleType());
+
 
         VehicleTripLogsBo result =  (request.getUuid() ==null)
                 ?service.create(cmd)
@@ -55,7 +63,8 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
         VehicleTripLogsResponse response = mapper.toResponse(result);
         response.setStartMileage(String.valueOf(startMileage));
         response.setEndMileage(String.valueOf(endMileage));
-        response.setDistance(String.valueOf(distance));
+        response.setDistance(String.valueOf(endMileage.subtract(startMileage)));
+        response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setDate(String.valueOf(date));
 
 

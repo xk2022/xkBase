@@ -1,11 +1,15 @@
 package com.xk.car.application.usecase.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.xk.car.application.mapper.VehiclePairingsMapper;
 import com.xk.car.application.model.VehiclePairingsRequest;
 import com.xk.car.application.model.VehiclePairingsResponse;
 import com.xk.car.application.usecase.VehiclePairingsCreateUseCase;
+import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehiclePairingsBo;
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.service.VehiclePairingsService;
+import com.xk.car.domain.service.VehicleService;
 import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,18 +36,31 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
     private final VehiclePairingsMapper mapper;
     private final DateCoverUtils dateCoverUtils;
     private final VehiclePairingsService service;
+    private final VehicleService vehicleService;
 
     @Transactional
     @Override
     public VehiclePairingsResponse create(VehiclePairingsRequest request) {
         log.info("[UseCase] {}車頭或版車資訊 request={}",
                 request.getUuid() == null ? "建立" : "更新", request);
+        //查詢車輛資訊
+        VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
+
 
         var cmd = mapper.toCreateVehiclePairingsCmd(request);
         ZonedDateTime bindTime = dateCoverUtils.parseZdt(request.getBindTime());
         ZonedDateTime unbindTime = dateCoverUtils.parseZdt(request.getUnbindTime());
         cmd.setBindTime(bindTime);
         cmd.setUnbindTime(unbindTime);
+        switch (vehicleBo.getVehicleType()){
+            case VehicleEnum.Head :
+                cmd.setHeadId(String.valueOf(vehicleBo.getUuid()));
+                break;
+            case VehicleEnum.Trailer:
+                cmd.setTrailerId(String.valueOf(vehicleBo.getUuid()));
+                break;
+        }
+
 
         VehiclePairingsBo result = (request.getUuid() == null)
                 ? service.create(cmd)

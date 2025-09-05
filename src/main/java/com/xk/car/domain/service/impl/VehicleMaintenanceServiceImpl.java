@@ -56,7 +56,7 @@ public class VehicleMaintenanceServiceImpl implements VehicleMaintenanceService 
         existing.setMaintenanceDate(cmd.getMaintenanceDate());
         existing.setCarId(cmd.getCarId());
         existing.setUpdatedTime(ZonedDateTime.now());
-
+        existing.setVehicleType(cmd.getVehicleType());
         var saved = repository.save(existing);
         return mapper.toBo(saved);
     }

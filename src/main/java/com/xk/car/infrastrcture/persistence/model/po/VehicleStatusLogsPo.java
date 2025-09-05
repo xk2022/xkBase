@@ -1,12 +1,14 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.common.base.SoftDeletableEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
@@ -40,6 +42,11 @@ public class VehicleStatusLogsPo extends SoftDeletableEntity implements Serializ
     @Column(name = "car_id", nullable = false)
     @Comment("關聯車輛")
     private String carId;
+
+    @NotNull
+    @Column(name = "vehicle_type" ,nullable = false)
+    @Comment("車頭/板車")
+    private VehicleEnum vehicleType;
 
     @Column(name="driver_id")
     @Comment("司機ID")

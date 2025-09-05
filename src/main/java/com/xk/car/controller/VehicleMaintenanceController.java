@@ -6,10 +6,12 @@ import com.xk.car.application.model.VehicleMaintenanceResponse;
 import com.xk.car.application.usecase.VehicleMaintenanceCreateUseCase;
 import com.xk.car.application.usecase.VehicleMaintenanceDeleteUseCase;
 import com.xk.common.base.BaseResult;
+import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,8 @@ public class VehicleMaintenanceController {
 
     @PostMapping("/save")
     public BaseResult<VehicleMaintenanceResponse> create(
-            @RequestBody @Valid VehicleMaintenanceRequest request
+            @RequestBody @Valid VehicleMaintenanceRequest request,
+            @AuthenticationPrincipal JwtUserDTO userDTO
     ) throws ParseException {
         VehicleMaintenanceResponse response = vehicleMaintenanceCreateUseCase.create(request);
         return  BaseResult.success(response , "新增成功");

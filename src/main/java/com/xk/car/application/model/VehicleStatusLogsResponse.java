@@ -1,5 +1,6 @@
 package com.xk.car.application.model;
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
@@ -14,6 +15,7 @@ public class VehicleStatusLogsResponse {
 
     private String carId;
     private String driverId;
+    private String vehicleType;
     private String status;
     private String operatorId;
     private String statusNote;

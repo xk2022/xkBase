@@ -3,11 +3,13 @@ package com.xk.car.infrastrcture.persistence.model.po;
 
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
+import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.common.base.SoftDeletableEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,11 @@ public class VehicleMaintenancePo extends SoftDeletableEntity implements Seriali
     @Column(name = "car_id", nullable = false)
     @Comment("關聯車輛")
     private String carId;
+
+    @NotNull
+    @Column(name = "vehicle_type" ,nullable = false)
+    @Comment("車頭/板車")
+    private VehicleEnum vehicleType;
 
 
     @Column(name = "maintenance_type", nullable = false)

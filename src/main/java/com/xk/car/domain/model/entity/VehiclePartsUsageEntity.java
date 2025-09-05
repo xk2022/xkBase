@@ -1,6 +1,7 @@
 package com.xk.car.domain.model.entity;
 
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class VehiclePartsUsageEntity {
 
     private UUID uuid;
     private String carId;
+    private VehicleEnum vehicleType;
     private String partName;
     private BigDecimal mileage;
     private BigDecimal cost;

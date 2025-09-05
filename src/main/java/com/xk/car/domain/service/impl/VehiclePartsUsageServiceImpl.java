@@ -51,6 +51,7 @@ public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
         existing.setDescription(cmd.getDescription());
         existing.setUpdatedBy(cmd.getUpdatedBy());
         existing.setUpdatedTime(ZonedDateTime.now());
+        existing.setVehicleType(cmd.getVehicleType());
         var saved = repository.save(existing);
         return mapper.toBo(saved);
     }

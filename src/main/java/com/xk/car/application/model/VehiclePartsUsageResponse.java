@@ -1,6 +1,7 @@
 package com.xk.car.application.model;
 
 
+import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public class VehiclePartsUsageResponse {
 
     private String uuid;
     private String carId;
+    private String vehicleType;
     private String partName;
     private String mileage;
     private String cost;
