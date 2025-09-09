@@ -62,9 +62,9 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
         }
 
 
-        VehiclePairingsBo result = (request.getUuid() == null)
+        VehiclePairingsBo result = (vehicleBo.getUuid() == null)
                 ? service.create(cmd)
-                : service.update(UUID.fromString(request.getUuid()), cmd);
+                : service.update(vehicleBo.getUuid(), cmd);
 
         VehiclePairingsResponse response = mapper.toResponse(result);
         response.setBindTime(bindTime != null ? bindTime.toString() : "");

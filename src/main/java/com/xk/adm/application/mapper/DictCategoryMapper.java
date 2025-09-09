@@ -4,6 +4,7 @@ import com.xk.adm.application.dto.DictCategoryRequest;
 import com.xk.adm.application.dto.DictCategoryResponse;
 import com.xk.adm.domain.model.bo.DictCategoryBO;
 import com.xk.adm.domain.model.entity.DictCategoryEntity;
+import com.xk.adm.domain.model.po.DictCategoryPO;
 import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class DictCategoryMapper {
 
 
-    public DictCategoryBO toBo(DictCategoryRequest request) {
-        return XkBeanUtils.copyProperties(request , DictCategoryBO::new );
+    public DictCategoryBO toBo(DictCategoryPO po) {
+        return XkBeanUtils.copyProperties(po , DictCategoryBO::new );
     }
 
     public DictCategoryEntity toEntity(DictCategoryRequest request) {
@@ -21,5 +22,9 @@ public class DictCategoryMapper {
 
     public DictCategoryResponse toResponse(DictCategoryBO result) {
         return XkBeanUtils.copyProperties(result ,DictCategoryResponse::new );
+    }
+
+    public DictCategoryPO toPO(DictCategoryEntity entity) {
+        return XkBeanUtils.copyProperties(entity , DictCategoryPO::new);
     }
 }

@@ -65,9 +65,9 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         cmd.setNextDueDate(nextDueDate);
         cmd.setMileageAt(mileageAt);
 
-        VehicleMaintenanceBo result = (createDTO.getUuid() == null)
+        VehicleMaintenanceBo result = (vehicleBo.getUuid() == null)
                 ? service.create(cmd)
-                :service.update(UUID.fromString(createDTO.getUuid()),cmd);
+                :service.update(vehicleBo.getUuid(),cmd);
 
 
         VehicleMaintenanceResponse response =  mapper.toResponseDto(result);

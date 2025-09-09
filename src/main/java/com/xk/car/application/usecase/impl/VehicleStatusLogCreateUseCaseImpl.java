@@ -40,9 +40,10 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
     @Transactional
     @Override
     public VehicleStatusLogsResponse create(VehicleStatusLogsRequest request) {
-        log.info("[UseCase] {}車輛狀態資訊 request={} " , request.getUuid() == null?"建立":"更新" , request);
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
+        log.info("[UseCase] {}車輛狀態資訊 request={} " , vehicleBo.getUuid() == null?"建立":"更新" , request);
+
 
         VehicleStatusEnum status = VehicleStatusEnum.fromString(request.getStatus());
         var cmd = mapper.toTransCmd(request);
@@ -51,9 +52,9 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
         cmd.setVehicleType(vehicleBo.getVehicleType());
 
-        VehicleStatusLogsBo result =(request.getUuid() == null)
+        VehicleStatusLogsBo result =(vehicleBo.getUuid() == null)
                     ?service.create(cmd)
-                    :service.update(UUID.fromString(request.getUuid()) , cmd);
+                    :service.update(vehicleBo.getUuid() , cmd);
 
         VehicleStatusLogsResponse response =mapper.toResponseDto(result);
         response.setStatus(String.valueOf(result.getStatus()));

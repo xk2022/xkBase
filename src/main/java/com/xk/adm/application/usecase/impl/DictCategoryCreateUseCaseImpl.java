@@ -36,17 +36,17 @@ public class DictCategoryCreateUseCaseImpl implements DictCategoryCreateUseCase 
     @Transactional
     @Override
     public DictCategoryResponse create(DictCategoryRequest request) {
-        log.info(" [UseCase] 開始創建選單類別 - Code: {}", request.getCode());
+        DictCategoryBO dictCategoryBO =  service.findByCode(request.getCode());
+        log.info(" [UseCase] 開始{}選單類別 - Code: {}", dictCategoryBO.getUuid()==null?"建立":"更新", request.getCode());
 
 
         var entity = mapper.toEntity(request);
         entity.initialize();
 
-        DictCategoryBO result =  request.getUuid() == null
+        DictCategoryBO result =  dictCategoryBO.getUuid() == null
                 ? service.create(entity)
-                : service.update(UUID.fromString(request.getUuid()) , entity);
-        DictCategoryResponse response = mapper.toResponse(result);
+                : service.update(dictCategoryBO.getUuid() , entity);
 
-        return response;
+        return mapper.toResponse(result);
     }
 }

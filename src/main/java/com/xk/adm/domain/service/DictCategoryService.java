@@ -9,4 +9,8 @@ public interface DictCategoryService {
     DictCategoryBO create(DictCategoryEntity entity);
 
     DictCategoryBO update(UUID uuid, DictCategoryEntity entity);
+
+    void delete(UUID uuid);
+
+    DictCategoryBO findByCode(String code);
 }

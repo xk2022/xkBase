@@ -1,7 +1,10 @@
 package com.xk.adm.domain.service.impl;
 
+import com.xk.adm.application.mapper.DictCategoryMapper;
+import com.xk.adm.domain.dao.repository.DictCategoryRepository;
 import com.xk.adm.domain.model.bo.DictCategoryBO;
 import com.xk.adm.domain.model.entity.DictCategoryEntity;
+import com.xk.adm.domain.model.po.DictCategoryPO;
 import com.xk.adm.domain.service.DictCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +27,32 @@ import java.util.UUID;
 @Slf4j
 public class DictCategoryServiceImpl implements DictCategoryService {
 
+    private final DictCategoryRepository repository;
+    private final DictCategoryMapper mapper;
+
     @Override
     public DictCategoryBO create(DictCategoryEntity entity) {
-        return null;
+        log.info("[Service] 建立選單類別");
+        var po = mapper.toPO(entity);
+        DictCategoryPO saved = repository.save(po);
+
+        return mapper.toBo(saved);
     }
 
     @Override
     public DictCategoryBO update(UUID uuid, DictCategoryEntity entity) {
+
         return null;
+    }
+
+    @Override
+    public void delete(UUID uuid) {
+
+    }
+
+    @Override
+    public DictCategoryBO findByCode(String code) {
+        DictCategoryPO po = repository.findByCode(code);
+        return  mapper.toBo(po);
     }
 }

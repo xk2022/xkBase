@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository
 public interface DictCategoryRepository  extends JpaRepository<DictCategoryPO , UUID> {
 
+    DictCategoryPO findByCode(String code);
 }

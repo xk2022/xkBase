@@ -52,9 +52,9 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
         cmd.setVehicleType(vehicleBo.getVehicleType());
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
 
-        VehiclePartsUsageBo result =  (request.getUuid() ==null)
+        VehiclePartsUsageBo result =  (vehicleBo.getUuid() ==null)
                 ? service.create(cmd)
-                : service.update(UUID.fromString(request.getUuid()) , cmd);
+                : service.update(vehicleBo.getUuid(), cmd);
         VehiclePartsUsageResponse response = mapper.toResponseDto(result);
         response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileage(String.valueOf(result.getMileage()));
