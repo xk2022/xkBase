@@ -41,13 +41,26 @@ public class DictCategoryServiceImpl implements DictCategoryService {
 
     @Override
     public DictCategoryBO update(UUID uuid, DictCategoryEntity entity) {
+        log.info("[Service] 更新選單類別 uuid={} , entity={}" ,uuid,entity);
+        var existing = repository.findById(uuid).orElseThrow(
+                ()->new IllegalArgumentException("選單類別不存在" +uuid)
+        );
+        existing.setCode(entity.getCode());
+        existing.setName(entity.getName());
+        existing.setDescription(entity.getDescription());
 
-        return null;
+        return mapper.toBo(existing);
     }
 
     @Override
     public void delete(UUID uuid) {
+        log.info("[Service] 刪除選單類別");
+        var po = repository.findById(uuid).orElseThrow(
+                ()->new IllegalArgumentException("選單類別不存在"+uuid)
+        );
+        //TODO 選單子項目也要刪除
 
+        repository.delete(po);
     }
 
     @Override

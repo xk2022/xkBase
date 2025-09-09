@@ -54,7 +54,7 @@ public class DictCategoryController {
 
         deleteUseCase.delete(uuid); // 傳遞 UUID 進入 UseCase
 
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
 
     }
 }
