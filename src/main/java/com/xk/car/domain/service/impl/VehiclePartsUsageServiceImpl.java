@@ -1,6 +1,6 @@
 package com.xk.car.domain.service.impl;
 
-import com.xk.car.application.mapper.VehiclePartsUsageMapper;
+import com.xk.car.application.converter.VehiclePartsUsageConverter;
 import com.xk.car.application.model.VehiclePartsUsageCmd;
 import com.xk.car.domain.model.bo.VehiclePartsUsageBo;
 import com.xk.car.domain.model.entity.VehiclePartsUsageEntity;
@@ -25,19 +25,19 @@ import java.util.UUID;
 @Slf4j
 public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
 
-    private final VehiclePartsUsageMapper mapper;
+    private final VehiclePartsUsageConverter converter;
     private final VehiclePartsUsageRepository repository;
 
 
     @Override
     public VehiclePartsUsageBo create(VehiclePartsUsageCmd cmd) {
         log.info("建立車輛耗損與維修項目紀錄 cmd={}" ,cmd);
-        VehiclePartsUsageEntity entity =mapper.toEntity(cmd);
+        VehiclePartsUsageEntity entity =converter.toEntity(cmd);
         entity.initialize();
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved = repository.save(po);
 
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
         existing.setUpdatedTime(ZonedDateTime.now());
         existing.setVehicleType(cmd.getVehicleType());
         var saved = repository.save(existing);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override

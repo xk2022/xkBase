@@ -1,7 +1,7 @@
 package com.xk.car.application.usecase.impl;
 
 
-import com.xk.car.application.mapper.VehicleMaintenanceMapper;
+import com.xk.car.application.converter.VehicleMaintenanceConverter;
 import com.xk.car.application.model.VehicleMaintenanceRequest;
 import com.xk.car.application.model.VehicleMaintenanceResponse;
 import com.xk.car.application.usecase.VehicleMaintenanceCreateUseCase;
@@ -21,8 +21,6 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 
 /**
@@ -39,7 +37,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCreateUseCase {
 
-    private final VehicleMaintenanceMapper mapper;
+    private final VehicleMaintenanceConverter converter;
     private final VehicleMaintenanceService service;
     private final DateCoverUtils dateCoverUtils;
     private final VehicleService vehicleService;
@@ -47,16 +45,18 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
     @Transactional
     @Override
     public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) throws ParseException {
-        log.info("[UseCase] {}車輛維修資訊request={}", createDTO.getUuid() == null?"建立":"更新",  createDTO);
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(createDTO.getLicensePlate());
+        log.info("[UseCase] {}車輛維修資訊request={}",vehicleBo == null?"建立":"更新",  createDTO);
+
+
 
         MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
         ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
         Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
         Date nextDueDate  = dateCoverUtils.StringCoverToDate(createDTO.getNextDueDate());
         BigDecimal  mileageAt = new BigDecimal(createDTO.getMileageAt());
-        var cmd = mapper.toCreateVehicleMaintenanceCmd(createDTO);
+        var cmd = converter.toCreateVehicleMaintenanceCmd(createDTO);
         cmd.setVehicleType(vehicleBo.getVehicleType());
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
         cmd.setMaintenanceType(maintenanceType);
@@ -70,7 +70,7 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
                 :service.update(vehicleBo.getUuid(),cmd);
 
 
-        VehicleMaintenanceResponse response =  mapper.toResponseDto(result);
+        VehicleMaintenanceResponse response =  converter.toResponseDto(result);
         response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
         response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileageAt(String.valueOf(result.getMileageAt()));

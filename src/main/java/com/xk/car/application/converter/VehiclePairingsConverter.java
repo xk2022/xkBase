@@ -1,4 +1,4 @@
-package com.xk.car.application.mapper;
+package com.xk.car.application.converter;
 
 import com.xk.car.application.model.VehiclePairingsCmd;
 import com.xk.car.application.model.VehiclePairingsRequest;
@@ -10,7 +10,7 @@ import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VehiclePairingsMapper {
+public class VehiclePairingsConverter {
 
     public VehiclePairingsCmd toCreateVehiclePairingsCmd(VehiclePairingsRequest request) {
         return XkBeanUtils.copyProperties(request , VehiclePairingsCmd::new);

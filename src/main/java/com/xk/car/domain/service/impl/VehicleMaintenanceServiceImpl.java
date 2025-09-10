@@ -1,7 +1,7 @@
 package com.xk.car.domain.service.impl;
 
 
-import com.xk.car.application.mapper.VehicleMaintenanceMapper;
+import com.xk.car.application.converter.VehicleMaintenanceConverter;
 import com.xk.car.application.model.VehicleMaintenanceCreateCmd;
 import com.xk.car.domain.model.bo.VehicleMaintenanceBo;
 import com.xk.car.domain.model.entity.VehicleMaintenanceEntity;
@@ -26,39 +26,42 @@ import java.util.UUID;
 @Slf4j
 public class VehicleMaintenanceServiceImpl implements VehicleMaintenanceService {
 
-    private final VehicleMaintenanceMapper mapper;
+    private final VehicleMaintenanceConverter converter;
     private final VehicleMaintenanceRepository repository;
 
 
     @Override
     public VehicleMaintenanceBo create(VehicleMaintenanceCreateCmd cmd) {
         log.info("[Service] 建立車輛維修資訊 cmd={}", cmd);
-        VehicleMaintenanceEntity entity = mapper.toEntity(cmd);
+        VehicleMaintenanceEntity entity = converter.toEntity(cmd);
         entity.initialize();;
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved = repository.save(po);
 
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
     public VehicleMaintenanceBo update(UUID uuid, VehicleMaintenanceCreateCmd cmd) {
         log.info("[Service] 更新車輛維修資訊 uuid={}, cmd={}", uuid, cmd);
-        var existing = repository.findById(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("維修資訊 不存在" + uuid));
-        existing.setDescription(cmd.getDescription());
-        existing.setCost(cmd.getCost());
-        existing.setMileageAt(cmd.getMileageAt());
-        existing.setMaintenanceType(cmd.getMaintenanceType());
-        existing.setReminderType(cmd.getReminderType());
-        existing.setNextDueDate(cmd.getNextDueDate());
-        existing.setNextDueMileage(cmd.getNextDueMileage());
-        existing.setMaintenanceDate(cmd.getMaintenanceDate());
-        existing.setCarId(cmd.getCarId());
-        existing.setUpdatedTime(ZonedDateTime.now());
-        existing.setVehicleType(cmd.getVehicleType());
-        var saved = repository.save(existing);
-        return mapper.toBo(saved);
+        var exsiting = repository.findById(uuid).orElseThrow(
+                ()->new IllegalArgumentException("查無此紀錄" +uuid)
+        );
+
+        exsiting.setDescription(cmd.getDescription());
+        exsiting.setCost(cmd.getCost());
+        exsiting.setMileageAt(cmd.getMileageAt());
+        exsiting.setMaintenanceType(cmd.getMaintenanceType());
+        exsiting.setReminderType(cmd.getReminderType());
+        exsiting.setNextDueDate(cmd.getNextDueDate());
+        exsiting.setNextDueMileage(cmd.getNextDueMileage());
+        exsiting.setMaintenanceDate(cmd.getMaintenanceDate());
+        exsiting.setCarId(cmd.getCarId());
+        exsiting.setUpdatedTime(ZonedDateTime.now());
+        exsiting.setVehicleType(cmd.getVehicleType());
+
+        var saved = repository.save(exsiting);
+        return converter.toBo(saved);
     }
 
     @Override

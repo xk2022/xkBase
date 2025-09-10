@@ -1,7 +1,7 @@
 package com.xk.car.application.usecase.impl;
 
 
-import com.xk.car.application.mapper.VehiclePartsUsageMapper;
+import com.xk.car.application.converter.VehiclePartsUsageConverter;
 import com.xk.car.application.model.VehiclePartsUsageRequest;
 import com.xk.car.application.model.VehiclePartsUsageResponse;
 import com.xk.car.application.usecase.VehiclePartsUsageCreateUseCase;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 /**
  * 📌 `VehicleMaintenanceCreateUseCaseImpl` - 负责車輛維修管理的创建逻辑
@@ -32,7 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCreateUseCase {
 
-    private final VehiclePartsUsageMapper mapper;
+    private final VehiclePartsUsageConverter converter;
     private final VehiclePartsUsageService service;
     private final VehicleService vehicleService;
 
@@ -46,7 +45,7 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
         BigDecimal cost = new BigDecimal(request.getCost());
         BigDecimal mileage = new BigDecimal(request.getMileage());
 
-        var cmd =  mapper.toCreateVehiclePartsUsageCmd(request);
+        var cmd =  converter.toCreateVehiclePartsUsageCmd(request);
         cmd.setCost(cost);
         cmd.setMileage(mileage);
         cmd.setVehicleType(vehicleBo.getVehicleType());
@@ -55,7 +54,7 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
         VehiclePartsUsageBo result =  (vehicleBo.getUuid() ==null)
                 ? service.create(cmd)
                 : service.update(vehicleBo.getUuid(), cmd);
-        VehiclePartsUsageResponse response = mapper.toResponseDto(result);
+        VehiclePartsUsageResponse response = converter.toResponseDto(result);
         response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileage(String.valueOf(result.getMileage()));
         response.setCost(String.valueOf(result.getCost()));

@@ -1,4 +1,4 @@
-package com.xk.car.application.mapper;
+package com.xk.car.application.converter;
 
 import com.xk.car.application.model.VehiclePartsUsageCmd;
 import com.xk.car.application.model.VehiclePartsUsageRequest;
@@ -10,7 +10,7 @@ import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VehiclePartsUsageMapper {
+public class VehiclePartsUsageConverter {
     public VehiclePartsUsageCmd toCreateVehiclePartsUsageCmd(VehiclePartsUsageRequest request) {
         return XkBeanUtils.copyProperties(request ,VehiclePartsUsageCmd::new);
     }

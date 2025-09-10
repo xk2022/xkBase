@@ -1,6 +1,6 @@
 package com.xk.car.domain.service.impl;
 
-import com.xk.car.application.mapper.VehicleStatusLogsMapper;
+import com.xk.car.application.converter.VehicleStatusLogsConverter;
 import com.xk.car.application.model.VehicleStatusLogsCmd;
 import com.xk.car.domain.model.bo.VehicleStatusLogsBo;
 import com.xk.car.domain.model.entity.VehicleStatusLogsEntity;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
-    private final VehicleStatusLogsMapper mapper;
+    private final VehicleStatusLogsConverter converter;
     private final VehicleStatusLogsRepository repository;
 
 
@@ -32,11 +32,11 @@ public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
     @Override
     public VehicleStatusLogsBo create(VehicleStatusLogsCmd cmd) {
         log.info("[Service] 建立車輛狀態資訊 cmd={}",cmd);
-        VehicleStatusLogsEntity entity = mapper.toEntity(cmd);
+        VehicleStatusLogsEntity entity = converter.toEntity(cmd);
         entity.initialize();
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved =repository.save(po);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
 
         existing.setUpdatedTime(ZonedDateTime.now());
         var saved =repository.save(existing);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override

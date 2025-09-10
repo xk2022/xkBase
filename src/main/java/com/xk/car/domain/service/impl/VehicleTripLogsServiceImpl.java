@@ -1,13 +1,10 @@
 package com.xk.car.domain.service.impl;
 
-import com.xk.car.application.mapper.VehiclePartsUsageMapper;
-import com.xk.car.application.mapper.VehicleTripLogsMapper;
+import com.xk.car.application.converter.VehicleTripLogsConverter;
 import com.xk.car.application.model.VehicleTripLogsCmd;
 import com.xk.car.domain.model.bo.VehicleTripLogsBo;
-import com.xk.car.domain.model.entity.VehiclePartsUsageEntity;
 import com.xk.car.domain.model.entity.VehicleTripLogsEntity;
 import com.xk.car.domain.service.VehicleTripLogsService;
-import com.xk.car.infrastrcture.persistence.repository.VehiclePartsUsageRepository;
 import com.xk.car.infrastrcture.persistence.repository.VehicleTripLogsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,18 +24,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class VehicleTripLogsServiceImpl implements VehicleTripLogsService {
-    private final VehicleTripLogsMapper mapper;
+    private final VehicleTripLogsConverter converter;
     private final VehicleTripLogsRepository repository;
 
     @Override
     public VehicleTripLogsBo create(VehicleTripLogsCmd cmd) {
         log.info("建立車輛耗損與維修項目紀錄 cmd={}" ,cmd);
-        VehicleTripLogsEntity entity =mapper.toEntity(cmd);
+        VehicleTripLogsEntity entity =converter.toEntity(cmd);
         entity.initialize();
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved = repository.save(po);
 
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class VehicleTripLogsServiceImpl implements VehicleTripLogsService {
         existing.setUpdatedBy(cmd.getUpdatedBy());
         existing.setUpdatedTime(ZonedDateTime.now());
         var saved = repository.save(existing);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override

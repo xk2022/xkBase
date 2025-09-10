@@ -1,7 +1,7 @@
 package com.xk.car.application.usecase.impl;
 
 
-import com.xk.car.application.mapper.VehicleMapper;
+import com.xk.car.application.converter.VehicleConverter;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleQueryUseCase;
@@ -18,15 +18,15 @@ import org.springframework.stereotype.Service;
 public class VehicleQueryUseCaseImpl implements VehicleQueryUseCase {
 
     private final VehicleService service;
-    private final VehicleMapper mapper;
+    private final VehicleConverter converter;
 
     @Override
     public VehicleResponse getVehicleByStatusAndLicensePlate(VehicleRequest vehicleRequest) {
         VehicleBo result;
-        var cmd = mapper.toCreateVehicleCmd(vehicleRequest);
+        var cmd = converter.toCreateVehicleCmd(vehicleRequest);
         result = service.getVehicleByStatusAndLicensePlate(cmd);
         if(result != null){
-            return  mapper.toResponseDto(result);
+            return  converter.toResponseDto(result);
         }
         return null;
     }

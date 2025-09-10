@@ -1,7 +1,6 @@
 package com.xk.car.application.usecase.impl;
 
-import com.alibaba.druid.util.StringUtils;
-import com.xk.car.application.mapper.VehiclePairingsMapper;
+import com.xk.car.application.converter.VehiclePairingsConverter;
 import com.xk.car.application.model.VehiclePairingsRequest;
 import com.xk.car.application.model.VehiclePairingsResponse;
 import com.xk.car.application.usecase.VehiclePairingsCreateUseCase;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 /**
  * 📌 `VehiclePairingsCreateUseCaseImpl` - 负责車頭與板車管理的创建逻辑
@@ -33,7 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUseCase {
 
-    private final VehiclePairingsMapper mapper;
+    private final VehiclePairingsConverter converter;
     private final DateCoverUtils dateCoverUtils;
     private final VehiclePairingsService service;
     private final VehicleService vehicleService;
@@ -47,7 +45,7 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
 
 
-        var cmd = mapper.toCreateVehiclePairingsCmd(request);
+        var cmd = converter.toCreateVehiclePairingsCmd(request);
         ZonedDateTime bindTime = dateCoverUtils.parseZdt(request.getBindTime());
         ZonedDateTime unbindTime = dateCoverUtils.parseZdt(request.getUnbindTime());
         cmd.setBindTime(bindTime);
@@ -66,7 +64,7 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
                 ? service.create(cmd)
                 : service.update(vehicleBo.getUuid(), cmd);
 
-        VehiclePairingsResponse response = mapper.toResponse(result);
+        VehiclePairingsResponse response = converter.toResponse(result);
         response.setBindTime(bindTime != null ? bindTime.toString() : "");
         response.setUnbindTime(unbindTime != null ? unbindTime.toString() : "");
 

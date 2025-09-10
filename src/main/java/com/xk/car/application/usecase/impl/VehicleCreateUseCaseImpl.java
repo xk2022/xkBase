@@ -1,14 +1,13 @@
 package com.xk.car.application.usecase.impl;
 
 
-import com.xk.car.application.mapper.VehicleMapper;
+import com.xk.car.application.converter.VehicleMapper;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleCreateUseCase;
 
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
-import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

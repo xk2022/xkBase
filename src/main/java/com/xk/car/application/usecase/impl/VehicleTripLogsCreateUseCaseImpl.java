@@ -1,6 +1,6 @@
 package com.xk.car.application.usecase.impl;
 
-import com.xk.car.application.mapper.VehicleTripLogsMapper;
+import com.xk.car.application.converter.VehicleTripLogsConverter;
 import com.xk.car.application.model.VehicleTripLogsRequest;
 import com.xk.car.application.model.VehicleTripLogsResponse;
 import com.xk.car.application.usecase.VehicleTripLogsCreateUseCase;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * 📌 `VehicleTripLogsCreateUseCaseImpl` - 负责里程紀錄的创建逻辑
@@ -31,7 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUseCase {
-    private final VehicleTripLogsMapper mapper;
+    private final VehicleTripLogsConverter converter;
     private final VehicleTripLogsService service;
     private final DateCoverUtils dateCoverUtils;
     private final VehicleService vehicleService;
@@ -49,7 +48,7 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
 
         Date date = dateCoverUtils.StringCoverToDate(request.getDate());
 
-        var cmd = mapper.toCreateCmd(request);
+        var cmd = converter.toCreateCmd(request);
         cmd.setStartMileage(startMileage);
         cmd.setEndMileage(endMileage);
         cmd.setDistance(endMileage.divide(startMileage));
@@ -62,7 +61,7 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
                 ?service.create(cmd)
                 :service.update(vehicleBo.getUuid(),cmd);
 
-        VehicleTripLogsResponse response = mapper.toResponse(result);
+        VehicleTripLogsResponse response = converter.toResponse(result);
         response.setStartMileage(String.valueOf(startMileage));
         response.setEndMileage(String.valueOf(endMileage));
         response.setDistance(String.valueOf(endMileage.subtract(startMileage)));

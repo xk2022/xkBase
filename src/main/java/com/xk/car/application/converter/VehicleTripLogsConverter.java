@@ -1,4 +1,4 @@
-package com.xk.car.application.mapper;
+package com.xk.car.application.converter;
 
 import com.xk.car.application.model.VehicleTripLogsCmd;
 import com.xk.car.application.model.VehicleTripLogsRequest;
@@ -10,7 +10,7 @@ import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VehicleTripLogsMapper {
+public class VehicleTripLogsConverter {
 
     public VehicleTripLogsCmd toCreateCmd(VehicleTripLogsRequest request) {
         return XkBeanUtils.copyProperties(request ,VehicleTripLogsCmd::new);

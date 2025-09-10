@@ -1,4 +1,4 @@
-package com.xk.car.application.mapper;
+package com.xk.car.application.converter;
 
 
 import com.xk.car.application.model.VehicleMaintenanceCreateCmd;
@@ -12,7 +12,7 @@ import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VehicleMaintenanceMapper {
+public class VehicleMaintenanceConverter {
 
 
     public VehicleMaintenanceCreateCmd toCreateVehicleMaintenanceCmd(VehicleMaintenanceRequest createDTO){
@@ -33,5 +33,9 @@ public class VehicleMaintenanceMapper {
 
     public VehicleMaintenanceResponse toResponseDto(VehicleMaintenanceBo result) {
         return XkBeanUtils.copyProperties(result , VehicleMaintenanceResponse::new);
+    }
+
+    public VehicleMaintenancePo BOtoPO(VehicleMaintenanceBo vehicleMaintenanceBo) {
+        return XkBeanUtils.copyProperties(vehicleMaintenanceBo , VehicleMaintenancePo::new);
     }
 }

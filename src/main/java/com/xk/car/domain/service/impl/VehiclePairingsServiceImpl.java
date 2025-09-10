@@ -1,6 +1,6 @@
 package com.xk.car.domain.service.impl;
 
-import com.xk.car.application.mapper.VehiclePairingsMapper;
+import com.xk.car.application.converter.VehiclePairingsConverter;
 import com.xk.car.application.model.VehiclePairingsCmd;
 import com.xk.car.domain.model.bo.VehiclePairingsBo;
 import com.xk.car.domain.model.entity.VehiclePairingsEntity;
@@ -26,19 +26,19 @@ import java.util.UUID;
 @Slf4j
 public class VehiclePairingsServiceImpl implements VehiclePairingsService {
 
-    private final VehiclePairingsMapper mapper;
+    private final VehiclePairingsConverter converter;
     private final VehiclePairingsRepository repository;
 
 
     @Override
     public VehiclePairingsBo create(VehiclePairingsCmd cmd) {
         log.info("[Service] 建立 車頭與版車管理資訊 cmd={}" , cmd);
-        VehiclePairingsEntity entity = mapper.toEntity(cmd);
+        VehiclePairingsEntity entity = converter.toEntity(cmd);
         entity.initialize();
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved = repository.save(po);
 
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class VehiclePairingsServiceImpl implements VehiclePairingsService {
         existing.setNote(cmd.getNote());
         existing.setUpdatedTime(ZonedDateTime.now());
 
-        return mapper.toBo(existing);
+        return converter.toBo(existing);
     }
 
     @Override

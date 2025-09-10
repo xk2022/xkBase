@@ -1,7 +1,7 @@
 package com.xk.car.domain.service.impl;
 
 
-import com.xk.car.application.mapper.VehicleMapper;
+import com.xk.car.application.converter.VehicleConverter;
 import com.xk.car.application.model.VehicleCreateCmd;
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
@@ -26,16 +26,16 @@ import java.util.UUID;
 @Slf4j
 public class VehicleServiceImpl  implements VehicleService {
 
-    private final VehicleMapper mapper;
+    private final VehicleConverter converter;
     private final VehicleRepository repository;
     @Override
     public VehicleBo create(VehicleCreateCmd cmd) {
         log.info("[Service] 建立車輛資訊 cmd={}", cmd);
-        VehicleEntity entity = mapper.toEntity(cmd);
+        VehicleEntity entity = converter.toEntity(cmd);
         entity.initialize();
-        var po = mapper.toPo(entity);
+        var po = converter.toPo(entity);
         var saved = repository.save(po);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class VehicleServiceImpl  implements VehicleService {
         existing.setVehicleType(cmd.getVehicleType());
         existing.setUpdatedTime(ZonedDateTime.now());
         var saved =repository.save(existing);
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
@@ -66,13 +66,13 @@ public class VehicleServiceImpl  implements VehicleService {
     public VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
         log.info("[Service] 查詢車輛資訊");
         var entity = repository.getVehicleByStatusAndLicensePlate(vehicleCreateCmd.getStatus(),vehicleCreateCmd.getLicensePlate());
-        return mapper.toBo(entity);
+        return converter.toBo(entity);
     }
 
     @Override
     public VehicleBo findByLicensePlate(String licensePlate) {
         log.info("[Service] 車牌號碼查詢車輛資訊");
         var entity = repository.findByLicensePlate(licensePlate).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
-        return mapper.toBo(entity);
+        return converter.toBo(entity);
     }
 }
