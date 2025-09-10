@@ -2,8 +2,11 @@ package com.xk.adm.controller.api;
 
 import com.xk.adm.application.dto.DictCategoryRequest;
 import com.xk.adm.application.dto.DictCategoryResponse;
-import com.xk.adm.application.usecase.DictCategoryCreateUseCase;
-import com.xk.adm.application.usecase.DictCategoryDeleteUseCase;
+
+import com.xk.adm.application.dto.DictItemRequest;
+import com.xk.adm.application.dto.DictItemResponse;
+import com.xk.adm.application.usecase.DictItemDeleteUseCase;
+import com.xk.adm.application.usecase.DictItemCreateUseCase;
 import com.xk.common.base.BaseResult;
 import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,30 +23,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * 📌 `DIctCategoryController` - 負責管理 選單類別 API**
+ * 📌 `DictItemController` - 負責管理 選單項目 API**
  *
  * - 提供 `CRUD` 操作
  * - 支援分頁查詢
  * - `DTO` 物件與 `UseCase` 互動
  *
- * @author Hank Created on 2025/09/03.
+ * @author Hank Created on 2025/09/10.
  */
-@Tag(name = "DIctCategory Management", description = "選單類別管理")
+@Tag(name = "DIctCategory Management", description = "選單項目管理")
 @RestController
-@RequestMapping("/api/adm/dictcategory")
+@RequestMapping("/api/adm/dictitem")
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class DictCategoryController {
+public class DictItemController {
 
-    private final DictCategoryCreateUseCase dictCategoryCreateUseCase;
-    private final DictCategoryDeleteUseCase deleteUseCase;
+    private final DictItemCreateUseCase createUseCase;
+    private final DictItemDeleteUseCase deleteUseCase;
 
 
-    @Operation(summary = "新增選單類別" ,description = "新增選單類別")
+    @Operation(summary = "新增選單項目" ,description = "新增選單項目")
     @PostMapping("/save")
-    public BaseResult<DictCategoryResponse> create(@RequestBody @Valid DictCategoryRequest request , @AuthenticationPrincipal JwtUserDTO userDTO){
-        DictCategoryResponse response = dictCategoryCreateUseCase.create(request);
+    public BaseResult<DictItemResponse> create(@RequestBody @Valid DictItemRequest request , @AuthenticationPrincipal JwtUserDTO userDTO){
+        DictItemResponse response = createUseCase.create(request);
         return BaseResult.success(response ,"新增選單類別成功");
     }
 

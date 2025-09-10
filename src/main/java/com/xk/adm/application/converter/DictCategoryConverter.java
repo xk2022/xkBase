@@ -1,4 +1,4 @@
-package com.xk.adm.application.mapper;
+package com.xk.adm.application.converter;
 
 import com.xk.adm.application.dto.DictCategoryRequest;
 import com.xk.adm.application.dto.DictCategoryResponse;
@@ -9,7 +9,7 @@ import com.xk.common.util.XkBeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DictCategoryMapper {
+public class DictCategoryConverter {
 
 
     public DictCategoryBO toBo(DictCategoryPO po) {
@@ -26,5 +26,9 @@ public class DictCategoryMapper {
 
     public DictCategoryPO toPO(DictCategoryEntity entity) {
         return XkBeanUtils.copyProperties(entity , DictCategoryPO::new);
+    }
+
+    public DictCategoryPO BOtoPO(DictCategoryBO dictCategoryBO) {
+        return XkBeanUtils.copyProperties(dictCategoryBO , DictCategoryPO::new);
     }
 }

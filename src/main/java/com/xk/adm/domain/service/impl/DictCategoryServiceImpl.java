@@ -1,15 +1,18 @@
 package com.xk.adm.domain.service.impl;
 
-import com.xk.adm.application.mapper.DictCategoryMapper;
+import com.xk.adm.application.converter.DictCategoryConverter;
+import com.xk.adm.domain.dao.mapper.DictItemMapper;
 import com.xk.adm.domain.dao.repository.DictCategoryRepository;
 import com.xk.adm.domain.model.bo.DictCategoryBO;
 import com.xk.adm.domain.model.entity.DictCategoryEntity;
 import com.xk.adm.domain.model.po.DictCategoryPO;
+import com.xk.adm.domain.model.po.DictItemPO;
 import com.xk.adm.domain.service.DictCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,28 +31,30 @@ import java.util.UUID;
 public class DictCategoryServiceImpl implements DictCategoryService {
 
     private final DictCategoryRepository repository;
-    private final DictCategoryMapper mapper;
+    private final DictCategoryConverter converter;
+    private final DictItemMapper dictItemMapper;
+
 
     @Override
     public DictCategoryBO create(DictCategoryEntity entity) {
         log.info("[Service] 建立選單類別");
-        var po = mapper.toPO(entity);
+        var po = converter.toPO(entity);
         DictCategoryPO saved = repository.save(po);
 
-        return mapper.toBo(saved);
+        return converter.toBo(saved);
     }
 
     @Override
-    public DictCategoryBO update(UUID uuid, DictCategoryEntity entity) {
-        log.info("[Service] 更新選單類別 uuid={} , entity={}" ,uuid,entity);
-        var existing = repository.findById(uuid).orElseThrow(
-                ()->new IllegalArgumentException("選單類別不存在" +uuid)
-        );
-        existing.setCode(entity.getCode());
-        existing.setName(entity.getName());
-        existing.setDescription(entity.getDescription());
+    public DictCategoryBO update(DictCategoryBO dictCategoryBO, DictCategoryEntity entity) {
+        log.info("[Service] 更新選單類別 dictCategoryBO={} , entity={}" ,dictCategoryBO,entity);
 
-        return mapper.toBo(existing);
+        dictCategoryBO.setCode(entity.getCode());
+        dictCategoryBO.setName(entity.getName());
+        dictCategoryBO.setDescription(entity.getDescription());
+        var po = converter.BOtoPO(dictCategoryBO);
+        var saved = repository.save(po);
+
+        return converter.toBo(saved);
     }
 
     @Override
@@ -58,14 +63,15 @@ public class DictCategoryServiceImpl implements DictCategoryService {
         var po = repository.findById(uuid).orElseThrow(
                 ()->new IllegalArgumentException("選單類別不存在"+uuid)
         );
-        //TODO 選單子項目也要刪除
-
+        // 選單子項目也要刪除
+        List<DictItemPO> items = dictItemMapper.findByCategoryCodeAndDelete0(po.getCode());
+        dictItemMapper.deleteItems(items);
         repository.delete(po);
     }
 
     @Override
     public DictCategoryBO findByCode(String code) {
         DictCategoryPO po = repository.findByCode(code);
-        return  mapper.toBo(po);
+        return  converter.toBo(po);
     }
 }

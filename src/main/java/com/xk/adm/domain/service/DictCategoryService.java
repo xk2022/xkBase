@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface DictCategoryService {
     DictCategoryBO create(DictCategoryEntity entity);
 
-    DictCategoryBO update(UUID uuid, DictCategoryEntity entity);
+    DictCategoryBO update(DictCategoryBO dictCategoryBO, DictCategoryEntity entity);
 
     void delete(UUID uuid);
 
