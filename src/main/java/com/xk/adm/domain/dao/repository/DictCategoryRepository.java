@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface DictCategoryRepository  extends JpaRepository<DictCategoryPO , UUID> {
 
-    @Query("""
+    @Query(value = """
             Select * From dict_category Where code = :code and deleted ='0'
-            """)
+            """,nativeQuery = true)
     DictCategoryPO findByCode(String code);
 }
