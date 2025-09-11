@@ -1,9 +1,12 @@
 package com.xk.adm.application.usecase.impl;
 
 import com.xk.adm.application.usecase.DictItemDeleteUseCase;
+import com.xk.adm.domain.service.DictItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * 📌 `DictItemDeleteUseCaseImpl` - 负责選單項目的刪除逻辑
@@ -18,4 +21,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class DictItemDeleteUseCaseImpl implements DictItemDeleteUseCase {
+
+    private final DictItemService service;
+
+    @Override
+    public void delete(UUID uuid) {
+        log.info("[UseCase] 刪除選單項目 uuid={}",uuid);
+        service.delete(uuid);
+    }
 }

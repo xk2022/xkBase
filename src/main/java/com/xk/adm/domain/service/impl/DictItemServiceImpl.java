@@ -8,7 +8,10 @@ import com.xk.adm.domain.model.entity.DictItemEntity;
 import com.xk.adm.domain.service.DictItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * 📌 `DictItemServiceImpl`
@@ -53,5 +56,16 @@ public class DictItemServiceImpl implements DictItemService {
         var saved = repository.save(po);
 
         return convert.toBo(saved);
+    }
+
+    @Override
+    public void delete(UUID uuid) throws NotFoundException {
+        log.info("[Service] 刪除選單項目 uuid={}", uuid);
+        var po = repository.findById(uuid).orElseThrow(
+                ()-> new NotFoundException("該選單項目不存在")
+        );
+
+        repository.delete(po);
+
     }
 }

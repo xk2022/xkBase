@@ -40,7 +40,7 @@ public class DictItemPO extends SoftDeletableEntity implements Serializable {
     @Comment("選單類別代碼")
     private String catrgoryCode;
 
-    @Column(name="item_code" ,nullable = false)
+    @Column(name="item_code" ,nullable = false ,unique = true)
     @Comment("選單項目代碼")
     private String itemCode;
 

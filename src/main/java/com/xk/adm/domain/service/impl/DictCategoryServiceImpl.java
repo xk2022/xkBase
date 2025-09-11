@@ -3,6 +3,7 @@ package com.xk.adm.domain.service.impl;
 import com.xk.adm.application.converter.DictCategoryConverter;
 import com.xk.adm.domain.dao.mapper.DictItemMapper;
 import com.xk.adm.domain.dao.repository.DictCategoryRepository;
+import com.xk.adm.domain.dao.repository.DictItemRepository;
 import com.xk.adm.domain.model.bo.DictCategoryBO;
 import com.xk.adm.domain.model.entity.DictCategoryEntity;
 import com.xk.adm.domain.model.po.DictCategoryPO;
@@ -33,6 +34,7 @@ public class DictCategoryServiceImpl implements DictCategoryService {
     private final DictCategoryRepository repository;
     private final DictCategoryConverter converter;
     private final DictItemMapper dictItemMapper;
+    private final DictItemRepository itemRepository;
 
 
     @Override
@@ -64,7 +66,7 @@ public class DictCategoryServiceImpl implements DictCategoryService {
                 ()->new IllegalArgumentException("選單類別不存在"+uuid)
         );
         // 選單子項目也要刪除
-        List<DictItemPO> items = dictItemMapper.findByCategoryCodeAndDelete0(po.getCode());
+        List<DictItemPO> items = itemRepository.findCateGoryCodeAndDeleted(po.getCode());
         dictItemMapper.deleteItems(items);
         repository.delete(po);
     }
