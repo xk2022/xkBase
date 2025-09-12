@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -45,7 +46,7 @@ public class DictItemController {
 
     @Operation(summary = "新增選單項目" ,description = "新增選單項目")
     @PostMapping("/save")
-    public BaseResult<DictItemResponse> create(@RequestBody @Valid DictItemRequest request , @AuthenticationPrincipal JwtUserDTO userDTO){
+    public BaseResult<DictItemResponse> create(@RequestBody @Valid DictItemRequest request , @AuthenticationPrincipal JwtUserDTO userDTO) throws NotFoundException {
         DictItemResponse response = createUseCase.create(request);
         return BaseResult.success(response ,"新增選單類別成功");
     }
@@ -54,7 +55,7 @@ public class DictItemController {
     @Operation(summary = "刪除選單類別" ,description = "刪除選單類別")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void>  delete(
-            @Parameter(description = "需要刪除的選單類別 ID", required = true)  @PathVariable UUID uuid){
+            @Parameter(description = "需要刪除的選單類別 ID", required = true)  @PathVariable UUID uuid) throws NotFoundException {
         log.info(" [API] 刪除選單類別 - UUID: {}", uuid);
 
         deleteUseCase.delete(uuid); // 傳遞 UUID 進入 UseCase

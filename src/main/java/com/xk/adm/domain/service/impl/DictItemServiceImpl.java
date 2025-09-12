@@ -50,7 +50,7 @@ public class DictItemServiceImpl implements DictItemService {
         log.info("[Service] 更新選單項目 dictItem=｛} , entity={}" ,dictItemBO ,entity);
         dictItemBO.setItemCode(entity.getItemCode());
         dictItemBO.setItemName(entity.getItemName());
-        dictItemBO.setCatrgoryCode(entity.getCategoryCode());
+        dictItemBO.setCategoryCode(entity.getCategoryCode());
 
         var po = convert.BOtoPO(dictItemBO);
         var saved = repository.save(po);

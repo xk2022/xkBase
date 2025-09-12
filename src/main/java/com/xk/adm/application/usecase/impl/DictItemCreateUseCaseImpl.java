@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 📌 `DictItemCreateUseCaseImpl` - 负责選單類別的创建逻辑
@@ -31,10 +32,11 @@ public class DictItemCreateUseCaseImpl implements DictItemCreateUseCase {
     private final DictItemConverter converter;
     private final DictCategoryService dictCategoryService;
 
+    @Transactional
     @Override
     public DictItemResponse create(DictItemRequest request) throws NotFoundException {
         //查詢是否有該類別
-        DictCategoryBO dictCategoryBO = dictCategoryService.findByCode(request.getCatrgoryCode());
+        DictCategoryBO dictCategoryBO = dictCategoryService.findByCode(request.getCategoryCode());
         if (dictCategoryBO == null){
             throw new NotFoundException("請先建立選單類別");
         }
@@ -43,12 +45,14 @@ public class DictItemCreateUseCaseImpl implements DictItemCreateUseCase {
         log.info("[UseCase] 開始{}選單項目 - ItemCode={}",dictItemBO==null?"建立":"更新" ,request.getItemCode());
 
         var entity =converter.toEntity(request);
+        entity.setCategoryCode(dictCategoryBO.getCode());
         entity.initialize();
 
         DictItemBO result = dictItemBO ==null
                 ? service.create(entity)
                 : service.update(dictItemBO , entity);
-
-        return converter.toResponse(result);
+        DictItemResponse response = converter.toResponse(result);
+        response.setCreatedTime(String.valueOf(entity.getCreatedTime()));
+        return response;
     }
 }

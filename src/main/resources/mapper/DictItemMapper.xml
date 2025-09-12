@@ -6,7 +6,7 @@
 
 
     <resultMap id="DictItemResultMap" type="com.xk.adm.domain.model.po.DictItemPO">
-        <result property="catrgoryCode" column="category_code"/>
+        <result property="categoryCode" column="category_code"/>
         <result property="itemCode" column="item_code"/>
         <result property="itemName" column="item_name"/>
         <result property="sortOrder" column="sort_order"/>

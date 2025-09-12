@@ -73,7 +73,8 @@ public class DictCategoryServiceImpl implements DictCategoryService {
 
     @Override
     public DictCategoryBO findByCode(String code) {
-        DictCategoryPO po = repository.findByCode(code);
+        log.info("[Service] 查詢選單類別");
+        DictCategoryPO po = repository.findByCodeAndDeleted(code);
         return  converter.toBo(po);
     }
 }

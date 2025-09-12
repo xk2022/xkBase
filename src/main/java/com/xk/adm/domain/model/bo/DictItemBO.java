@@ -9,7 +9,7 @@ import java.util.UUID;
 public class DictItemBO {
 
     private UUID uuid;
-    private String catrgoryCode;
+    private String categoryCode;
     private String itemCode;
     private String itemName;
     private Integer sortOrder;

@@ -9,7 +9,7 @@ public class DictItemRequest {
     private String uuid;
 
     @NotBlank(message = "類別代碼不可空")
-    private String catrgoryCode;
+    private String categoryCode;
 
     @NotBlank(message = "選單項目")
     private String itemCode;

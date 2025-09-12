@@ -1,7 +1,7 @@
 package com.xk.car.application.usecase.impl;
 
 
-import com.xk.car.application.converter.VehicleMapper;
+import com.xk.car.application.converter.VehicleConverter;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleCreateUseCase;
@@ -31,7 +31,7 @@ import java.util.UUID;
 @Slf4j
 public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
 
-    private final VehicleMapper mapper;
+    private final VehicleConverter converter;
     private final VehicleService service;
 
     @Transactional
@@ -40,7 +40,7 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
         log.info("[UseCase] {}建立車輛資訊 request={}", createDTO.getUuid() ==null ?"建立":"更新",createDTO);
         VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
         BigDecimal mileage = new BigDecimal(createDTO.getMileage());
-        var cmd = mapper.toCreateVehicleCmd(createDTO);
+        var cmd = converter.toCreateVehicleCmd(createDTO);
         cmd.setVehicleType(vehicleType);
         cmd.setMileage(mileage);
 
@@ -48,7 +48,7 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
                 ? service.create(cmd)
                 : service.update(UUID.fromString(createDTO.getUuid()), cmd);
 
-        VehicleResponse response =  mapper.toResponseDto(result);
+        VehicleResponse response =  converter.toResponseDto(result);
         response.setVehicleType(String.valueOf(result.getVehicleType()));
         response.setMileage(String.valueOf(result.getMileage()));
         response.setStatus(String.valueOf(result.getStatus()));

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DictItemResponse {
 
-    private String catrgoryCode;
+    private String categoryCode;
     private String itemCode;
     private String itemName;
     private String sortOrder;
