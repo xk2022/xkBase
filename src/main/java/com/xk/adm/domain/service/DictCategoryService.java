@@ -13,4 +13,6 @@ public interface DictCategoryService {
     void delete(UUID uuid);
 
     DictCategoryBO findByCode(String code);
+
+    DictCategoryBO getDictCategory(String categoryCode);
 }

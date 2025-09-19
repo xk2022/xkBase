@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class DictItemBO {
 
-    private UUID uuid;
+    private String itemUuid;
     private String categoryCode;
     private String itemCode;
     private String itemName;

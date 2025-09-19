@@ -3,11 +3,13 @@ package com.xk.adm.domain.model.bo;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 public class DictCategoryBO {
-    private UUID uuid;
+
+    private String uuid;
     private String code;
     private String name;
     private String description;
@@ -17,4 +19,5 @@ public class DictCategoryBO {
     private ZonedDateTime createdTime;
     private String updatedBy;
     private ZonedDateTime updatedTime;
+    List<DictItemBO> itemList;
 }

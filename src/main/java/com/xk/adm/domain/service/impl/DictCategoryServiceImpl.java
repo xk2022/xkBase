@@ -1,6 +1,7 @@
 package com.xk.adm.domain.service.impl;
 
 import com.xk.adm.application.converter.DictCategoryConverter;
+import com.xk.adm.domain.dao.mapper.DictCategoryMapper;
 import com.xk.adm.domain.dao.mapper.DictItemMapper;
 import com.xk.adm.domain.dao.repository.DictCategoryRepository;
 import com.xk.adm.domain.dao.repository.DictItemRepository;
@@ -11,6 +12,7 @@ import com.xk.adm.domain.model.po.DictItemPO;
 import com.xk.adm.domain.service.DictCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class DictCategoryServiceImpl implements DictCategoryService {
     private final DictCategoryRepository repository;
     private final DictCategoryConverter converter;
     private final DictItemMapper dictItemMapper;
+    private final DictCategoryMapper dictCategoryMapper;
     private final DictItemRepository itemRepository;
 
 
@@ -76,5 +79,12 @@ public class DictCategoryServiceImpl implements DictCategoryService {
         log.info("[Service] 查詢選單類別");
         DictCategoryPO po = repository.findByCodeAndDeleted(code);
         return  converter.toBo(po);
+    }
+
+    @Override
+    public DictCategoryBO getDictCategory(String categoryCode) {
+        log.info("[Service] 查詢選單類別及子項目");
+        DictCategoryBO itemBo =dictCategoryMapper.getDictCategory(categoryCode);
+        return itemBo;
     }
 }

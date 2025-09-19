@@ -31,6 +31,8 @@ logging:
 #    org.springframework: debug
     org.hibernate: WARN
     org.springframework: INFO
+    org.apache.ibatis: DEBUG
+    org.apache.ibatis.builder: TRACE
 server:
   port: 8081
 
@@ -39,3 +41,9 @@ springdoc:
     enabled: true
   swagger-ui:
     path: /swagger-ui.html
+
+mybatis:
+  configuration:
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml

@@ -4,6 +4,7 @@ import com.xk.adm.application.dto.DictCategoryRequest;
 import com.xk.adm.application.dto.DictCategoryResponse;
 import com.xk.adm.application.usecase.DictCategoryCreateUseCase;
 import com.xk.adm.application.usecase.DictCategoryDeleteUseCase;
+import com.xk.adm.application.usecase.DictCategoryFindUseCase;
 import com.xk.common.base.BaseResult;
 import com.xk.common.util.dto.JwtUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,7 @@ public class DictCategoryController {
 
     private final DictCategoryCreateUseCase dictCategoryCreateUseCase;
     private final DictCategoryDeleteUseCase deleteUseCase;
+    private final DictCategoryFindUseCase findUseCase;
 
 
     @Operation(summary = "新增選單類別" ,description = "新增選單類別")
@@ -59,4 +61,13 @@ public class DictCategoryController {
         return ResponseEntity.noContent().build();
 
     }
+
+    @GetMapping("getDictCategory")
+    public BaseResult<DictCategoryResponse> getDictCategory(@RequestParam( name ="categoryCode" ,required = true) String categoryCode
+            , @AuthenticationPrincipal JwtUserDTO userDTO ){
+        DictCategoryResponse response = findUseCase.getDictCategory(categoryCode);
+        return BaseResult.success(response ,"查詢選單類別成功");
+    }
+
+
 }
