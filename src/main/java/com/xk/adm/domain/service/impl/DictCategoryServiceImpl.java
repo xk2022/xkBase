@@ -12,7 +12,6 @@ import com.xk.adm.domain.model.po.DictItemPO;
 import com.xk.adm.domain.service.DictCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 /**
  * 📌 `DictCategoryServiceImpl`
- *
+ * <p>
  * - `DictCategoryService` 介面的實作
  * - 負責 `DictCategory`（管理系統）的創建、更新、刪除、查詢業務邏輯
  * - 透過 `DictCategoryRepository` 存取數據
@@ -51,7 +50,7 @@ public class DictCategoryServiceImpl implements DictCategoryService {
 
     @Override
     public DictCategoryBO update(DictCategoryBO dictCategoryBO, DictCategoryEntity entity) {
-        log.info("[Service] 更新選單類別 dictCategoryBO={} , entity={}" ,dictCategoryBO,entity);
+        log.info("[Service] 更新選單類別 dictCategoryBO={} , entity={}", dictCategoryBO, entity);
 
         dictCategoryBO.setCode(entity.getCode());
         dictCategoryBO.setName(entity.getName());
@@ -66,7 +65,7 @@ public class DictCategoryServiceImpl implements DictCategoryService {
     public void delete(UUID uuid) {
         log.info("[Service] 刪除選單類別");
         var po = repository.findById(uuid).orElseThrow(
-                ()->new IllegalArgumentException("選單類別不存在"+uuid)
+                () -> new IllegalArgumentException("選單類別不存在" + uuid)
         );
         // 選單子項目也要刪除
         List<DictItemPO> items = itemRepository.findCateGoryCodeAndDeleted(po.getCode());
@@ -78,13 +77,13 @@ public class DictCategoryServiceImpl implements DictCategoryService {
     public DictCategoryBO findByCode(String code) {
         log.info("[Service] 查詢選單類別");
         DictCategoryPO po = repository.findByCodeAndDeleted(code);
-        return  converter.toBo(po);
+        return converter.toBo(po);
     }
 
     @Override
     public DictCategoryBO getDictCategory(String categoryCode) {
         log.info("[Service] 查詢選單類別及子項目");
-        DictCategoryBO itemBo =dictCategoryMapper.getDictCategory(categoryCode);
+        DictCategoryBO itemBo = dictCategoryMapper.getDictCategory(categoryCode);
         return itemBo;
     }
 }
