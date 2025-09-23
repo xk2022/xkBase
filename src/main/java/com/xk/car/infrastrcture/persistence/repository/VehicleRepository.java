@@ -13,12 +13,22 @@ import java.util.UUID;
 public interface VehicleRepository extends JpaRepository<VehiclePo, UUID> {
 
     @Query(value = """
-     Select v From VehiclePo v
+     Select v From vehicle v
          WHERE v.status = :status And
-         v.licensePlate LIKE CONCAT('%', :licensePlate, '%')
+         v.license_plate LIKE CONCAT('%', :licensePlate, '%')
     """ , nativeQuery = false)
     VehiclePo getVehicleByStatusAndLicensePlate(VehicleStatusEnum status, String licensePlate);
 
 
     Optional<VehiclePo> findByLicensePlate(String licensePlate);
+
+    @Query(value = """
+            Select * From vehicle v
+            WHERE 1=1
+            And v.brand_model = :brandModel
+            And v.license_plate LIKE CONCAT('%', :licensePlate, '%')
+            And v.year = :year
+            And v.status = :statusStr
+            """,nativeQuery = true)
+    Optional<VehiclePo> findByLicensePlateAndBrandModelAndYearAndStatus(String licensePlate, String brandModel, String year, String statusStr);
 }

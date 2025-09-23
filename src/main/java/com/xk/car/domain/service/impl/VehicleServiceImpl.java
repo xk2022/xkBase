@@ -75,4 +75,13 @@ public class VehicleServiceImpl  implements VehicleService {
         var entity = repository.findByLicensePlate(licensePlate).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
         return converter.toBo(entity);
     }
+
+    @Override
+    public VehicleBo findByLicensePlateAndBrandModelAndYearAndStatus(String licensePlate, String brandModel, String year, String statusStr) {
+        log.info("[Service] 車牌號碼 ,車輛品牌,年份,狀態查詢車輛資訊");
+        var entity = repository.findByLicensePlateAndBrandModelAndYearAndStatus(licensePlate,brandModel,year,statusStr).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
+        return converter.toBo(entity);
+    }
+
+
 }

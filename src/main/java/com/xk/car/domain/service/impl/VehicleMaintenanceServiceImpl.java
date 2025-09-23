@@ -6,12 +6,17 @@ import com.xk.car.application.model.VehicleMaintenanceCreateCmd;
 import com.xk.car.domain.model.bo.VehicleMaintenanceBo;
 import com.xk.car.domain.model.entity.VehicleMaintenanceEntity;
 import com.xk.car.domain.service.VehicleMaintenanceService;
+import com.xk.car.infrastrcture.persistence.model.po.VehicleMaintenancePo;
 import com.xk.car.infrastrcture.persistence.repository.VehicleMaintenanceRepository;
+import com.xk.common.util.XkBeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -69,5 +74,13 @@ public class VehicleMaintenanceServiceImpl implements VehicleMaintenanceService 
         log.info("刪除車輛維修提醒資訊");
         var entity = repository.findById(uuid).orElseThrow(()-> new IllegalArgumentException("此車輛維修資訊不存在" + uuid));
         repository.delete(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<VehicleMaintenanceBo> getMaintenanceByCarId(UUID uuid) {
+        List<VehicleMaintenancePo> pos = repository.getMaintenanceByCarId(uuid);
+        return XkBeanUtils.copyListProperties(pos,VehicleMaintenanceBo::new);
+
     }
 }

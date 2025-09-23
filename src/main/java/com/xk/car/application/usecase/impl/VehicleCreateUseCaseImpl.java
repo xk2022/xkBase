@@ -8,6 +8,7 @@ import com.xk.car.application.usecase.VehicleCreateUseCase;
 
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
+import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,11 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
         var cmd = converter.toCreateVehicleCmd(createDTO);
         cmd.setVehicleType(vehicleType);
         cmd.setMileage(mileage);
+
+        if (createDTO.getUuid() !=null){
+            cmd.setStatus(VehicleStatusEnum.fromString(createDTO.getStatus()));
+        }
+
 
         VehicleBo result = (createDTO.getUuid()==null)
                 ? service.create(cmd)

@@ -3,7 +3,9 @@ package com.xk.car.domain.service;
 import com.xk.car.application.model.VehicleCreateCmd;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.domain.model.bo.VehicleBo;
+import com.xk.car.domain.model.bo.VehicleMaintenanceBo;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,4 +42,9 @@ public interface VehicleService {
 
 
      VehicleBo findByLicensePlate(String licensePlate);
+
+
+     VehicleBo findByLicensePlateAndBrandModelAndYearAndStatus(String licensePlate, String brandModel, String year, String statusStr);
+
+
 }
