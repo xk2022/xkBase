@@ -1,40 +1,45 @@
+# =========================
+# application.yml (common)
+# =========================
 spring:
   application:
     name: xkBase
-  datasource:
-    url: jdbc:mysql://localhost:3306/xkbase?useSSL=false&serverTimezone=UTC
-    username: root
-    password: 1qaz@WSX
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari: #Hibernate 提示数据库版本和隔离级别未定义。虽然不影响功能，但建议明确配置：
-      minimum-idle: 5         # 最小空闲连接数
-      maximum-pool-size: 10   # 最大连接池大小
-      connection-test-query: SELECT 1  # 测试连接的 SQL
+  profiles:
+    # 建議用環境變數啟用：SPRING_PROFILES_ACTIVE=dev|sit|uat|prod
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  # JPA 共用（只放不變的）
   jpa:
-    hibernate:
-      ddl-auto: update        # 自动更新表结构（仅用于开发阶段，生产环境建议使用 none）
-    show-sql: true            # 显示 SQL
-    open-in-view: false       # 禁用 Open-in-View，适用于纯 API 项目
     properties:
-        hibernate:
-            format_sql: true
-            dialect: org.hibernate.dialect.MySQLDialect
-            jdbc:
-                time_zone: Asia/Taipei
-jwt:
-  secret: e9c63d1db6b6ad97ee7b1828c6291f38c06abed917b8626892e9113d4e33302a17a04fbcf2d8b63d3abecd733c6d98a360c91e50d2f1675b9583d31ddcb93e13
+      hibernate:
+        default_schema: ENGINE=InnoDB # 强制表使用 InnoDB 引擎
+        default_storage_engine: innodb # 强制使用 InnoDB 存储引擎
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl # 默认命名策略
+          # physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # 可选的物理命名策略
+        show-sql: true # 显示 SQL
+        dialect: org.hibernate.dialect.MySQL8Dialect # Hibernate 方言 (MySQL 8.x)
+        jdbc:
+          time_zone: Asia/Taipei
+    open-in-view: false # 启用OpenSessionInView以支持延迟加载
+
+server:
+  port: ${SERVER_PORT:8080}
 
 logging:
   level:
-    root: INFO
-#    org.hibernate: debug
-#    org.springframework: debug
-    org.hibernate: WARN
-    org.springframework: INFO
-    org.apache.ibatis: DEBUG
-    org.apache.ibatis.builder: TRACE
-server:
-  port: 8081
+    root: INFO                  # 全局日志级别设置为 INFO
+    org.springframework: DEBUG   # 启用 Spring 的调试日志
+    com.xk: INFO                # 仅为 com.xk 包启用 DEBUG 级别日志
+  file:
+    path: ./logs                # 指定日志文件的路径（请确保路径存在）
+    name: log-pro.log           # 指定日志文件的名称
+
+jwt:
+  secret: ${JWT_SECRET:VGhpcyBpcyBhIGJhc2U2NC1zZWNyZXQgdGhhdCdzIGFjdHVhbGx5IHZhbGlkIQ==}
+#jwt:
+  # 正式請用環境變數注入
+  # 建議改以環境變數注入；此處提供預設值方便本機啟動
+#  secret: ${JWT_SECRET:change-me}
 
 springdoc:
   api-docs:
@@ -42,8 +47,42 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+# MyBatis 共用
 mybatis:
   configuration:
     call-setters-on-nulls: true
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
+
+
+
+
+
+
+
+
+#
+#
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/xkbase?useSSL=false&serverTimezone=UTC
+#    username: root
+#    password: 1qaz@WSX
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari: #Hibernate 提示数据库版本和隔离级别未定义。虽然不影响功能，但建议明确配置：
+#      minimum-idle: 5         # 最小空闲连接数
+#      maximum-pool-size: 10   # 最大连接池大小
+#      connection-test-query: SELECT 1  # 测试连接的 SQL
+#  jpa:
+#    hibernate:
+#      ddl-auto: update        # 自动更新表结构（仅用于开发阶段，生产环境建议使用 none）
+#    open-in-view: false       # 禁用 Open-in-View，适用于纯 API 项目
+#    properties:
+#      hibernate:
+#
+#logging:
+#  level:
+#    org.springframework: INFO
+#    org.apache.ibatis: DEBUG
+#    org.apache.ibatis.builder: TRACE
+

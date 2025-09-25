@@ -12,3 +12,4 @@ mvnw.cmd
 xkBase.iml
 .mvn/
 
+log*
