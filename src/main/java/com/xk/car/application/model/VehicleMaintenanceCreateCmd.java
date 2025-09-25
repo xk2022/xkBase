@@ -17,7 +17,7 @@ public class VehicleMaintenanceCreateCmd {
     private UUID uuid;
     private String carId;
     private VehicleEnum vehicleType;
-    private Boolean deleted = false;
+
     private MaintenanceTypeEnum maintenanceType;
     private BigDecimal mileageAt;
     private Date maintenanceDate;

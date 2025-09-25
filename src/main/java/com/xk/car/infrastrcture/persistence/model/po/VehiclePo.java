@@ -38,6 +38,7 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
 
     @NotNull
     @Column(name = "vehicle_type" ,nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("車頭/板車")
     private VehicleEnum vehicleType;
 
@@ -60,6 +61,7 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
 
     @NotNull
     @Column(name = "status" , nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("車輛狀態")
     private VehicleStatusEnum status;
 

@@ -25,10 +25,10 @@ public class VehicleQueryUseCaseImpl implements VehicleQueryUseCase {
         VehicleBo result;
         var cmd = converter.toCreateVehicleCmd(vehicleRequest);
         result = service.getVehicleByStatusAndLicensePlate(cmd);
+        VehicleResponse resp = new VehicleResponse();
         if(result != null){
-            VehicleResponse resp = converter.toResponseDto(result);
-            return  resp;
+            return   converter.toResponseDto(result);
         }
-        return null;
+        return resp;
     }
 }

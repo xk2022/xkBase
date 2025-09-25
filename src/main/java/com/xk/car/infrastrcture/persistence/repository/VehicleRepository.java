@@ -14,12 +14,20 @@ public interface VehicleRepository extends JpaRepository<VehiclePo, UUID> {
 
     @Query(value = """
      Select v From vehicle v
-         WHERE v.status = :status And
-         v.license_plate LIKE CONCAT('%', :licensePlate, '%')
-    """ , nativeQuery = false)
-    VehiclePo getVehicleByStatusAndLicensePlate(VehicleStatusEnum status, String licensePlate);
+         WHERE 1=1
+         And v.status = :status
+         And v.license_plate LIKE CONCAT('%', :licensePlate, '%')
+         And v.deleted = '0'
+    """ , nativeQuery = true)
+    VehiclePo getVehicleByStatusAndLicensePlate(String status, String licensePlate);
 
 
+    @Query(value = """
+             Select * From vehicle v
+              WHERE 1=1
+              And v.license_plate = :licensePlate
+              And v.deleted = '0'
+            """ , nativeQuery = true)
     Optional<VehiclePo> findByLicensePlate(String licensePlate);
 
     @Query(value = """
@@ -29,6 +37,7 @@ public interface VehicleRepository extends JpaRepository<VehiclePo, UUID> {
             And v.license_plate LIKE CONCAT('%', :licensePlate, '%')
             And v.year = :year
             And v.status = :statusStr
+            And v.deleted = '0'
             """,nativeQuery = true)
     Optional<VehiclePo> findByLicensePlateAndBrandModelAndYearAndStatus(String licensePlate, String brandModel, String year, String statusStr);
 }

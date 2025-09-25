@@ -24,4 +24,5 @@ public class VehiclePairingsBo {
     private String bindBy;
     private String unbindBy;
     private String note;
+    private Boolean deleted;
 }

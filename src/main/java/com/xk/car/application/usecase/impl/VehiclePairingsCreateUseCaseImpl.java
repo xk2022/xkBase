@@ -7,6 +7,7 @@ import com.xk.car.application.usecase.VehiclePairingsCreateUseCase;
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehiclePairingsBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
+import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehiclePairingsService;
 import com.xk.car.domain.service.VehicleService;
 import com.xk.common.util.DateCoverUtils;
@@ -44,12 +45,15 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
 
-
+//        ZonedDateTime unbindTime =  ZonedDateTime.now();
         var cmd = converter.toCreateVehiclePairingsCmd(request);
         ZonedDateTime bindTime = dateCoverUtils.parseZdt(request.getBindTime());
-        ZonedDateTime unbindTime = dateCoverUtils.parseZdt(request.getUnbindTime());
         cmd.setBindTime(bindTime);
-        cmd.setUnbindTime(unbindTime);
+//        if(vehicleBo.getStatus().equals(VehicleStatusEnum.IDLE) || vehicleBo.getStatus().equals(VehicleStatusEnum.MAINTENANCE)){
+//             unbindTime = dateCoverUtils.parseZdt(request.getUnbindTime());
+//            cmd.setUnbindTime(unbindTime);
+//        }
+
         switch (vehicleBo.getVehicleType()){
             case VehicleEnum.Head :
                 cmd.setHeadId(String.valueOf(vehicleBo.getUuid()));
@@ -60,13 +64,15 @@ public class VehiclePairingsCreateUseCaseImpl implements VehiclePairingsCreateUs
         }
 
 
-        VehiclePairingsBo result = (vehicleBo.getUuid() == null)
+        VehiclePairingsBo result = (request.getUuid() == null)
                 ? service.create(cmd)
                 : service.update(vehicleBo.getUuid(), cmd);
 
         VehiclePairingsResponse response = converter.toResponse(result);
         response.setBindTime(bindTime != null ? bindTime.toString() : "");
-        response.setUnbindTime(unbindTime != null ? unbindTime.toString() : "");
+//        if(vehicleBo.getStatus().equals(VehicleStatusEnum.IDLE) || vehicleBo.getStatus().equals(VehicleStatusEnum.MAINTENANCE)){
+//            response.setUnbindTime(String.valueOf(unbindTime));
+//        }
 
         return response;
     }

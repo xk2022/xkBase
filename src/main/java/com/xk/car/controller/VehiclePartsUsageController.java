@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.UUID;
 
 /**
@@ -44,7 +45,7 @@ public class VehiclePartsUsageController {
     public BaseResult<VehiclePartsUsageResponse> create(
             @RequestBody @Valid VehiclePartsUsageRequest request,
             @AuthenticationPrincipal JwtUserDTO userDTO
-    ){
+    ) throws ParseException {
         VehiclePartsUsageResponse result = vehiclePartsUsageCreateUseCase.create(request);
         return BaseResult.success(result , "新增車輛性能監控成功");
     }

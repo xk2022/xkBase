@@ -1,12 +1,17 @@
 package com.xk.car.domain.model.enums;
 
+
+import lombok.Getter;
+
+
+@Getter
 public enum VehicleStatusEnum {
 
     IDLE("空閒"),
     BUSY("忙碌"),
     MAINTENANCE("維修中");
 
-    private String vehicleStatus;
+    private final String vehicleStatus;
 
     VehicleStatusEnum(String vehicleStatus) {
         this.vehicleStatus = vehicleStatus;

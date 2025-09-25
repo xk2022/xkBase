@@ -48,11 +48,13 @@ public class VehicleMaintenancePo extends SoftDeletableEntity implements Seriali
 
     @NotNull
     @Column(name = "vehicle_type" ,nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("車頭/板車")
     private VehicleEnum vehicleType;
 
 
     @Column(name = "maintenance_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("維修類型")
     private MaintenanceTypeEnum maintenanceType;
 

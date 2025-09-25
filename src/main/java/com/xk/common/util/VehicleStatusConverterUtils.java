@@ -10,13 +10,13 @@ public class VehicleStatusConverterUtils {
 
         switch (status){
             case "空閒":
-                statusStr ="0";
+                statusStr ="IDLE";
                 break;
             case "忙碌":
-                statusStr ="1";
+                statusStr ="BUSY";
                 break;
             case "維修中":
-                statusStr ="2";
+                statusStr ="MAINTENANCE";
                 break;
         }
 
@@ -29,13 +29,13 @@ public class VehicleStatusConverterUtils {
 
         switch (MaintenanceType){
             case "定期維修":
-                statusStr ="0";
+                statusStr ="REGULAR";
                 break;
             case "異常維修":
-                statusStr ="1";
+                statusStr ="INCIDENT";
                 break;
             case "使用者申報":
-                statusStr ="2";
+                statusStr ="MANUAL";
                 break;
         }
 

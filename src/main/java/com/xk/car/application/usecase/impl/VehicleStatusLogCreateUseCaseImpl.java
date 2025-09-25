@@ -38,7 +38,7 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
     public VehicleStatusLogsResponse create(VehicleStatusLogsRequest request) {
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
-        log.info("[UseCase] {}車輛狀態資訊 request={} " , vehicleBo.getUuid() == null?"建立":"更新" , request);
+        log.info("[UseCase] {}車輛狀態資訊 request={} " , request.getUuid() == null?"建立":"更新" , request);
 
 
         VehicleStatusEnum status = VehicleStatusEnum.fromString(request.getStatus());
@@ -48,7 +48,7 @@ public class VehicleStatusLogCreateUseCaseImpl implements VehicleStatusLogCreate
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
         cmd.setVehicleType(vehicleBo.getVehicleType());
 
-        VehicleStatusLogsBo result =(vehicleBo.getUuid() == null)
+        VehicleStatusLogsBo result =(request.getUuid() == null)
                     ?service.create(cmd)
                     :service.update(vehicleBo.getUuid() , cmd);
 

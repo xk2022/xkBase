@@ -40,7 +40,7 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
     public VehicleTripLogsResponse create(VehicleTripLogsRequest request) throws ParseException {
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
-        log.info("[UseCase] {}里程紀錄 ,request={}" ,vehicleBo.getUuid()==null?"建立":"更新" ,request);
+        log.info("[UseCase] {}里程紀錄 ,request={}" ,request.getUuid()==null?"建立":"更新" ,request);
 
 
         BigDecimal startMileage = new BigDecimal(request.getStartMileage());
@@ -57,7 +57,7 @@ public class VehicleTripLogsCreateUseCaseImpl implements VehicleTripLogsCreateUs
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
 
 
-        VehicleTripLogsBo result =  (vehicleBo.getUuid() ==null)
+        VehicleTripLogsBo result =  (request.getUuid() ==null)
                 ?service.create(cmd)
                 :service.update(vehicleBo.getUuid(),cmd);
 

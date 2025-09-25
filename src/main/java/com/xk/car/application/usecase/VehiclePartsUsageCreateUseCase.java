@@ -5,7 +5,9 @@ import com.xk.car.application.model.VehiclePartsUsageRequest;
 import com.xk.car.application.model.VehiclePartsUsageResponse;
 import jakarta.validation.Valid;
 
+import java.text.ParseException;
+
 public interface VehiclePartsUsageCreateUseCase {
 
-    VehiclePartsUsageResponse create(@Valid VehiclePartsUsageRequest request);
+    VehiclePartsUsageResponse create(@Valid VehiclePartsUsageRequest request) throws ParseException;
 }

@@ -39,14 +39,13 @@ public class VehicleCreateUseCaseImpl implements VehicleCreateUseCase {
     @Override
     public VehicleResponse create(VehicleRequest createDTO) {
         log.info("[UseCase] {}建立車輛資訊 request={}", createDTO.getUuid() ==null ?"建立":"更新",createDTO);
-        VehicleEnum vehicleType =VehicleEnum.fromString(createDTO.getVehicleType());
         BigDecimal mileage = new BigDecimal(createDTO.getMileage());
         var cmd = converter.toCreateVehicleCmd(createDTO);
-        cmd.setVehicleType(vehicleType);
+//        cmd.setVehicleType(createDTO.getVehicleType());
         cmd.setMileage(mileage);
 
         if (createDTO.getUuid() !=null){
-            cmd.setStatus(VehicleStatusEnum.fromString(createDTO.getStatus()));
+            cmd.setStatus(createDTO.getStatus());
         }
 
 

@@ -9,12 +9,14 @@ import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehiclePartsUsageBo;
 import com.xk.car.domain.service.VehiclePartsUsageService;
 import com.xk.car.domain.service.VehicleService;
+import com.xk.common.util.DateCoverUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.time.ZonedDateTime;
 
 /**
@@ -34,10 +36,11 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
     private final VehiclePartsUsageConverter converter;
     private final VehiclePartsUsageService service;
     private final VehicleService vehicleService;
+    private final DateCoverUtils dateCoverUtils;
 
     @Transactional
     @Override
-    public VehiclePartsUsageResponse create(VehiclePartsUsageRequest request) {
+    public VehiclePartsUsageResponse create(VehiclePartsUsageRequest request) throws ParseException {
         log.info("[UseCase] {}耗損與維修項目紀錄 request={} " ,request.getUuid() ==null?"建立":"更新" ,request);
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
@@ -50,8 +53,9 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
         cmd.setMileage(mileage);
         cmd.setVehicleType(vehicleBo.getVehicleType());
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
+        cmd.setUsedAt(dateCoverUtils.StringCoverToDate(request.getUsedAt()));
 
-        VehiclePartsUsageBo result =  (vehicleBo.getUuid() ==null)
+        VehiclePartsUsageBo result =  (request.getUuid() ==null)
                 ? service.create(cmd)
                 : service.update(vehicleBo.getUuid(), cmd);
         VehiclePartsUsageResponse response = converter.toResponseDto(result);

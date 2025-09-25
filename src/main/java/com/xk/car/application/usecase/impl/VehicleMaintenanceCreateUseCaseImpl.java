@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -47,7 +48,7 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
     public VehicleMaintenanceResponse create(VehicleMaintenanceRequest createDTO) throws ParseException {
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(createDTO.getLicensePlate());
-        log.info("[UseCase] {}車輛維修資訊request={}",vehicleBo == null?"建立":"更新",  createDTO);
+        log.info("[UseCase] {}車輛維修資訊request={}",createDTO.getUuid() == null?"建立":"更新",  createDTO);
 
 
 
@@ -60,14 +61,15 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         cmd.setVehicleType(vehicleBo.getVehicleType());
         cmd.setCarId(String.valueOf(vehicleBo.getUuid()));
         cmd.setMaintenanceType(maintenanceType);
+        cmd.setCost(new BigDecimal(createDTO.getCost()));
         cmd.setReminderType(reminderTypeEnum);
         cmd.setMaintenanceDate(maintenanceDate);
         cmd.setNextDueDate(nextDueDate);
         cmd.setMileageAt(mileageAt);
 
-        VehicleMaintenanceBo result = (vehicleBo.getUuid() == null)
+        VehicleMaintenanceBo result = (createDTO.getUuid() == null)
                 ? service.create(cmd)
-                :service.update(vehicleBo.getUuid(),cmd);
+                :service.update(UUID.fromString(createDTO.getUuid()),cmd);
 
 
         VehicleMaintenanceResponse response =  converter.toResponseDto(result);

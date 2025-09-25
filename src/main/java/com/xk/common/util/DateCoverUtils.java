@@ -17,7 +17,7 @@ public class DateCoverUtils {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_ZONED_DATE_TIME;
 
     public  Date StringCoverToDate(String dateStr) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sdf.parse(dateStr);
         return date;
     }

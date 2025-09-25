@@ -18,7 +18,7 @@ public class VehicleCreateCmd {
     private UUID uuid;
 
     @Schema(description = "車頭/板車")
-    private VehicleEnum vehicleType;
+    private String vehicleType;
 
     @Schema(description = "車牌號碼")
     private String licensePlate;
@@ -33,7 +33,7 @@ public class VehicleCreateCmd {
     private BigDecimal mileage;
 
     @Schema(description = "車輛狀態")
-    private VehicleStatusEnum status;
+    private String status;
 
     @Schema(description = "創建者")
     private String createdBy;

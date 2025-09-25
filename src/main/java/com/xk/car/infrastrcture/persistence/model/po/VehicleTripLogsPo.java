@@ -41,6 +41,7 @@ public class VehicleTripLogsPo extends SoftDeletableEntity implements Serializab
 
     @NotNull
     @Column(name = "vehicle_type" ,nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("車頭/板車")
     private VehicleEnum vehicleType;
 

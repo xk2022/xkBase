@@ -5,8 +5,11 @@ import com.xk.car.application.converter.VehicleConverter;
 import com.xk.car.application.model.VehicleCreateCmd;
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.entity.VehicleEntity;
+import com.xk.car.domain.model.enums.VehicleEnum;
+import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehicleService;
 import com.xk.car.infrastrcture.persistence.repository.VehicleRepository;
+import com.xk.common.util.VehicleStatusConverterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,11 +31,13 @@ public class VehicleServiceImpl  implements VehicleService {
 
     private final VehicleConverter converter;
     private final VehicleRepository repository;
+    private final VehicleStatusConverterUtils converterUtils;
     @Override
     public VehicleBo create(VehicleCreateCmd cmd) {
         log.info("[Service] 建立車輛資訊 cmd={}", cmd);
         VehicleEntity entity = converter.toEntity(cmd);
         entity.initialize();
+        entity.setVehicleType(VehicleEnum.fromString(cmd.getVehicleType()));
         var po = converter.toPo(entity);
         var saved = repository.save(po);
         return converter.toBo(saved);
@@ -48,8 +53,8 @@ public class VehicleServiceImpl  implements VehicleService {
         existing.setBrandModel(cmd.getBrandModel());
         existing.setMileage(cmd.getMileage());
         existing.setYear(cmd.getYear());
-        existing.setStatus(cmd.getStatus());
-        existing.setVehicleType(cmd.getVehicleType());
+        existing.setStatus(VehicleStatusEnum.valueOf(cmd.getStatus()));
+        existing.setVehicleType(VehicleEnum.valueOf(cmd.getVehicleType()));
         existing.setUpdatedTime(ZonedDateTime.now());
         var saved =repository.save(existing);
         return converter.toBo(saved);
@@ -65,7 +70,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
         log.info("[Service] 查詢車輛資訊");
-        var entity = repository.getVehicleByStatusAndLicensePlate(vehicleCreateCmd.getStatus(),vehicleCreateCmd.getLicensePlate());
+        var entity = repository.getVehicleByStatusAndLicensePlate(converterUtils.getVehicleStatus(vehicleCreateCmd.getStatus()),vehicleCreateCmd.getLicensePlate());
         return converter.toBo(entity);
     }
 
