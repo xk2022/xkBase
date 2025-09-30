@@ -12,7 +12,7 @@ spring:
     password: ${DB_PASSWORD:1qaz@WSX}
     type: com.alibaba.druid.pool.DruidDataSource
   jpa:
-    show-sql: false # 在日志中显示执行的 SQL 语句
+    show-sql: true # 在日志中显示执行的 SQL 语句
     database: mysql # 指定数据库类型
     database-platform: org.hibernate.dialect.MySQL8Dialect # Hibernate 方言 (MySQL 8.x)
     properties:
@@ -36,10 +36,10 @@ mybatis:
 #    mapper-locations: classpath*:**/mapper/xml/**Mapper.xml    # mapper映射文件位置
 
 # ===== 自定義 swagger 配置 ===== #
-springfox:
-  documentation:
-    swagger-ui:
-      enabled : true
+#springfox:
+#  documentation:
+#    swagger-ui:
+#      enabled : true
 
 #  OFF：关闭所有日志记录。
 #  FATAL：仅记录严重的错误，可能导致应用程序崩溃的情况。

@@ -22,7 +22,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "dict_category ")
+@Table(name = "dict_category")
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE dict_category  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")

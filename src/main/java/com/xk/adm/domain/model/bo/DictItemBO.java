@@ -3,7 +3,6 @@ package com.xk.adm.domain.model.bo;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Data
 public class DictItemBO {

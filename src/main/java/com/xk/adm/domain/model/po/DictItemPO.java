@@ -16,13 +16,14 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- *  選單項目
+ * 選單項目
+ *
  * @author hank.lin create 2025/09/02
  */
 @Getter
 @Setter
 @Entity
-@Table(name = "dict_item ")
+@Table(name = "dict_item")
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE dict_item  SET deleted = 1, delete_time = NOW() WHERE uuid = ?")
@@ -36,19 +37,19 @@ public class DictItemPO extends SoftDeletableEntity implements Serializable {
     private UUID uuid;
 
 
-    @Column(name="category_code" ,nullable = false)
+    @Column(name = "category_code", nullable = false)
     @Comment("選單類別代碼")
     private String categoryCode;
 
-    @Column(name="item_code" ,nullable = false ,unique = true)
+    @Column(name = "item_code", nullable = false, unique = true)
     @Comment("選單項目代碼")
     private String itemCode;
 
-    @Column(name="item_name" ,nullable = false)
+    @Column(name = "item_name", nullable = false)
     @Comment("選單項目名稱")
     private String itemName;
 
-    @Column(name="sort_order" ,nullable = false)
+    @Column(name = "sort_order", nullable = false)
     private Integer sortOrder;
 
 

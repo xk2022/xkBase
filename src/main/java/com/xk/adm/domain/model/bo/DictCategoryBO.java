@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 public class DictCategoryBO {

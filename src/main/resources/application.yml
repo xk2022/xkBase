@@ -6,7 +6,7 @@ spring:
     name: xkBase
   profiles:
     # 建議用環境變數啟用：SPRING_PROFILES_ACTIVE=dev|sit|uat|prod
-    active: ${SPRING_PROFILES_ACTIVE:dev}
+    active: ${SPRING_PROFILES_ACTIVE:prod}
   # JPA 共用（只放不變的）
   jpa:
     properties:
@@ -44,8 +44,8 @@ jwt:
 springdoc:
   api-docs:
     enabled: true
-  swagger-ui:
-    path: /swagger-ui.html
+#  swagger-ui:
+#    path: /swagger-ui.html
 
 # MyBatis 共用
 mybatis:

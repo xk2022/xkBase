@@ -27,6 +27,8 @@ logging:
     com.xk: INFO                # 仅为 com.xk 包启用 DEBUG 级别日志
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
+    org.apache.ibatis: DEBUG
+    org.apache.ibatis.builder: TRACE
   file:
     path: ./logs                # 指定日志文件的路径（请确保路径存在）
     name: log-pro.log           # 指定日志文件的名称
@@ -41,6 +43,8 @@ mybatis:
 #  mybatis-plus:
 #    mapper-locations: classpath*:**/mapper/xml/**Mapper.xml    # mapper映射文件位置
 
+springdoc.api-docs.enabled: true
+springdoc.swagger-ui.enabled: true
 
 
 

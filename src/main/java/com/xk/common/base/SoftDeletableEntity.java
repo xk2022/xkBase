@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
  * 📌 SoftDeletableEntity
  * - 提供軟刪除欄位 (deleted, deletedTime)
  * - 提供 Hibernate Filter 支援
- *
+ * <p>
  * ⚠️ 注意：FilterDef 名稱在全域必須唯一
  */
 @Getter
