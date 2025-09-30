@@ -1,13 +1,11 @@
 package com.xk.car.application.model;
 
-import com.xk.car.domain.model.enums.VehicleEnum;
-import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.UUID;
-
+/**
+ * 車輛基本資訊 回應參數
+ * @author hank created 2025/08/2
+ */
 @Data
 public class VehicleResponse {
 
@@ -17,7 +15,6 @@ public class VehicleResponse {
     private String year;
     private String mileage;
     private String status;
-
     private String deleted;
     private String deletedTime;
     private String createdBy;

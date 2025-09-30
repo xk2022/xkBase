@@ -11,6 +11,11 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
+
+/**
+ * 車輛性能監控與維修提醒
+ * @author hank created 2025/08/13.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.util.UUID;
 
 /**
- * 📌 `VehiclePartsUsageController` - 負責管理 車輛性能監控與維修提醒 API**
+ * 📌 `VehiclePartsUsageController` - 負責管理 耗損與維修項目紀錄 API**
  *
  * - 提供 `CRUD` 操作
  * - 支援分頁查詢
@@ -40,22 +40,22 @@ public class VehiclePartsUsageController {
     private final VehiclePartsUsageDeleteUseCase vehiclePartsUsageDeleteUseCase;
 
 
-    @Operation(summary = "新增車輛性能監控與維修提醒 ")
+    @Operation(summary = "新增耗損與維修項目紀錄 ")
     @PostMapping("/save")
     public BaseResult<VehiclePartsUsageResponse> create(
             @RequestBody @Valid VehiclePartsUsageRequest request,
             @AuthenticationPrincipal JwtUserDTO userDTO
     ) throws ParseException {
         VehiclePartsUsageResponse result = vehiclePartsUsageCreateUseCase.create(request);
-        return BaseResult.success(result , "新增車輛性能監控成功");
+        return BaseResult.success(result , "新增耗損與維修項目紀錄成功");
     }
 
-    @Operation(summary = "刪除車輛性能監控與維修提醒 ")
+    @Operation(summary = "刪除耗損與維修項目紀錄 ")
     @DeleteMapping("/{uuid}")
     public BaseResult<Void> delete (@PathVariable UUID uuid){
-        log.info("刪除車輛性能監控與維修提醒 uuid={}",uuid);
+        log.info("刪除耗損與維修項目紀錄 uuid={}",uuid);
         vehiclePartsUsageDeleteUseCase.delete(uuid);
-        return BaseResult.success(null , "刪除車輛性能監控與維修提醒成功");
+        return BaseResult.success(null , "刪除耗損與維修項目紀錄成功");
 
     }
 

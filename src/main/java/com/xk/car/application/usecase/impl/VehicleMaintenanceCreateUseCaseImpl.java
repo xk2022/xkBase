@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
@@ -49,9 +48,6 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(createDTO.getLicensePlate());
         log.info("[UseCase] {}車輛維修資訊request={}",createDTO.getUuid() == null?"建立":"更新",  createDTO);
-
-
-
         MaintenanceTypeEnum maintenanceType = MaintenanceTypeEnum.fromString(createDTO.getMaintenanceType());
         ReminderTypeEnum reminderTypeEnum = ReminderTypeEnum.fromString(createDTO.getReminderType());
         Date maintenanceDate =dateCoverUtils.StringCoverToDate(createDTO.getMaintenanceDate());
@@ -66,12 +62,9 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         cmd.setMaintenanceDate(maintenanceDate);
         cmd.setNextDueDate(nextDueDate);
         cmd.setMileageAt(mileageAt);
-
         VehicleMaintenanceBo result = (createDTO.getUuid() == null)
                 ? service.create(cmd)
                 :service.update(UUID.fromString(createDTO.getUuid()),cmd);
-
-
         VehicleMaintenanceResponse response =  converter.toResponseDto(result);
         response.setMaintenanceType(String.valueOf(result.getMaintenanceType()));
         response.setVehicleType(String.valueOf(result.getVehicleType()));
@@ -82,7 +75,6 @@ public class VehicleMaintenanceCreateUseCaseImpl implements VehicleMaintenanceCr
         response.setReminderType(String.valueOf(result.getReminderType()));
         response.setNextDueMileage(String.valueOf(result.getNextDueMileage()));
         response.setCreatedTime(String.valueOf(ZonedDateTime.now()));
-
         return response;
     }
 }

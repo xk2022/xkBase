@@ -1,12 +1,10 @@
 package com.xk.car.application.usecase.impl;
 
-
 import com.xk.car.application.usecase.VehicleDeleteUseCase;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 /**

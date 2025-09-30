@@ -1,17 +1,21 @@
 package com.xk.car.application.usecase.impl;
 
-
 import com.xk.car.application.converter.VehicleConverter;
 import com.xk.car.application.model.VehicleRequest;
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.usecase.VehicleQueryUseCase;
-
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * 📌 `VehicleQueryUseCaseImpl` - 负责車輛資訊的查詢逻辑
+ *
+ *
+ * @author hank  Created on 2025/09/10
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

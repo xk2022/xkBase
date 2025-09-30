@@ -2,7 +2,6 @@ package com.xk.car.application.model;
 
 import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -25,5 +24,4 @@ public class VehiclePartsUsageCmd {
     private ZonedDateTime createdTime;
     private String updatedBy;
     private ZonedDateTime updatedTime;
-
 }

@@ -1,14 +1,6 @@
 package com.xk.car.application.model;
 
-import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
-import com.xk.car.domain.model.enums.ReminderTypeEnum;
 import lombok.Data;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 @Data
 public class VehicleMaintenanceResponse {

@@ -6,7 +6,6 @@ import com.xk.car.domain.service.VehiclePartsUsageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 /**
@@ -24,7 +23,7 @@ public class VehiclePartsUsageDeleteUseCaseImpl  implements VehiclePartsUsageDel
 
     @Override
     public void delete(UUID uuid) {
-        log.info("[UseCase] 刪除車輛性能監控與維修提醒紀錄 uuid={}", uuid);
+        log.info("[UseCase] 刪除耗損與維修項目紀錄 uuid={}", uuid);
         service.delete(uuid);
     }
 }

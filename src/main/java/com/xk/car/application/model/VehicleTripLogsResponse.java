@@ -1,13 +1,11 @@
 package com.xk.car.application.model;
 
-import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.UUID;
-
+/**
+ * 車輛里程耗損紀錄 回應參數
+ * @author hank created 2025/08/15
+ */
 @Data
 public class VehicleTripLogsResponse {
 

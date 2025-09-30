@@ -1,15 +1,8 @@
 package com.xk.car.application.model;
 
-import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
-import com.xk.car.domain.model.enums.ReminderTypeEnum;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * 車輛性能監控與維修提醒 request
@@ -17,7 +10,6 @@ import java.util.UUID;
  */
 @Data
 public class VehicleMaintenanceRequest {
-
 
     @Schema(description = "uuid")
     private String uuid;

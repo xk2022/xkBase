@@ -12,8 +12,8 @@ import java.util.UUID;
 public interface DictItemRepository extends JpaRepository<DictItemPO , UUID> {
 
     @Query(value = """
-            Select * From dict_item  
-                Where category_code = :code 
+            Select * From dict_item
+                Where category_code = :code
                               And deleted ='0'
             """,nativeQuery = true)
     List<DictItemPO> findCateGoryCodeAndDeleted(String code);

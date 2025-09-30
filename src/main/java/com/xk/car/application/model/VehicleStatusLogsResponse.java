@@ -1,9 +1,6 @@
 package com.xk.car.application.model;
 
-import com.xk.car.domain.model.enums.VehicleEnum;
 import lombok.Data;
-
-import java.time.ZonedDateTime;
 
 /**
  *  車輛狀態管理
@@ -11,7 +8,6 @@ import java.time.ZonedDateTime;
  */
 @Data
 public class VehicleStatusLogsResponse {
-
 
     private String carId;
     private String driverId;
