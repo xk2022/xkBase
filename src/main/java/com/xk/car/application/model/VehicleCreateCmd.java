@@ -13,7 +13,6 @@ import java.util.UUID;
 @Data
 public class VehicleCreateCmd {
 
-
     @Schema(description = "車輛ID")
     private UUID uuid;
 

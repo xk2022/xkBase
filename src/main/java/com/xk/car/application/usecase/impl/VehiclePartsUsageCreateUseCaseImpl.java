@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.time.ZonedDateTime;
 
 /**
- * 📌 `VehicleMaintenanceCreateUseCaseImpl` - 负责車輛維修管理的创建逻辑
+ * 📌 `VehiclePartsUsageCreateUseCaseImpl` - 负责車輛維修管理的创建逻辑
  *
  * - 处理 `VehiclePartsUsageRequest` 并转换为 `VehiclePartsUsage`
  * - 通过 `VehiclePartsUsageService` 进行业务验证和存储
@@ -44,10 +44,8 @@ public class VehiclePartsUsageCreateUseCaseImpl implements VehiclePartsUsageCrea
         log.info("[UseCase] {}耗損與維修項目紀錄 request={} " ,request.getUuid() ==null?"建立":"更新" ,request);
         //查詢車輛資訊
         VehicleBo vehicleBo = vehicleService.findByLicensePlate(request.getLicensePlate());
-
         BigDecimal cost = new BigDecimal(request.getCost());
         BigDecimal mileage = new BigDecimal(request.getMileage());
-
         var cmd =  converter.toCreateVehiclePartsUsageCmd(request);
         cmd.setCost(cost);
         cmd.setMileage(mileage);

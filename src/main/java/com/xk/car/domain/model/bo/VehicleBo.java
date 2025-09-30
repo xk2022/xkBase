@@ -8,7 +8,10 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-
+/**
+ * 車輛基本資訊
+ * @author  hank create 8/31
+ */
 @Getter
 @Setter
 @NoArgsConstructor

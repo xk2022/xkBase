@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
+ * 車輛狀態管理 請求參數
  * hank create on 2025/09/01
  */
 @Data

@@ -3,10 +3,13 @@ package com.xk.car.application.model;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import lombok.Data;
-
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+/**
+ * 車輛狀態管理
+ * @author hank created 2025/08/15
+ */
 @Data
 public class VehicleStatusLogsCmd {
 

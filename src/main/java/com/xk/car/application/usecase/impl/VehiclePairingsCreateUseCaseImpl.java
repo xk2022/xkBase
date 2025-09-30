@@ -7,7 +7,6 @@ import com.xk.car.application.usecase.VehiclePairingsCreateUseCase;
 import com.xk.car.domain.model.bo.VehicleBo;
 import com.xk.car.domain.model.bo.VehiclePairingsBo;
 import com.xk.car.domain.model.enums.VehicleEnum;
-import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.car.domain.service.VehiclePairingsService;
 import com.xk.car.domain.service.VehicleService;
 import com.xk.common.util.DateCoverUtils;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.ZonedDateTime;
 
 /**

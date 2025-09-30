@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.UUID;
 
 
+/**
+ *  耗損與維修項目紀錄
+ * @author hank created 2025/08/13.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

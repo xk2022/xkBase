@@ -7,6 +7,11 @@ import lombok.*;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+
+/**
+ * 車輛狀態管理
+ * @author hank created on   2025/08/13.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

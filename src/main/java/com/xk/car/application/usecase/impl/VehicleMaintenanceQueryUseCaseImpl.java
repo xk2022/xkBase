@@ -11,7 +11,6 @@ import com.xk.common.util.XkBeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 
@@ -30,13 +29,10 @@ public class VehicleMaintenanceQueryUseCaseImpl implements VehicleMaintenanceQue
     private final VehicleService service;
     private final VehicleMaintenanceService maintenanceService;
 
-
-
     @Override
     public List<VehicleMaintenanceResponse> getMaintenanceByCarId(String licensePlate, String brandModel, String year, String status) {
        String statusStr = vehicleStatusConverterUtils.getVehicleStatus(status);
         VehicleBo vehicleBo = service.findByLicensePlateAndBrandModelAndYearAndStatus(licensePlate,brandModel,year,statusStr);
-
         List<VehicleMaintenanceBo> boList = maintenanceService.getMaintenanceByCarId(vehicleBo.getUuid());
         return XkBeanUtils.copyListProperties(boList ,VehicleMaintenanceResponse::new);
     }

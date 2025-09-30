@@ -1,10 +1,16 @@
 package com.xk.car.application.usecase;
 
-
 import com.xk.car.application.model.VehicleResponse;
 import com.xk.car.application.model.VehicleRequest;
 import jakarta.validation.Valid;
 
+
+/**
+ * 📌 VehicleCreateUseCase
+ * - 車輛資訊創建用例
+ *
+ * @author hank Created on 2025/08/15
+ */
 public interface VehicleCreateUseCase {
 
 

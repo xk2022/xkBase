@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 @Data
 public class VehicleRequest {
 
@@ -33,15 +30,10 @@ public class VehicleRequest {
     @Schema(description = "出廠年份",example = "2025")
     private String year;
 
-
     @Schema(description = "車輛里程",example = "12000.5")
     private String mileage;
 
     @Size(min = 2, max = 50, message = "車輛狀態長度須介於 2 到 50 個字之間")
     @Schema(description = "車輛狀態")
     private String status;
-
-
-
-
 }

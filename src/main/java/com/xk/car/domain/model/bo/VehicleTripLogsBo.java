@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * 里程紀錄
  * @author hank create 2025/09/01
  */
 @Data

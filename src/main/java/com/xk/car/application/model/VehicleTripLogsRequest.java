@@ -3,6 +3,10 @@ package com.xk.car.application.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * 車輛里程耗損紀錄 請求參數
+ * @author  hank created  2025/08/15
+ */
 @Data
 public class VehicleTripLogsRequest {
 
@@ -20,7 +24,6 @@ public class VehicleTripLogsRequest {
 
     @Schema(description = "返回里程")
     private String endMileage;
-
 
     @Schema(description = "行駛日期")
     private String date;

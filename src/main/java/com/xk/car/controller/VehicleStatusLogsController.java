@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class VehicleStatusLogsController {
     public BaseResult<VehicleStatusLogsResponse> create(
             @RequestBody @Valid VehicleStatusLogsRequest request,
             @AuthenticationPrincipal JwtUserDTO userDTO
-    ){
+    ) throws NotFoundException {
         VehicleStatusLogsResponse result =vehicleStatusLogCreateUseCase.create(request);
         return BaseResult.success(result, "車輛狀態管理新增成功");
     }
@@ -57,7 +58,7 @@ public class VehicleStatusLogsController {
     public BaseResult<Void> delete (@PathVariable UUID uuid){
         log.info("刪除車輛狀態管理 uuid={}",uuid);
         vehicleStatusLogDeleteUseCase.delete(uuid);
-        return BaseResult.success(null , "刪除車輛性能監控與維修提醒成功");
+        return BaseResult.success(null , "刪除車輛狀態管理成功");
     }
 
 }

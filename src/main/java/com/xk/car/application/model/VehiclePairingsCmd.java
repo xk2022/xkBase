@@ -1,11 +1,8 @@
 package com.xk.car.application.model;
 
-
 import lombok.Data;
-
 import java.time.ZonedDateTime;
 import java.util.UUID;
-
 
 /**
  * 車頭與板車管理

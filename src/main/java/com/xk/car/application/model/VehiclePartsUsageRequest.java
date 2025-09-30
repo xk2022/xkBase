@@ -13,7 +13,6 @@ public class VehiclePartsUsageRequest {
     @Schema(description = "車牌號碼")
     private String licensePlate;
 
-
     @Schema(description = "耗損或更換零件名稱")
     private String partName;
 
@@ -28,7 +27,4 @@ public class VehiclePartsUsageRequest {
 
     @Schema(description = "使用或更換日期")
     private String usedAt;
-
-
-
 }

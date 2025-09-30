@@ -17,6 +17,9 @@ import java.util.UUID;
 
 /**
  *  選單類別
+ *   * - 提供 **軟刪除（Soft Delete）**
+ *  * - **Hibernate 6.3 以上** 使用 `@Filter` 取代 `@Where`
+ *  * - 自動處理 **刪除標記** 與 **刪除時間**
  * @author hank.lin create 2025/09/02
  */
 @Getter
