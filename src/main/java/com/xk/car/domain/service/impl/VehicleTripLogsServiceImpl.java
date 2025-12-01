@@ -42,16 +42,7 @@ public class VehicleTripLogsServiceImpl implements VehicleTripLogsService {
     public VehicleTripLogsBo update(UUID uuid, VehicleTripLogsCmd cmd) {
         log.info("更新車輛耗損與維修項目紀錄 cmd={}" ,cmd);
         var existing = repository.findById(uuid).orElseThrow(()-> new IllegalArgumentException("查無此紀錄" + uuid));
-
-        existing.setCarId(cmd.getCarId());
-        existing.setOrderId(cmd.getOrderId());
-        existing.setStartMileage(cmd.getStartMileage());
-        existing.setVehicleType(cmd.getVehicleType());
-        existing.setEndMileage(cmd.getEndMileage());
-        existing.setDistance(cmd.getDistance());
-        existing.setDate(cmd.getDate());
-        existing.setUpdatedBy(cmd.getUpdatedBy());
-        existing.setUpdatedTime(ZonedDateTime.now());
+        existing.updateForm(cmd);
         var saved = repository.save(existing);
         return converter.toBo(saved);
     }

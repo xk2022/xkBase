@@ -1,6 +1,7 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.application.model.VehiclePartsUsageCmd;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.common.base.SoftDeletableEntity;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import org.hibernate.type.SqlTypes;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -66,5 +68,16 @@ public class VehiclePartsUsagePo extends SoftDeletableEntity implements Serializ
     @Column(name = "used_at" , nullable = false)
     @Comment("使用或更換日期")
     private Date usedAt;
+
+
+    public void updateForm(VehiclePartsUsageCmd cmd){
+        this.setCarId(cmd.getCarId());
+        this.setPartName(cmd.getPartName());
+        this.setMileage(cmd.getMileage());
+        this.setDescription(cmd.getDescription());
+        this.setUpdatedBy(cmd.getUpdatedBy());
+        this.setUpdatedTime(ZonedDateTime.now());
+        this.setVehicleType(cmd.getVehicleType());
+    }
 
 }

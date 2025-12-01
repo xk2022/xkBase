@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * {@inheritDoc}
@@ -88,7 +89,7 @@ public class ImportOrderServiceImpl implements ImportOrderService {
         // 這裡可以用 Specification / QueryDSL / 自訂 JPQL
         return repository.findByCondition(condition).stream()
                 .map(mapper::toBo)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override

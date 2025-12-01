@@ -31,8 +31,8 @@ public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
 
     @Override
     public VehiclePartsUsageBo create(VehiclePartsUsageCmd cmd) {
-        log.info("建立車輛耗損與維修項目紀錄 cmd={}" ,cmd);
-        VehiclePartsUsageEntity entity =converter.toEntity(cmd);
+        log.info("建立車輛耗損與維修項目紀錄 cmd={}", cmd);
+        VehiclePartsUsageEntity entity = converter.toEntity(cmd);
         entity.initialize();
         var po = converter.toPo(entity);
         var saved = repository.save(po);
@@ -42,16 +42,9 @@ public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
 
     @Override
     public VehiclePartsUsageBo update(UUID uuid, VehiclePartsUsageCmd cmd) {
-        log.info("更新車輛耗損與維修項目紀錄 cmd={}" ,cmd);
-        var existing = repository.findById(uuid).orElseThrow(()-> new IllegalArgumentException("查無此紀錄" + uuid));
-
-        existing.setCarId(cmd.getCarId());
-        existing.setPartName(cmd.getPartName());
-        existing.setMileage(cmd.getMileage());
-        existing.setDescription(cmd.getDescription());
-        existing.setUpdatedBy(cmd.getUpdatedBy());
-        existing.setUpdatedTime(ZonedDateTime.now());
-        existing.setVehicleType(cmd.getVehicleType());
+        log.info("更新車輛耗損與維修項目紀錄 cmd={}", cmd);
+        var existing = repository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("查無此紀錄" + uuid));
+        existing.updateForm(cmd);
         var saved = repository.save(existing);
         return converter.toBo(saved);
     }
@@ -59,7 +52,7 @@ public class VehiclePartsUsageServiceImpl implements VehiclePartsUsageService {
     @Override
     public void delete(UUID uuid) {
         log.info("[Service] 刪除車輛資訊 uuid={}", uuid);
-        var entity = repository.findById(uuid).orElseThrow(()->new IllegalArgumentException("查無此紀錄:" + uuid));
+        var entity = repository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("查無此紀錄:" + uuid));
         repository.delete(entity);
 
     }

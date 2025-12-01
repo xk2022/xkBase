@@ -1,5 +1,6 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
+import com.xk.car.application.model.VehicleTripLogsCmd;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.common.base.SoftDeletableEntity;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -68,4 +70,15 @@ public class VehicleTripLogsPo extends SoftDeletableEntity implements Serializab
     @Comment("行駛日期")
     private Date date;
 
+    public void updateForm(VehicleTripLogsCmd cmd) {
+        this.setCarId(cmd.getCarId());
+        this.setOrderId(cmd.getOrderId());
+        this.setStartMileage(cmd.getStartMileage());
+        this.setVehicleType(cmd.getVehicleType());
+        this.setEndMileage(cmd.getEndMileage());
+        this.setDistance(cmd.getDistance());
+        this.setDate(cmd.getDate());
+        this.setUpdatedBy(cmd.getUpdatedBy());
+        this.setUpdatedTime(ZonedDateTime.now());
+    }
 }

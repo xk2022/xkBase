@@ -28,33 +28,24 @@ public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
     private final VehicleStatusLogsRepository repository;
 
 
-
     @Override
     public VehicleStatusLogsBo create(VehicleStatusLogsCmd cmd) {
-        log.info("[Service] 建立車輛狀態資訊 cmd={}",cmd);
+        log.info("[Service] 建立車輛狀態資訊 cmd={}", cmd);
         VehicleStatusLogsEntity entity = converter.toEntity(cmd);
         entity.initialize();
         var po = converter.toPo(entity);
-        var saved =repository.save(po);
+        var saved = repository.save(po);
         return converter.toBo(saved);
     }
 
     @Override
     public VehicleStatusLogsBo update(UUID uuid, VehicleStatusLogsCmd cmd) {
-        log.info("[Service] 更新車輛狀態資訊 cmd={}",cmd);
+        log.info("[Service] 更新車輛狀態資訊 cmd={}", cmd);
         var existing = repository.findById(uuid).orElseThrow(
-                ()-> new IllegalArgumentException("查無車輛狀態資訊 "+ uuid)
+                () -> new IllegalArgumentException("查無車輛狀態資訊 " + uuid)
         );
-
-        existing.setStatus(cmd.getStatus());
-        existing.setCarId(cmd.getCarId());
-        existing.setDriverId(cmd.getDriverId());
-        existing.setOperatorId(cmd.getOperatorId());
-        existing.setStatusNote(cmd.getStatusNote());
-        existing.setVehicleType(cmd.getVehicleType());
-
-        existing.setUpdatedTime(ZonedDateTime.now());
-        var saved =repository.save(existing);
+        existing.updateForm(cmd);
+        var saved = repository.save(existing);
         return converter.toBo(saved);
     }
 
@@ -62,7 +53,7 @@ public class VehicleStatusLogsServiceImpl implements VehicleStatusLogsService {
     public void delete(UUID uuid) {
         log.info("[Service] 刪除車輛狀態資訊 uuid={}", uuid);
         var entity = repository.findById(uuid).orElseThrow(
-                ()-> new IllegalArgumentException("查無車輛狀態資訊" +uuid)
+                () -> new IllegalArgumentException("查無車輛狀態資訊" + uuid)
         );
         repository.delete(entity);
     }

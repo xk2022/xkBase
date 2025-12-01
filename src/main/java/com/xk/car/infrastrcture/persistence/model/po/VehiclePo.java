@@ -1,6 +1,7 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.application.model.VehicleCreateCmd;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.common.base.SoftDeletableEntity;
@@ -17,6 +18,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Getter
@@ -65,4 +67,13 @@ public class VehiclePo extends SoftDeletableEntity implements Serializable {
     @Comment("車輛狀態")
     private VehicleStatusEnum status;
 
+    public void updateForm(VehicleCreateCmd cmd) {
+        this.setLicensePlate(cmd.getLicensePlate());
+        this.setBrandModel(cmd.getBrandModel());
+        this.setMileage(cmd.getMileage());
+        this.setYear(cmd.getYear());
+        this.setStatus(VehicleStatusEnum.valueOf(cmd.getStatus()));
+        this.setVehicleType(VehicleEnum.valueOf(cmd.getVehicleType()));
+        this.setUpdatedTime(ZonedDateTime.now());
+    }
 }

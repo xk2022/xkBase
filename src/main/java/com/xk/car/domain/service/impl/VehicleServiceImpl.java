@@ -27,11 +27,12 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class VehicleServiceImpl  implements VehicleService {
+public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleConverter converter;
     private final VehicleRepository repository;
     private final VehicleStatusConverterUtils converterUtils;
+
     @Override
     public VehicleBo create(VehicleCreateCmd cmd) {
         log.info("[Service] 建立車輛資訊 cmd={}", cmd);
@@ -44,47 +45,40 @@ public class VehicleServiceImpl  implements VehicleService {
     }
 
     @Override
-    public VehicleBo update(UUID  uuid ,VehicleCreateCmd  cmd) {
+    public VehicleBo update(UUID uuid, VehicleCreateCmd cmd) {
         log.info("[Service] 更新車輛資訊 uuid={}, cmd={}", uuid, cmd);
         var existing = repository.findById(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("車輛不存在: " + uuid));
-
-        existing.setLicensePlate(cmd.getLicensePlate());
-        existing.setBrandModel(cmd.getBrandModel());
-        existing.setMileage(cmd.getMileage());
-        existing.setYear(cmd.getYear());
-        existing.setStatus(VehicleStatusEnum.valueOf(cmd.getStatus()));
-        existing.setVehicleType(VehicleEnum.valueOf(cmd.getVehicleType()));
-        existing.setUpdatedTime(ZonedDateTime.now());
-        var saved =repository.save(existing);
+        existing.updateForm(cmd);
+        var saved = repository.save(existing);
         return converter.toBo(saved);
     }
 
     @Override
     public void delete(UUID uuid) {
         log.info("[Service] 刪除車輛資訊 uuid={}", uuid);
-        var entity = repository.findById(uuid).orElseThrow(()->new IllegalArgumentException("此車輛資訊不存在:" + uuid));
+        var entity = repository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("此車輛資訊不存在:" + uuid));
         repository.delete(entity);
     }
 
     @Override
     public VehicleBo getVehicleByStatusAndLicensePlate(VehicleCreateCmd vehicleCreateCmd) {
         log.info("[Service] 查詢車輛資訊");
-        var entity = repository.getVehicleByStatusAndLicensePlate(converterUtils.getVehicleStatus(vehicleCreateCmd.getStatus()),vehicleCreateCmd.getLicensePlate());
+        var entity = repository.getVehicleByStatusAndLicensePlate(converterUtils.getVehicleStatus(vehicleCreateCmd.getStatus()), vehicleCreateCmd.getLicensePlate());
         return converter.toBo(entity);
     }
 
     @Override
     public VehicleBo findByLicensePlate(String licensePlate) {
         log.info("[Service] 車牌號碼查詢車輛資訊");
-        var entity = repository.findByLicensePlate(licensePlate).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
+        var entity = repository.findByLicensePlate(licensePlate).orElseThrow(() -> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" + licensePlate));
         return converter.toBo(entity);
     }
 
     @Override
     public VehicleBo findByLicensePlateAndBrandModelAndYearAndStatus(String licensePlate, String brandModel, String year, String statusStr) {
         log.info("[Service] 車牌號碼 ,車輛品牌,年份,狀態查詢車輛資訊");
-        var entity = repository.findByLicensePlateAndBrandModelAndYearAndStatus(licensePlate,brandModel,year,statusStr).orElseThrow(()-> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" +licensePlate));
+        var entity = repository.findByLicensePlateAndBrandModelAndYearAndStatus(licensePlate, brandModel, year, statusStr).orElseThrow(() -> new IllegalArgumentException("查無此車輛 請先新增車輛資訊" + licensePlate));
         return converter.toBo(entity);
     }
 

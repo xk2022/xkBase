@@ -32,37 +32,29 @@ public class VehiclePairingsServiceImpl implements VehiclePairingsService {
 
     @Override
     public VehiclePairingsBo create(VehiclePairingsCmd cmd) {
-        log.info("[Service] 建立 車頭與版車管理資訊 cmd={}" , cmd);
+        log.info("[Service] 建立 車頭與版車管理資訊 cmd={}", cmd);
         VehiclePairingsEntity entity = converter.toEntity(cmd);
         entity.initialize();
         var po = converter.toPo(entity);
         var saved = repository.save(po);
-
         return converter.toBo(saved);
     }
 
     @Override
     public VehiclePairingsBo update(UUID uuid, VehiclePairingsCmd cmd) {
-        log.info("[Service] 更新車頭與版車管理資訊 uuid={}, cmd={}" ,uuid, cmd);
-        var existing =repository.findById(uuid).orElseThrow(
-                ()-> new IllegalArgumentException("車頭與版車管理資訊不存在" +uuid)
+        log.info("[Service] 更新車頭與版車管理資訊 uuid={}, cmd={}", uuid, cmd);
+        var existing = repository.findById(uuid).orElseThrow(
+                () -> new IllegalArgumentException("車頭與版車管理資訊不存在" + uuid)
         );
-        existing.setHeadId(cmd.getHeadId());
-        existing.setTrailerId(cmd.getTrailerId());
-        existing.setBindTime(cmd.getBindTime());
-        existing.setUnbindTime(cmd.getUnbindTime());
-        existing.setBindBy(cmd.getBindBy());
-        existing.setUnbindBy(cmd.getUnbindBy());
-        existing.setNote(cmd.getNote());
-        existing.setUpdatedTime(ZonedDateTime.now());
-
-        return converter.toBo(existing);
+        existing.updateForm(cmd);
+        var saved = repository.save(existing);
+        return converter.toBo(saved);
     }
 
     @Override
     public void delete(UUID uuid) {
         log.info("[Service] 刪除車頭與板車資訊 uuid={}", uuid);
-        var entity = repository.findById(uuid).orElseThrow(()->new IllegalArgumentException("查無此紀錄:" + uuid));
+        var entity = repository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("查無此紀錄:" + uuid));
         repository.delete(entity);
     }
 

@@ -1,10 +1,12 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.application.model.VehicleMaintenanceCreateCmd;
 import com.xk.car.domain.model.enums.MaintenanceTypeEnum;
 import com.xk.car.domain.model.enums.ReminderTypeEnum;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.common.base.SoftDeletableEntity;
+import com.xk.common.exception.DomainException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -18,6 +20,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -89,5 +92,27 @@ public class VehicleMaintenancePo extends SoftDeletableEntity implements Seriali
     @Column(name = "next_due_date")
     @Comment("下次預定保養時間")
     private Date nextDueDate;
+
+    public void updateFrom(VehicleMaintenanceCreateCmd cmd) {
+        if (isMileageBackward(cmd.getMileageAt(), this.mileageAt)) {
+            throw new DomainException("里程不可小於前次紀錄");
+        }
+        this.description = cmd.getDescription();
+        this.cost = cmd.getCost();
+        this.mileageAt = cmd.getMileageAt();
+        this.maintenanceType = cmd.getMaintenanceType();
+        this.reminderType = cmd.getReminderType();
+        this.nextDueDate = cmd.getNextDueDate();
+        this.nextDueMileage = cmd.getNextDueMileage();
+        this.maintenanceDate = cmd.getMaintenanceDate();
+        this.carId = cmd.getCarId();
+        this.vehicleType = cmd.getVehicleType();
+        super.setUpdatedTime(ZonedDateTime.now());
+    }
+
+    private boolean isMileageBackward(BigDecimal newValue, BigDecimal oldValue) {
+        return newValue != null && oldValue != null && newValue.compareTo(oldValue) < 0;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.xk.car.infrastrcture.persistence.model.po;
 
 
+import com.xk.car.application.model.VehicleStatusLogsCmd;
 import com.xk.car.domain.model.enums.VehicleEnum;
 import com.xk.car.domain.model.enums.VehicleStatusEnum;
 import com.xk.common.base.SoftDeletableEntity;
@@ -15,6 +16,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 /**
@@ -64,5 +66,16 @@ public class VehicleStatusLogsPo extends SoftDeletableEntity implements Serializ
     @Column(name = "status_note")
     @Comment("狀態說明")
     private String statusNote;
+
+
+    public void updateForm(VehicleStatusLogsCmd cmd){
+        this.setStatus(cmd.getStatus());
+        this.setCarId(cmd.getCarId());
+        this.setDriverId(cmd.getDriverId());
+        this.setOperatorId(cmd.getOperatorId());
+        this.setStatusNote(cmd.getStatusNote());
+        this.setVehicleType(cmd.getVehicleType());
+        this.setUpdatedTime(ZonedDateTime.now());
+    }
 
 }
